@@ -1,0 +1,26 @@
+# Standard python ignore
+*\__pycache__
+*.pyc
+*.egg-info
+
+# Do not track large binary assets
+*\assets
+*.dll
+!hecdss.dll
+*.lib
+*.zip
+*.dss
+*.dsk
+*.dsd
+*.dsc
+
+# Do not track the testing outputs
+tests.log
+
+# VS Code files
+.vscode
+
+# Do not track build artifacts
+dist/*
+build/*
+record.txt 
