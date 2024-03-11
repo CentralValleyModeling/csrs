@@ -1,0 +1,21 @@
+{
+    "display_name": "DCR 2023 @ 9.0.0, Danube, Adjusted",
+    "author": "California DWR, SWP Modeling Support Office, CalSim3 Applications",
+    "contact": "zachary.roy@water.ca.gov",
+    "confidential": false,
+    "published": false,
+    "documentation": "https://github.com/CentralValleyModeling/calsim3-dcr",
+    "scenario":{
+        "climate_change": {
+            "sea_level_rise": {
+                "magnitude": 0,
+                "units": "cm"
+            },
+            "change_in_temp": {
+                "magnitude": 0,
+                "units": "percent"
+            }
+        },
+        "adjusted_historical_climate": true
+    }
+}

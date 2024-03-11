@@ -1,0 +1,22 @@
+{
+    "display_name": "Empty CalSim3 Scenario",
+    "author": "Zachary Roy",
+    "contact": "zachary.roy@water.ca.gov",
+    "confidential": false,
+    "published": false,
+    "documentation": false,
+    "scenario":{
+        "climate_change": {
+            "sea_level_rise": {
+                "magnitude": 18,
+                "units": "cm"
+            },
+            "change_in_temp": {
+                "magnitude": 12.5,
+                "units": "percent"
+            }
+        },
+        "dcp_included": false,
+        "tucp_included": false
+    }
+}
