@@ -13,6 +13,7 @@
 *.dsk
 *.dsd
 *.dsc
+*.xls*
 
 # Do not track the testing outputs
 tests.log
