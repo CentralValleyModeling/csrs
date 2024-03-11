@@ -1,3 +1,4 @@
+import xml.etree.cElementTree as ET
 from dataclasses import fields
 
 import numpy as np
@@ -14,23 +15,46 @@ def rts_to_json(rts: pdss.RegularTimeseries) -> dict:
     return d
 
 
-def exceedance(rts: pdss.RegularTimeseries) -> list[tuple[float, float]]:
+def rts_to_xml(rts: pdss.RegularTimeseries) -> ET.ElementTree:
+    root = ET.Element("rts")
+
+    path = ET.SubElement(root, "path")
+    for k, v in rts.path.items():
+        ET.SubElement(path, "part", name=k).text = v
+
+    for f in fields(rts):
+        if f in ("path", "dates", "values"):
+            continue
+        ET.SubElement(root, f.name).text = str(getattr(rts, f.name))
+
+    values = ET.SubElement(root, "values")
+    for v in rts.values.magnitude:
+        ET.SubElement(values, "v").text = str(float(v))
+
+    dates = ET.SubElement(root, "dates")
+    for d in rts.dates:
+        ET.SubElement(dates, "d").text = str(d)
+
+    return root
+
+
+def exceedance(rts: pdss.RegularTimeseries) -> dict[str, list[float]]:
     v = np.sort(rts.values.magnitude)
     e = 1.0 - np.arange(1.0, len(v) + 1.0) / len(v)
-    return [(e[i], v[i]) for i in range(len(v))]
+    return {"exceedance": list(e), "value": list(v)}
 
 
-def cy_annual_exceedance(rts: pdss.RegularTimeseries) -> list[tuple[float, float]]:
+def cy_annual_exceedance(rts: pdss.RegularTimeseries) -> dict[str, list[float]]:
     df = rts.to_frame().resample(pd.offsets.YearEnd()).sum()
     v = np.sort(df.iloc[:, 0].values)
     e = 1.0 - np.arange(1.0, len(v) + 1.0) / len(v)
-    return [(e[i], v[i]) for i in range(len(v))]
+    return {"exceedance": list(e), "value": list(v)}
 
 
-def wy_annual_exceedance(rts: pdss.RegularTimeseries) -> list[tuple[float, float]]:
+def wy_annual_exceedance(rts: pdss.RegularTimeseries) -> dict[str, list[float]]:
     df = rts.to_frame().resample(pd.offsets.MonthEnd()).sum()
     df.index = df.index + pd.Timedelta(days=92)
     df = df.resample(pd.offsets.YearEnd()).sum()
     v = np.sort(df.iloc[:, 0].values)
     e = 1.0 - np.arange(1.0, len(v) + 1.0) / len(v)
-    return [(e[i], v[i]) for i in range(len(v))]
+    return {"exceedance": list(e), "value": list(v)}
