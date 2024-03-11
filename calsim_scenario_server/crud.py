@@ -28,5 +28,5 @@ async def read_rts_from_b(
                     status_code=400,
                     detail=f"{b_part=} matches more than one timeseries in {file_key}",
                 )
-        payload[study.name] = data[0]
+        payload[study.display_name] = data[0]
     return payload
