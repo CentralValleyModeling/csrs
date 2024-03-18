@@ -34,14 +34,14 @@ async def get_exceedance_b(
 @router.get("/annual_exceedance")
 async def get_annual_exceedance_b(
     b_part: str,
-    file: str = "dv",
-    dss: str = "wy",
+    dss: str = "dv",
+    year_type: str = "wy",
     db: StudyDatabase = Depends(get_db),
 ):
     if not b_part:
         raise HTTPException(status_code=400, detail="Parameter is required")
-    rts_dict = await read_rts_from_b(db, b_part, file)
-    if dss.lower() == "cy":
+    rts_dict = await read_rts_from_b(db, b_part, dss)
+    if year_type.lower() == "cy":
         calc = cy_annual_exceedance
     else:
         calc = wy_annual_exceedance

@@ -5,17 +5,13 @@
     "confidential": false,
     "published": false,
     "documentation": "https://github.com/CentralValleyModeling/calsim3-dcr",
+    "changelog": "Changes since the last version of this scenario",
     "scenario":{
-        "climate_change": {
-            "sea_level_rise": {
-                "magnitude": 0,
-                "units": "cm"
-            },
-            "change_in_temp": {
-                "magnitude": 0,
-                "units": "percent"
-            }
-        },
-        "adjusted_historical_climate": false
+        "family": "S1",
+        "project_switches": {},
+        "land_use": {},
+        "sea_level_rise": {},
+        "hydrology": {},
+        "code_version": {}
     }
 }
