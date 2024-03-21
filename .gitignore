@@ -14,6 +14,7 @@
 *.dsd
 *.dsc
 *.xls*
+*.sqlite
 
 # Do not track the testing outputs
 tests.log
