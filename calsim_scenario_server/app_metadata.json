@@ -1,6 +1,0 @@
-{
-    "title": "CalSim3 Scenario Server",
-    "summary": "A FastAPI app to serve CalSim3 inputs and results.",
-    "version": "0.0.1",
-    "docs_url": "/"
-}
