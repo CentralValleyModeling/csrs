@@ -8,7 +8,7 @@ from .routes import forms, paths, runs, scenarios
 app = FastAPI(
     title="CalSim3 Scenario Server",
     summary="A FastAPI app to serve CalSim3 inputs and results.",
-    version="0.0.1",
+    version="0.0.2",
     docs_url="/",
 )
 
