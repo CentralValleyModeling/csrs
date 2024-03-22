@@ -73,3 +73,43 @@ async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/land_use", response_class=HTMLResponse)
+async def get_land_use_form(request: Request, db: Session = Depends(get_db)):
+    assumptions = db.query(LandUse).all()
+
+    return templates.TemplateResponse(
+        "project_land_use.html",
+        {
+            "request": request,
+            "project_type": "Land Use",
+            "existing_assumptions": assumptions,
+        },
+    )
+
+
+@router.post("/land_use")
+async def post_land_use_form(
+    detail: str = Form(...),
+    future_year: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"adding va assumption {detail=}")
+    if int(future_year) < 2020:
+        msg = f"future year entered not in the future: {future_year}"
+        logger.error(msg)
+        raise HTTPException(status_code=422, detail=msg)
+    try:
+        row = LandUse(detail=detail, future_year=future_year)
+        # Add the new path to the database session
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+
+        return {"message": "Assumption added", "detail": detail}
+
+    except Exception as e:
+        logger.error(f"{type(e)} encountered: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
