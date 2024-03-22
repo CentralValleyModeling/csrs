@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from ..logger import logger
-from ..models import TUCP, VA, LandUse
+from ..models import TUCP, VA, LandUse, SeaLevelRise
 from . import get_db
 
 router = APIRouter(prefix="/forms")
@@ -27,7 +27,7 @@ async def get_tucp_form(request: Request, db: Session = Depends(get_db)):
 
 @router.post("/tucp")
 async def post_tucp_form(detail: str = Form(...), db: Session = Depends(get_db)):
-    logger.info(f"adding tucp assumption {detail=}")
+    logger.info(f"adding assumption {detail=}")
     try:
         row = TUCP(detail=detail)
         # Add the new path to the database session
@@ -59,7 +59,7 @@ async def get_va_form(request: Request, db: Session = Depends(get_db)):
 
 @router.post("/va")
 async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
-    logger.info(f"adding va assumption {detail=}")
+    logger.info(f"adding assumption {detail=}")
     try:
         row = VA(detail=detail)
         # Add the new path to the database session
@@ -95,7 +95,7 @@ async def post_land_use_form(
     future_year: int = Form(...),
     db: Session = Depends(get_db),
 ):
-    logger.info(f"adding va assumption {detail=}")
+    logger.info(f"adding assumption {detail=}, {future_year=}")
     if int(future_year) < 2020:
         msg = f"future year entered not in the future: {future_year}"
         logger.error(msg)
@@ -107,7 +107,51 @@ async def post_land_use_form(
         db.commit()
         db.refresh(row)
 
-        return {"message": "Assumption added", "detail": detail}
+        return {
+            "message": "Assumption added",
+            "detail": detail,
+            "future_year": future_year,
+        }
+
+    except Exception as e:
+        logger.error(f"{type(e)} encountered: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/sea_level_rise", response_class=HTMLResponse)
+async def get_sea_level_rise_form(request: Request, db: Session = Depends(get_db)):
+    assumptions = db.query(SeaLevelRise).all()
+
+    return templates.TemplateResponse(
+        "project_sea_level_rise.html",
+        {
+            "request": request,
+            "project_type": "Sea Level Rise",
+            "existing_assumptions": assumptions,
+        },
+    )
+
+
+@router.post("/sea_level_rise")
+async def post_sea_level_rise_form(
+    detail: str = Form(...),
+    centimeters: float = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"adding assumption {detail=}, {centimeters=}")
+    try:
+        row = SeaLevelRise(detail=detail, centimeters=centimeters)
+        # Add the new path to the database session
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+
+        return {
+            "message": "Assumption added",
+            "detail": detail,
+            "centimeters": centimeters,
+        }
 
     except Exception as e:
         logger.error(f"{type(e)} encountered: {e}")
