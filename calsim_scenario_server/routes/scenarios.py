@@ -4,28 +4,20 @@ from sqlalchemy.orm import Session
 from ..models import Scenario
 from . import get_db
 
-router = APIRouter(prefix="/scenario")
+router = APIRouter(prefix="/scenarios")
 
 
-@router.get("/scenarios/{scenario_id}")
-async def get_names(scenario_id: int, db: Session = Depends(get_db)):
+@router.get("/")
+async def get_names(db: Session = Depends(get_db)):
+    scenarios = db.query(Scenario).all()
+    if scenarios is None:
+        raise HTTPException(status_code=404, detail="No scenarios found")
+    return [{"id": s.id, "scenario_name": s.scenario_name} for s in scenarios]
+
+
+@router.get("/{scenario_id}")
+async def get_one_scenario(scenario_id: int, db: Session = Depends(get_db)):
     scenario = db.query(Scenario).filter(Scenario.id == scenario_id).first()
     if scenario is None:
-        raise HTTPException(status_code=404, detail="Scenario not found")
-    return scenario
-
-
-@router.get("/scenarios/{scenario_id}")
-async def get_metadata(scenario_id: int, db: Session = Depends(get_db)):
-    scenario = db.query(Scenario).filter(Scenario.id == scenario_id).first()
-    if scenario is None:
-        raise HTTPException(status_code=404, detail="Scenario not found")
-    return scenario
-
-
-@router.get("/scenarios/{scenario_id}")
-async def get_timeseries(scenario_id: int, db: Session = Depends(get_db)):
-    scenario = db.query(Scenario).filter(Scenario.id == scenario_id).first()
-    if scenario is None:
-        raise HTTPException(status_code=404, detail="Scenario not found")
+        raise HTTPException(status_code=404, detail="No scenarios found")
     return scenario
