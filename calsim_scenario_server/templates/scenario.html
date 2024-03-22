@@ -4,23 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Scenario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Submit Scenario</h1>
-    <form action="/forms/scenario" method="post">
-        <label for="scenario-name">Scenario Name:</label><br>
-        <input type="text" id="scenario-name" name="scenario-name" required><br><br>
-        
-        <label for="land-use">Land Use:</label><br>
-        <select id="land-use" name="land-use" required>
-            {% for land_use in land_uses %}
-            <option value="{{ land_use.id }}">{{ land_use.detail }}</option>
+    <div class="container">
+        <h1>Submit Scenario</h1>
+        <form class="form-inline" action="/forms/scenarios" method="post">
+            <div class="form-group mb-3">
+                <label for="scenario-name">Scenario Name:</label>
+                <input type="text" class="form-control" name="scenario_name" required>
+                <small id="scenarioNameHelpBlock" class="form-text text-muted">This will be the display name of the scenario.</small>
+            </div>
+            {% for key in existing_assumptions %}
+            <div class="form-group mb-3">
+                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{key}}</label>
+                <select class="form-control" id="inlineFormCustomSelectPref" name="{{key.replace(' ', '_').lower()}}">
+                    <option selected>Select an assumpiton...</option>
+                    {% for row in existing_assumptions[key] %}
+                    {% if row.detail.split("\n")[0]|length > 50 %}
+                    <option value="{{row.id}}">{{row.id}}: {{row.detail.split("\n")[0][:50]}}...</option>
+                    {% else %}
+                    <option value="{{row.id}}">{{row.id}}: {{row.detail.split("\n")[0]}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
             {% endfor %}
-        </select><br><br>
-        
-        <!-- Add dropdowns for other scenario attributes -->
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br>
+        <div class="container py-1">
+            <h3>Existing Scenarios</h3>
+            <div class="container py-1">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Scenario Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scenario in scenarios %}
+                        <tr>
+                            <td>{{ scenario.id }}</td>
+                            <td>{{ scenario.scenario_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div  class="container py-1">
+            <h3>Existing Assumptions</h3>
+            {% for key in existing_assumptions %}
+            <div class="container py-1">
+                <h6>Existing {{key}} Assumptions</h6>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in existing_assumptions[key] %}
+                        <tr>
+                            <td>{{ row.id }}</td>
+                            <td>{{ row.detail }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                
+                </table>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </body>
 </html>
