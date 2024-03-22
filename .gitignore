@@ -30,6 +30,7 @@ Error_evaluation.txt
 Error_solving.txt
 */temp.py
 temp.py
+temp*.py
 
 # ======================================================================
 # Python flavored ignores
