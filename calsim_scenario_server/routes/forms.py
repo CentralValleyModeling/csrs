@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from ..logger import logger
-from ..models import TUCP, VA, Hydrology, LandUse, SeaLevelRise
+from ..models import DCP, SOD, TUCP, VA, Hydrology, LandUse, SeaLevelRise
 from . import get_db
 
 router = APIRouter(prefix="/forms")
@@ -94,6 +94,70 @@ async def post_hydrology_form(detail: str = Form(...), db: Session = Depends(get
     logger.info(f"adding assumption {detail=}")
     try:
         row = Hydrology(detail=detail)
+        # Add the new path to the database session
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+
+        return {"message": "Assumption added", "detail": detail}
+
+    except Exception as e:
+        logger.error(f"{type(e)} encountered: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/dcp", response_class=HTMLResponse)
+async def get_dcp_form(request: Request, db: Session = Depends(get_db)):
+    assumptions = db.query(DCP).all()
+
+    return templates.TemplateResponse(
+        "project.html",
+        {
+            "request": request,
+            "project_type": "DCP",
+            "existing_assumptions": assumptions,
+        },
+    )
+
+
+@router.post("/dcp")
+async def post_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
+    logger.info(f"adding assumption {detail=}")
+    try:
+        row = DCP(detail=detail)
+        # Add the new path to the database session
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+
+        return {"message": "Assumption added", "detail": detail}
+
+    except Exception as e:
+        logger.error(f"{type(e)} encountered: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/south_of_delta_storage", response_class=HTMLResponse)
+async def get_sod_form(request: Request, db: Session = Depends(get_db)):
+    assumptions = db.query(SOD).all()
+
+    return templates.TemplateResponse(
+        "project.html",
+        {
+            "request": request,
+            "project_type": "South of Delta Storage",
+            "existing_assumptions": assumptions,
+        },
+    )
+
+
+@router.post("/south_of_delta_storage")
+async def post_sod_form(detail: str = Form(...), db: Session = Depends(get_db)):
+    logger.info(f"adding assumption {detail=}")
+    try:
+        row = SOD(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
