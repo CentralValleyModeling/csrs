@@ -4,7 +4,16 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from ..logger import logger
-from ..models import DCP, SOD, TUCP, VA, Hydrology, LandUse, Scenario, SeaLevelRise
+from ..models import (
+    AssumptionDeltaConveyanceProject,
+    AssumptionHydrology,
+    AssumptionLandUse,
+    AssumptionSeaLevelRise,
+    AssumptionSouthOfDeltaStorage,
+    AssumptionTUCP,
+    AssumptionVoluntaryAgreements,
+    Scenario,
+)
 from . import get_db
 
 router = APIRouter(prefix="/forms")
@@ -18,13 +27,13 @@ async def get_scenario_form(request: Request, db: Session = Depends(get_db)):
     # those ids should be valid python vars, because they are what FastAPI
     # passes to the POST request handler
     assumption_tables = {
-        "Hydrology": Hydrology,
-        "Sea Level Rise": SeaLevelRise,
-        "Land Use": LandUse,
-        "TUCP": TUCP,
-        "DCP": DCP,
-        "VA": VA,
-        "South of Delta Storage": SOD,
+        "Hydrology": AssumptionHydrology,
+        "Sea Level Rise": AssumptionSeaLevelRise,
+        "Land Use": AssumptionLandUse,
+        "TUCP": AssumptionTUCP,
+        "DCP": AssumptionDeltaConveyanceProject,
+        "VA": AssumptionVoluntaryAgreements,
+        "South of Delta Storage": AssumptionSouthOfDeltaStorage,
     }
 
     existing_assumptions = {
@@ -80,7 +89,7 @@ async def post_scenario_form(
 
 @router.get("/tucp", response_class=HTMLResponse)
 async def get_tucp_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(TUCP).all()
+    assumptions = db.query(AssumptionTUCP).all()
 
     return templates.TemplateResponse(
         "project.html",
@@ -96,7 +105,7 @@ async def get_tucp_form(request: Request, db: Session = Depends(get_db)):
 async def post_tucp_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = TUCP(detail=detail)
+        row = AssumptionTUCP(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -112,7 +121,7 @@ async def post_tucp_form(detail: str = Form(...), db: Session = Depends(get_db))
 
 @router.get("/va", response_class=HTMLResponse)
 async def get_va_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(VA).all()
+    assumptions = db.query(AssumptionVoluntaryAgreements).all()
 
     return templates.TemplateResponse(
         "project.html",
@@ -128,7 +137,7 @@ async def get_va_form(request: Request, db: Session = Depends(get_db)):
 async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = VA(detail=detail)
+        row = AssumptionVoluntaryAgreements(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -144,7 +153,7 @@ async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
 
 @router.get("/hydrology", response_class=HTMLResponse)
 async def get_hydrology_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(Hydrology).all()
+    assumptions = db.query(AssumptionHydrology).all()
 
     return templates.TemplateResponse(
         "project.html",
@@ -160,7 +169,7 @@ async def get_hydrology_form(request: Request, db: Session = Depends(get_db)):
 async def post_hydrology_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = Hydrology(detail=detail)
+        row = AssumptionHydrology(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -176,7 +185,7 @@ async def post_hydrology_form(detail: str = Form(...), db: Session = Depends(get
 
 @router.get("/dcp", response_class=HTMLResponse)
 async def get_dcp_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(DCP).all()
+    assumptions = db.query(AssumptionDeltaConveyanceProject).all()
 
     return templates.TemplateResponse(
         "project.html",
@@ -192,7 +201,7 @@ async def get_dcp_form(request: Request, db: Session = Depends(get_db)):
 async def post_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = DCP(detail=detail)
+        row = AssumptionDeltaConveyanceProject(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -208,7 +217,7 @@ async def post_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
 
 @router.get("/south_of_delta_storage", response_class=HTMLResponse)
 async def get_sod_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(SOD).all()
+    assumptions = db.query(AssumptionSouthOfDeltaStorage).all()
 
     return templates.TemplateResponse(
         "project.html",
@@ -224,7 +233,7 @@ async def get_sod_form(request: Request, db: Session = Depends(get_db)):
 async def post_sod_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = SOD(detail=detail)
+        row = AssumptionSouthOfDeltaStorage(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -240,7 +249,7 @@ async def post_sod_form(detail: str = Form(...), db: Session = Depends(get_db)):
 
 @router.get("/land_use", response_class=HTMLResponse)
 async def get_land_use_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(LandUse).all()
+    assumptions = db.query(AssumptionLandUse).all()
 
     return templates.TemplateResponse(
         "project_land_use.html",
@@ -264,7 +273,7 @@ async def post_land_use_form(
         logger.error(msg)
         raise HTTPException(status_code=422, detail=msg)
     try:
-        row = LandUse(detail=detail, future_year=future_year)
+        row = AssumptionLandUse(detail=detail, future_year=future_year)
         # Add the new path to the database session
         db.add(row)
         db.commit()
@@ -284,7 +293,7 @@ async def post_land_use_form(
 
 @router.get("/sea_level_rise", response_class=HTMLResponse)
 async def get_sea_level_rise_form(request: Request, db: Session = Depends(get_db)):
-    assumptions = db.query(SeaLevelRise).all()
+    assumptions = db.query(AssumptionSeaLevelRise).all()
 
     return templates.TemplateResponse(
         "project_sea_level_rise.html",
@@ -304,7 +313,7 @@ async def post_sea_level_rise_form(
 ):
     logger.info(f"adding assumption {detail=}, {centimeters=}")
     try:
-        row = SeaLevelRise(detail=detail, centimeters=centimeters)
+        row = AssumptionSeaLevelRise(detail=detail, centimeters=centimeters)
         # Add the new path to the database session
         db.add(row)
         db.commit()

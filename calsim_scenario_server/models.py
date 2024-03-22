@@ -99,7 +99,7 @@ class TimeStep(Base):
     datetime_str = mapped_column(String)
 
 
-class LandUse(Base):
+class AssumptionLandUse(Base):
     __tablename__ = "land_use"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -107,7 +107,7 @@ class LandUse(Base):
     future_year = mapped_column(Integer)
 
 
-class SeaLevelRise(Base):
+class AssumptionSeaLevelRise(Base):
     __tablename__ = "sea_level_rise"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -115,35 +115,35 @@ class SeaLevelRise(Base):
     centimeters = mapped_column(Float)
 
 
-class Hydrology(Base):
+class AssumptionHydrology(Base):
     __tablename__ = "hydrology"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     detail = mapped_column(String)
 
 
-class TUCP(Base):
+class AssumptionTUCP(Base):
     __tablename__ = "tucp"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     detail = mapped_column(String)
 
 
-class DCP(Base):
+class AssumptionDeltaConveyanceProject(Base):
     __tablename__ = "dcp"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     detail = mapped_column(String)
 
 
-class VA(Base):
+class AssumptionVoluntaryAgreements(Base):
     __tablename__ = "va"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     detail = mapped_column(String)
 
 
-class SOD(Base):
+class AssumptionSouthOfDeltaStorage(Base):
     __tablename__ = "sod"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
