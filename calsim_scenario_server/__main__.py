@@ -12,11 +12,13 @@ app = FastAPI(
     docs_url="/",
 )
 
+ENABLE_FORMS = False
 
 app.include_router(scenarios.router)
 app.include_router(paths.router)
 app.include_router(runs.router)
-app.include_router(forms.router)
+if ENABLE_FORMS:
+    app.include_router(forms.router)
 
 templates = Jinja2Templates(directory="./templates")
 # Create database tables
