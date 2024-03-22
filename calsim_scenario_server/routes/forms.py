@@ -4,7 +4,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
 from ..logger import logger
-from ..models import TUCP, VA, LandUse, SeaLevelRise
+from ..models import TUCP, VA, Hydrology, LandUse, SeaLevelRise
 from . import get_db
 
 router = APIRouter(prefix="/forms")
@@ -62,6 +62,38 @@ async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = VA(detail=detail)
+        # Add the new path to the database session
+        db.add(row)
+        db.commit()
+        db.refresh(row)
+
+        return {"message": "Assumption added", "detail": detail}
+
+    except Exception as e:
+        logger.error(f"{type(e)} encountered: {e}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/hydrology", response_class=HTMLResponse)
+async def get_hydrology_form(request: Request, db: Session = Depends(get_db)):
+    assumptions = db.query(Hydrology).all()
+
+    return templates.TemplateResponse(
+        "project.html",
+        {
+            "request": request,
+            "project_type": "Hydrology",
+            "existing_assumptions": assumptions,
+        },
+    )
+
+
+@router.post("/hydrology")
+async def post_hydrology_form(detail: str = Form(...), db: Session = Depends(get_db)):
+    logger.info(f"adding assumption {detail=}")
+    try:
+        row = Hydrology(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()
