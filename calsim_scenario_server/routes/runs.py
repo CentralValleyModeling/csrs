@@ -21,7 +21,7 @@ class RunModel(BaseModel):
     predecessor_run_id: int | None
 
 
-def check_scenario_exists(s_id: int | None, db: Session):
+def assert_scenario_exists(s_id: int | None, db: Session):
     if s_id is not None:
         s_count = db.query(Scenario).filter(Scenario.id == s_id).count()
         if s_count != 1:
@@ -50,8 +50,8 @@ async def get_all_runs(metadata: bool = False, db: Session = Depends(get_db)):
 async def post_run(run_data: RunModel, db: Session = Depends(get_db)):
     logger.info(run_data)
     try:
-        check_scenario_exists(run_data.scenario_id, db)
-        check_scenario_exists(run_data.predecessor_run_id, db)
+        assert_scenario_exists(run_data.scenario_id, db)
+        assert_scenario_exists(run_data.predecessor_run_id, db)
         metadata = {
             "contact",
             "confidential",
