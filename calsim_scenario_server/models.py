@@ -44,7 +44,7 @@ class Scenario(Base):
     __tablename__ = "scenarios"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    scenario_name = mapped_column(String)
+    name = mapped_column(String)
     land_use_id = mapped_column(ForeignKey("land_use.id"))
     sea_level_rise_id = mapped_column(ForeignKey("sea_level_rise.id"))
     hydrology_id = mapped_column(ForeignKey("hydrology.id"))
@@ -59,7 +59,7 @@ class Scenario(Base):
 class Path(Base):
     __tablename__ = "paths"
 
-    path_id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     path = mapped_column(String)
     category = mapped_column(String)
     detail = mapped_column(String)
@@ -68,7 +68,7 @@ class Path(Base):
 class Metric(Base):
     __tablename__ = "metrics"
 
-    metric_id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     index_detail = mapped_column(String)
     detail = mapped_column(String)
 
@@ -77,17 +77,17 @@ class TimeSeriesValue(Base):
     __tablename__ = "time_series_values"
 
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
-    path_id = mapped_column(ForeignKey("paths.path_id"), primary_key=True)
-    dt_index = mapped_column(ForeignKey("timesteps.dt_index"))
+    path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
+    timestep_id = mapped_column(ForeignKey("timesteps.id"))
     value = mapped_column(Float)
 
 
 class MetricValue(Base):
     __tablename__ = "metric_values"
 
-    path_id = mapped_column(ForeignKey("paths.path_id"), primary_key=True)
+    path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
-    metric_id = mapped_column(ForeignKey("metrics.metric_id"), primary_key=True)
+    metric_id = mapped_column(ForeignKey("metrics.id"), primary_key=True)
     index = mapped_column(Integer)
     value = mapped_column(Float)
 
@@ -95,7 +95,7 @@ class MetricValue(Base):
 class TimeStep(Base):
     __tablename__ = "timesteps"
 
-    dt_index = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     datetime_str = mapped_column(String)
 
 
