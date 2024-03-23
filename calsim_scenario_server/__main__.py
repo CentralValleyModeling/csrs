@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 
 from .database import engine
 from .models import Base
-from .routes import forms, paths, runs, scenarios
+from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
 app = FastAPI(
     title="CalSim3 Scenario Server",
@@ -17,6 +17,8 @@ ENABLE_FORMS = False
 app.include_router(scenarios.router)
 app.include_router(paths.router)
 app.include_router(runs.router)
+app.include_router(assumptions.router)
+app.include_router(timeseries.router)
 if ENABLE_FORMS:
     app.include_router(forms.router)
 
