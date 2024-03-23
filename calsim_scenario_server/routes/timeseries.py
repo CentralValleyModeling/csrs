@@ -20,7 +20,7 @@ class TimeSeriesBlockModel(BaseModel):
     data: list[TimeSeriesValueModel]
 
 
-@router.get("")
+@router.get("/", response_model=list[TimeSeriesValueModel])
 async def get_timeseries(
     run_id: int = None,
     path_id: int = None,
@@ -60,7 +60,7 @@ async def get_timeseries(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("", response_class=list[TimeSeriesValueModel])
+@router.post("/", response_model=TimeSeriesBlockModel)
 async def post_timeseries(
     ts_block: TimeSeriesBlockModel,
     db: Session = Depends(get_db),
