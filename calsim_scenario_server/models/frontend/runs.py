@@ -12,12 +12,12 @@ class RunShortMetadata(BaseModel):
 class RunFullMetadata(BaseModel):
     name: str
     version: str
+    detail: str
     predecessor_run: RunShortMetadata
     contact: str
     confidential: bool
     published: bool
     code_version: str
-    detail: str
     scenario: ScenarioShortMetadata
 
 
