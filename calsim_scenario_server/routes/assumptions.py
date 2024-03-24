@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from calsim_scenario_server.models.frontend import AssumptionModel
-
 from ..database import get_db
 from ..models.backend import (
     AssumptionDeltaConveyanceProject,
@@ -13,6 +11,7 @@ from ..models.backend import (
     AssumptionTUCP,
     AssumptionVoluntaryAgreements,
 )
+from ..models.frontend.assumptions import AssumptionDetails
 
 router = APIRouter(prefix="/assumptions")
 
@@ -40,7 +39,7 @@ async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
     return assumption_count
 
 
-@router.get("/{assumption_type}", response_model=list[AssumptionModel])
+@router.get("/{assumption_type}", response_model=list[AssumptionDetails])
 async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
 
     if assumption_type not in assumption_tables:
@@ -51,4 +50,4 @@ async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
     if assumptions is None:
         raise HTTPException(status_code=404, detail="No assumptions in table")
 
-    return assumptions
+    return [AssumptionDetails(a.detail) for a in assumptions]

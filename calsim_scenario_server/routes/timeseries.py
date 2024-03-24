@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..logger import logger
 from ..models.backend import Path, Run, TimeSeriesValue, TimeStep
-from ..models.frontend import TimeSeriesBlockModel, TimeSeriesValueModel
+from ..models.frontend.timeseries import TimeSeriesBlockModel, TimeSeriesValueModel
 
 router = APIRouter(prefix="/timeseries")
 

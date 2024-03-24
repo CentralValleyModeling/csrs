@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from calsim_scenario_server.models.frontend import PathModel
-
 from ..database import get_db
 from ..models.backend import Path, Run, TimeSeriesValue
+from ..models.frontend.paths import PathModel
 
 router = APIRouter(prefix="/paths")
 
