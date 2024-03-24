@@ -1,24 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
 from ..models.backend import Run, RunMetadata, Scenario
+from ..models.frontend import RunModel
 
 router = APIRouter(prefix="/runs")
-
-
-class RunModel(BaseModel):
-    name: str
-    scenario_id: int
-    version: str
-    contact: str
-    confidential: bool
-    published: bool
-    code_version: str
-    detail: str
-    predecessor_run_id: int | None
 
 
 def assert_scenario_exists(s_id: int | None, db: Session):

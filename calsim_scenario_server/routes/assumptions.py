@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
+
+from calsim_scenario_server.models.frontend import AssumptionModel
 
 from ..database import get_db
 from ..models.backend import (
@@ -24,11 +25,6 @@ assumption_tables = {
     "va": AssumptionVoluntaryAgreements,
     "south_of_delta": AssumptionSouthOfDeltaStorage,
 }
-
-
-class AssumptionModel(BaseModel):
-    id: int
-    detail: str
 
 
 @router.get("/")

@@ -1,17 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
+
+from calsim_scenario_server.models.frontend import PathModel
 
 from ..database import get_db
 from ..models.backend import Path, Run, TimeSeriesValue
 
 router = APIRouter(prefix="/paths")
-
-
-class PathModel(BaseModel):
-    path: str
-    category: str
-    detail: str
 
 
 @router.get("/", response_model=list[PathModel])

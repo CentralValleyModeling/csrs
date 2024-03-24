@@ -1,23 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
 from ..models.backend import Path, Run, TimeSeriesValue, TimeStep
+from ..models.frontend import TimeSeriesBlockModel, TimeSeriesValueModel
 
 router = APIRouter(prefix="/timeseries")
-
-
-class TimeSeriesValueModel(BaseModel):
-    run_id: int
-    path_id: int
-    timestep_id: int
-    value: float
-
-
-class TimeSeriesBlockModel(BaseModel):
-    data: list[TimeSeriesValueModel]
 
 
 @router.get("/", response_model=list[TimeSeriesValueModel])
