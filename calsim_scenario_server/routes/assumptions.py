@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from ..models import (
+from ..database import get_db
+from ..models.backend import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
     AssumptionLandUse,
@@ -11,7 +12,6 @@ from ..models import (
     AssumptionTUCP,
     AssumptionVoluntaryAgreements,
 )
-from . import get_db
 
 router = APIRouter(prefix="/assumptions")
 

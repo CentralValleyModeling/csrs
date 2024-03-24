@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from ..database import get_db
 from ..logger import logger
-from ..models import Path, Run, TimeSeriesValue, TimeStep
-from . import get_db
+from ..models.backend import Path, Run, TimeSeriesValue, TimeStep
 
 router = APIRouter(prefix="/timeseries")
 

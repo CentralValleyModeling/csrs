@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
 from .database import engine
-from .models import Base
+from .models.backend import Base
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
 app = FastAPI(

@@ -3,8 +3,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
+from ..database import get_db
 from ..logger import logger
-from ..models import (
+from ..models.backend import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
     AssumptionLandUse,
@@ -14,7 +15,6 @@ from ..models import (
     AssumptionVoluntaryAgreements,
     Scenario,
 )
-from . import get_db
 
 router = APIRouter(prefix="/forms")
 templates = Jinja2Templates(directory="calsim_scenario_server/templates")
