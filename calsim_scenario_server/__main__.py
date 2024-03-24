@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
-from .database import engine
-from .models.backend import Base
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
 app = FastAPI(
@@ -22,9 +20,8 @@ app.include_router(timeseries.router)
 if ENABLE_FORMS:
     app.include_router(forms.router)
 
+# TODO move this into a sub-module so the routes can interact with them easily
 templates = Jinja2Templates(directory="./templates")
-# Create database tables
-Base.metadata.create_all(bind=engine)
 
 
 if __name__ == "__main__":
