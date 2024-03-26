@@ -26,6 +26,7 @@ async def get_all_runs(db: Session = Depends(get_db)):
     if runs is None:
         raise HTTPException(status_code=404, detail="Runs not found")
     logger.info(f"{runs=}")
+
     return [RunShortMetadata(r.name, r.version, r.detail) for r in runs]
 
 
@@ -43,6 +44,7 @@ async def get_run(run_id: int, db: Session = Depends(get_db)):
     if run is None:
         raise HTTPException(status_code=404, detail="Runs not found")
     logger.info(f"{run=}")
+
     return RunFullMetadata(
         name=run.name,
         version=run.version,

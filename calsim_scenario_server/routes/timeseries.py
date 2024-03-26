@@ -38,15 +38,16 @@ async def get_timeseries(
         )
         logger.info(f"returning {len(timeseries)} rows")
 
-        return timeseries
     except HTTPException as e:
         logger.error(f"HTTPException<{e.status_code}> {e.detail}")
         db.rollback()
         raise e
+
     except Exception as e:
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    return timeseries
 
 
 @router.put("/", response_model=TimeSeriesBlockModel)
@@ -61,8 +62,8 @@ async def put_timeseries(
         db.add_all(ts_model)
         db.commit()
         db.refresh(ts_model)
-        return ts_block
     except Exception as e:
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    return ts_model

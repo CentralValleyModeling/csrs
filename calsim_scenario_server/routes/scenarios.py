@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
+from ..models.http.scenarios import ScenarioIdMetadata
 from ..models.sql import Scenario
 
 router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
@@ -21,3 +22,21 @@ async def get_one_scenario(scenario_id: int, db: Session = Depends(get_db)):
     if scenario is None:
         raise HTTPException(status_code=404, detail="No scenarios found")
     return scenario
+
+
+@router.put("/")
+async def put_scenario(
+    scenario: ScenarioIdMetadata,
+    db: Session = Depends(get_db),
+):
+    try:
+        new = Scenario(**scenario.model_dump())
+        db.add(new)
+        db.commit()
+        db.refresh(new)
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return new

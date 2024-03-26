@@ -24,6 +24,7 @@ async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
 
     if paths is None:
         raise HTTPException(status_code=404, detail="Scenario not found")
+
     return paths
 
 
@@ -38,8 +39,8 @@ async def put_path(path_data: PathModel, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(new_path)
 
-        return path_data
-
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+
+    return path_data

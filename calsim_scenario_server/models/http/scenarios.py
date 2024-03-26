@@ -14,5 +14,16 @@ class ScenarioFullMetadata(BaseModel):
     sod: AssumptionDetails
 
 
+class ScenarioIdMetadata(BaseModel):
+    name: str
+    land_use_id: int
+    sea_level_rise_id: int
+    hydrology_id: int
+    tucp_id: int
+    dcp_id: int
+    va_id: int
+    sod_id: int
+
+
 class ScenarioShortMetadata(BaseModel):
     name: str
