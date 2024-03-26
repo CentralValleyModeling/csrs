@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
+from ..logger import logger
 from ..models.http.assumptions import AssumptionDetails, AssumptionSummary
 from ..models.sql import (
     AssumptionDeltaConveyanceProject,
@@ -28,6 +29,7 @@ assumption_tables = {
 
 @router.get("/", response_model=list[AssumptionSummary])
 async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
+    logger.info("getting the shape of assumption tables")
     assumption_count = [
         {
             "name": k,
@@ -40,18 +42,19 @@ async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
     return assumption_count
 
 
-@router.get("/{assumption_type}", response_model=list[AssumptionDetails])
+@router.get("/{assumption_type}")
 async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
-
+    logger.info(f"{assumption_type=}")
     if assumption_type not in assumption_tables:
         raise HTTPException(status_code=404, detail="Assumption table not in schema")
     tbl = assumption_tables[assumption_type]
     assumptions = db.query(tbl).all()
 
     if assumptions is None:
+        logger.error(f"no table found for {assumption_type=}")
         raise HTTPException(status_code=404, detail="No assumptions in table")
 
-    return [AssumptionDetails(a.detail) for a in assumptions]
+    return [a for a in assumptions]
 
 
 @router.put("/{assumption_type}", response_model=AssumptionDetails)
@@ -60,17 +63,21 @@ async def put_assumption(
     assumption: AssumptionDetails,
     db: Session = Depends(get_db),
 ):
+    logger.info(f"{assumption_type=}, {assumption=}")
     if assumption_type not in assumption_tables:
         raise HTTPException(status_code=404, detail="Assumption table not in schema")
     try:
         tbl = assumption_tables[assumption_type]
-        new_assumption = tbl(**assumption.model_dump())
+        kwargs = assumption.additional_fields
+        logger.info(f"detail={assumption.detail}, {kwargs=}")
+        new_assumption = tbl(detail=assumption.detail, **kwargs)
         db.add(new_assumption)
         db.commit()
         db.refresh(new_assumption)
 
     except Exception as e:
         db.rollback()
+        logger.error(e)
         raise HTTPException(status_code=500, detail=str(e))
 
     return assumption
