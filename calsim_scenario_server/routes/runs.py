@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.response.runs import RunFullMetadata, RunShortMetadata, RunSubmission
+from ..models.http.runs import RunFullMetadata, RunShortMetadata, RunSubmission
 from ..models.sql import Run, RunMetadata, Scenario
 
 router = APIRouter(prefix="/runs")

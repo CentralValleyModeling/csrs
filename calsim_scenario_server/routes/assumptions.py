@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models.response.assumptions import AssumptionDetails, AssumptionSummary
+from ..models.http.assumptions import AssumptionDetails, AssumptionSummary
 from ..models.sql import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
