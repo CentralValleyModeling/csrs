@@ -13,7 +13,7 @@ async def get_names(db: Session = Depends(get_db)):
     scenarios = db.query(Scenario).all()
     if scenarios is None:
         raise HTTPException(status_code=404, detail="No scenarios found")
-    return [{"id": s.id, "scenario_name": s.scenario_name} for s in scenarios]
+    return [{"id": s.id, "scenario_name": s.name} for s in scenarios]
 
 
 @router.get("/{scenario_id}")
