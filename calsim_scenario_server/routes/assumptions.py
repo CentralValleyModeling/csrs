@@ -52,3 +52,25 @@ async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No assumptions in table")
 
     return [AssumptionDetails(a.detail) for a in assumptions]
+
+
+@router.put("/{assumption_type}", response_model=AssumptionDetails)
+async def put_assumption(
+    assumption_type: str,
+    assumption: AssumptionDetails,
+    db: Session = Depends(get_db),
+):
+    if assumption_type not in assumption_tables:
+        raise HTTPException(status_code=404, detail="Assumption table not in schema")
+    try:
+        tbl = assumption_tables[assumption_type]
+        new_assumption = tbl(**assumption.model_dump())
+        db.add(new_assumption)
+        db.commit()
+        db.refresh(new_assumption)
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return assumption
