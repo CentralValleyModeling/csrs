@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models.backend import Path, Run, TimeSeriesValue
-from ..models.frontend.paths import PathModel
+from ..models.response.paths import PathModel
+from ..models.sql import Path, Run, TimeSeriesValue
 
 router = APIRouter(prefix="/paths")
 

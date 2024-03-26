@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models.backend import (
+from ..models.response.assumptions import AssumptionDetails, AssumptionSummary
+from ..models.sql import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
     AssumptionLandUse,
@@ -11,7 +12,6 @@ from ..models.backend import (
     AssumptionTUCP,
     AssumptionVoluntaryAgreements,
 )
-from ..models.frontend.assumptions import AssumptionDetails
 
 router = APIRouter(prefix="/assumptions")
 
@@ -26,15 +26,16 @@ assumption_tables = {
 }
 
 
-@router.get("/")
+@router.get("/", response_model=list[AssumptionSummary])
 async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
-    assumption_count = {
-        k: {
+    assumption_count = [
+        {
+            "name": k,
             "rows": db.query(assumption_tables[k]).count(),
-            "columns": [c.name for c in assumption_tables[k].__table__.columns],
+            "column_names": [c.name for c in assumption_tables[k].__table__.columns],
         }
         for k in assumption_tables
-    }
+    ]
 
     return assumption_count
 

@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.backend import Path, Run, TimeSeriesValue, TimeStep
-from ..models.frontend.timeseries import TimeSeriesBlockModel, TimeSeriesValueModel
+from ..models.response.timeseries import TimeSeriesBlockModel, TimeSeriesValueModel
+from ..models.sql import Path, Run, TimeSeriesValue, TimeStep
 
 router = APIRouter(prefix="/timeseries")
 
