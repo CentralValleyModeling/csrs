@@ -7,7 +7,6 @@ from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 TITLE = "CalSim-Results Server"
 SUMMARY = "A FastAPI app to serve CalSim3 model results and metadata."
 DESCRIPTION = """
-# CalSim3 Results Server
 Helps you to interact with the CalSim Scnario Database.
 """
 CONTACT = {
