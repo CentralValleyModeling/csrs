@@ -6,7 +6,7 @@ from ..logger import logger
 from ..models.http.timeseries import TimeSeriesBlockModel, TimeSeriesValueModel
 from ..models.sql import Path, Run, TimeSeriesValue, TimeStep
 
-router = APIRouter(prefix="/timeseries")
+router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 
 
 @router.get("/", response_model=list[TimeSeriesValueModel])

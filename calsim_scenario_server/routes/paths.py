@@ -5,7 +5,7 @@ from ..database import get_db
 from ..models.http.paths import PathModel
 from ..models.sql import Path, Run, TimeSeriesValue
 
-router = APIRouter(prefix="/paths")
+router = APIRouter(prefix="/paths", tags=["Paths"])
 
 
 @router.get("/", response_model=list[PathModel])

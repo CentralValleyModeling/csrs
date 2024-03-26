@@ -6,7 +6,7 @@ from ..logger import logger
 from ..models.http.runs import RunFullMetadata, RunShortMetadata, RunSubmission
 from ..models.sql import Run, RunMetadata, Scenario
 
-router = APIRouter(prefix="/runs")
+router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
 
 def assert_scenario_exists(s_id: int | None, db: Session):

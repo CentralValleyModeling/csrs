@@ -13,7 +13,7 @@ from ..models.sql import (
     AssumptionVoluntaryAgreements,
 )
 
-router = APIRouter(prefix="/assumptions")
+router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 assumption_tables = {
     "hydrology": AssumptionHydrology,

@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models.sql import Scenario
 
-router = APIRouter(prefix="/scenarios")
+router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
 
 @router.get("/")
