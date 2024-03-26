@@ -1,13 +1,34 @@
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
+from . import __version__
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
+TITLE = "CalSim-Results Server"
+SUMMARY = "A FastAPI app to serve CalSim3 model results and metadata."
+DESCRIPTION = """
+# CalSim3 Results Server
+Helps you to interact with the CalSim Scnario Database.
+"""
+CONTACT = {
+    "name": "California DWR, Central Valley Modeling",
+    "url": "https://water.ca.gov/Library/"
+    + "Modeling-and-Analysis/Central-Valley-models-and-tools",
+}
+LISCENSE = {
+    "name": "MIT",
+    "identifier": "MIT",
+}
+
+
 app = FastAPI(
-    title="CalSim3 Scenario Server",
-    summary="A FastAPI app to serve CalSim3 inputs and results.",
-    version="0.0.2",
+    title=TITLE,
+    summary=SUMMARY,
+    version=__version__,
     docs_url="/",
+    description=DESCRIPTION,
+    contact=CONTACT,
+    license_info=LISCENSE,
 )
 
 ENABLE_FORMS = False
@@ -22,7 +43,6 @@ if ENABLE_FORMS:
 
 # TODO move this into a sub-module so the routes can interact with them easily
 templates = Jinja2Templates(directory="./templates")
-
 
 if __name__ == "__main__":
     import uvicorn
