@@ -56,8 +56,8 @@ async def get_run(run_id: int, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/", response_model=RunSubmission)
-async def post_run(run_data: RunSubmission, db: Session = Depends(get_db)):
+@router.put("/", response_model=RunSubmission)
+async def put_run(run_data: RunSubmission, db: Session = Depends(get_db)):
     logger.info(run_data)
     try:
         assert_scenario_exists(run_data.scenario_id, db)

@@ -25,7 +25,7 @@ async def get_scenario_form(request: Request, db: Session = Depends(get_db)):
     scenarios = db.query(Scenario).all()
     # The keys to this dict will be converted to ids in the HTML,
     # those ids should be valid python vars, because they are what FastAPI
-    # passes to the POST request handler
+    # passes to the PUT request handler
     assumption_tables = {
         "Hydrology": AssumptionHydrology,
         "Sea Level Rise": AssumptionSeaLevelRise,
@@ -50,8 +50,8 @@ async def get_scenario_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/scenarios")
-async def post_scenario_form(
+@router.put("/scenarios")
+async def put_scenario_form(
     scenario_name: str = Form(...),
     hydrology: int = Form(...),
     sea_level_rise: int = Form(...),
@@ -101,8 +101,8 @@ async def get_tucp_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/tucp")
-async def post_tucp_form(detail: str = Form(...), db: Session = Depends(get_db)):
+@router.put("/tucp")
+async def put_tucp_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = AssumptionTUCP(detail=detail)
@@ -133,8 +133,8 @@ async def get_va_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/va")
-async def post_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
+@router.put("/va")
+async def put_va_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = AssumptionVoluntaryAgreements(detail=detail)
@@ -165,8 +165,8 @@ async def get_hydrology_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/hydrology")
-async def post_hydrology_form(detail: str = Form(...), db: Session = Depends(get_db)):
+@router.put("/hydrology")
+async def put_hydrology_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = AssumptionHydrology(detail=detail)
@@ -197,8 +197,8 @@ async def get_dcp_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/dcp")
-async def post_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
+@router.put("/dcp")
+async def put_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = AssumptionDeltaConveyanceProject(detail=detail)
@@ -229,8 +229,8 @@ async def get_sod_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/south_of_delta_storage")
-async def post_sod_form(detail: str = Form(...), db: Session = Depends(get_db)):
+@router.put("/south_of_delta_storage")
+async def put_sod_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
         row = AssumptionSouthOfDeltaStorage(detail=detail)
@@ -261,8 +261,8 @@ async def get_land_use_form(request: Request, db: Session = Depends(get_db)):
     )
 
 
-@router.post("/land_use")
-async def post_land_use_form(
+@router.put("/land_use")
+async def put_land_use_form(
     detail: str = Form(...),
     future_year: int = Form(...),
     db: Session = Depends(get_db),
@@ -305,8 +305,8 @@ async def get_sea_level_rise_form(request: Request, db: Session = Depends(get_db
     )
 
 
-@router.post("/sea_level_rise")
-async def post_sea_level_rise_form(
+@router.put("/sea_level_rise")
+async def put_sea_level_rise_form(
     detail: str = Form(...),
     centimeters: float = Form(...),
     db: Session = Depends(get_db),

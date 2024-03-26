@@ -49,8 +49,8 @@ async def get_timeseries(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/", response_model=TimeSeriesBlockModel)
-async def post_timeseries(
+@router.put("/", response_model=TimeSeriesBlockModel)
+async def put_timeseries(
     ts_block: TimeSeriesBlockModel,
     db: Session = Depends(get_db),
 ):

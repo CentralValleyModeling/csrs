@@ -27,8 +27,8 @@ async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
     return paths
 
 
-@router.post("/", response_model=PathModel)
-async def post_path(path_data: PathModel, db: Session = Depends(get_db)):
+@router.put("/", response_model=PathModel)
+async def put_path(path_data: PathModel, db: Session = Depends(get_db)):
     try:
         # Create a new Path object
         new_path = Path(**path_data.model_dump())
