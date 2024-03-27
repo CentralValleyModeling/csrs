@@ -1,9 +1,19 @@
+from pathlib import Path
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from ..models import Base
 
-DATABASE_URL = "sqlite:///./example.sqlite"
+
+def get_db_dir() -> Path:
+    here = Path(".").resolve()
+    if here.name == "src":
+        here = here.parent
+    return here
+
+
+DATABASE_URL = f"sqlite:///{get_db_dir()}/example.sqlite"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
