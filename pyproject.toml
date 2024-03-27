@@ -23,7 +23,7 @@ dependencies = [
 include-package-data = true
 
 [tool.pytest.ini_options]
-adopts = [
+addopts = [
     "--import-mode=importlib", 
     "--strict-markers",
 ]
