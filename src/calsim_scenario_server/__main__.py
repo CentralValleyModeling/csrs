@@ -32,11 +32,11 @@ app = FastAPI(
 
 ENABLE_FORMS = False
 
-app.include_router(scenarios.router)
-app.include_router(paths.router)
-app.include_router(runs.router)
-app.include_router(assumptions.router)
 app.include_router(timeseries.router)
+app.include_router(runs.router)
+app.include_router(scenarios.router)
+app.include_router(assumptions.router)
+app.include_router(paths.router)
 app.include_router(timesteps.router)
 if ENABLE_FORMS:
     app.include_router(forms.router)
