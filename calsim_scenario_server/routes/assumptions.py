@@ -57,7 +57,7 @@ async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
     return [a for a in assumptions]
 
 
-@router.put("/{assumption_type}", response_model=AssumptionDetails)
+@router.put("/{assumption_type}")
 async def put_assumption(
     assumption_type: str,
     assumption: AssumptionDetails,
@@ -80,4 +80,4 @@ async def put_assumption(
         logger.error(e)
         raise HTTPException(status_code=500, detail=str(e))
 
-    return assumption
+    return new_assumption
