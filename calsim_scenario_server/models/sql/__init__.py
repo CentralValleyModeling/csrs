@@ -1,6 +1,7 @@
 from sqlalchemy import Boolean, Float, ForeignKey, ForeignKeyConstraint, Integer, String
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.schema import UniqueConstraint
 
 # Create a base class for our ORM models
 Base: DeclarativeMeta = declarative_base()
@@ -51,7 +52,7 @@ class Scenario(Base):
     tucp_id = mapped_column(ForeignKey("tucp.id"), nullable=False)
     dcp_id = mapped_column(ForeignKey("dcp.id"), nullable=False)
     va_id = mapped_column(ForeignKey("va.id"), nullable=False)
-    sod_id = mapped_column(ForeignKey("sod.id"), nullable=False)
+    south_of_delta_id = mapped_column(ForeignKey("sod.id"), nullable=False)
 
     runs: Mapped[list["Run"]] = relationship(back_populates="scenario")
 
@@ -64,6 +65,8 @@ class Path(Base):
     category = mapped_column(String)
     detail = mapped_column(String, nullable=False)
 
+    __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
+
 
 class Metric(Base):
     __tablename__ = "metrics"
@@ -75,11 +78,15 @@ class Metric(Base):
 
 class TimeSeriesValue(Base):
     __tablename__ = "time_series_values"
-
-    run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
-    path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
+    id = mapped_column(Integer, primary_key=True, autoincrement=True)
+    run_id = mapped_column(ForeignKey("runs.id"))
+    path_id = mapped_column(ForeignKey("paths.id"))
     timestep_id = mapped_column(ForeignKey("timesteps.id"))
     value = mapped_column(Float, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint("run_id", "path_id", "timestep_id", name="unique_in_run"),
+    )
 
 
 class MetricValue(Base):
