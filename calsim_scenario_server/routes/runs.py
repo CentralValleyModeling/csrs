@@ -22,12 +22,16 @@ def assert_scenario_exists(s_id: int | None, db: Session):
 
 @router.get("/", response_model=list[RunShortMetadata])
 async def get_all_runs(db: Session = Depends(get_db)):
-    runs = db.query(Run).join(RunMetadata, Run.id == RunMetadata.run_id).all()
-    if runs is None:
+    logger.info("getting all runs")
+    runs_table = db.query(Run).all()
+    if runs_table is None:
         raise HTTPException(status_code=404, detail="Runs not found")
+    runs = [
+        RunShortMetadata(id=r.id, name=r.name, version=r.version) for r in runs_table
+    ]
     logger.info(f"{runs=}")
 
-    return [RunShortMetadata(r.name, r.version, r.detail) for r in runs]
+    return runs
 
 
 @router.get("/{run_id}", response_model=RunFullMetadata)
@@ -84,11 +88,12 @@ async def put_run(run_data: RunSubmission, db: Session = Depends(get_db)):
         db.refresh(new_run_metadata)
 
     except HTTPException as e:
+        logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise e
     except Exception as e:
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
-
+    run_data.id = new_run.id
     return run_data

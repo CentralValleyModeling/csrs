@@ -9,7 +9,7 @@ from ..models.sql import Path, Run, TimeSeriesValue, TimeStep
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 
 
-@router.get("/", response_model=list[TimeSeriesValueModel])
+@router.get("", response_model=list[TimeSeriesValueModel])
 async def get_timeseries(
     run_id: int = None,
     path_id: int = None,
@@ -50,14 +50,22 @@ async def get_timeseries(
     return timeseries
 
 
-@router.put("/", response_model=TimeSeriesBlockModel)
+@router.put("")
 async def put_timeseries(
     ts_block: TimeSeriesBlockModel,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"adding {len(ts_block.data)} rows")
+    logger.info(f"adding {ts_block.count} rows")
     try:
-        ts_model = [TimeSeriesValue(**ts.model_dump()) for ts in ts_block.data]
+        ts_model = (
+            TimeSeriesValue(
+                run_id=ts_block.run_ids[i],
+                path_id=ts_block.path_ids[i],
+                timestep_id=ts_block.timestep_ids[i],
+                value=ts_block.values[i],
+            )
+            for i in range(ts_block.count)
+        )
         # Add the new path to the database session
         db.add_all(ts_model)
         db.commit()
