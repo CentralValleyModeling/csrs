@@ -27,21 +27,6 @@ assumption_tables = {
 }
 
 
-@router.get("/", response_model=list[AssumptionOut])
-async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
-    logger.info("getting the shape of assumption tables")
-    assumption_count = [
-        {
-            "name": k,
-            "rows": db.query(assumption_tables[k]).count(),
-            "column_names": [c.name for c in assumption_tables[k].__table__.columns],
-        }
-        for k in assumption_tables
-    ]
-
-    return assumption_count
-
-
 @router.get("/{assumption_type}")
 async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
     logger.info(f"{assumption_type=}")
@@ -53,7 +38,7 @@ async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
     if assumptions is None:
         logger.error(f"no table found for {assumption_type=}")
         raise HTTPException(status_code=404, detail="No assumptions in table")
-
+    logger.debug(assumptions)
     return [a for a in assumptions]
 
 
@@ -68,16 +53,21 @@ async def put_assumption(
         raise HTTPException(status_code=404, detail="Assumption table not in schema")
     try:
         tbl = assumption_tables[assumption_type]
-        kwargs = assumption.additional_fields
-        logger.info(f"detail={assumption.detail}, {kwargs=}")
-        new_assumption = tbl(detail=assumption.detail, **kwargs)
-        db.add(new_assumption)
-        db.commit()
-        db.refresh(new_assumption)
+        assumpt_in_db = db.query(tbl.id).filter(tbl.detail == assumption.detail).first()
+        if assumpt_in_db is not None:
+            logger.info("assumption already exists")
+        else:
+            kwargs = assumption.additional_metadata
+            logger.info(f"detail={assumption.detail}, {kwargs=}")
+            assumpt_in_db = tbl(detail=assumption.detail, **kwargs)
+            db.add(assumpt_in_db)
+            db.commit()
+            db.refresh(assumpt_in_db)
 
     except Exception as e:
         db.rollback()
         logger.error(e)
         raise HTTPException(status_code=500, detail=str(e))
-
-    return new_assumption
+    json_assumpt = assumption.model_dump()
+    json_assumpt["id"] = assumpt_in_db.id
+    return json_assumpt
