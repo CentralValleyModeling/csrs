@@ -1,4 +1,5 @@
 import logging
+import os
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
@@ -13,7 +14,8 @@ def get_dir() -> Path:
 
 def get_logger() -> logging.Logger:
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.DEBUG)
+    level = int(os.environ.get("log-level", logging.INFO))
+    logger.setLevel(level)
     handler = TimedRotatingFileHandler(
         get_dir() / "debug.log",
         when="d",
