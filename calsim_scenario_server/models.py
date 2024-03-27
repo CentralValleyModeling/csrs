@@ -61,6 +61,7 @@ class Path(Base):
     __tablename__ = "paths"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String)
     path = mapped_column(String)
     category = mapped_column(String)
     detail = mapped_column(String, nullable=False)
@@ -91,7 +92,6 @@ class TimeSeriesValue(Base):
 
 class MetricValue(Base):
     __tablename__ = "metric_values"
-
     path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
     metric_id = mapped_column(ForeignKey("metrics.id"), primary_key=True)
