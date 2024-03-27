@@ -11,7 +11,7 @@ class ScenarioFullMetadata(BaseModel):
     tucp: AssumptionDetails
     dcp: AssumptionDetails
     va: AssumptionDetails
-    sod: AssumptionDetails
+    south_of_delta: AssumptionDetails
 
 
 class ScenarioIdMetadata(BaseModel):
@@ -22,7 +22,7 @@ class ScenarioIdMetadata(BaseModel):
     tucp_id: int
     dcp_id: int
     va_id: int
-    sod_id: int
+    south_of_delta_id: int
 
 
 class ScenarioShortMetadata(BaseModel):
