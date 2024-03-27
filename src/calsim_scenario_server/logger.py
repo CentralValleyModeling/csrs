@@ -8,6 +8,8 @@ def get_dir() -> Path:
     if here.name == "src":
         here = here.parent
 
+    return here
+
 
 def get_logger() -> logging.Logger:
     logger = logging.getLogger(__name__)
