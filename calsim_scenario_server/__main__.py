@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
 from . import __version__
-from .routes import assumptions, forms, paths, runs, scenarios, timeseries
+from .routes import assumptions, forms, paths, runs, scenarios, timeseries, timesteps
 
 TITLE = "CalSim-Results Server"
 SUMMARY = "A FastAPI app to serve CalSim3 model results and metadata."
@@ -37,6 +37,7 @@ app.include_router(paths.router)
 app.include_router(runs.router)
 app.include_router(assumptions.router)
 app.include_router(timeseries.router)
+app.include_router(timesteps.router)
 if ENABLE_FORMS:
     app.include_router(forms.router)
 
