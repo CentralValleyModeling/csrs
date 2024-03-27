@@ -1,9 +1,9 @@
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-handler = RotatingFileHandler("debug.log", maxBytes=10_000, backupCount=1)
+handler = TimedRotatingFileHandler("debug.log", when="d", backupCount=7)
 formatter = logging.Formatter(
     "%(asctime)s "
     + "[%(levelname)s] "
