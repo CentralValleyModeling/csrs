@@ -9,4 +9,8 @@ class TimeSeriesValueModel(BaseModel):
 
 
 class TimeSeriesBlockModel(BaseModel):
-    data: list[TimeSeriesValueModel]
+    count: int
+    run_ids: list[int]
+    path_ids: list[int]
+    timestep_ids: list[int]
+    values: list[float]
