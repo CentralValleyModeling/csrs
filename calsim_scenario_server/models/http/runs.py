@@ -4,9 +4,9 @@ from .scenarios import ScenarioShortMetadata
 
 
 class RunShortMetadata(BaseModel):
+    id: int
     name: str
     version: str
-    detail: str
 
 
 class RunFullMetadata(BaseModel):
@@ -22,6 +22,7 @@ class RunFullMetadata(BaseModel):
 
 
 class RunSubmission(BaseModel):
+    id: int = None
     name: str
     scenario_id: int
     version: str
