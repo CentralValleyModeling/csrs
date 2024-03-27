@@ -11,13 +11,13 @@ TimeSeriesValues────────┴──────────┤    
     MetricValues───────────────────┴──────────┘
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class AssumptionIn(BaseModel):
     name: str
     detail: str
-    additional_metadata: dict
+    additional_metadata: dict = Field(default_factory=dict)
 
 
 class AssumptionOut(AssumptionIn):
