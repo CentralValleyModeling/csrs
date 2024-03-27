@@ -3,8 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.http.assumptions import AssumptionDetails, AssumptionSummary
-from ..models.sql import (
+from ..models import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
     AssumptionLandUse,
@@ -13,6 +12,7 @@ from ..models.sql import (
     AssumptionTUCP,
     AssumptionVoluntaryAgreements,
 )
+from ..schemas import AssumptionIn, AssumptionOut
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
@@ -27,7 +27,7 @@ assumption_tables = {
 }
 
 
-@router.get("/", response_model=list[AssumptionSummary])
+@router.get("/", response_model=list[AssumptionOut])
 async def get_size_of_assumption_tables(db: Session = Depends(get_db)):
     logger.info("getting the shape of assumption tables")
     assumption_count = [
@@ -57,10 +57,10 @@ async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
     return [a for a in assumptions]
 
 
-@router.put("/{assumption_type}")
+@router.put("/{assumption_type}", response_model=AssumptionOut)
 async def put_assumption(
     assumption_type: str,
-    assumption: AssumptionDetails,
+    assumption: AssumptionIn,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{assumption_type=}, {assumption=}")
