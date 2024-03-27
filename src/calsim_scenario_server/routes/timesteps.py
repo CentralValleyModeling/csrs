@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.http.timesteps import TimeStepsModel
-from ..models.sql import TimeStep
+from ..models import TimeStep
+from ..schemas import TimeStepIn, TimeStepOut
 
 router = APIRouter(prefix="/timesteps", tags=["Timesteps"])
 
 
-@router.get("")
+@router.get("", response_model=list[TimeStepOut])
 async def get_timesteps(db: Session = Depends(get_db)):
     logger.info("getting all runs")
     time_steps = db.query(TimeStep).all()
@@ -21,9 +21,9 @@ async def get_timesteps(db: Session = Depends(get_db)):
     return time_steps
 
 
-@router.put("")
+@router.put("", response_model=TimeStepOut)
 async def put_timesteps(
-    time_step: TimeStepsModel,
+    time_step: TimeStepIn,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{time_step=}")

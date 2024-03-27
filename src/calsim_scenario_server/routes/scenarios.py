@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.http.scenarios import ScenarioIdMetadata
-from ..models.sql import Scenario
+from ..models import Scenario
+from ..schemas import ScenarioIn, ScenarioOut
 
 router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
 
-@router.get("/")
+@router.get("/", response_model=list[ScenarioOut])
 async def get_names(db: Session = Depends(get_db)):
     logger.info("getting all scenarios metadata")
     scenarios = db.query(Scenario).all()
@@ -30,9 +30,9 @@ async def get_one_scenario(scenario_id: int, db: Session = Depends(get_db)):
     return scenario
 
 
-@router.put("/")
+@router.put("/", response_model=ScenarioOut)
 async def put_scenario(
-    scenario: ScenarioIdMetadata,
+    scenario: ScenarioIn,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{scenario=}")

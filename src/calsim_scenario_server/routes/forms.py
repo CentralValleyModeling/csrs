@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.sql import (
+from ..models import (
     AssumptionDeltaConveyanceProject,
     AssumptionHydrology,
     AssumptionLandUse,

@@ -3,13 +3,13 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.http.timeseries import TimeSeriesBlockModel, TimeSeriesValueModel
-from ..models.sql import Path, Run, TimeSeriesValue, TimeStep
+from ..models import Path, Run, TimeSeriesValue, TimeStep
+from ..schemas import TimeSeriesIn, TimeSeriesOut
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 
 
-@router.get("", response_model=list[TimeSeriesValueModel])
+@router.get("", response_model=list[TimeSeriesOut])
 async def get_timeseries(
     run_id: int = None,
     path_id: int = None,
@@ -50,9 +50,9 @@ async def get_timeseries(
     return timeseries
 
 
-@router.put("")
+@router.put("", response_model=TimeSeriesOut)
 async def put_timeseries(
-    ts_block: TimeSeriesBlockModel,
+    ts_block: TimeSeriesIn,
     db: Session = Depends(get_db),
 ):
     logger.info(f"adding {ts_block.count} rows")

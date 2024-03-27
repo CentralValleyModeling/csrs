@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models.http.runs import RunFullMetadata, RunShortMetadata, RunSubmission
-from ..models.sql import Run, RunMetadata, Scenario
+from ..models import Run, RunMetadata, Scenario
+from ..schemas import RunIn, RunOut
 
 router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
@@ -20,21 +20,20 @@ def assert_scenario_exists(s_id: int | None, db: Session):
             )
 
 
-@router.get("/", response_model=list[RunShortMetadata])
+@router.get("/", response_model=list[RunOut])
 async def get_all_runs(db: Session = Depends(get_db)):
     logger.info("getting all runs")
     runs_table = db.query(Run).all()
     if runs_table is None:
         raise HTTPException(status_code=404, detail="Runs not found")
-    runs = [
-        RunShortMetadata(id=r.id, name=r.name, version=r.version) for r in runs_table
-    ]
+    # TODO: this will fail
+    runs = [RunOut(id=r.id, name=r.name, version=r.version) for r in runs_table]
     logger.info(f"{runs=}")
 
     return runs
 
 
-@router.get("/{run_id}", response_model=RunFullMetadata)
+@router.get("/{run_id}", response_model=RunOut)
 async def get_run(run_id: int, db: Session = Depends(get_db)):
     # TODO, this query will probably not work without changing column names
     run = (
@@ -48,22 +47,16 @@ async def get_run(run_id: int, db: Session = Depends(get_db)):
     if run is None:
         raise HTTPException(status_code=404, detail="Runs not found")
     logger.info(f"{run=}")
-
-    return RunFullMetadata(
+    # TODO: this will fail
+    return RunOut(
         name=run.name,
         version=run.version,
-        predecessor_run=run.predecessor_run,
-        contact=run.contact,
-        confidential=run.confidential,
-        published=run.published,
-        code_version=run.code_version,
-        detail=run.detail,
         scenario=run.scenario,
     )
 
 
-@router.put("/", response_model=RunSubmission)
-async def put_run(run_data: RunSubmission, db: Session = Depends(get_db)):
+@router.put("/", response_model=RunOut)
+async def put_run(run_data: RunIn, db: Session = Depends(get_db)):
     logger.info(run_data)
     try:
         assert_scenario_exists(run_data.scenario_id, db)

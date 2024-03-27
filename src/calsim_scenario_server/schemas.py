@@ -44,11 +44,11 @@ class PathOut(PathIn):
     id: int = None
 
 
-class TimestepIn(BaseModel):
+class TimeStepIn(BaseModel):
     datetime_str: str
 
 
-class TimestepOut(TimestepIn):
+class TimeStepOut(TimeStepIn):
     id: int
 
 
@@ -81,7 +81,7 @@ class TimeSeriesOut(BaseModel):
     id: int
     path: PathOut
     run: RunOut
-    timesteps: list[TimestepOut]
+    timesteps: list[TimeStepOut]
     values: list[float]
 
 
