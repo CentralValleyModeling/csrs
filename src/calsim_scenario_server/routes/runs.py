@@ -26,7 +26,7 @@ async def get_all_runs(db: Session = Depends(get_db)):
     runs_table = db.query(Run).all()
     if runs_table is None:
         raise HTTPException(status_code=404, detail="Runs not found")
-    # TODO: this will fail
+    # FIXME: this will fail
     runs = [RunOut(id=r.id, name=r.name, version=r.version) for r in runs_table]
     logger.info(f"{runs=}")
 
@@ -35,7 +35,7 @@ async def get_all_runs(db: Session = Depends(get_db)):
 
 @router.get("/{run_id}", response_model=RunOut)
 async def get_run(run_id: int, db: Session = Depends(get_db)):
-    # TODO, this query will probably not work without changing column names
+    # FIXME, this query will probably not work without changing column names
     run = (
         db.query(Run)
         .filter(Run.id == run_id)
@@ -47,7 +47,7 @@ async def get_run(run_id: int, db: Session = Depends(get_db)):
     if run is None:
         raise HTTPException(status_code=404, detail="Runs not found")
     logger.info(f"{run=}")
-    # TODO: this will fail
+    # FIXME: this will fail
     return RunOut(
         name=run.name,
         version=run.version,
