@@ -11,18 +11,14 @@ from ..models import (
     AssumptionSouthOfDeltaStorage,
     AssumptionTUCP,
     AssumptionVoluntaryAgreements,
+    Base,
 )
 from ..schemas import AssumptionIn, AssumptionOut
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 
-class AssumptionTable:
-    name: str
-    detail: str
-
-
-assumption_tables: dict[str, AssumptionTable] = {
+assumption_tables: dict[str, Base] = {
     "hydrology": AssumptionHydrology,
     "sea_level_rise": AssumptionSeaLevelRise,
     "land_use": AssumptionLandUse,
