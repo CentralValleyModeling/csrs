@@ -1,10 +1,11 @@
 from sqlalchemy import Boolean, Float, ForeignKey, ForeignKeyConstraint, Integer, String
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
+
 # Create a base class for our ORM models
-Base: DeclarativeMeta = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 
 # Define ORM models for each table
