@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 
 class AssumptionIn(BaseModel):
     name: str
-    detail: str
+    detail: str = Field(default=None)
     additional_metadata: dict = Field(default_factory=dict)
 
 
@@ -26,7 +26,7 @@ class AssumptionOut(AssumptionIn):
 
 class ScenarioIn(BaseModel):
     name: str
-    assumptions_used: list[AssumptionIn]
+    assumptions_used: dict[str, AssumptionIn] = Field(default_factory=dict)
 
 
 class ScenarioOut(ScenarioIn):
