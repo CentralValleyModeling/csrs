@@ -16,7 +16,13 @@ from ..schemas import AssumptionIn, AssumptionOut
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
-assumption_tables = {
+
+class AssumptionTable:
+    name: str
+    detail: str
+
+
+assumption_tables: dict[str, AssumptionTable] = {
     "hydrology": AssumptionHydrology,
     "sea_level_rise": AssumptionSeaLevelRise,
     "land_use": AssumptionLandUse,
@@ -25,6 +31,24 @@ assumption_tables = {
     "va": AssumptionVoluntaryAgreements,
     "south_of_delta": AssumptionSouthOfDeltaStorage,
 }
+
+
+@router.get("/", response_model=dict[str, AssumptionIn])
+async def get_assumption_types():
+    logger.info("reporting schemas for assumption tables")
+    schemas = dict()
+    for table_name, model in assumption_tables.items():
+        add_meta = {
+            c.name: c.type.python_type.__name__
+            for c in model.__table__.columns
+            if c.name not in ("name", "detail", "id")
+        }
+        schemas[table_name] = {
+            "name": "str",
+            "detail": "str",
+            "additional_metadata": add_meta,
+        }
+    return schemas
 
 
 @router.get("/{assumption_type}")
