@@ -21,7 +21,7 @@ def get_db_dir() -> Path:
         loc = loc.parent
     if not loc.exists():
         loc.mkdir()
-    logger.info(f"database directory={loc}")
+    logger.debug(f"database directory={loc}")
     return loc
 
 
