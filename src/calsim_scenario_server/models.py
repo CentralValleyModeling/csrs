@@ -111,6 +111,7 @@ class AssumptionLandUse(Base):
     __tablename__ = "land_use"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True)
     future_year = mapped_column(Integer, nullable=False)
 
@@ -119,6 +120,7 @@ class AssumptionSeaLevelRise(Base):
     __tablename__ = "sea_level_rise"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
     centimeters = mapped_column(Float, nullable=False)
 
@@ -127,6 +129,7 @@ class AssumptionHydrology(Base):
     __tablename__ = "hydrology"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
 
 
@@ -134,6 +137,7 @@ class AssumptionTUCP(Base):
     __tablename__ = "tucp"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
 
 
@@ -141,6 +145,7 @@ class AssumptionDeltaConveyanceProject(Base):
     __tablename__ = "dcp"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
 
 
@@ -148,6 +153,7 @@ class AssumptionVoluntaryAgreements(Base):
     __tablename__ = "va"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
 
 
@@ -155,4 +161,5 @@ class AssumptionSouthOfDeltaStorage(Base):
     __tablename__ = "sod"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
     detail = mapped_column(String, unique=True, nullable=False)
