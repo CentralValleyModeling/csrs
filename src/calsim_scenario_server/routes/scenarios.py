@@ -5,6 +5,7 @@ from ..database import get_db
 from ..logger import logger
 from ..models import Scenario
 from ..schemas import ScenarioIn, ScenarioOut
+from .assumptions import assumption_tables
 
 router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
@@ -37,7 +38,13 @@ async def put_scenario(
 ):
     logger.info(f"{scenario=}")
     try:
-        new = Scenario(**scenario.model_dump())
+        kwargs = {
+            k: v
+            for k, v in scenario.model_dump().items()
+            if k not in ("assumptions_used")
+        }
+        # FIXME: The user gives the assumption objects
+        new = Scenario(**kwargs)
         db.add(new)
         db.commit()
         db.refresh(new)
