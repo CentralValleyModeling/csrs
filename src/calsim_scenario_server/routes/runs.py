@@ -22,9 +22,13 @@ def assert_scenario_exists(s_id: int | None, db: Session):
 
 
 @router.get("", response_model=list[RunReference])
-async def get_all_runs(db: Session = Depends(get_db)):
+async def get_all_runs(
+    id: int = None,
+    name: str = None,
+    db: Session = Depends(get_db),
+):
     logger.info("getting all runs")
-    runs = crud.runs.read(db)
+    runs = crud.runs.read(db, id=id, name=name)
     logger.info(f"{runs=}")
 
     return runs
