@@ -1,15 +1,14 @@
-# South of Delta Storage
-def create_south_of_delta_storage():
+def create():
     raise NotImplementedError()
 
 
-def read_south_of_delta_storage():
+def read():
     raise NotImplementedError()
 
 
-def update_south_of_delta_storage():
+def update():
     raise NotImplementedError()
 
 
-def delete_south_of_delta_storage():
+def delete():
     raise NotImplementedError()

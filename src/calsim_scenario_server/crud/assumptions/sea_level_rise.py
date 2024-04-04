@@ -1,15 +1,14 @@
-# Sea Level Rise
-def create_sea_level_rise():
+def create():
     raise NotImplementedError()
 
 
-def read_sea_level_rise():
+def read():
     raise NotImplementedError()
 
 
-def update_sea_level_rise():
+def update():
     raise NotImplementedError()
 
 
-def delete_sea_level_rise():
+def delete():
     raise NotImplementedError()

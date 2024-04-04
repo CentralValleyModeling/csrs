@@ -1,15 +1,14 @@
-# Delta Conveyance Project
-def create_delta_conveyance_project():
+def create():
     raise NotImplementedError()
 
 
-def read_delta_conveyance_project():
+def read():
     raise NotImplementedError()
 
 
-def update_delta_conveyance_project():
+def update():
     raise NotImplementedError()
 
 
-def delete_delta_conveyance_project():
+def delete():
     raise NotImplementedError()

@@ -1,15 +1,14 @@
-# Voluntary Agreements
-def create_voluntary_agreements():
+def create():
     raise NotImplementedError()
 
 
-def read_voluntary_agreements():
+def read():
     raise NotImplementedError()
 
 
-def update_voluntary_agreements():
+def update():
     raise NotImplementedError()
 
 
-def delete_voluntary_agreements():
+def delete():
     raise NotImplementedError()

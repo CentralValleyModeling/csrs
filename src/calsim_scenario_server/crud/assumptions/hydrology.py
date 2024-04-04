@@ -1,15 +1,14 @@
-# Hydrology
-def create_hydrology():
+def create():
     raise NotImplementedError()
 
 
-def read_hydrology():
+def read():
     raise NotImplementedError()
 
 
-def update_hydrology():
+def update():
     raise NotImplementedError()
 
 
-def delete_hydrology():
+def delete():
     raise NotImplementedError()

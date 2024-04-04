@@ -1,15 +1,14 @@
-# TUCP
-def create_tucp():
+def create():
     raise NotImplementedError()
 
 
-def read_tucp():
+def read():
     raise NotImplementedError()
 
 
-def update_tucp():
+def update():
     raise NotImplementedError()
 
 
-def delete_tucp():
+def delete():
     raise NotImplementedError()

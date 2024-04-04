@@ -1,15 +1,14 @@
-# Land Use
-def create_land_use():
+def create():
     raise NotImplementedError()
 
 
-def read_land_use():
+def read():
     raise NotImplementedError()
 
 
-def update_land_use():
+def update():
     raise NotImplementedError()
 
 
-def delete_land_use():
+def delete():
     raise NotImplementedError()
