@@ -1,93 +1,81 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
+from .. import crud
 from ..database import get_db
 from ..logger import logger
-from ..models import (
-    AssumptionDeltaConveyanceProject,
-    AssumptionHydrology,
-    AssumptionLandUse,
-    AssumptionSeaLevelRise,
-    AssumptionSouthOfDeltaStorage,
-    AssumptionTUCP,
-    AssumptionVoluntaryAgreements,
-    Base,
-)
 from ..schemas import AssumptionIn, AssumptionOut
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
+TableNames = crud.assumptions.TableNames
 
 
-assumption_tables: dict[str, Base] = {
-    "hydrology": AssumptionHydrology,
-    "sea_level_rise": AssumptionSeaLevelRise,
-    "land_use": AssumptionLandUse,
-    "tucp": AssumptionTUCP,
-    "dcp": AssumptionDeltaConveyanceProject,
-    "va": AssumptionVoluntaryAgreements,
-    "south_of_delta": AssumptionSouthOfDeltaStorage,
-}
+def get_additional_metatada_from_model(model) -> dict:
+    attrs = model.__table__.columns.keys()
+    return {
+        attr: getattr(model, attr)
+        for attr in attrs
+        if attr not in ("id", "name", "detail")
+    }
 
 
-@router.get("/", response_model=dict[str, AssumptionIn])
-async def get_assumption_types():
-    logger.info("reporting schemas for assumption tables")
-    schemas = dict()
-    for table_name, model in assumption_tables.items():
-        add_meta = {
-            c.name: c.type.python_type.__name__
-            for c in model.__table__.columns
-            if c.name not in ("name", "detail", "id")
-        }
-        schemas[table_name] = {
-            "name": "str",
-            "detail": "str",
-            "additional_metadata": add_meta,
-        }
-    return schemas
+def build_reposne_from_model(model) -> AssumptionOut:
+    additional_metadata = get_additional_metatada_from_model(model)
+    return AssumptionOut(
+        name=model.name,
+        detail=model.detail,
+        id=model.id,
+        additional_metadata=additional_metadata,
+    )
 
 
-@router.get("/{assumption_type}")
-async def get_assumption(assumption_type: str, db: Session = Depends(get_db)):
+def verify_assumption_type(assumption_type: str):
+    if assumption_type not in TableNames:
+        logger.error(f"invalid assumption type given: {assumption_type=}")
+        raise HTTPException(
+            status_code=400,
+            detail=f"{assumption_type} not a recognized assumption table name, "
+            + "the following names are recognized:"
+            + "\n".join(map(str, list(TableNames))),
+        )
+
+
+@router.get("/{assumption_type}", response_model=list[AssumptionOut])
+async def get_assumption(
+    assumption_type: str,
+    id: int = None,
+    name: str = None,
+    db: Session = Depends(get_db),
+):
     logger.info(f"{assumption_type=}")
-    if assumption_type not in assumption_tables:
-        raise HTTPException(status_code=404, detail="Assumption table not in schema")
-    tbl = assumption_tables[assumption_type]
-    assumptions = db.query(tbl).all()
+    verify_assumption_type(assumption_type)
+    module = TableNames[assumption_type].value
+    models = module.read(db, id=id, name=name)
 
-    if assumptions is None:
-        logger.error(f"no table found for {assumption_type=}")
-        raise HTTPException(status_code=404, detail="No assumptions in table")
-    logger.debug(assumptions)
-    return [a for a in assumptions]
+    return [build_reposne_from_model(m) for m in models]
 
 
-@router.put("/{assumption_type}", response_model=AssumptionOut)
+@router.put(
+    "/{assumption_type}",
+    response_model=AssumptionOut,
+    responses={
+        200: {"detail": "assumption added"},
+        400: {"detail": "assumption not added"},
+    },
+)
 async def put_assumption(
     assumption_type: str,
     assumption: AssumptionIn,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{assumption_type=}, {assumption=}")
-    if assumption_type not in assumption_tables:
-        raise HTTPException(status_code=404, detail="Assumption table not in schema")
-    try:
-        tbl = assumption_tables[assumption_type]
-        assumpt_in_db = db.query(tbl.id).filter(tbl.detail == assumption.detail).first()
-        if assumpt_in_db is not None:
-            logger.info("assumption already exists")
-        else:
-            kwargs = assumption.additional_metadata
-            logger.info(f"detail={assumption.detail}, {kwargs=}")
-            assumpt_in_db = tbl(detail=assumption.detail, **kwargs)
-            db.add(assumpt_in_db)
-            db.commit()
-            db.refresh(assumpt_in_db)
+    verify_assumption_type(assumption_type)
 
-    except Exception as e:
-        db.rollback()
-        logger.error(e)
-        raise HTTPException(status_code=500, detail=str(e))
-    json_assumpt = assumption.model_dump()
-    json_assumpt["id"] = assumpt_in_db.id
-    return json_assumpt
+    module = TableNames[assumption_type].value
+    model = module.create(
+        name=assumption.name,
+        detail=assumption.detail,
+        db=db,
+        **assumption.additional_metadata,
+    )
+    return build_reposne_from_model(model)

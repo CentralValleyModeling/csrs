@@ -5,7 +5,6 @@ from ..database import get_db
 from ..logger import logger
 from ..models import Scenario
 from ..schemas import ScenarioIn, ScenarioOut
-from .assumptions import assumption_tables
 
 router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
@@ -52,6 +51,6 @@ async def put_scenario(
     except Exception as e:
         db.rollback()
         logger.error(e)
-        raise HTTPException(status_code=500, detail=str(e))
+        raise e
 
     return new
