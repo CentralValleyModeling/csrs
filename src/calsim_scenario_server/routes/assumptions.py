@@ -51,7 +51,9 @@ async def get_assumption(
     verify_assumption_type(assumption_type)
     module = TableNames[assumption_type].value
     models = module.read(db, id=id, name=name)
-
+    logger.info(f"{len(models)} assumptions found")
+    for m in models:
+        logger.debug(f"{m.name=}, {m.detail=}")
     return [build_reposne_from_model(m) for m in models]
 
 
