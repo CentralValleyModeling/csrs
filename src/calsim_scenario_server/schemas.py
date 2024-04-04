@@ -24,9 +24,14 @@ class AssumptionOut(AssumptionIn):
     id: int
 
 
+class AssumptionReference(BaseModel):
+    name: str = None
+    id: int = None
+
+
 class ScenarioIn(BaseModel):
     name: str
-    assumptions_used: dict[str, AssumptionIn] = Field(default_factory=dict)
+    assumptions_used: dict[str, AssumptionReference] = Field(default_factory=dict)
 
 
 class ScenarioOut(ScenarioIn):
