@@ -48,7 +48,7 @@ async def get_scenario(
     return [build_response_from_model(db, m) for m in models]
 
 
-@router.put("/", response_model=ScenarioOut)
+@router.put("", response_model=ScenarioOut)
 async def put_scenario(
     scenario: ScenarioIn,
     db: Session = Depends(get_db),
