@@ -1,15 +1,14 @@
-# Metrics
-def create_metric():
+def create():
     raise NotImplementedError()
 
 
-def read_metric():
+def read():
     raise NotImplementedError()
 
 
-def update_metric():
+def update():
     raise NotImplementedError()
 
 
-def delete_metric():
+def delete():
     raise NotImplementedError()

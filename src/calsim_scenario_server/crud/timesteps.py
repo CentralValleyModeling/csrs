@@ -1,15 +1,14 @@
-# Timesteps
-def create_timestep():
+def create():
     raise NotImplementedError()
 
 
-def read_timestep():
+def read():
     raise NotImplementedError()
 
 
-def update_timestep():
+def update():
     raise NotImplementedError()
 
 
-def delete_timestep():
+def delete():
     raise NotImplementedError()

@@ -1,15 +1,14 @@
-# TimeSeriesValues
-def create_timeseries_value():
+def create():
     raise NotImplementedError()
 
 
-def read_timeseries_value():
+def read():
     raise NotImplementedError()
 
 
-def update_timeseries_value():
+def update():
     raise NotImplementedError()
 
 
-def delete_timeseries_value():
+def delete():
     raise NotImplementedError()

@@ -1,15 +1,14 @@
-# Scenarios
-def create_scenario():
+def create():
     raise NotImplementedError()
 
 
-def read_scenario():
+def read():
     raise NotImplementedError()
 
 
-def update_scenario():
+def update():
     raise NotImplementedError()
 
 
-def delete_scenario():
+def delete():
     raise NotImplementedError()

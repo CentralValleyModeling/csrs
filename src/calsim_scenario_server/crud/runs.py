@@ -1,15 +1,14 @@
-# Runs
-def create_run():
+def create():
     raise NotImplementedError()
 
 
-def read_run():
+def read():
     raise NotImplementedError()
 
 
-def update_run():
+def update():
     raise NotImplementedError()
 
 
-def delete_run():
+def delete():
     raise NotImplementedError()

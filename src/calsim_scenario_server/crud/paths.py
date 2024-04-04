@@ -1,15 +1,14 @@
-# Paths
-def create_path():
+def create():
     raise NotImplementedError()
 
 
-def read_path():
+def read():
     raise NotImplementedError()
 
 
-def update_path():
+def update():
     raise NotImplementedError()
 
 
-def delete_path():
+def delete():
     raise NotImplementedError()
