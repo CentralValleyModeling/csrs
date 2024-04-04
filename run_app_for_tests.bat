@@ -1,5 +1,5 @@
 SETLOCAL
-    CALL conda activate dev_calsim_scenario_server
+    CALL activate dev_calsim_scenario_server
     SET database-name=test.sqlite
     SET database-dir=.\tests\db
     SET log-level=1
