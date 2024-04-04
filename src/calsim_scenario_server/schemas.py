@@ -76,6 +76,7 @@ class RunOut(RunIn):
 
 
 class RunReference(BaseModel):
+    id: int
     name: str
     scenario_id: int
     version: str
