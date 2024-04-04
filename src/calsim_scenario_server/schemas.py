@@ -65,7 +65,7 @@ class RunIn(BaseModel):
     predecessor_run_name: str | None
     contact: str
     confidential: bool
-    pubished: bool
+    published: bool
     code_version: str
     detail: str
 
@@ -73,6 +73,12 @@ class RunIn(BaseModel):
 class RunOut(RunIn):
     id: int
     predecessor_run_id: int | None
+
+
+class RunReference(BaseModel):
+    name: str
+    scenario_id: int
+    version: str
 
 
 class TimeSeriesIn(BaseModel):
