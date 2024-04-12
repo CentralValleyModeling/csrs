@@ -11,53 +11,46 @@ TimeSeriesValues────────┴──────────┤    
     MetricValues───────────────────┴──────────┘
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
-class AssumptionIn(BaseModel):
+class Foo(BaseModel):
+    bar: str
+
+
+class Assumption(BaseModel):
+    id: int | None = None
     name: str
-    detail: str = Field(default=None)
-    additional_metadata: dict = Field(default_factory=dict)
+    kind: str
+    detail: str
 
 
-class AssumptionOut(AssumptionIn):
-    id: int
-
-
-class AssumptionReference(BaseModel):
-    name: str = None
-    id: int = None
-
-
-class ScenarioIn(BaseModel):
+class Scenario(BaseModel):
+    id: int | None = None
     name: str
-    assumptions_used: dict[str, AssumptionReference] = Field(default_factory=dict)
+    land_use: str
+    sea_level_rise: str
+    hydrology: str
+    tucp: str
+    dcp: str
+    va: str
+    south_of_delta: str
 
 
-class ScenarioOut(ScenarioIn):
-    id: int
-
-
-class PathIn(BaseModel):
+class NamedPath(BaseModel):
+    id: int | None = None
     name: str
     path: str
     category: str
     detail: str
 
 
-class PathOut(PathIn):
-    id: int = None
-
-
-class TimeStepIn(BaseModel):
+class Timestep(BaseModel):
+    id: int | None = None
     datetime_str: str
 
 
-class TimeStepOut(TimeStepIn):
-    id: int
-
-
-class RunIn(BaseModel):
+class Run(BaseModel):
     name: str
     scenario_id: int
     version: str
@@ -70,7 +63,7 @@ class RunIn(BaseModel):
     detail: str
 
 
-class RunOut(RunIn):
+class RunOut(Run):
     id: int
     predecessor_run_id: int | None
 
@@ -91,9 +84,9 @@ class TimeSeriesIn(BaseModel):
 
 class TimeSeriesOut(BaseModel):
     id: int
-    path: PathOut
+    path: NamedPath
     run: RunOut
-    timesteps: list[TimeStepOut]
+    timesteps: list[Timestep]
     values: list[float]
 
 
@@ -118,7 +111,7 @@ class MetricValueIn(BaseModel):
 class MetricValueOut(BaseModel):
     id: int
     run: RunOut
-    path: PathOut
+    path: NamedPath
     metric: MetricOut
     indexes: list[int]
     values: list[float]

@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Float, ForeignKey, ForeignKeyConstraint, Integer, String
+from sqlalchemy import Boolean, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
@@ -9,7 +9,7 @@ class Base(DeclarativeBase):
 
 
 # Define ORM models for each table
-class Run(Base):
+class RunModel(Base):
     __tablename__ = "runs"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
@@ -17,12 +17,12 @@ class Run(Base):
     scenario_id = mapped_column(ForeignKey("scenarios.id"))
     version = mapped_column(String, nullable=False)
 
-    scenario: Mapped["Scenario"] = relationship(back_populates="runs")
+    scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
 
     __table_args__ = (UniqueConstraint("name", "version", name="unique_purpose"),)
 
 
-class RunMetadata(Base):
+class RunMetadataModel(Base):
     __tablename__ = "run_metadata"
 
     run_id = mapped_column(
@@ -31,56 +31,60 @@ class RunMetadata(Base):
         index=True,
         autoincrement=True,
     )
-    predecessor_run_id = mapped_column(Integer, nullable=True)
+    predecessor_run_id = mapped_column(ForeignKey("runs.id"), nullable=True)
     contact = mapped_column(String, nullable=False)
     confidential = mapped_column(Boolean, nullable=False)
     published = mapped_column(Boolean, nullable=False)
     code_version = mapped_column(String, nullable=False)
     detail = mapped_column(String, nullable=False)
 
-    __table_args__ = (
-        ForeignKeyConstraint(["run_id"], ["runs.id"]),
-        ForeignKeyConstraint(["predecessor_run_id"], ["runs.id"]),
-    )
 
-
-class Scenario(Base):
+class ScenarioModel(Base):
     __tablename__ = "scenarios"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String, nullable=False, unique=True)
-    land_use_id = mapped_column(ForeignKey("land_use.id"), nullable=False)
-    sea_level_rise_id = mapped_column(ForeignKey("sea_level_rise.id"), nullable=False)
-    hydrology_id = mapped_column(ForeignKey("hydrology.id"), nullable=False)
-    tucp_id = mapped_column(ForeignKey("tucp.id"), nullable=False)
-    dcp_id = mapped_column(ForeignKey("dcp.id"), nullable=False)
-    va_id = mapped_column(ForeignKey("va.id"), nullable=False)
-    south_of_delta_id = mapped_column(ForeignKey("sod.id"), nullable=False)
+    land_use = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    sea_level_rise = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    hydrology = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    tucp = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    dcp = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    va = mapped_column(ForeignKey("assumptions.name"), nullable=False)
+    south_of_delta = mapped_column(ForeignKey("assumptions.name"), nullable=False)
 
-    runs: Mapped[list["Run"]] = relationship(back_populates="scenario")
+    runs: Mapped[list["RunModel"]] = relationship(back_populates="scenario")
 
 
-class Path(Base):
+class NamedPathModel(Base):
     __tablename__ = "paths"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String)
     path = mapped_column(String)
     category = mapped_column(String)
+    units = mapped_column(ForeignKey("units.name"))
     detail = mapped_column(String, nullable=False)
 
     __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
 
 
-class Metric(Base):
+class UnitModel(Base):
+    __tablename__ = "units"
+
+    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = mapped_column(String, unique=True)
+
+
+class MetricModel(Base):
     __tablename__ = "metrics"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     index_detail = mapped_column(String, nullable=False)
+    units = mapped_column(ForeignKey("units.name"))
     detail = mapped_column(String, nullable=False)
 
 
-class TimeSeriesValue(Base):
+class TimeseriesValueModel(Base):
     __tablename__ = "time_series_values"
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     run_id = mapped_column(ForeignKey("runs.id"))
@@ -93,7 +97,7 @@ class TimeSeriesValue(Base):
     )
 
 
-class MetricValue(Base):
+class MetricValueModel(Base):
     __tablename__ = "metric_values"
     path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
@@ -102,66 +106,22 @@ class MetricValue(Base):
     value = mapped_column(Float, nullable=False)
 
 
-class TimeStep(Base):
+class TimestepModel(Base):
     __tablename__ = "timesteps"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     datetime_str = mapped_column(String, nullable=False, unique=True)
 
 
-class AssumptionLandUse(Base):
-    __tablename__ = "land_use"
+class AssumptionModel(Base):
+    __tablename__ = "assumptions"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True)
-    future_year = mapped_column(Integer, nullable=False)
+    name = mapped_column(String, nullable=False)
+    kind = mapped_column(String, nullable=False)
+    detail = mapped_column(String)
 
-
-class AssumptionSeaLevelRise(Base):
-    __tablename__ = "sea_level_rise"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
-    centimeters = mapped_column(Float, nullable=False)
-
-
-class AssumptionHydrology(Base):
-    __tablename__ = "hydrology"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
-
-
-class AssumptionTUCP(Base):
-    __tablename__ = "tucp"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
-
-
-class AssumptionDeltaConveyanceProject(Base):
-    __tablename__ = "dcp"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
-
-
-class AssumptionVoluntaryAgreements(Base):
-    __tablename__ = "va"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
-
-
-class AssumptionSouthOfDeltaStorage(Base):
-    __tablename__ = "sod"
-
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True, nullable=False)
-    detail = mapped_column(String, unique=True, nullable=False)
+    __table_args__ = (
+        UniqueConstraint("name", "kind", name="unique_name"),
+        UniqueConstraint("detail", "kind", name="unique_detail"),
+    )
