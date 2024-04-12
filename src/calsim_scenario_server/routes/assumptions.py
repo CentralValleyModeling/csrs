@@ -32,7 +32,7 @@ def verify_assumption_type(assumption_type: str):
 
 @router.get("", response_model=list[str])
 async def get_assumption_table_names():
-    return sorted([c for c in Scenario.model_fields.keys() if c not in ("id", "name")])
+    return Scenario.get_assumption_names()
 
 
 @router.get("/{assumption_type}", response_model=list[Assumption])
@@ -45,7 +45,7 @@ async def get_assumption(
     logger.info(f"{assumption_type=}")
     verify_assumption_type(assumption_type)
     models = assumptions.read(db, id=id, name=name)
-    logger.info(f"{len(models)} assumptions found")
+    logger.debug(f"{len(models)} assumptions found")
     for m in models:
         logger.debug(f"{m.name=}, {m.detail=}")
     return [build_reposne_from_model(m) for m in models]

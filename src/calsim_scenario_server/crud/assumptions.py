@@ -34,14 +34,18 @@ def create(
 
 def read(
     db: Session,
+    kind: str = None,
     name: str = None,
     id: int = None,
 ) -> list[AssumptionModel]:
+    logger.debug(f"reading assumptions where {kind=}, {name=}, {id=}")
     filters = list()
     if name:
         filters.append(AssumptionModel.name == name)
     if id:
         filters.append(AssumptionModel.id == id)
+    if kind:
+        filters.append(AssumptionModel.kind == kind)
     return db.query(AssumptionModel).filter(*filters).all()
 
 

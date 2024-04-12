@@ -36,6 +36,10 @@ class Scenario(BaseModel):
     va: str
     south_of_delta: str
 
+    @classmethod
+    def get_assumption_names(cls) -> list:
+        return [a for a in cls.model_fields if a not in ("id", "name")]
+
 
 class NamedPath(BaseModel):
     id: int | None = None
