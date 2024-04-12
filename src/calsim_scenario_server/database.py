@@ -8,7 +8,6 @@ from .logger import logger
 from .models import Base
 
 DATABASE_NAME = os.environ.get("database-name", "example.sqlite")
-logger.info(f"{DATABASE_NAME=}")
 
 
 def get_db_dir() -> Path:
@@ -32,6 +31,7 @@ def get_database_url(name) -> str:
 
 
 def make_engine(database_name) -> Engine:
+    logger.info(f"{database_name=}")
     logger.debug("creating database engine")
     url = get_database_url(database_name)
     return create_engine(url)
@@ -52,15 +52,6 @@ def get_session(database_name) -> Session:
     return maker()
 
 
-def init_db():
-    db = None
-    try:
-        db = get_session(DATABASE_NAME)
-    finally:
-        if db:
-            db.close()
-
-
 # Dependency to get a database session
 def get_db():
     logger.debug("getting database connection")
@@ -70,6 +61,3 @@ def get_db():
     finally:
         db.close()
         logger.debug("closed database")
-
-
-init_db()
