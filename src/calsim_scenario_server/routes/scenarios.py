@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .. import crud
+from ..crud import assumptions
 from ..database import get_db
 from ..logger import logger
-from ..models import Scenario
-from ..schemas import ScenarioIn, ScenarioOut
+from ..models import ScenarioModel
+from ..schemas import Scenario
 from .assumptions import (
     build_reposne_from_model as build_assumption_response_from_model,
 )
@@ -13,12 +14,11 @@ from .assumptions import (
 router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
 
-def build_response_from_model(db: Session, model: Scenario) -> ScenarioOut:
-    assumptions = dict()
+def build_response_from_model(db: Session, model: ScenarioModel) -> Scenario:
+    assumptions_dict = dict()
     for attr, table_name in crud.scenarios.SCENARIO_ATTR_TO_TABLE_NAME:
         id = getattr(model, attr)
-        reader = crud.assumptions.TableNames[table_name].value
-        assumpt_models = reader.read(db, id=id)
+        assumpt_models = assumptions.read(db, id=id)
         if len(assumpt_models) != 1:
             raise HTTPException(
                 status_code=400,
@@ -26,15 +26,15 @@ def build_response_from_model(db: Session, model: Scenario) -> ScenarioOut:
                 + f"\tfound: {assumpt_models}"
                 + f"\tdetails given: {id=}",
             )
-        assumptions[attr] = build_assumption_response_from_model(
+        assumptions_dict[attr] = build_assumption_response_from_model(
             assumpt_models[0]
         ).model_dump()
 
-    logger.info(f"{assumptions=}")
-    return ScenarioOut(id=model.id, name=model.name, assumptions_used=assumptions)
+    logger.info(f"{assumptions_dict=}")
+    return Scenario(id=model.id, name=model.name, assumptions_used=assumptions_dict)
 
 
-@router.get("", response_model=list[ScenarioOut])
+@router.get("", response_model=list[Scenario])
 async def get_scenario(
     name: str = None,
     id: int = None,
@@ -48,15 +48,11 @@ async def get_scenario(
     return [build_response_from_model(db, m) for m in models]
 
 
-@router.put("", response_model=ScenarioOut)
+@router.put("", response_model=Scenario)
 async def put_scenario(
-    scenario: ScenarioIn,
+    scenario: Scenario,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"{scenario.name}, {scenario.assumptions_used=}")
-    model = crud.scenarios.create(
-        db,
-        name=scenario.name,
-        assumptions_used=scenario.assumptions_used,
-    )
+    logger.info(f"{scenario.name}")
+    model = crud.scenarios.create(db, **scenario.model_dump(exclude=("id")))
     return build_response_from_model(db, model)

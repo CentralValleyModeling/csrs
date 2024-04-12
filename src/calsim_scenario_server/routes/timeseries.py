@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import Path, Run, TimeSeriesValue, TimeStep
+from ..models import NamedPathModel, RunModel, TimeseriesValueModel, TimestepModel
 from ..schemas import TimeSeriesIn, TimeSeriesOut
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
@@ -20,20 +20,20 @@ async def get_timeseries(
     try:
         filters = list()
         if run_id is not None:
-            filters.append(Run.id == run_id)
+            filters.append(RunModel.id == run_id)
         if path_id is not None:
-            filters.append(Path.id == path_id)
+            filters.append(NamedPathModel.id == path_id)
         if category is not None:
-            filters.append(Path.category == category)
+            filters.append(NamedPathModel.category == category)
         if len(filters) == 0:
             raise HTTPException(
                 status_code=413,
                 detail="Requesting timeseries with no filters returns too much data.",
             )
         timeseries = (
-            db.query(TimeSeriesValue)
+            db.query(TimeseriesValueModel)
             .filter(*filters)
-            .join(TimeStep, TimeStep.id == TimeSeriesValue.timestep_id)
+            .join(TimestepModel, TimestepModel.id == TimeseriesValueModel.timestep_id)
             .all()
         )
         logger.info(f"returning {len(timeseries)} rows")
@@ -58,7 +58,7 @@ async def put_timeseries(
     logger.info(f"adding {ts_block.count} rows")
     try:
         ts_model = (
-            TimeSeriesValue(
+            TimeseriesValueModel(
                 run_id=ts_block.run_ids[i],
                 path_id=ts_block.path_ids[i],
                 timestep_id=ts_block.timestep_ids[i],

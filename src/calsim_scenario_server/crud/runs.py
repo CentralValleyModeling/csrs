@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from ..models import Run, RunMetadata
+from ..models import RunMetadataModel, RunModel
 from ..schemas import RunOut
 
 
@@ -16,7 +16,7 @@ def create(
     published: bool = False,
     confidential: bool = True,
     predecessor_run_name: str = None,
-) -> tuple[Run, RunMetadata]:
+) -> tuple[RunModel, RunMetadataModel]:
     if predecessor_run_name:
         predecessor_run = read(db, name=predecessor_run_name)
         if len(predecessor_run) != 1:
@@ -28,9 +28,9 @@ def create(
         predecessor_run_id = None
 
     # DB interactions
-    run = Run(name=name, scenario_id=scenario_id, version=version)
+    run = RunModel(name=name, scenario_id=scenario_id, version=version)
     db.add(run)
-    run_metadata = RunMetadata(
+    run_metadata = RunMetadataModel(
         run_id=run.id,
         predecessor_run_id=predecessor_run_id,
         contact=contact,
@@ -53,13 +53,13 @@ def read(
 ) -> list[RunOut]:
     filters = list()
     if name:
-        filters.append(Run.name == name)
+        filters.append(RunModel.name == name)
     if id:
-        filters.append(Run.id == id)
+        filters.append(RunModel.id == id)
     return (
-        db.query(Run)
+        db.query(RunModel)
         .filter(*filters)
-        .join(RunMetadata, Run.id == RunMetadata.run_id)
+        .join(RunMetadataModel, RunModel.id == RunMetadataModel.run_id)
         .all()
     )
 

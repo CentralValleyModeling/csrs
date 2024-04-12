@@ -4,15 +4,15 @@ from sqlalchemy.orm import Session
 from .. import crud
 from ..database import get_db
 from ..logger import logger
-from ..models import Scenario
-from ..schemas import RunIn, RunOut, RunReference
+from ..models import ScenarioModel
+from ..schemas import Run, RunOut, RunReference
 
 router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
 
 def assert_scenario_exists(s_id: int | None, db: Session):
     if s_id is not None:
-        s_count = db.query(Scenario).filter(Scenario.id == s_id).count()
+        s_count = db.query(ScenarioModel).filter(ScenarioModel.id == s_id).count()
         if s_count != 1:
             logger.error(f"scenario_id was not found, {s_id=}")
             raise HTTPException(
@@ -35,7 +35,7 @@ async def get_all_runs(
 
 
 @router.put("", response_model=RunOut)
-async def put_run(run_data: RunIn, db: Session = Depends(get_db)):
+async def put_run(run_data: Run, db: Session = Depends(get_db)):
     logger.info(run_data)
     r, rm = crud.runs.create(db, **run_data.model_dump())
     kwargs = run_data.model_dump()

@@ -1,51 +1,41 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from .. import crud
+from ..crud import assumptions
 from ..database import get_db
 from ..logger import logger
-from ..schemas import AssumptionIn, AssumptionOut
+from ..models import AssumptionModel
+from ..schemas import Assumption, Scenario
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
-TableNames = crud.assumptions.TableNames
 
 
-def get_additional_metatada_from_model(model) -> dict:
-    attrs = model.__table__.columns.keys()
-    return {
-        attr: getattr(model, attr)
-        for attr in attrs
-        if attr not in ("id", "name", "detail")
-    }
-
-
-def build_reposne_from_model(model) -> AssumptionOut:
-    additional_metadata = get_additional_metatada_from_model(model)
-    return AssumptionOut(
+def build_reposne_from_model(model: AssumptionModel) -> Assumption:
+    return Assumption(
         name=model.name,
+        kind=model.kind,
         detail=model.detail,
         id=model.id,
-        additional_metadata=additional_metadata,
     )
 
 
 def verify_assumption_type(assumption_type: str):
-    if assumption_type not in TableNames:
+    if assumption_type not in Scenario.model_fields:
         logger.error(f"invalid assumption type given: {assumption_type=}")
         raise HTTPException(
             status_code=400,
             detail=f"{assumption_type} not a recognized assumption table name, "
             + "the following names are recognized:"
-            + "\n".join(map(str, list(TableNames))),
+            + "\n".join(map(str, Scenario.model_fields)),
         )
 
 
 @router.get("", response_model=list[str])
 async def get_assumption_table_names():
-    return [c.name for c in TableNames]
+    return sorted([c for c in Scenario.model_fields.keys() if c not in ("id", "name")])
 
 
-@router.get("/{assumption_type}", response_model=list[AssumptionOut])
+@router.get("/{assumption_type}", response_model=list[Assumption])
 async def get_assumption(
     assumption_type: str,
     id: int = None,
@@ -54,8 +44,7 @@ async def get_assumption(
 ):
     logger.info(f"{assumption_type=}")
     verify_assumption_type(assumption_type)
-    module = TableNames[assumption_type].value
-    models = module.read(db, id=id, name=name)
+    models = assumptions.read(db, id=id, name=name)
     logger.info(f"{len(models)} assumptions found")
     for m in models:
         logger.debug(f"{m.name=}, {m.detail=}")
@@ -64,7 +53,7 @@ async def get_assumption(
 
 @router.put(
     "/{assumption_type}",
-    response_model=AssumptionOut,
+    response_model=Assumption,
     responses={
         200: {"detail": "assumption added"},
         400: {"detail": "assumption not added"},
@@ -72,17 +61,10 @@ async def get_assumption(
 )
 async def put_assumption(
     assumption_type: str,
-    assumption: AssumptionIn,
+    assumption: Assumption,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{assumption_type=}, {assumption=}")
     verify_assumption_type(assumption_type)
-
-    module = TableNames[assumption_type].value
-    model = module.create(
-        name=assumption.name,
-        detail=assumption.detail,
-        db=db,
-        **assumption.additional_metadata,
-    )
+    model = assumptions.create(db=db, **assumption.model_dump(exclude=("id")))
     return build_reposne_from_model(model)

@@ -4,26 +4,29 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import Path, Run, TimeSeriesValue
-from ..schemas import PathIn, PathOut
+from ..models import NamedPathModel, RunModel, TimeseriesValueModel
+from ..schemas import NamedPath
 
 router = APIRouter(prefix="/paths", tags=["Paths"])
 
 
-@router.get("/", response_model=list[PathOut])
+@router.get("/", response_model=list[NamedPath])
 async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
     logger.info(f"getting all paths {scenario_id=}")
     if scenario_id:
         paths = (
-            db.query(Path)
-            .join(TimeSeriesValue, TimeSeriesValue.path_id == Path.path_id)
-            .join(Run, Run.id == TimeSeriesValue.run_id)
-            .filter(Run.scenario_id == scenario_id)
+            db.query(NamedPathModel)
+            .join(
+                TimeseriesValueModel,
+                TimeseriesValueModel.path_id == NamedPathModel.path_id,
+            )
+            .join(RunModel, RunModel.id == TimeseriesValueModel.run_id)
+            .filter(RunModel.scenario_id == scenario_id)
             .distinct()  # Ensure unique paths
             .all()
         )
     else:
-        paths = db.query(Path).all()
+        paths = db.query(NamedPathModel).all()
 
     if paths is None:
         raise HTTPException(status_code=404, detail="Scenario not found")
@@ -31,12 +34,12 @@ async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
     return paths
 
 
-@router.put("/", response_model=PathOut)
-async def put_path(path_data: PathIn, db: Session = Depends(get_db)):
+@router.put("/", response_model=NamedPath)
+async def put_path(path_data: NamedPath, db: Session = Depends(get_db)):
     logger.info(f"{path_data=}")
     try:
         # Create a new Path object
-        new_path = Path(**path_data.model_dump())
+        new_path = NamedPathModel(**path_data.model_dump())
 
         # Add the new path to the database session
         db.add(new_path)
