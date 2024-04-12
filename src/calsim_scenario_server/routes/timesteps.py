@@ -26,7 +26,7 @@ async def put_timesteps(
     time_step: Timestep,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"{time_step=}")
+    logger.debug(f"{time_step=}")
     try:
         time_step = TimestepModel(**time_step.model_dump())
         db.add(time_step)

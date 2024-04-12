@@ -31,7 +31,7 @@ def get_database_url(name) -> str:
 
 
 def make_engine(database_name) -> Engine:
-    logger.info(f"{database_name=}")
+    logger.debug(f"{database_name=}")
     logger.debug("creating database engine")
     url = get_database_url(database_name)
     return create_engine(url)

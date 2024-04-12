@@ -36,7 +36,7 @@ async def get_timeseries(
             .join(TimestepModel, TimestepModel.id == TimeseriesValueModel.timestep_id)
             .all()
         )
-        logger.info(f"returning {len(timeseries)} rows")
+        logger.debug(f"returning {len(timeseries)} rows")
 
     except HTTPException as e:
         logger.error(f"HTTPException<{e.status_code}> {e.detail}")
