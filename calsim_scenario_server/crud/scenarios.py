@@ -20,7 +20,11 @@ def validate_full_assumption_specification(assumptions_used: dict):
         )
 
 
-def model_to_schema(model: ScenarioModel): ...
+def model_to_schema(scenario: ScenarioModel):
+    kwargs = dict(name=scenario.name, id=scenario.id)
+    for mapping in scenario.assumption_maps:
+        kwargs[mapping.assumption_kind] = mapping.assumption.name
+    return Scenario(**kwargs)
 
 
 def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
@@ -51,20 +55,21 @@ def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
     db.commit()
     db.refresh(model)
 
-    return model
+    return model_to_schema(model)
 
 
 def read(
     db: Session,
     name: str = None,
     id: int = None,
-) -> list[ScenarioModel]:
+) -> list[Scenario]:
     filters = list()
     if name:
         filters.append(ScenarioModel.name == name)
     if id:
         filters.append(ScenarioModel.id == id)
-    return db.query(ScenarioModel).filter(*filters).all()
+    result = db.query(ScenarioModel).filter(*filters).all()
+    return [model_to_schema(m) for m in result]
 
 
 def update() -> ScenarioModel:
