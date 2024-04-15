@@ -50,13 +50,13 @@ def test_create_scenario():
         detail="testing create scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnumeration:
+    for kind in enum.AssumptionEnum:
         crud.assumptions.create(kind=kind, **default_assumption_kwargs)
 
     kwargs = dict(
         name="testing-create-scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnumeration:
+    for kind in enum.AssumptionEnum:
         kwargs[kind] = default_assumption_kwargs["name"]
     scenario = crud.scenarios.create(**kwargs)

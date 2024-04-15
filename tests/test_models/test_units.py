@@ -1,10 +1,10 @@
-from calsim_scenario_server.enum import DimensionalityEnumeration
+from calsim_scenario_server.enum import DimensionalityEnum
 from calsim_scenario_server.models import UnitModel
 
 EXPECTED_COLUMNS = {
     "id": int,
     "name": str,
-    "dimensionality": DimensionalityEnumeration,
+    "dimensionality": DimensionalityEnum,
 }
 
 

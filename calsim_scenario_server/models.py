@@ -4,11 +4,7 @@ from sqlalchemy import Float, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from .enum import (
-    AssumptionEnumeration,
-    DimensionalityEnumeration,
-    PathCategoryEnumeration,
-)
+from .enum import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
 
 
 # Create a base class for our ORM models
@@ -65,7 +61,7 @@ class ScenarioAssumptionsModel(Base):
     id = mapped_column(Integer, primary_key=True, autoincrement=True)
     scenario_id = mapped_column(ForeignKey("scenarios.id"), nullable=False)
     assumption_kind = mapped_column(
-        sqlalchemyEnum(AssumptionEnumeration),
+        sqlalchemyEnum(AssumptionEnum),
         nullable=False,
     )
     assumption_id = mapped_column(ForeignKey("assumptions.id"), nullable=False)
@@ -81,7 +77,7 @@ class NamedPathModel(Base):
     name = mapped_column(String)
     path = mapped_column(String)
     category = mapped_column(
-        sqlalchemyEnum(PathCategoryEnumeration),
+        sqlalchemyEnum(PathCategoryEnum),
         nullable=False,
     )
     detail = mapped_column(String, nullable=False)
@@ -95,7 +91,7 @@ class UnitModel(Base):
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String, unique=True)
     dimensionality = mapped_column(
-        sqlalchemyEnum(DimensionalityEnumeration),
+        sqlalchemyEnum(DimensionalityEnum),
         nullable=False,
     )
 
@@ -144,7 +140,7 @@ class AssumptionModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
-    kind = mapped_column(sqlalchemyEnum(AssumptionEnumeration), nullable=False)
+    kind = mapped_column(sqlalchemyEnum(AssumptionEnum), nullable=False)
     detail: Mapped[str] = mapped_column()
 
     __table_args__ = (

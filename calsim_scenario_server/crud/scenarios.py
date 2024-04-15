@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from ..logger import logger
-from ..models import ScenarioModel
+from ..models import ScenarioAssumptionsModel, ScenarioModel
 from ..schemas import Scenario
 from . import assumptions
 
@@ -20,7 +20,10 @@ def validate_full_assumption_specification(assumptions_used: dict):
         )
 
 
-def create(db: Session, name: str, **kwargs: dict[str, str]) -> ScenarioModel:
+def model_to_schema(model: ScenarioModel): ...
+
+
+def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
     logger.info(f"adding scenario, {name=}")
     validate_full_assumption_specification(kwargs)
     dup_name = db.query(ScenarioModel).filter_by(name=name).first() is not None

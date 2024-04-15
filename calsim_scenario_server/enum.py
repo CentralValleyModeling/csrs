@@ -2,7 +2,7 @@ import enum
 
 
 # Define the assumption types as a Python enumeration
-class AssumptionEnumeration(enum.StrEnum):
+class AssumptionEnum(enum.StrEnum):
     hydrology = "hydrology"
     sea_level_rise = "sea_level_rise"
     land_use = "land_use"
@@ -12,7 +12,7 @@ class AssumptionEnumeration(enum.StrEnum):
     south_of_delta = "south_of_delta"
 
 
-class DimensionalityEnumeration(enum.StrEnum):
+class DimensionalityEnum(enum.StrEnum):
     volume = "[length] ** 3"
     area = "[length] ** 2"
     length = "[length]"
@@ -23,7 +23,7 @@ class DimensionalityEnumeration(enum.StrEnum):
     temperature = "[temperature]"
 
 
-class PathCategoryEnumeration(enum.StrEnum):
+class PathCategoryEnum(enum.StrEnum):
     delivery = "delivery"
     delta = "delta"
     other = "other"
