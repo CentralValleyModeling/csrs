@@ -28,7 +28,6 @@ class RunModel(Base):
     __tablename__ = "runs"
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, index=True)
     scenario_id = mapped_column(ForeignKey("scenarios.id"))
     version = mapped_column(String, nullable=False)
 
