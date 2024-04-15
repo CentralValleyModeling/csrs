@@ -1,4 +1,8 @@
-from sqlalchemy import Boolean, Float, ForeignKey, Integer, String
+import enum
+
+from sqlalchemy import Boolean
+from sqlalchemy import Enum as sqlalchemyEnum
+from sqlalchemy import Float, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
@@ -6,6 +10,17 @@ from sqlalchemy.schema import UniqueConstraint
 # Create a base class for our ORM models
 class Base(DeclarativeBase):
     pass
+
+
+# Define the assumption types as a Python enumeration
+class AssumptionEnumeration(enum.StrEnum):
+    hydrology = "hydrology"
+    sea_level_rise = "sea_level_rise"
+    land_use = "land_use"
+    tucp = "tucp"
+    dcp = "dcp"
+    va = "va"
+    south_of_delta = "south_of_delta"
 
 
 # Define ORM models for each table
@@ -44,15 +59,25 @@ class ScenarioModel(Base):
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String, nullable=False, unique=True)
-    land_use = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    sea_level_rise = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    hydrology = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    tucp = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    dcp = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    va = mapped_column(ForeignKey("assumptions.name"), nullable=False)
-    south_of_delta = mapped_column(ForeignKey("assumptions.name"), nullable=False)
 
-    runs: Mapped[list["RunModel"]] = relationship(back_populates="scenario")
+    runs: Mapped[list[RunModel]] = relationship(back_populates="scenario")
+    assumptions: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
+        back_populates="scenario"
+    )
+
+
+class ScenarioAssumptionsModel(Base):
+    __tablename__ = "scenario_assumptions"
+    id = mapped_column(Integer, primary_key=True, autoincrement=True)
+    scenario_id = mapped_column(ForeignKey("scenarios.id"), nullable=False)
+    assumption_kind = mapped_column(
+        sqlalchemyEnum(AssumptionEnumeration),
+        nullable=False,
+    )
+    assumption_id = mapped_column(ForeignKey("assumptions.id"), nullable=False)
+
+    scenario: Mapped[ScenarioModel] = relationship(back_populates="assumptions")
+    assumption: Mapped["AssumptionModel"] = relationship(back_populates="scenarios")
 
 
 class NamedPathModel(Base):
@@ -118,10 +143,16 @@ class AssumptionModel(Base):
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String, nullable=False)
-    kind = mapped_column(String, nullable=False)
+    kind = mapped_column(
+        sqlalchemyEnum(AssumptionEnumeration),
+        nullable=False,
+    )
     detail = mapped_column(String)
 
     __table_args__ = (
         UniqueConstraint("name", "kind", name="unique_name"),
         UniqueConstraint("detail", "kind", name="unique_detail"),
+    )
+    scenarios: Mapped[list[ScenarioAssumptionsModel]] = relationship(
+        back_populates="assumption"
     )
