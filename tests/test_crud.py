@@ -1,3 +1,4 @@
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
@@ -42,6 +43,17 @@ def test_read_assumpitons():
     for assumption in assumptions:
         assert isinstance(assumption, schemas.Assumption)
         assert assumption.name == kwargs["name"]
+
+
+def test_create_assumption_bad_enum():
+    kwargs = dict(
+        name="testing-create-assumption-failure-enum",
+        kind="bad-enum-type",
+        detail="testing bad assumption enum",
+        db=session,
+    )
+    with pytest.raises(LookupError):
+        crud.assumptions.create(**kwargs)
 
 
 def test_create_scenario():
