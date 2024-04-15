@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..logger import logger
 from ..models import AssumptionModel
+from ..schemas import Assumption
 
 
 def create(
@@ -10,7 +11,7 @@ def create(
     kind: str,
     detail: str,
     db: Session,
-) -> AssumptionModel:
+) -> Assumption:
     # check if it exists already
     dup_name = (
         db.query(AssumptionModel).filter_by(name=name, kind=kind).first() is not None
@@ -29,7 +30,7 @@ def create(
     db.add(model)
     db.commit()
     db.refresh(model)
-    return model
+    return Assumption.model_validate(model, from_attributes=True)
 
 
 def read(
@@ -37,7 +38,7 @@ def read(
     kind: str = None,
     name: str = None,
     id: int = None,
-) -> list[AssumptionModel]:
+) -> list[Assumption]:
     logger.debug(f"reading assumptions where {kind=}, {name=}, {id=}")
     filters = list()
     if name:
@@ -46,7 +47,8 @@ def read(
         filters.append(AssumptionModel.id == id)
     if kind:
         filters.append(AssumptionModel.kind == kind)
-    return db.query(AssumptionModel).filter(*filters).all()
+    results = db.query(AssumptionModel).filter(*filters).all()
+    return [Assumption.model_validate(m, from_attributes=True) for m in results]
 
 
 def update() -> AssumptionModel:

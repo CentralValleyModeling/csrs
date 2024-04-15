@@ -141,13 +141,10 @@ class TimestepModel(Base):
 class AssumptionModel(Base):
     __tablename__ = "assumptions"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, nullable=False)
-    kind = mapped_column(
-        sqlalchemyEnum(AssumptionEnumeration),
-        nullable=False,
-    )
-    detail = mapped_column(String)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(nullable=False)
+    kind = mapped_column(sqlalchemyEnum(AssumptionEnumeration), nullable=False)
+    detail: Mapped[str] = mapped_column()
 
     __table_args__ = (
         UniqueConstraint("name", "kind", name="unique_name"),

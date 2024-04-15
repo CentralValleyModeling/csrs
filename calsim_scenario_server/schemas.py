@@ -59,7 +59,7 @@ class Run(BaseModel):
     scenario_id: int
     version: str
     # metadata
-    predecessor_run_name: str | None
+    predecessor_run_name: str | None  # TODO: consider just returning id
     contact: str
     confidential: bool
     published: bool
