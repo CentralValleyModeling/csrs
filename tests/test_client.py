@@ -83,29 +83,3 @@ def test_get_scenario():
     scenario = scenarios[0]
     assert scenario.name == "test_add_scenario"
     assert scenario.dcp == "add_scenario_example"
-
-
-client.upload_run(
-    scenario_name="",
-    version="",
-    contact="",
-    confidential=False,
-    published=False,
-    code_version="",
-    detail="",
-    dss=r"path_to_dss",
-)
-
-client.upload_run(
-    scenario_name="",
-    version="",
-    # defaults to prior contact="",
-    # defaults to prior confidential=False,
-    published=False,
-    # default to prior code_version="",
-    detail="",
-    dss=r"path_to_dss",
-)
-
-
-rts = client.get_rts(scenario="scenario_name", b="name_of_timeseries")
