@@ -28,6 +28,7 @@ class Assumption(BaseModel):
 class Scenario(BaseModel):
     id: int | None = None
     name: str
+    # The attributes below should match the enum AssumptionEnumeration
     land_use: str
     sea_level_rise: str
     hydrology: str
