@@ -32,9 +32,9 @@ def test_create_assumpitons():
 
 def test_read_assumpitons():
     kwargs = dict(
-        name="testing-create-assumption",
+        name="testing-read-assumption",
         kind="tucp",
-        detail="testing assumption, tucp as placeholder",
+        detail="testing read assumption, tucp as placeholder",
         db=session,
     )
     crud.assumptions.create(**kwargs)
