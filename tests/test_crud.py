@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from calsim_scenario_server import crud, schemas
+from calsim_scenario_server import crud, enum, schemas
 from calsim_scenario_server.models import Base
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
@@ -42,3 +42,21 @@ def test_read_assumpitons():
     for assumption in assumptions:
         assert isinstance(assumption, schemas.Assumption)
         assert assumption.name == kwargs["name"]
+
+
+def test_create_scenario():
+    default_assumption_kwargs = dict(
+        name="testing-create-scenario",
+        detail="testing create scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnumeration:
+        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
+
+    kwargs = dict(
+        name="testing-create-scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnumeration:
+        kwargs[kind] = default_assumption_kwargs["name"]
+    scenario = crud.scenarios.create(**kwargs)

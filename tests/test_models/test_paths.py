@@ -1,4 +1,5 @@
-from calsim_scenario_server.models import NamedPathModel, PathCategoryEnumeration
+from calsim_scenario_server.enum import PathCategoryEnumeration
+from calsim_scenario_server.models import NamedPathModel
 
 EXPECTED_COLUMNS = {
     "id": int,

@@ -1,4 +1,5 @@
-from calsim_scenario_server.models import AssumptionEnumeration, AssumptionModel
+from calsim_scenario_server.enum import AssumptionEnumeration
+from calsim_scenario_server.models import AssumptionModel
 
 EXPECTED_COLUMNS = {
     "id": int,

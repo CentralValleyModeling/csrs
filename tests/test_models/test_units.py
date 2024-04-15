@@ -1,4 +1,5 @@
-from calsim_scenario_server.models import DimensionalityEnumeration, UnitModel
+from calsim_scenario_server.enum import DimensionalityEnumeration
+from calsim_scenario_server.models import UnitModel
 
 EXPECTED_COLUMNS = {
     "id": int,

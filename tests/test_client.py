@@ -43,7 +43,7 @@ def test_testing_on_local():
     mod_path = Path(calsim_scenario_server.__file__).parent
 
     rel = mod_path.relative_to(here.parent)
-    assert str(rel) == "src\\calsim_scenario_server"
+    assert str(rel) == "calsim_scenario_server"
 
 
 def test_put_assumption():
