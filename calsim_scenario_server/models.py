@@ -33,7 +33,9 @@ class RunModel(Base):
 
     scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
 
-    __table_args__ = (UniqueConstraint("name", "version", name="unique_purpose"),)
+    __table_args__ = (
+        UniqueConstraint("scenario_id", "version", name="unique_purpose"),
+    )
 
 
 class RunMetadataModel(Base):
