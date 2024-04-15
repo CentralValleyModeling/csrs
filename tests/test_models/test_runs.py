@@ -2,7 +2,6 @@ from calsim_scenario_server.models import RunModel
 
 EXPECTED_COLUMNS = {
     "id": int,
-    "name": str,
     "scenario_id": int,
     "version": str,
 }
