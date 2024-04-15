@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from ..logger import logger
@@ -14,9 +13,8 @@ def validate_full_assumption_specification(assumptions_used: dict):
             missing.append(attr)
     if missing:
         logger.error(f"missing scenario assumptions: {missing}")
-        raise HTTPException(
-            status_code=400,
-            detail=f"the scenario is missing assumptions:\n{missing}",
+        raise AttributeError(
+            f"the scenario is missing assumptions:\n{missing}",
         )
 
 
@@ -33,7 +31,8 @@ def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
     dup_name = db.query(ScenarioModel).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
-        raise HTTPException(status_code=400, detail=f"{name=} is already used")
+        raise AttributeError(f"{name=} is already used")
+    scenario_assumptions = dict()
     for table_name in Scenario.get_assumption_names():
         assumption_model = assumptions.read(
             db,
@@ -42,20 +41,31 @@ def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
         )
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
-            raise HTTPException(
-                status_code=400,
-                detail="couldn't find single assumption with data given:\n"
+            raise AttributeError(
+                "couldn't find single assumption with data given:\n"
                 + f"\tfound: {assumption_model}"
                 + f"\tdetails given: {kwargs[table_name]}",
             )
-        kwargs[table_name] = assumption_model[0].name
-    kwargs["name"] = name
-    model = ScenarioModel(**kwargs)
-    db.add(model)
-    db.commit()
-    db.refresh(model)
+        scenario_assumptions[table_name] = assumption_model[0].id
+    scenario_model = ScenarioModel(name=name)
+    db.add(scenario_model)
+    db.flush()
+    db.refresh(scenario_model)
+    models_to_add = list()
+    for kind, id in scenario_assumptions.items():
+        models_to_add.append(
+            ScenarioAssumptionsModel(
+                scenario_id=scenario_model.id,
+                assumption_id=id,
+                assumption_kind=kind,
+            )
+        )
 
-    return model_to_schema(model)
+    db.add_all(models_to_add)
+    db.commit()
+    db.refresh(scenario_model)
+
+    return model_to_schema(scenario_model)
 
 
 def read(

@@ -1,4 +1,3 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from ..logger import logger
@@ -22,9 +21,8 @@ def create(
     )
     if dup_name or dup_detail:
         logger.error(f"error adding assumption, {dup_name=}, {dup_detail=}")
-        raise HTTPException(
-            status_code=400,
-            detail=f"assumption given is a duplicate, {dup_name=}, {dup_detail=}.",
+        raise AttributeError(
+            f"assumption given is a duplicate, {dup_name=}, {dup_detail=}.",
         )
     model = AssumptionModel(name=name, kind=kind, detail=detail)
     db.add(model)
