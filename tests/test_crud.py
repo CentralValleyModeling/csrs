@@ -56,6 +56,18 @@ def test_create_assumption_bad_enum():
         crud.assumptions.create(**kwargs)
 
 
+def test_create_assumption_duplicate():
+    kwargs = dict(
+        name="testing-create-assumption-failure-duplicate",
+        kind="hydrology",
+        detail="testing duplicate assumption",
+        db=session,
+    )
+    crud.assumptions.create(**kwargs)
+    with pytest.raises(AttributeError):
+        crud.assumptions.create(**kwargs)
+
+
 def test_create_scenario():
     default_assumption_kwargs = dict(
         name="testing-create-scenario",
@@ -63,12 +75,37 @@ def test_create_scenario():
         db=session,
     )
     for kind in enum.AssumptionEnum:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
 
     kwargs = dict(
         name="testing-create-scenario",
         db=session,
     )
     for kind in enum.AssumptionEnum:
-        kwargs[kind] = default_assumption_kwargs["name"]
+        kwargs[kind.value] = default_assumption_kwargs["name"]
     scenario = crud.scenarios.create(**kwargs)
+    assert scenario.name == kwargs["name"]
+    assert scenario.hydrology == default_assumption_kwargs["name"]
+
+
+def test_create_scenario_incomplete_assumption_specification():
+    default_assumption_kwargs = dict(
+        name="testing-create-scenario-incomplete",
+        detail="testing create scenario with not all assumptions",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        if kind.value == "dcp":
+            continue
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+
+    kwargs = dict(
+        name="testing-create-scenario-incomplete",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        if kind.value == "dcp":
+            continue
+        kwargs[kind.value] = default_assumption_kwargs["name"]
+    with pytest.raises(AttributeError):
+        crud.scenarios.create(**kwargs)
