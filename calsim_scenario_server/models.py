@@ -47,27 +47,27 @@ class RunMetadataModel(Base):
 class ScenarioModel(Base):
     __tablename__ = "scenarios"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, nullable=False, unique=True)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(nullable=False, unique=True)
 
     runs: Mapped[list[RunModel]] = relationship(back_populates="scenario")
-    assumptions: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
+    assumption_maps: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
         back_populates="scenario"
     )
 
 
 class ScenarioAssumptionsModel(Base):
     __tablename__ = "scenario_assumptions"
-    id = mapped_column(Integer, primary_key=True, autoincrement=True)
-    scenario_id = mapped_column(ForeignKey("scenarios.id"), nullable=False)
-    assumption_kind = mapped_column(
-        sqlalchemyEnum(AssumptionEnum),
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"), nullable=False)
+    assumption_kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
+    assumption_id: Mapped[int] = mapped_column(
+        ForeignKey("assumptions.id"),
         nullable=False,
     )
-    assumption_id = mapped_column(ForeignKey("assumptions.id"), nullable=False)
 
-    scenario: Mapped[ScenarioModel] = relationship(back_populates="assumptions")
-    assumption: Mapped["AssumptionModel"] = relationship(back_populates="scenarios")
+    scenario: Mapped[ScenarioModel] = relationship(back_populates="assumption_maps")
+    assumption: Mapped["AssumptionModel"] = relationship(back_populates="scenario_map")
 
 
 class NamedPathModel(Base):
@@ -140,13 +140,13 @@ class AssumptionModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
-    kind = mapped_column(sqlalchemyEnum(AssumptionEnum), nullable=False)
+    kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column()
 
     __table_args__ = (
         UniqueConstraint("name", "kind", name="unique_name"),
         UniqueConstraint("detail", "kind", name="unique_detail"),
     )
-    scenarios: Mapped[list[ScenarioAssumptionsModel]] = relationship(
+    scenario_map: Mapped[list[ScenarioAssumptionsModel]] = relationship(
         back_populates="assumption"
     )
