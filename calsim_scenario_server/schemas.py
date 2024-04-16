@@ -17,7 +17,8 @@ class Assumption(BaseModel):
 class Scenario(BaseModel):
     """A CalSim modeling Scenario, made up of multiple model runs with the same
     Assumptions. One Scenario can have multiple model Runs to allow for
-    improvements and bug fixes over time."""
+    improvements and bug fixes over time.
+    """
 
     id: int | None = None
     name: str
@@ -37,7 +38,8 @@ class Scenario(BaseModel):
 
 class Run(BaseModel):
     """A CalSim model run belonging to one Scenario. A model Run can contain
-    many timeseries, and many metrics."""
+    many timeseries, and many metrics.
+    """
 
     id: int | None = None
     scenario: str
