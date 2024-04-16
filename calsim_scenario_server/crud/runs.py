@@ -11,11 +11,11 @@ def model_to_schema(run: RunModel) -> Run:
     else:
         parent_id = None
     if run.children:
-        children = [c.id for c in run.children]
+        children = tuple(c.id for c in run.children)
     else:
-        children = None
+        children = tuple()
     return Run(
-        scenario_id=run.scenario_id,
+        scenario=run.scenario.name,
         version=run.version,
         # info
         parent_id=parent_id,
@@ -74,21 +74,20 @@ def create(
 
 def read(
     db: Session,
-    name: str = None,
+    scenario: str = None,
+    version: str = None,
     id: int = None,
 ) -> list[Run]:
     filters = list()
-    if name:
-        filters.append(RunModel.name == name)
+    if scenario:
+        (scenario_obj,) = read_scenarios(db, name=scenario)
+        filters.append(RunModel.scenario_id == scenario_obj.id)
+    if version:
+        filters.append(RunModel.version == version)
     if id:
         filters.append(RunModel.id == id)
-    runs = (
-        db.query(RunModel)
-        .filter(*filters)
-        .join(RunMetadataModel, RunModel.id == RunMetadataModel.run_id)
-        .all()
-    )
-    # TODO: parse the joined table to a list of objects, need to find predecessor by id
+    runs = db.query(RunModel).filter(*filters).all()
+    return [model_to_schema(r) for r in runs]
 
 
 def update():

@@ -38,8 +38,8 @@ class Scenario(BaseModel):
     south_of_delta: str
 
     @classmethod
-    def get_assumption_names(cls) -> list:
-        return [a for a in cls.model_fields if a not in ("id", "name")]
+    def get_assumption_names(cls) -> tuple:
+        return tuple(a for a in cls.model_fields if a not in ("id", "name"))
 
 
 class NamedPath(BaseModel):
@@ -56,11 +56,11 @@ class Timestep(BaseModel):
 
 
 class Run(BaseModel):
-    scenario_id: int
+    scenario: str
     version: str
     # info
     parent_id: int | None
-    children_ids: list[int] | None
+    children_ids: tuple[int] | tuple
     contact: str
     confidential: bool
     published: bool
@@ -83,16 +83,16 @@ class RunReference(BaseModel):
 class TimeSeriesIn(BaseModel):
     run_name: str
     path_name: str
-    timesteps: list[str]
-    values: list[float]
+    timesteps: tuple[str]
+    values: tuple[float]
 
 
 class TimeSeriesOut(BaseModel):
     id: int
     path: NamedPath
     run: RunOut
-    timesteps: list[Timestep]
-    values: list[float]
+    timesteps: tuple[Timestep]
+    values: tuple[float]
 
 
 class MetricIn(BaseModel):
@@ -109,8 +109,8 @@ class MetricValueIn(BaseModel):
     run_name: str
     path_name: str
     metric_name: str
-    indexes: list[int]
-    values: list[float]
+    indexes: tuple[int]
+    values: tuple[float]
 
 
 class MetricValueOut(BaseModel):
@@ -118,5 +118,5 @@ class MetricValueOut(BaseModel):
     run: RunOut
     path: NamedPath
     metric: MetricOut
-    indexes: list[int]
-    values: list[float]
+    indexes: tuple[int]
+    values: tuple[float]
