@@ -60,8 +60,6 @@ def read(
     paths = db.query(NamedPathModel).filter(*filters).all()
     return [NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths]
 
-    raise NotImplementedError()
-
 
 def update():
     raise NotImplementedError()

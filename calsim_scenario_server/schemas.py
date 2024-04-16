@@ -1,5 +1,6 @@
 """Pydantic Models for the CalSim Scenario Server"""
 
+import pandss as pdss
 from pydantic import BaseModel
 
 
@@ -52,6 +53,20 @@ class Run(BaseModel):
     published: bool = False
     code_version: str
     detail: str
+
+
+class Timeseries(BaseModel):
+    """The timeseries data belonging to one model Run."""
+
+    scenario: str
+    run_version: str
+    # shadow pandss RegularTimeseries attributes
+    path: str
+    values: tuple[float]
+    dates: tuple[str]
+    period_type: str
+    units: str
+    interval: str
 
 
 class NamedDatasetPath(BaseModel):

@@ -202,33 +202,12 @@ def test_read_path():
     assert path.name == kwargs["name"]
 
 
-def test_create_timestep():
-    kwargs = dict(
-        datetime_str="1921-10-31T23:59:00",
-        db=session,
-    )
-    ts = crud.timesteps.create(**kwargs)
-    assert ts.datetime_str == kwargs["datetime_str"]
-
-
-def test_read_timestep():
-    kwargs = dict(
-        datetime_str="1921-11-30T23:59:00",
-        db=session,
-    )
-    crud.timesteps.create(**kwargs)
-    tss = crud.timesteps.read(**kwargs)
-    assert len(tss) == 1
-    ts = tss[0]
-    assert ts.datetime_str == kwargs["datetime_str"]
-
-
 def test_create_timeseries_values():
     kwargs = dict(
         datetime_str="1921-10-31T23:59:00",
         db=session,
     )
-    ts = crud.timeseries_values.create(**kwargs)
+    ts = crud.timeseries.create(**kwargs)
     assert ts.datetime_str == kwargs["datetime_str"]
 
 
@@ -237,8 +216,8 @@ def test_read_timeseries_values():
         datetime_str="1921-10-31T23:59:00",
         db=session,
     )
-    crud.timeseries_values.create(**kwargs)
-    tss = crud.timeseries_values.read(**kwargs)
+    crud.timeseries.create(**kwargs)
+    tss = crud.timeseries.read(**kwargs)
     assert len(tss) == 1
     ts = tss[0]
     assert ts.datetime_str == kwargs["datetime_str"]

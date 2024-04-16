@@ -96,6 +96,7 @@ class RunModel(Base):
         back_populates="children",
         remote_side=[id],
     )
+    dss_lookup: Mapped["DSSLookup"] = relationship(back_populates="run")
     # Multi-column unique rules
     __table_args__ = (
         UniqueConstraint(
@@ -104,6 +105,32 @@ class RunModel(Base):
             name="unique_purpose",
         ),
     )
+
+
+class DSSLookup(Base):
+    """Data about the DSS file used to store timeseries data for a run."""
+
+    __tablename__ = "dss_lookup"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), nullable=False)
+    source: Mapped[str] = mapped_column(nullable=False)
+    # ORM relationships
+    run: Mapped["RunModel"] = relationship(back_populates="dss_lookup")
+    catalog: Mapped[list["CommonCatalog"]] = relationship(back_populates="dss_lookup")
+
+
+class CommonCatalog(Base):
+    """Data about the paths contained in each DSS file."""
+
+    __tablename__ = "common_catalog"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("dss_lookup.id"), nullable=False)
+    path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), nullable=False)
+    # ORM relationships
+    dss_lookup: Mapped["DSSLookup"] = relationship(back_populates="catalog")
+    path: Mapped["NamedPathModel"] = relationship()
 
 
 class NamedPathModel(Base):
