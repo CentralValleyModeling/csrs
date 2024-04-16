@@ -138,3 +138,38 @@ def test_create_run():
         db=session,
     )
     crud.runs.create(**kwargs)
+
+
+def test_read_run():
+    default_assumption_kwargs = dict(
+        name="testing-read-run-assumption",
+        detail="testing read run",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+
+    kwargs = dict(
+        name="testing-read-run-scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        kwargs[kind.value] = default_assumption_kwargs["name"]
+    crud.scenarios.create(**kwargs)
+
+    kwargs = dict(
+        scenario="testing-read-run-scenario",
+        code_version="0.1",
+        contact="user@email.com",
+        version="0.2",
+        predecessor_run_name=None,
+        detail="testing read run",
+        db=session,
+    )
+    crud.runs.create(**kwargs)
+    runs = crud.runs.read(db=session, scenario="testing-read-run-scenario")
+    assert len(runs) == 1
+    run = runs[0]
+    assert run.scenario == "testing-read-run-scenario"
+    assert len(run.children_ids) == 0
+    assert run.parent_id is None
