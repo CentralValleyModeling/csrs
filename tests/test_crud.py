@@ -109,3 +109,32 @@ def test_create_scenario_incomplete_assumption_specification():
         kwargs[kind.value] = default_assumption_kwargs["name"]
     with pytest.raises(AttributeError):
         crud.scenarios.create(**kwargs)
+
+
+def test_create_run():
+    default_assumption_kwargs = dict(
+        name="testing-create-run-assumption",
+        detail="testing create run",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+
+    kwargs = dict(
+        name="testing-create-run-scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        kwargs[kind.value] = default_assumption_kwargs["name"]
+    crud.scenarios.create(**kwargs)
+
+    kwargs = dict(
+        scenario="testing-create-run-scenario",
+        code_version="0.1",
+        contact="user@email.com",
+        version="0.2",
+        predecessor_run_name=None,
+        detail="testing-create-run",
+        db=session,
+    )
+    crud.runs.create(**kwargs)

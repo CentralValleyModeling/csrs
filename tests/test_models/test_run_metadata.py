@@ -2,7 +2,6 @@ from calsim_scenario_server.models import RunMetadataModel
 
 EXPECTED_COLUMNS = {
     "run_id": int,
-    "predecessor_run_id": int,
     "contact": str,
     "confidential": bool,
     "published": bool,
