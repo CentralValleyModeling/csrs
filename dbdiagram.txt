@@ -1,0 +1,122 @@
+// works with https://dbdiagram.io
+
+Table runs {
+  id integer [pk, increment]
+  parent_id integer
+  scenario_id int
+  version varchar
+
+  contact varchar
+  confidential bool
+  published bool
+  code_version varchar
+  detail varchar [unique]
+}
+
+Table scenarios {
+  id integer [pk, increment]
+  name varchar
+}
+
+Table scenario_assumptions {
+  id integer [pk, increment]
+  scenario_id integer 
+  assumption_kind assumption_types
+  assumption_id integer
+}
+
+// assumptions sub-tables
+Table assumptions {
+  id integer [pk, increment]
+  kind assumption_types
+  name varchar
+  detail varchar [unique]
+}
+
+Enum assumption_types {
+  land_use
+  sea_level_rise
+  hydrology
+  temporary_urgency_change_petition
+  delta_conveyance_project
+  voluntary_agreements
+  additional_sod_storage
+}
+
+
+// timeseries data
+Table time_series_values {
+  run_id integer [pk]
+  path_id integer [pk]
+  timestep_id int
+  units varchar
+  value float
+}
+
+// metrics
+Table metrics {
+  id integer [pk, increment]
+  name varchar [unique]
+  index_detail varchar
+  detail varchar
+}
+
+Table metric_values {
+  path_id integer [pk]
+  run_id integer [pk]
+  metric_id integer [pk]
+  index integer
+  units varchar
+  value float
+}
+
+// compression tables
+Table paths {
+  id integer [pk, increment]
+  name varchar [unique]
+  path varchar [unique]
+  category varchar
+  detail varchar [unique]
+}
+
+Table time_steps {
+  id int [pk, increment]
+  datetime_str varchar [unique]
+}
+
+Table units {
+  id int [pk, increment]
+  name varchar [unique]
+  dimensionality varchar
+}
+
+// groups
+TableGroup scenarios_group {
+  runs
+  scenarios
+}
+
+TableGroup serverside_processing {
+  metrics
+  metric_values
+}
+
+// 1 to many
+Ref: runs.id < time_series_values.run_id
+Ref: runs.id < runs.parent_id
+
+Ref: runs.id < metric_values.run_id
+
+Ref: paths.id < metric_values.path_id
+Ref: metrics.id < metric_values.metric_id
+
+// Many to 1
+Ref: scenario_assumptions.scenario_id > scenarios.id
+Ref: runs.scenario_id > scenarios.id
+Ref: scenario_assumptions.assumption_id > assumptions.id
+
+Ref: time_series_values.timestep_id > time_steps.id
+Ref: time_series_values.path_id > paths.id
+
+Ref: time_series_values.units > units.name
+Ref: metric_values.units > units.name

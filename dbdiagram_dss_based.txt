@@ -1,0 +1,123 @@
+// works with https://dbdiagram.io
+Enum assumption_types {
+  land_use
+  sea_level_rise
+  hydrology
+  temporary_urgency_change_petition
+  delta_conveyance_project
+  voluntary_agreements
+  additional_sod_storage
+}
+
+Table scenarios {
+  id integer [pk, increment]
+  name varchar
+}
+
+Table scenario_assumptions {
+  id integer [pk, increment]
+  scenario_id integer 
+  assumption_kind assumption_types
+  assumption_id integer
+}
+
+Table assumptions {
+  id integer [pk, increment]
+  kind assumption_types
+  name varchar
+  detail varchar [unique]
+}
+
+Table runs {
+  id integer [pk, increment]
+  parent_id integer
+  scenario_id int
+  version varchar
+
+  contact varchar
+  confidential bool
+  published bool
+  code_version varchar
+  detail varchar [unique]
+}
+
+// compression tables
+Table paths {
+  id integer [pk, increment]
+  name varchar [unique]
+  path varchar [unique]
+  category varchar
+  detail varchar [unique]
+}
+
+Table common_dss_catalog {
+  dss_id integer [pk]
+  path_id integer [pk]
+
+}
+
+Table dss_lookup {
+  id integer [pk]
+  run_id integer
+  source varchar
+}
+
+// metrics
+Table units {
+  id int [pk, increment]
+  name varchar [unique]
+  dimensionality varchar
+}
+
+Table metrics {
+  id integer [pk, increment]
+  name varchar [unique]
+  index_detail varchar
+  detail varchar
+}
+
+Table metric_values {
+  path_id integer [pk]
+  run_id integer [pk]
+  metric_id integer [pk]
+  index integer
+  units varchar
+  value float
+}
+
+TableGroup metric_group {
+  metrics
+  units
+  metric_values
+}
+
+TableGroup data_group {
+  paths
+  common_dss_catalog
+  dss_lookup
+}
+
+TableGroup run_group {
+  runs
+}
+
+TableGroup scenario_group {
+  scenarios
+  scenario_assumptions
+  assumptions
+}
+
+// 1 to many
+Ref: runs.id < dss_lookup.run_id
+Ref: runs.id < runs.parent_id
+Ref: runs.id < metric_values.run_id
+Ref: paths.id < metric_values.path_id
+Ref: metrics.id < metric_values.metric_id
+
+// Many to 1
+Ref: scenario_assumptions.scenario_id > scenarios.id
+Ref: runs.scenario_id > scenarios.id
+Ref: scenario_assumptions.assumption_id > assumptions.id
+Ref: common_dss_catalog.path_id > paths.id
+Ref: metric_values.units > units.name
+Ref: common_dss_catalog.dss_id > dss_lookup.id
