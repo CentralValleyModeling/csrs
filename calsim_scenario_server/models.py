@@ -111,11 +111,13 @@ class NamedPathModel(Base):
 
     __tablename__ = "paths"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String)
-    path = mapped_column(String)
-    category = mapped_column(sqlalchemyEnum(PathCategoryEnum), nullable=False)
-    detail = mapped_column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    name: Mapped[str] = mapped_column()
+    path: Mapped[str] = mapped_column()
+    category: Mapped[PathCategoryEnum] = mapped_column(
+        sqlalchemyEnum(PathCategoryEnum), nullable=False
+    )
+    detail: Mapped[str] = mapped_column(nullable=False)
     # Multi-column unique rules
     __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
 
@@ -125,9 +127,11 @@ class UnitModel(Base):
 
     __tablename__ = "units"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True)
-    dimensionality = mapped_column(sqlalchemyEnum(DimensionalityEnum), nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(unique=True)
+    dimensionality: Mapped[DimensionalityEnum] = mapped_column(
+        sqlalchemyEnum(DimensionalityEnum), nullable=False
+    )
 
 
 class MetricModel(Base):
@@ -135,10 +139,10 @@ class MetricModel(Base):
 
     __tablename__ = "metrics"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    name = mapped_column(String, unique=True)
-    index_detail = mapped_column(String, nullable=False)
-    detail = mapped_column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(unique=True)
+    index_detail: Mapped[str] = mapped_column(nullable=False)
+    detail: Mapped[str] = mapped_column(nullable=False)
 
 
 class MetricValueModel(Base):
@@ -146,9 +150,9 @@ class MetricValueModel(Base):
 
     __tablename__ = "metric_values"
 
-    path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
-    run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
-    metric_id = mapped_column(ForeignKey("metrics.id"), primary_key=True)
-    index = mapped_column(Integer, nullable=False)
-    units = mapped_column(ForeignKey("units.name"))
-    value = mapped_column(Float, nullable=False)
+    path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), primary_key=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), primary_key=True)
+    metric_id: Mapped[int] = mapped_column(ForeignKey("metrics.id"), primary_key=True)
+    index: Mapped[int] = mapped_column(nullable=False)
+    units: Mapped[str] = mapped_column(ForeignKey("units.name"))
+    value: Mapped[float] = mapped_column(nullable=False)
