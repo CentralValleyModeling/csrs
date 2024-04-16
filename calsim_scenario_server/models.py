@@ -1,3 +1,5 @@
+"""SQL models for the CalSim Scenario Server"""
+
 from typing import Optional
 
 from sqlalchemy import Enum as sqlalchemyEnum
