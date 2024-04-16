@@ -4,6 +4,7 @@ from ..logger import logger
 from ..models import ScenarioAssumptionsModel, ScenarioModel
 from ..schemas import Scenario
 from . import assumptions
+from .decorators import rollback_on_exception
 
 
 def validate_full_assumption_specification(assumptions_used: dict):
@@ -25,6 +26,7 @@ def model_to_schema(scenario: ScenarioModel):
     return Scenario(**kwargs)
 
 
+@rollback_on_exception
 def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
     logger.info(f"adding scenario, {name=}")
     validate_full_assumption_specification(kwargs)
@@ -68,6 +70,7 @@ def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
     return model_to_schema(scenario_model)
 
 
+@rollback_on_exception
 def read(
     db: Session,
     name: str = None,

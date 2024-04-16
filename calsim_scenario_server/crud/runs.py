@@ -1,10 +1,12 @@
 from sqlalchemy.orm import Session
 
-from ..models import RunMetadataModel, RunModel
+from ..models import RunModel
 from ..schemas import Run
+from .decorators import rollback_on_exception
 from .scenarios import read as read_scenarios
 
 
+@rollback_on_exception
 def model_to_schema(run: RunModel) -> Run:
     if run.parent:
         parent_id = run.parent.id
@@ -20,14 +22,15 @@ def model_to_schema(run: RunModel) -> Run:
         # info
         parent_id=parent_id,
         children_ids=children,
-        contact=run.info.contact,
-        confidential=run.info.confidential,
-        published=run.info.published,
-        code_version=run.info.code_version,
-        detail=run.info.detail,
+        contact=run.contact,
+        confidential=run.confidential,
+        published=run.published,
+        code_version=run.code_version,
+        detail=run.detail,
     )
 
 
+@rollback_on_exception
 def create(
     db: Session,
     scenario: str,
@@ -48,26 +51,19 @@ def create(
         predecessor_run_id = None
     (scenario_model,) = read_scenarios(db=db, name=scenario)
 
-    # DB interactions
     run = RunModel(
         scenario_id=scenario_model.id,
         version=version,
         parent_id=predecessor_run_id,
-    )
-    db.add(run)
-    db.flush()
-    run_metadata = RunMetadataModel(
-        run_id=run.id,
         contact=contact,
-        confidential=confidential,
-        published=published,
         code_version=code_version,
         detail=detail,
+        published=published,
+        confidential=confidential,
     )
-    db.add(run_metadata)
+    db.add(run)
     db.commit()
     db.refresh(run)
-    db.refresh(run_metadata)
 
     return model_to_schema(run)
 
@@ -76,6 +72,8 @@ def read(
     db: Session,
     scenario: str = None,
     version: str = None,
+    code_version: str = None,
+    contact: str = None,
     id: int = None,
 ) -> list[Run]:
     filters = list()
@@ -84,8 +82,12 @@ def read(
         filters.append(RunModel.scenario_id == scenario_obj.id)
     if version:
         filters.append(RunModel.version == version)
+    if code_version:
+        filters.append(RunModel.code_version == code_version)
     if id:
         filters.append(RunModel.id == id)
+    if contact:
+        filters.append(RunModel.contact == contact)
     runs = db.query(RunModel).filter(*filters).all()
     return [model_to_schema(r) for r in runs]
 

@@ -6,9 +6,9 @@
                │
             Runs    Paths  Timesteps
                │        │          │
-TimeSeriesValues────────┴──────────┤    Metrics
-               │                   │          │
-    MetricValues───────────────────┴──────────┘
+TimeSeriesValues────────┤──────────┘   Metrics
+               │        │                     │
+    MetricValues──────────────────────────────┘
 """
 
 from pydantic import BaseModel
@@ -52,67 +52,41 @@ class Timestep(BaseModel):
 
 
 class Run(BaseModel):
+    id: int | None = None
     scenario: str
     version: str
     # info
-    parent_id: int | None
-    children_ids: tuple[int] | tuple
+    parent_id: int | None = None
+    children_ids: tuple[int] | tuple = tuple()
     contact: str
-    confidential: bool
-    published: bool
+    confidential: bool = True
+    published: bool = False
     code_version: str
     detail: str
 
 
-class RunOut(Run):
-    id: int
-    parent_id: int | None
-
-
-class RunReference(BaseModel):
-    id: int
-    name: str
-    scenario_id: int
-    version: str
-
-
-class TimeSeriesIn(BaseModel):
-    run_name: str
-    path_name: str
+class TimeSeries(BaseModel):
+    id: int | None = None
+    scenario: str
+    run_version: str
+    path: str
     timesteps: tuple[str]
     values: tuple[float]
-
-
-class TimeSeriesOut(BaseModel):
-    id: int
-    path: NamedPath
-    run: RunOut
     timesteps: tuple[Timestep]
-    values: tuple[float]
 
 
-class MetricIn(BaseModel):
+class Metric(BaseModel):
+    id: int | None = None
     name: str
     index_detail: str
     detail: str
 
 
-class MetricOut(MetricIn):
-    id: int
-
-
-class MetricValueIn(BaseModel):
-    run_name: str
-    path_name: str
-    metric_name: str
-    indexes: tuple[int]
-    values: tuple[float]
-
-
-class MetricValueOut(BaseModel):
-    id: int
-    run: RunOut
-    path: NamedPath
-    metric: MetricOut
+class MetricValue(BaseModel):
+    id: int | None = None
+    scenario: str
+    run_version: str
+    path: str
+    metric: str
     indexes: tuple[int]
     values: tuple[float]

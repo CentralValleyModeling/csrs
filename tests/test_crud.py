@@ -173,3 +173,72 @@ def test_read_run():
     assert run.scenario == "testing-read-run-scenario"
     assert len(run.children_ids) == 0
     assert run.parent_id is None
+
+
+def test_create_path():
+    kwargs = dict(
+        name="Shasta Storage",
+        path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
+        category="storage",
+        detail="The storage in Shasta Reservoir, in TAF.",
+        db=session,
+    )
+    path = crud.paths.create(**kwargs)
+    assert path.name == kwargs["name"]
+
+
+def test_read_path():
+    kwargs = dict(
+        name="Oroville Storage",
+        path="/.*/S_OROVL/STORAGE/.*/.*/.*/",
+        category="storage",
+        detail="The storage in Oroville Reservoir, in TAF.",
+        db=session,
+    )
+    crud.paths.create(**kwargs)
+    paths = crud.paths.read(db=session, path=kwargs["path"])
+    assert len(paths) == 1
+    path = paths[0]
+    assert path.name == kwargs["name"]
+
+
+def test_create_timestep():
+    kwargs = dict(
+        datetime_str="1921-10-31T23:59:00",
+        db=session,
+    )
+    ts = crud.timesteps.create(**kwargs)
+    assert ts.datetime_str == kwargs["datetime_str"]
+
+
+def test_read_timestep():
+    kwargs = dict(
+        datetime_str="1921-11-30T23:59:00",
+        db=session,
+    )
+    crud.timesteps.create(**kwargs)
+    tss = crud.timesteps.read(**kwargs)
+    assert len(tss) == 1
+    ts = tss[0]
+    assert ts.datetime_str == kwargs["datetime_str"]
+
+
+def test_create_timeseries_values():
+    kwargs = dict(
+        datetime_str="1921-10-31T23:59:00",
+        db=session,
+    )
+    ts = crud.timeseries_values.create(**kwargs)
+    assert ts.datetime_str == kwargs["datetime_str"]
+
+
+def test_read_timeseries_values():
+    kwargs = dict(
+        datetime_str="1921-10-31T23:59:00",
+        db=session,
+    )
+    crud.timeseries_values.create(**kwargs)
+    tss = crud.timeseries_values.read(**kwargs)
+    assert len(tss) == 1
+    ts = tss[0]
+    assert ts.datetime_str == kwargs["datetime_str"]

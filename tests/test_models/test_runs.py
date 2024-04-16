@@ -5,6 +5,11 @@ EXPECTED_COLUMNS = {
     "parent_id": int,
     "scenario_id": int,
     "version": str,
+    "contact": str,
+    "confidential": bool,
+    "published": bool,
+    "code_version": bool,
+    "detail": bool,
 }
 
 

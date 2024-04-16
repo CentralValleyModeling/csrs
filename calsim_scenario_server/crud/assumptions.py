@@ -3,8 +3,10 @@ from sqlalchemy.orm import Session
 from ..logger import logger
 from ..models import AssumptionModel
 from ..schemas import Assumption
+from .decorators import rollback_on_exception
 
 
+@rollback_on_exception
 def create(
     name: str,
     kind: str,
@@ -31,6 +33,7 @@ def create(
     return Assumption.model_validate(model, from_attributes=True)
 
 
+@rollback_on_exception
 def read(
     db: Session,
     kind: str = None,

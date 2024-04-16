@@ -5,7 +5,7 @@ from .. import crud
 from ..database import get_db
 from ..logger import logger
 from ..models import ScenarioModel
-from ..schemas import Run, RunOut, RunReference
+from ..schemas import Run
 
 router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
@@ -21,7 +21,7 @@ def assert_scenario_exists(s_id: int | None, db: Session):
             )
 
 
-@router.get("", response_model=list[RunReference])
+@router.get("", response_model=list[Run])
 async def get_all_runs(
     id: int = None,
     name: str = None,
@@ -34,7 +34,7 @@ async def get_all_runs(
     return runs
 
 
-@router.put("", response_model=RunOut)
+@router.put("", response_model=Run)
 async def put_run(run_data: Run, db: Session = Depends(get_db)):
     logger.info(run_data)
     r, rm = crud.runs.create(db, **run_data.model_dump())
@@ -42,4 +42,4 @@ async def put_run(run_data: Run, db: Session = Depends(get_db)):
     kwargs["id"] = r.id
     kwargs["predecessor_run_id"] = rm.predecessor_run_id
 
-    return RunOut(**kwargs)
+    return Run(**kwargs)

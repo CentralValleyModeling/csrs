@@ -22,8 +22,14 @@ class RunModel(Base):
     scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"))
     version: Mapped[str] = mapped_column(nullable=False)
 
+    # metadata
+    contact: Mapped[str] = mapped_column(nullable=False)
+    confidential: Mapped[bool] = mapped_column(nullable=False)
+    published: Mapped[bool] = mapped_column(nullable=False)
+    code_version: Mapped[str] = mapped_column(nullable=False)
+    detail: Mapped[str] = mapped_column(nullable=False)
+
     scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
-    info: Mapped["RunMetadataModel"] = relationship(back_populates="run")
     children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
     parent: Mapped["RunModel"] = relationship(
         back_populates="children",
@@ -33,24 +39,6 @@ class RunModel(Base):
     __table_args__ = (
         UniqueConstraint("scenario_id", "version", name="unique_purpose"),
     )
-
-
-class RunMetadataModel(Base):
-    __tablename__ = "run_metadata"
-
-    run_id: Mapped[int] = mapped_column(
-        ForeignKey("runs.id"),
-        primary_key=True,
-        index=True,
-        autoincrement=True,
-    )
-    contact: Mapped[str] = mapped_column(nullable=False)
-    confidential: Mapped[bool] = mapped_column(nullable=False)
-    published: Mapped[bool] = mapped_column(nullable=False)
-    code_version: Mapped[str] = mapped_column(nullable=False)
-    detail: Mapped[str] = mapped_column(nullable=False)
-
-    run: Mapped[RunModel] = relationship(back_populates="info")
 
 
 class ScenarioModel(Base):

@@ -4,12 +4,12 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..logger import logger
 from ..models import NamedPathModel, RunModel, TimeseriesValueModel, TimestepModel
-from ..schemas import TimeSeriesIn, TimeSeriesOut
+from ..schemas import TimeSeries
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 
 
-@router.get("", response_model=list[TimeSeriesOut])
+@router.get("", response_model=list[TimeSeries])
 async def get_timeseries(
     run_id: int = None,
     path_id: int = None,
@@ -47,12 +47,12 @@ async def get_timeseries(
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
-    return timeseries
+    return TimeSeries.model_validate(timeseries, from_attributes=True)
 
 
-@router.put("", response_model=TimeSeriesOut)
+@router.put("", response_model=TimeSeries)
 async def put_timeseries(
-    ts_block: TimeSeriesIn,
+    ts_block: TimeSeries,
     db: Session = Depends(get_db),
 ):
     logger.info(f"adding {ts_block.count} rows")
@@ -74,4 +74,4 @@ async def put_timeseries(
         logger.error(f"{type(e)} encountered: {e}")
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
-    return ts_model
+    return TimeSeries.model_validate(ts_model, from_attributes=True)
