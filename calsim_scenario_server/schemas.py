@@ -14,10 +14,6 @@ TimeSeriesValues────────┴──────────┤    
 from pydantic import BaseModel
 
 
-class Foo(BaseModel):
-    bar: str
-
-
 class Assumption(BaseModel):
     id: int | None = None
     name: str
