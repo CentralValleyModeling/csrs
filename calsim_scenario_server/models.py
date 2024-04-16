@@ -21,23 +21,26 @@ class RunModel(Base):
     parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("runs.id"))
     scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"))
     version: Mapped[str] = mapped_column(nullable=False)
-
     # metadata
     contact: Mapped[str] = mapped_column(nullable=False)
     confidential: Mapped[bool] = mapped_column(nullable=False)
     published: Mapped[bool] = mapped_column(nullable=False)
     code_version: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
-
+    # ORM relationships
     scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
     children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
     parent: Mapped["RunModel"] = relationship(
         back_populates="children",
         remote_side=[id],
     )
-
+    # Multi-column unique rules
     __table_args__ = (
-        UniqueConstraint("scenario_id", "version", name="unique_purpose"),
+        UniqueConstraint(
+            "scenario_id",
+            "version",
+            name="unique_purpose",
+        ),
     )
 
 
@@ -46,7 +49,7 @@ class ScenarioModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(nullable=False, unique=True)
-
+    # ORM relationships
     runs: Mapped[list[RunModel]] = relationship(back_populates="scenario")
     assumption_maps: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
         back_populates="scenario"
@@ -55,14 +58,14 @@ class ScenarioModel(Base):
 
 class ScenarioAssumptionsModel(Base):
     __tablename__ = "scenario_assumptions"
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"), nullable=False)
     assumption_kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
     assumption_id: Mapped[int] = mapped_column(
-        ForeignKey("assumptions.id"),
-        nullable=False,
+        ForeignKey("assumptions.id"), nullable=False
     )
-
+    # ORM relationships
     scenario: Mapped[ScenarioModel] = relationship(back_populates="assumption_maps")
     assumption: Mapped["AssumptionModel"] = relationship(back_populates="scenario_map")
 
@@ -73,12 +76,9 @@ class NamedPathModel(Base):
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String)
     path = mapped_column(String)
-    category = mapped_column(
-        sqlalchemyEnum(PathCategoryEnum),
-        nullable=False,
-    )
+    category = mapped_column(sqlalchemyEnum(PathCategoryEnum), nullable=False)
     detail = mapped_column(String, nullable=False)
-
+    # Multi-column unique rules
     __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
 
 
@@ -87,10 +87,7 @@ class UnitModel(Base):
 
     id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
     name = mapped_column(String, unique=True)
-    dimensionality = mapped_column(
-        sqlalchemyEnum(DimensionalityEnum),
-        nullable=False,
-    )
+    dimensionality = mapped_column(sqlalchemyEnum(DimensionalityEnum), nullable=False)
 
 
 class MetricModel(Base):
@@ -102,21 +99,28 @@ class MetricModel(Base):
     detail = mapped_column(String, nullable=False)
 
 
-class TimeseriesValueModel(Base):
+class TimeSeriesModel(Base):
     __tablename__ = "time_series_values"
+
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
     path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
     timestep_id = mapped_column(ForeignKey("timesteps.id"), primary_key=True)
     units = mapped_column(ForeignKey("units.id"))
     value = mapped_column(Float, nullable=False)
-
+    # Multi-column unique rules
     __table_args__ = (
-        UniqueConstraint("run_id", "path_id", "timestep_id", name="unique_in_run"),
+        UniqueConstraint(
+            "run_id",
+            "path_id",
+            "timestep_id",
+            name="unique_in_run",
+        ),
     )
 
 
 class MetricValueModel(Base):
     __tablename__ = "metric_values"
+
     path_id = mapped_column(ForeignKey("paths.id"), primary_key=True)
     run_id = mapped_column(ForeignKey("runs.id"), primary_key=True)
     metric_id = mapped_column(ForeignKey("metrics.id"), primary_key=True)
@@ -139,11 +143,20 @@ class AssumptionModel(Base):
     name: Mapped[str] = mapped_column(nullable=False)
     kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column()
-
-    __table_args__ = (
-        UniqueConstraint("name", "kind", name="unique_name"),
-        UniqueConstraint("detail", "kind", name="unique_detail"),
-    )
+    # ORM relationships
     scenario_map: Mapped[list[ScenarioAssumptionsModel]] = relationship(
         back_populates="assumption"
+    )
+    # Multi-column unique rules
+    __table_args__ = (
+        UniqueConstraint(
+            "name",
+            "kind",
+            name="unique_name",
+        ),
+        UniqueConstraint(
+            "detail",
+            "kind",
+            name="unique_detail",
+        ),
     )
