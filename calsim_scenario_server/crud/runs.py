@@ -1,36 +1,36 @@
-from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from ..models import RunMetadataModel, RunModel
 from ..schemas import Run
+from .scenarios import read as read_scenarios
 
 
-def model_to_schema(run: RunModel, meta: RunMetadataModel, db: Session) -> Run:
-    if meta.predecessor_run_id is not None:
-        pred = (
-            db.query(RunModel)
-            .filter(RunModel.id == RunMetadataModel.predecessor_run_id)
-            .first()
-            .name
-        )
+def model_to_schema(run: RunModel) -> Run:
+    if run.parent:
+        parent_id = run.parent.id
     else:
-        pred = None
+        parent_id = None
+    if run.children:
+        children = [c.id for c in run.children]
+    else:
+        children = None
     return Run(
-        name=run.name,
         scenario_id=run.scenario_id,
-        predecessor_run_name=pred,
-        contact=meta.contact,
-        confidential=meta.confidential,
-        published=meta.published,
-        code_version=meta.code_version,
-        detail=meta.detail,
+        version=run.version,
+        # info
+        parent_id=parent_id,
+        children_ids=children,
+        contact=run.info.contact,
+        confidential=run.info.confidential,
+        published=run.info.published,
+        code_version=run.info.code_version,
+        detail=run.info.detail,
     )
 
 
 def create(
     db: Session,
-    name: str,
-    scenario_id: int,
+    scenario: str,
     version: str,
     contact: str,
     code_version: str,
@@ -42,19 +42,22 @@ def create(
     if predecessor_run_name:
         predecessor_run = read(db, name=predecessor_run_name)
         if len(predecessor_run) != 1:
-            raise HTTPException(
-                status_code=400, detail="multiple potential predecessors found"
-            )
+            raise AttributeError("multiple potential predecessors found")
         predecessor_run_id = predecessor_run[0].id
     else:
         predecessor_run_id = None
+    (scenario_model,) = read_scenarios(db=db, name=scenario)
 
     # DB interactions
-    run = RunModel(name=name, scenario_id=scenario_id, version=version)
+    run = RunModel(
+        scenario_id=scenario_model.id,
+        version=version,
+        parent_id=predecessor_run_id,
+    )
     db.add(run)
+    db.flush()
     run_metadata = RunMetadataModel(
         run_id=run.id,
-        predecessor_run_id=predecessor_run_id,
         contact=contact,
         confidential=confidential,
         published=published,
@@ -66,7 +69,7 @@ def create(
     db.refresh(run)
     db.refresh(run_metadata)
 
-    return model_to_schema(run, run_metadata, db)
+    return model_to_schema(run)
 
 
 def read(

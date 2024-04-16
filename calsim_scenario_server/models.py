@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean
+from typing import Optional
+
 from sqlalchemy import Enum as sqlalchemyEnum
 from sqlalchemy import Float, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -16,11 +17,18 @@ class Base(DeclarativeBase):
 class RunModel(Base):
     __tablename__ = "runs"
 
-    id = mapped_column(Integer, primary_key=True, index=True, autoincrement=True)
-    scenario_id = mapped_column(ForeignKey("scenarios.id"))
-    version = mapped_column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("runs.id"))
+    scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"))
+    version: Mapped[str] = mapped_column(nullable=False)
 
     scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
+    info: Mapped["RunMetadataModel"] = relationship(back_populates="run")
+    children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
+    parent: Mapped["RunModel"] = relationship(
+        back_populates="children",
+        remote_side=[id],
+    )
 
     __table_args__ = (
         UniqueConstraint("scenario_id", "version", name="unique_purpose"),
@@ -30,18 +38,19 @@ class RunModel(Base):
 class RunMetadataModel(Base):
     __tablename__ = "run_metadata"
 
-    run_id = mapped_column(
+    run_id: Mapped[int] = mapped_column(
         ForeignKey("runs.id"),
         primary_key=True,
         index=True,
         autoincrement=True,
     )
-    predecessor_run_id = mapped_column(ForeignKey("runs.id"), nullable=True)
-    contact = mapped_column(String, nullable=False)
-    confidential = mapped_column(Boolean, nullable=False)
-    published = mapped_column(Boolean, nullable=False)
-    code_version = mapped_column(String, nullable=False)
-    detail = mapped_column(String, nullable=False)
+    contact: Mapped[str] = mapped_column(nullable=False)
+    confidential: Mapped[bool] = mapped_column(nullable=False)
+    published: Mapped[bool] = mapped_column(nullable=False)
+    code_version: Mapped[str] = mapped_column(nullable=False)
+    detail: Mapped[str] = mapped_column(nullable=False)
+
+    run: Mapped[RunModel] = relationship(back_populates="info")
 
 
 class ScenarioModel(Base):

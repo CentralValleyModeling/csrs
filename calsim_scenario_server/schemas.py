@@ -56,11 +56,11 @@ class Timestep(BaseModel):
 
 
 class Run(BaseModel):
-    name: str
     scenario_id: int
     version: str
-    # metadata
-    predecessor_run_name: str | None  # TODO: consider just returning id
+    # info
+    parent_id: int | None
+    children_ids: list[int] | None
     contact: str
     confidential: bool
     published: bool
@@ -70,7 +70,7 @@ class Run(BaseModel):
 
 class RunOut(Run):
     id: int
-    predecessor_run_id: int | None
+    parent_id: int | None
 
 
 class RunReference(BaseModel):
