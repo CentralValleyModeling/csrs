@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..enum import PathCategoryEnum
 from ..models import NamedPathModel
-from ..schemas import NamedPath
+from ..schemas import NamedDatasetPath
 from .decorators import rollback_on_exception
 
 
@@ -14,7 +14,7 @@ def create(
     path: str,
     category: str,
     detail: str,
-) -> NamedPath:
+) -> NamedDatasetPath:
     # Check if category is valid
     try:
         category = PathCategoryEnum(category)
@@ -37,7 +37,7 @@ def create(
     db.add(path)
     db.commit()
     db.refresh(path)
-    return NamedPath.model_validate(path, from_attributes=True)
+    return NamedDatasetPath.model_validate(path, from_attributes=True)
 
 
 @rollback_on_exception
@@ -47,7 +47,7 @@ def read(
     path: str = None,
     category: str = None,
     id: int = None,
-) -> list[NamedPath]:
+) -> list[NamedDatasetPath]:
     filters = list()
     if name:
         filters.append(NamedPathModel.name == name)
@@ -58,7 +58,7 @@ def read(
     if id:
         filters.append(NamedPathModel.id == id)
     paths = db.query(NamedPathModel).filter(*filters).all()
-    return [NamedPath.model_validate(p, from_attributes=True) for p in paths]
+    return [NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths]
 
     raise NotImplementedError()
 

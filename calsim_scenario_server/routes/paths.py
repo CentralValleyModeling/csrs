@@ -5,12 +5,12 @@ from sqlalchemy.orm import Session
 from ..database import get_db
 from ..logger import logger
 from ..models import NamedPathModel, RunModel, TimeSeriesModel
-from ..schemas import NamedPath
+from ..schemas import NamedDatasetPath
 
 router = APIRouter(prefix="/paths", tags=["Paths"])
 
 
-@router.get("/", response_model=list[NamedPath])
+@router.get("/", response_model=list[NamedDatasetPath])
 async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
     logger.info(f"getting all paths {scenario_id=}")
     if scenario_id:
@@ -34,8 +34,8 @@ async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
     return paths
 
 
-@router.put("/", response_model=NamedPath)
-async def put_path(path_data: NamedPath, db: Session = Depends(get_db)):
+@router.put("/", response_model=NamedDatasetPath)
+async def put_path(path_data: NamedDatasetPath, db: Session = Depends(get_db)):
     logger.info(f"{path_data=}")
     try:
         # Create a new Path object
