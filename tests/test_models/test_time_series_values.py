@@ -1,4 +1,4 @@
-from calsim_scenario_server.models import TimeseriesValueModel
+from calsim_scenario_server.models import TimeSeriesModel
 
 EXPECTED_COLUMNS = {
     "run_id": int,
@@ -10,7 +10,7 @@ EXPECTED_COLUMNS = {
 
 
 def test_columns():
-    columns = [c.key for c in TimeseriesValueModel.__table__.columns]
+    columns = [c.key for c in TimeSeriesModel.__table__.columns]
     missing = list()
     for c in EXPECTED_COLUMNS:
         if c not in columns:
@@ -24,9 +24,7 @@ def test_columns():
 
 
 def test_column_types():
-    columns = {
-        c.key: c.type.python_type for c in TimeseriesValueModel.__table__.columns
-    }
+    columns = {c.key: c.type.python_type for c in TimeSeriesModel.__table__.columns}
     bad_types = list()
     for c in EXPECTED_COLUMNS:
         if EXPECTED_COLUMNS[c] != EXPECTED_COLUMNS[c]:

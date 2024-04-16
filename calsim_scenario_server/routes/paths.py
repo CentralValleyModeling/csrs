@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import NamedPathModel, RunModel, TimeseriesValueModel
+from ..models import NamedPathModel, RunModel, TimeSeriesModel
 from ..schemas import NamedPath
 
 router = APIRouter(prefix="/paths", tags=["Paths"])
@@ -17,10 +17,10 @@ async def get_all_paths(scenario_id: int = None, db: Session = Depends(get_db)):
         paths = (
             db.query(NamedPathModel)
             .join(
-                TimeseriesValueModel,
-                TimeseriesValueModel.path_id == NamedPathModel.path_id,
+                TimeSeriesModel,
+                TimeSeriesModel.path_id == NamedPathModel.path_id,
             )
-            .join(RunModel, RunModel.id == TimeseriesValueModel.run_id)
+            .join(RunModel, RunModel.id == TimeSeriesModel.run_id)
             .filter(RunModel.scenario_id == scenario_id)
             .distinct()  # Ensure unique paths
             .all()

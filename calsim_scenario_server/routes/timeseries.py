@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import NamedPathModel, RunModel, TimeseriesValueModel, TimestepModel
+from ..models import NamedPathModel, RunModel, TimeSeriesModel, TimestepModel
 from ..schemas import TimeSeries
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
@@ -31,9 +31,9 @@ async def get_timeseries(
                 detail="Requesting timeseries with no filters returns too much data.",
             )
         timeseries = (
-            db.query(TimeseriesValueModel)
+            db.query(TimeSeriesModel)
             .filter(*filters)
-            .join(TimestepModel, TimestepModel.id == TimeseriesValueModel.timestep_id)
+            .join(TimestepModel, TimestepModel.id == TimeSeriesModel.timestep_id)
             .all()
         )
         logger.debug(f"returning {len(timeseries)} rows")
@@ -58,7 +58,7 @@ async def put_timeseries(
     logger.info(f"adding {ts_block.count} rows")
     try:
         ts_model = (
-            TimeseriesValueModel(
+            TimeSeriesModel(
                 run_id=ts_block.run_ids[i],
                 path_id=ts_block.path_ids[i],
                 timestep_id=ts_block.timestep_ids[i],
