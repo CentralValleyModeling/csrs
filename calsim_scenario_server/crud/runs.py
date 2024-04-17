@@ -2,8 +2,8 @@ from sqlalchemy.orm import Session
 
 from ..models import RunModel
 from ..schemas import Run
+from . import scenarios as crud_scenarios
 from .decorators import rollback_on_exception
-from .scenarios import read as read_scenarios
 
 
 @rollback_on_exception
@@ -27,6 +27,7 @@ def model_to_schema(run: RunModel) -> Run:
         published=run.published,
         code_version=run.code_version,
         detail=run.detail,
+        dss=run.dss,
     )
 
 
@@ -41,6 +42,8 @@ def create(
     published: bool = False,
     confidential: bool = True,
     predecessor_run_name: str = None,
+    dss: str = None,
+    prefer_this_version: bool = True,
 ) -> Run:
     if predecessor_run_name:
         predecessor_run = read(db, name=predecessor_run_name)
@@ -49,7 +52,7 @@ def create(
         predecessor_run_id = predecessor_run[0].id
     else:
         predecessor_run_id = None
-    (scenario_model,) = read_scenarios(db=db, name=scenario)
+    (scenario_model,) = crud_scenarios.read(db=db, name=scenario)
 
     run = RunModel(
         scenario_id=scenario_model.id,
@@ -60,8 +63,11 @@ def create(
         detail=detail,
         published=published,
         confidential=confidential,
+        dss=dss,
     )
     db.add(run)
+    if prefer_this_version:
+        crud_scenarios.update_version(db, scenario, version)
     db.commit()
     db.refresh(run)
 
@@ -78,7 +84,7 @@ def read(
 ) -> list[Run]:
     filters = list()
     if scenario:
-        (scenario_obj,) = read_scenarios(db, name=scenario)
+        (scenario_obj,) = crud_scenarios.read(db, name=scenario)
         filters.append(RunModel.scenario_id == scenario_obj.id)
     if version:
         filters.append(RunModel.version == version)
