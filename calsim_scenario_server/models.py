@@ -3,7 +3,7 @@
 from typing import Optional
 
 from sqlalchemy import Enum as sqlalchemyEnum
-from sqlalchemy import Float, ForeignKey, Integer, String
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
@@ -66,9 +66,17 @@ class ScenarioModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(nullable=False, unique=True)
-    version: Mapped[str] = mapped_column(nullable=True)
+    version: Mapped[str] = mapped_column(ForeignKey("runs.version"), nullable=True)
     # ORM relationships
-    runs: Mapped[list["RunModel"]] = relationship(back_populates="scenario")
+    all_runs: Mapped[list["RunModel"]] = relationship(
+        back_populates="scenario",
+        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)",
+    )
+    run: Mapped["RunModel"] = relationship(
+        overlaps="all_runs",
+        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)"
+        + " and (ScenarioModel.version == RunModel.version)",
+    )
     assumption_maps: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
         back_populates="scenario"
     )
@@ -97,7 +105,11 @@ class RunModel(Base):
         nullable=True,
     )
     # ORM relationships
-    scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
+    scenario: Mapped["ScenarioModel"] = relationship(
+        back_populates="all_runs",
+        viewonly=True,
+        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)",
+    )
     children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
     parent: Mapped["RunModel"] = relationship(
         back_populates="children",
