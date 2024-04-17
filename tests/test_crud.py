@@ -16,7 +16,7 @@ engine = create_engine(
     SQLALCHEMY_DATABASE_URL,
     connect_args={"check_same_thread": False},
     poolclass=StaticPool,
-    echo=True,
+    echo=False,
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base.metadata.create_all(bind=engine)
@@ -123,7 +123,7 @@ def test_create_run():
     )
     for kind in enum.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
-
+    # Create scenario
     kwargs = dict(
         name="testing-create-run-scenario",
         db=session,
@@ -131,13 +131,12 @@ def test_create_run():
     for kind in enum.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
-
+    # Create run
     kwargs = dict(
         scenario="testing-create-run-scenario",
-        code_version="0.1",
-        contact="user@email.com",
         version="0.2",
-        predecessor_run_name=None,
+        contact="user@email.com",
+        code_version="0.1",
         detail="testing-create-run",
         db=session,
     )
