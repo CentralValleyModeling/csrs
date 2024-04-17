@@ -66,6 +66,7 @@ class ScenarioModel(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(nullable=False, unique=True)
+    version: Mapped[str] = mapped_column(nullable=True)
     # ORM relationships
     runs: Mapped[list["RunModel"]] = relationship(back_populates="scenario")
     assumption_maps: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
@@ -89,6 +90,12 @@ class RunModel(Base):
     published: Mapped[bool] = mapped_column(nullable=False)
     code_version: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
+    # external data
+    dss: Mapped[str] = mapped_column(
+        ForeignKey("common_catalog.dss"),
+        unique=True,
+        nullable=True,
+    )
     # ORM relationships
     scenario: Mapped["ScenarioModel"] = relationship(back_populates="runs")
     children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
@@ -96,7 +103,7 @@ class RunModel(Base):
         back_populates="children",
         remote_side=[id],
     )
-    dss_lookup: Mapped["DSSLookup"] = relationship(back_populates="run")
+    catalog: Mapped[list["CommonCatalog"]] = relationship(back_populates="run")
     # Multi-column unique rules
     __table_args__ = (
         UniqueConstraint(
@@ -107,30 +114,17 @@ class RunModel(Base):
     )
 
 
-class DSSLookup(Base):
-    """Data about the DSS file used to store timeseries data for a run."""
-
-    __tablename__ = "dss_lookup"
-
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), nullable=False)
-    source: Mapped[str] = mapped_column(nullable=False)
-    # ORM relationships
-    run: Mapped["RunModel"] = relationship(back_populates="dss_lookup")
-    catalog: Mapped[list["CommonCatalog"]] = relationship(back_populates="dss_lookup")
-
-
 class CommonCatalog(Base):
     """Data about the paths contained in each DSS file."""
 
     __tablename__ = "common_catalog"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    run_id: Mapped[int] = mapped_column(ForeignKey("dss_lookup.id"), nullable=False)
+    dss: Mapped[str] = mapped_column(nullable=False)
     path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), nullable=False)
     # ORM relationships
-    dss_lookup: Mapped["DSSLookup"] = relationship(back_populates="catalog")
     path: Mapped["NamedPathModel"] = relationship()
+    run: Mapped["RunModel"] = relationship(back_populates="catalog")
 
 
 class NamedPathModel(Base):
