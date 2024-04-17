@@ -6,8 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from calsim_scenario_server import crud, enum, schemas
-from calsim_scenario_server.models import Base
+from calsim_scenario_server import crud, enum, models, schemas
 
 TEST_ASSETS_DIR = Path(__file__).parent / "assets"
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
@@ -19,7 +18,7 @@ engine = create_engine(
     echo=False,
 )
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base.metadata.create_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 session = TestingSessionLocal()
 
 
@@ -205,7 +204,8 @@ def test_read_path():
     assert path.name == kwargs["name"]
 
 
-def test_create_timeseries():
+def test_create_read_timeseries():
+    # assumptions
     default_assumption_kwargs = dict(
         name="testing-create-timeseries-assumption",
         detail="testing create timeseries",
@@ -213,7 +213,7 @@ def test_create_timeseries():
     )
     for kind in enum.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
-
+    # scenario
     kwargs = dict(
         name="testing-create-timeseries-scenario",
         db=session,
@@ -221,7 +221,7 @@ def test_create_timeseries():
     for kind in enum.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
-
+    # run
     kwargs = dict(
         scenario="testing-create-timeseries-scenario",
         code_version="0.1",
@@ -232,7 +232,16 @@ def test_create_timeseries():
         db=session,
     )
     crud.runs.create(**kwargs)
-
+    # path
+    kwargs = dict(
+        name="Shasta Storage",
+        path="/CALSIM/S_SHSTA/STORAGE//1MON/L2020A/",
+        category="storage",
+        detail="Storage in Shasta Reservoir in TAF.",
+        db=session,
+    )
+    crud.paths.create(**kwargs)
+    # timeseries
     dss = TEST_ASSETS_DIR / "DV.dss"
     path = pdss.DatasetPath(b="S_SHSTA", c="STORAGE")
     rts = pdss.read_rts(dss, path)
@@ -244,8 +253,22 @@ def test_create_timeseries():
         **rts.to_json(),
         db=session,
     )
-    crud.timeseries.create(**kwargs)
+    timeseries = crud.timeseries.create(**kwargs)
+    assert isinstance(timeseries, schemas.Timeseries)
+    assert timeseries.values[0] == float(rts.values[0])
+    assert len(timeseries.values) == len(rts.values)
+    rts_2 = pdss.RegularTimeseries.from_json(
+        timeseries.model_dump(exclude=("id", "scenario", "version"))
+    )
+    for L, R in zip(rts.dates, rts_2.dates):
+        assert L == R
 
-
-def test_read_timeseries_values():
-    pass
+    timeseries_read = crud.timeseries.read(
+        db=session,
+        scenario=kwargs["scenario"],
+        version=kwargs["version"],
+        path=kwargs["path"],
+    )
+    assert timeseries.path == timeseries_read.path
+    for L, R in zip(timeseries.values, timeseries_read.values):
+        assert L == R
