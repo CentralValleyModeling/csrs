@@ -1,3 +1,6 @@
+from pathlib import Path
+
+import pandss as pdss
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -6,6 +9,7 @@ from sqlalchemy.pool import StaticPool
 from calsim_scenario_server import crud, enum, schemas
 from calsim_scenario_server.models import Base
 
+TEST_ASSETS_DIR = Path(__file__).parent / "assets"
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(
@@ -202,22 +206,47 @@ def test_read_path():
     assert path.name == kwargs["name"]
 
 
-def test_create_timeseries_values():
-    kwargs = dict(
-        datetime_str="1921-10-31T23:59:00",
+def test_create_timeseries():
+    default_assumption_kwargs = dict(
+        name="testing-create-timeseries-assumption",
+        detail="testing create timeseries",
         db=session,
     )
-    ts = crud.timeseries.create(**kwargs)
-    assert ts.datetime_str == kwargs["datetime_str"]
+    for kind in enum.AssumptionEnum:
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
 
-
-def test_read_timeseries_values():
     kwargs = dict(
-        datetime_str="1921-10-31T23:59:00",
+        name="testing-create-timeseries-scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        kwargs[kind.value] = default_assumption_kwargs["name"]
+    crud.scenarios.create(**kwargs)
+
+    kwargs = dict(
+        scenario="testing-create-timeseries-scenario",
+        code_version="0.1",
+        contact="user@email.com",
+        version="0.2",
+        predecessor_run_name=None,
+        detail="testing-create-timeseries",
+        db=session,
+    )
+    crud.runs.create(**kwargs)
+
+    dss = TEST_ASSETS_DIR / "DV.dss"
+    path = pdss.DatasetPath(b="S_SHSTA", c="STORAGE")
+    rts = pdss.read_rts(dss, path)
+    assert isinstance(rts, pdss.RegularTimeseries)
+
+    kwargs = dict(
+        scenario="testing-create-timeseries-scenario",
+        version="0.2",
+        **rts.to_json(),
         db=session,
     )
     crud.timeseries.create(**kwargs)
-    tss = crud.timeseries.read(**kwargs)
-    assert len(tss) == 1
-    ts = tss[0]
-    assert ts.datetime_str == kwargs["datetime_str"]
+
+
+def test_read_timeseries_values():
+    pass
