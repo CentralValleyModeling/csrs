@@ -23,6 +23,7 @@ class Scenario(BaseModel):
 
     id: int | None = None
     name: str
+    version: str | None = None
     # The attributes below should match the enum AssumptionEnumeration
     land_use: str
     sea_level_rise: str
@@ -33,8 +34,13 @@ class Scenario(BaseModel):
     south_of_delta: str
 
     @classmethod
-    def get_assumption_names(cls) -> tuple:
-        return tuple(a for a in cls.model_fields if a not in ("id", "name"))
+    def get_non_assumption_attrs(cls):
+        return ("id", "name", "version")
+
+    @classmethod
+    def get_assumption_attrs(cls) -> tuple:
+        excluded = cls.get_non_assumption_attrs()
+        return tuple(a for a in cls.model_fields if a not in excluded)
 
 
 class Run(BaseModel):
@@ -53,7 +59,6 @@ class Run(BaseModel):
     published: bool = False
     code_version: str
     detail: str
-    dss: str | None
 
 
 class Timeseries(BaseModel):
@@ -63,8 +68,8 @@ class Timeseries(BaseModel):
     version: str
     # shadow pandss RegularTimeseries attributes
     path: str | pdss.DatasetPath
-    values: tuple[float]
-    dates: tuple[str]
+    values: tuple[float, ...]
+    dates: tuple[str, ...]
     period_type: str
     units: str
     interval: str
