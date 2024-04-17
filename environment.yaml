@@ -12,4 +12,5 @@ dependencies:
   - sqlalchemy=2
   - jinja2=3
   - python-multipart
+  - pandss>=0.7.3
 prefix: C:\Users\zroy\AppData\Local\miniconda3\envs\dev_calsim_scenario_server
