@@ -25,12 +25,13 @@ def create(
         )
     # Check if pathstr is valid
     try:
-        pandss.DatasetPath.from_str(path)
+        dsp = pandss.DatasetPath.from_str(path)
     except Exception:
         raise AttributeError(f"{path=} cannot be converted to DSS path")
+    path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
     path = NamedPathModel(
         name=name,
-        path=path,
+        path=path_str,
         category=category,
         detail=detail,
     )
@@ -52,7 +53,9 @@ def read(
     if name:
         filters.append(NamedPathModel.name == name)
     if path:
-        filters.append(NamedPathModel.path == path)
+        dsp = pandss.DatasetPath.from_str(path)
+        path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
+        filters.append(NamedPathModel.path == path_str)
     if category:
         filters.append(NamedPathModel.category == category)
     if id:
