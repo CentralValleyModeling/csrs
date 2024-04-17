@@ -27,7 +27,12 @@ def model_to_schema(scenario: ScenarioModel):
 
 
 @rollback_on_exception
-def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
+def create(
+    db: Session,
+    name: str,
+    version: str = None,
+    **kwargs: dict[str, str],
+) -> Scenario:
     logger.info(f"adding scenario, {name=}")
     validate_full_assumption_specification(kwargs)
     dup_name = db.query(ScenarioModel).filter_by(name=name).first() is not None
@@ -49,7 +54,7 @@ def create(db: Session, name: str, **kwargs: dict[str, str]) -> Scenario:
                 + f"\tdetails given: {kwargs[table_name]}",
             )
         scenario_assumptions[table_name] = assumption_model[0].id
-    scenario_model = ScenarioModel(name=name)
+    scenario_model = ScenarioModel(name=name, version=version)
     db.add(scenario_model)
     db.flush()
     db.refresh(scenario_model)
@@ -85,8 +90,11 @@ def read(
     return [model_to_schema(m) for m in result]
 
 
-def update() -> ScenarioModel:
-    raise NotImplementedError()
+def update_version(db: Session, name: str, new_version: str) -> ScenarioModel:
+    db.query(ScenarioModel).filter(ScenarioModel.name == name).update(
+        {ScenarioModel.version: new_version}
+    )
+    db.commit()
 
 
 def delete() -> None:
