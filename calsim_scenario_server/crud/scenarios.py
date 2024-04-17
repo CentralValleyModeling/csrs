@@ -9,7 +9,7 @@ from .decorators import rollback_on_exception
 
 def validate_full_assumption_specification(assumptions_used: dict):
     missing = list()
-    for attr in Scenario.get_assumption_names():
+    for attr in Scenario.get_assumption_attrs():
         if attr not in assumptions_used:
             missing.append(attr)
     if missing:
@@ -40,7 +40,7 @@ def create(
         logger.error(f"{dup_name=}")
         raise AttributeError(f"{name=} is already used")
     scenario_assumptions = dict()
-    for table_name in Scenario.get_assumption_names():
+    for table_name in Scenario.get_assumption_attrs():
         assumption_model = assumptions.read(
             db,
             kind=table_name,

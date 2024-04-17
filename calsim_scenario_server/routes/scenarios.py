@@ -12,7 +12,7 @@ router = APIRouter(prefix="/scenarios", tags=["Scenarios"])
 
 def build_response_from_model(db: Session, model: ScenarioModel) -> Scenario:
     kwargs = dict()
-    for attr in Scenario.get_assumption_names():
+    for attr in Scenario.get_assumption_attrs():
         name = getattr(model, attr)
         kwargs[attr] = name
     logger.info(f"{kwargs=}")

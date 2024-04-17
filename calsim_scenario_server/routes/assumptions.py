@@ -32,7 +32,7 @@ def verify_assumption_type(assumption_type: str):
 
 @router.get("", response_model=list[str])
 async def get_assumption_table_names():
-    return Scenario.get_assumption_names()
+    return Scenario.get_assumption_attrs()
 
 
 @router.get("/{assumption_type}", response_model=list[Assumption])
