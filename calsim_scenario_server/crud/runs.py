@@ -27,7 +27,6 @@ def model_to_schema(run: RunModel) -> Run:
         published=run.published,
         code_version=run.code_version,
         detail=run.detail,
-        dss=run.dss,
     )
 
 
