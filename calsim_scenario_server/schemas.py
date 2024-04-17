@@ -53,7 +53,7 @@ class Run(BaseModel):
     published: bool = False
     code_version: str
     detail: str
-    dss: str
+    dss: str | None
 
 
 class Timeseries(BaseModel):
