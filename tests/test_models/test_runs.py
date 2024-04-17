@@ -10,6 +10,7 @@ EXPECTED_COLUMNS = {
     "published": bool,
     "code_version": bool,
     "detail": bool,
+    "dss": str,
 }
 
 
