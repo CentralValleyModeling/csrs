@@ -53,15 +53,16 @@ class Run(BaseModel):
     published: bool = False
     code_version: str
     detail: str
+    dss: str
 
 
 class Timeseries(BaseModel):
     """The timeseries data belonging to one model Run."""
 
     scenario: str
-    run_version: str
+    version: str
     # shadow pandss RegularTimeseries attributes
-    path: str
+    path: str | pdss.DatasetPath
     values: tuple[float]
     dates: tuple[str]
     period_type: str
