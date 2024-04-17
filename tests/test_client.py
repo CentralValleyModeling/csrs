@@ -83,3 +83,8 @@ def test_get_scenario():
     scenario = scenarios[0]
     assert scenario.name == "test_add_scenario"
     assert scenario.dcp == "add_scenario_example"
+
+
+# TODO: write tests for client adding runs
+# TODO: write tests for client adding paths
+# TODO: write tests for client addning timeseries

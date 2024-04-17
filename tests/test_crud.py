@@ -272,3 +272,8 @@ def test_create_read_timeseries():
     assert timeseries.path == timeseries_read.path
     for L, R in zip(timeseries.values, timeseries_read.values):
         assert L == R
+
+
+# TODO: add tests for hard to convert scenario names (for dss file name)
+# TODO: add tests for different length timeseries
+# TODO: add tests for adding two runs in a scenario, updating the preferred run
