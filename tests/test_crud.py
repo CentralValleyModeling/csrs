@@ -114,6 +114,33 @@ def test_create_scenario_incomplete_assumption_specification():
         crud.scenarios.create(**kwargs)
 
 
+def test_update_scenario_version():
+    default_assumption_kwargs = dict(
+        name="testing-create-scenario",
+        detail="testing create scenario",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+
+    kwargs = dict(
+        name="testing-update-scenario",
+        version="0.1",
+        db=session,
+    )
+    for kind in enum.AssumptionEnum:
+        kwargs[kind.value] = default_assumption_kwargs["name"]
+    crud.scenarios.create(**kwargs)
+
+    kwargs = dict(
+        name="testing-update-scenario",
+        new_version="0.2",
+        db=session,
+    )
+    scenario = crud.scenarios.update_version(**kwargs)
+    assert scenario.version == kwargs["new_version"]
+
+
 def test_create_run():
     default_assumption_kwargs = dict(
         name="testing-create-run-assumption",
@@ -164,7 +191,7 @@ def test_read_run():
         code_version="0.1",
         contact="user@email.com",
         version="0.2",
-        predecessor_run_name=None,
+        parent=None,
         detail="testing read run",
         db=session,
     )
@@ -227,7 +254,7 @@ def test_create_read_timeseries():
         code_version="0.1",
         contact="user@email.com",
         version="0.2",
-        predecessor_run_name=None,
+        parent=None,
         detail="testing-create-timeseries",
         db=session,
     )
