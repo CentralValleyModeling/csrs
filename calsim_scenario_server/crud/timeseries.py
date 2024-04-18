@@ -1,3 +1,4 @@
+from pathlib import Path
 from re import sub
 from unicodedata import normalize
 
@@ -13,6 +14,33 @@ def safe_file_name(s: str) -> str:
     s = sub(r"[^\w\s-]", "", s).strip().lower()
     s = sub(r"[-\s]+", "_", s)
     return s
+
+
+def get_dss_root(db: Session) -> Path:
+    path = None
+    if db.bind.dialect.name == "sqlite":
+        path = Path(db.bind.url.database).parent
+
+    if (path is None) or (path == ":memory:"):
+        path = Path("./dss").resolve()
+
+    path.mkdir(parents=False, exist_ok=True)
+    return path
+
+
+def get_run_model(db: Session, scenario: str, version: str) -> models.RunModel:
+    if not isinstance(scenario, str):
+        raise ValueError(f"{scenario=}, expected str")
+    runs = (
+        db.query(models.RunModel)
+        .filter(
+            models.RunModel.scenario == scenario and models.RunModel.version == version
+        )
+        .all()
+    )
+    if len(runs) != 1:  # Couldn't find version
+        raise ValueError(f"couldn't find unique run with {version=} for {scenario=}")
+    return runs[0]
 
 
 @rollback_on_exception
@@ -35,20 +63,14 @@ def create(
     )
     run = sceanrio_model.run
     if run.version != version:
-        run = None
         # Adding data to an older version
-        for r in sceanrio_model.all_runs:
-            if r.version == version:
-                run = r
-                break
-        if run is None:  # Couldn't find version
-            raise ValueError(f"couldn't find run with {version=} for {scenario=}")
+        run = get_run_model(db, scenario=scenario, version=version)
     # Check if run has a DSS yet
     dss = run.dss
     if dss is None:
         s = safe_file_name(sceanrio_model.name)
         r = safe_file_name(run.version)
-        dss = f"{s}_{r}.dss"
+        dss = str(get_dss_root(db) / f"{s}_{r}.dss")
         run.dss = dss
     # Get the path model
     dsp = pdss.DatasetPath.from_str(path)
@@ -91,9 +113,9 @@ def create(
 @rollback_on_exception
 def read(
     db: Session,
-    scenario: str = None,
-    version: str = None,
-    path: str = None,
+    scenario: str,
+    version: str,
+    path: str,
 ) -> schemas.Timeseries:
     # Get the scenario, and the run we are adding data to
     sceanrio_model = (
@@ -103,14 +125,8 @@ def read(
     )
     run = sceanrio_model.run
     if run.version != version:
-        run = None
         # Adding data to an older version
-        for r in sceanrio_model.all_runs:
-            if r.version == version:
-                run = r
-                break
-        if run is None:  # Couldn't find version
-            raise ValueError(f"couldn't find run with {version=} for {scenario=}")
+        run = get_run_model(db, scenario=scenario, version=version)
     # Check if run has a DSS yet
     dss = run.dss
     if not dss:
