@@ -13,7 +13,7 @@ from calsim_scenario_server.database import get_db
 from calsim_scenario_server.models import Base
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def client_local():
     db = Path(__file__).parent / "assets/test_local_client.sqlite"
     client = clients.LocalClient(db_path=db)
@@ -33,7 +33,7 @@ def client_local():
         raise error
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="function", autouse=True)
 def client_server():
     engine = create_engine(
         "sqlite:///:memory:",
