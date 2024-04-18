@@ -1,16 +1,18 @@
-from calsim_scenario_server import schemas as s
+import pandss as pdss
+
+from calsim_scenario_server import schemas
 
 EXPECTED_ASSUMPTION = {
-    "id": int,
+    "id": int | None,
     "name": str,
     "kind": str,
     "detail": str,
 }
 
 EXPECTED_SCENARIO = {
-    "id": int,
+    "id": int | None,
     "name": str,
-    "version": str,
+    "version": str | None,
     "land_use": str,
     "sea_level_rise": str,
     "hydrology": str,
@@ -21,31 +23,31 @@ EXPECTED_SCENARIO = {
 }
 
 EXPECTED_RUN = {
-    "id": int,
+    "id": int | None,
     "scenario": str,
     "version": str,
-    "parent_id": int,
-    "children_ids": tuple,
+    "parent": str | None,
+    "children": tuple[str, ...] | tuple,
     "contact": str,
     "confidential": bool,
     "published": bool,
     "code_version": str,
-    "detail": bool,
+    "detail": str,
 }
 
 EXPECTED_TIMESERIES = {
     "scenario": str,
     "version": str,
-    "path": str,
-    "values": tuple,
-    "dates": tuple,
+    "path": str | pdss.DatasetPath,
+    "values": tuple[float, ...],
+    "dates": tuple[str, ...],
     "period_type": str,
     "units": str,
     "interval": str,
 }
 
 EXPECTED_PATH = {
-    "id": int,
+    "id": int | None,
     "name": str,
     "path": str,
     "category": str,
@@ -53,20 +55,96 @@ EXPECTED_PATH = {
 }
 
 EXPECTED_METRIC = {
-    "id": int,
+    "id": int | None,
     "name": str,
     "index_detail": str,
     "detail": str,
 }
 
 EXPECTED_METRIC_VALUES = {
-    "id": int,
+    "id": int | None,
     "scenario": str,
     "run_version": str,
     "path": str,
     "metric": str,
     "indexes": tuple,
-    "values": tuple,
+    "values": tuple[float, ...],
 }
 
-# TODO: add tests for schema structures
+
+def check_schema_columns(schema: schemas.BaseModel, expectations: dict[str, type]):
+    missing = list()
+    for name in expectations:
+        if name not in schema.model_fields:
+            missing.append(name)
+    assert len(missing) == 0, f"schema is missing expected columns: {missing}"
+    extra = list()
+    for name in schema.model_fields:
+        if name not in expectations:
+            extra.append(name)
+    assert len(extra) == 0, f"model has unexpected columns: {extra}"
+
+
+def check_schema_column_types(schema: schemas.BaseModel, expectations: dict[str, type]):
+    columns = {name: info.annotation for name, info in schema.model_fields.items()}
+    bad_types = list()
+    for c in expectations:
+        if columns[c] != expectations[c]:
+            bad_types.append((c, columns[c], expectations[c]))
+    assert len(bad_types) == 0, f"bad types: {bad_types}"
+
+
+def test_schema_assumpiton_columns():
+    check_schema_columns(schemas.Assumption, EXPECTED_ASSUMPTION)
+
+
+def test_schema_assumpiton_column_types():
+    check_schema_column_types(schemas.Assumption, EXPECTED_ASSUMPTION)
+
+
+def test_schema_metric_value_columns():
+    check_schema_columns(schemas.MetricValue, EXPECTED_METRIC_VALUES)
+
+
+def test_schema_metric_value_column_types():
+    check_schema_column_types(schemas.MetricValue, EXPECTED_METRIC_VALUES)
+
+
+def test_schema_metric_columns():
+    check_schema_columns(schemas.Metric, EXPECTED_METRIC)
+
+
+def test_schema_metric_column_types():
+    check_schema_column_types(schemas.Metric, EXPECTED_METRIC)
+
+
+def test_schema_path_columns():
+    check_schema_columns(schemas.NamedDatasetPath, EXPECTED_PATH)
+
+
+def test_schema_path_column_types():
+    check_schema_column_types(schemas.NamedDatasetPath, EXPECTED_PATH)
+
+
+def test_schema_run_columns():
+    check_schema_columns(schemas.Run, EXPECTED_RUN)
+
+
+def test_schema_run_column_types():
+    check_schema_column_types(schemas.Run, EXPECTED_RUN)
+
+
+def test_schema_scenario_columns():
+    check_schema_columns(schemas.Scenario, EXPECTED_SCENARIO)
+
+
+def test_schema_scenario_column_types():
+    check_schema_column_types(schemas.Scenario, EXPECTED_SCENARIO)
+
+
+def test_schema_timeseries_columns():
+    check_schema_columns(schemas.Timeseries, EXPECTED_TIMESERIES)
+
+
+def test_schema_timeseries_column_types():
+    check_schema_column_types(schemas.Timeseries, EXPECTED_TIMESERIES)
