@@ -15,7 +15,7 @@ class Base(DeclarativeBase):
     pass
 
 
-class AssumptionModel(Base):
+class Assumption(Base):
     """Data regarding single modeling assumptions."""
 
     __tablename__ = "assumptions"
@@ -25,7 +25,7 @@ class AssumptionModel(Base):
     kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column()
     # ORM relationships
-    scenario_map: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
+    scenario_map: Mapped[list["ScenarioAssumptions"]] = relationship(
         back_populates="assumption"
     )
     # Multi-column unique rules
@@ -43,7 +43,7 @@ class AssumptionModel(Base):
     )
 
 
-class ScenarioAssumptionsModel(Base):
+class ScenarioAssumptions(Base):
     """Data regarding which modeling scenarios use which assumptions."""
 
     __tablename__ = "scenario_assumptions"
@@ -55,43 +55,52 @@ class ScenarioAssumptionsModel(Base):
         ForeignKey("assumptions.id"), nullable=False
     )
     # ORM relationships
-    scenario: Mapped["ScenarioModel"] = relationship(back_populates="assumption_maps")
-    assumption: Mapped["AssumptionModel"] = relationship(back_populates="scenario_map")
+    scenario: Mapped["Scenario"] = relationship(back_populates="assumption_maps")
+    assumption: Mapped["Assumption"] = relationship(back_populates="scenario_map")
 
 
-class ScenarioModel(Base):
+class Scenario(Base):
     """Data establishing modeling scenarios."""
 
     __tablename__ = "scenarios"
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False, unique=True)
-    version: Mapped[str] = mapped_column(ForeignKey("runs.version"), nullable=True)
     # ORM relationships
-    all_runs: Mapped[list["RunModel"]] = relationship(
-        back_populates="scenario",
-        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)",
-    )
-    run: Mapped["RunModel"] = relationship(
-        overlaps="all_runs",
-        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)"
-        + " and (ScenarioModel.version == RunModel.version)",
-    )
-    assumption_maps: Mapped[list["ScenarioAssumptionsModel"]] = relationship(
+    history: Mapped[list["RunHistory"]] = relationship(viewonly=True)
+    preference: Mapped["PreferredVersion"] = relationship(back_populates="scenario")
+    assumption_maps: Mapped[list["ScenarioAssumptions"]] = relationship(
         back_populates="scenario"
     )
 
+    @property
+    def version(self) -> str:
+        if self.run:
+            return self.run.version
+        return None
 
-# Define ORM models for each table
-class RunModel(Base):
+    @property
+    def versions(self) -> list[str]:
+        return [r.version for r in self.history]
+
+    @property
+    def run(self) -> "Run":
+        if self.preference:
+            return self.preference.run
+        return None
+
+
+class Run(Base):
     """Data and metadata establishing model runs."""
 
     __tablename__ = "runs"
 
-    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
-    parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("runs.id"))
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"))
-    version: Mapped[str] = mapped_column(nullable=False)
+    parent_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("runs.id"),
+        nullable=True,
+    )
     # metadata
     contact: Mapped[str] = mapped_column(nullable=False)
     confidential: Mapped[bool] = mapped_column(nullable=False)
@@ -99,29 +108,76 @@ class RunModel(Base):
     code_version: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
     # external data
-    dss: Mapped[str] = mapped_column(
-        ForeignKey("common_catalog.dss"),
-        unique=True,
-        nullable=True,
-    )
+    dss: Mapped[Optional[str]] = mapped_column(unique=True, nullable=True)
     # ORM relationships
-    scenario: Mapped["ScenarioModel"] = relationship(
-        back_populates="all_runs",
-        viewonly=True,
-        primaryjoin="(ScenarioModel.id == RunModel.scenario_id)",
-    )
-    children: Mapped[list["RunModel"]] = relationship(back_populates="parent")
-    parent: Mapped["RunModel"] = relationship(
+    history: Mapped["RunHistory"] = relationship(back_populates="run")
+    prefered_via: Mapped["PreferredVersion"] = relationship(back_populates="run")
+    scenario: Mapped["Scenario"] = relationship(viewonly=True)
+    children: Mapped[list["Run"]] = relationship(back_populates="parent")
+    parent: Mapped["Run"] = relationship(
         back_populates="children",
         remote_side=[id],
     )
     catalog: Mapped[list["CommonCatalog"]] = relationship(back_populates="run")
+
+    @property
+    def version(self) -> str:
+        return self.history.version
+
+
+class PreferredVersion(Base):
+    """Data relating the Scenario to it's current preferred Run."""
+
+    __tablename__ = "preferred_versions"
+
+    scenario_id: Mapped[int] = mapped_column(
+        ForeignKey("scenarios.id"),
+        primary_key=True,
+        nullable=False,
+    )
+    run_id: Mapped[int] = mapped_column(
+        ForeignKey("runs.id"),
+        nullable=False,
+    )
+    # ORM relationships
+    scenario: Mapped["Scenario"] = relationship(back_populates="preference")
+    run: Mapped["Run"] = relationship(back_populates="prefered_via")
     # Multi-column unique rules
     __table_args__ = (
         UniqueConstraint(
             "scenario_id",
-            "version",
-            name="unique_purpose",
+            "run_id",
+            name="unique_preference",
+        ),
+    )
+
+    @property
+    def history(self) -> "RunHistory":
+        return self.run.history
+
+    @property
+    def version(self) -> str:
+        return self.history.version
+
+
+class RunHistory(Base):
+    """Data relating the Scenario to it's Run history."""
+
+    __tablename__ = "run_history"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    run_id = mapped_column(ForeignKey("runs.id"), nullable=False)
+    scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"))
+    version: Mapped[str] = mapped_column(nullable=False)
+    # ORM relationships
+    scenario: Mapped["Scenario"] = relationship(viewonly=True)
+    run: Mapped["Run"] = relationship(back_populates="history")
+    # Multi-column unique rules
+    __table_args__ = (
+        UniqueConstraint(
+            "scenario_id",
+            "run_id",
+            name="unique_edition",
         ),
     )
 
@@ -132,14 +188,14 @@ class CommonCatalog(Base):
     __tablename__ = "common_catalog"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    dss: Mapped[str] = mapped_column(nullable=False)
+    dss: Mapped[str] = mapped_column(ForeignKey("runs.dss"), nullable=False)
     path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), nullable=False)
     # ORM relationships
-    path: Mapped["NamedPathModel"] = relationship()
-    run: Mapped["RunModel"] = relationship(back_populates="catalog")
+    path: Mapped["NamedPath"] = relationship()
+    run: Mapped["Run"] = relationship(back_populates="catalog")
 
 
-class NamedPathModel(Base):
+class NamedPath(Base):
     """Data about the meaning and A-F representation of DSS Paths."""
 
     __tablename__ = "paths"
@@ -155,7 +211,7 @@ class NamedPathModel(Base):
     __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
 
 
-class UnitModel(Base):
+class Unit(Base):
     """Data about the units used by timeseries and metrics."""
 
     __tablename__ = "units"
@@ -167,7 +223,7 @@ class UnitModel(Base):
     )
 
 
-class MetricModel(Base):
+class Metric(Base):
     """Data about the meaning of metrics."""
 
     __tablename__ = "metrics"
@@ -178,7 +234,7 @@ class MetricModel(Base):
     detail: Mapped[str] = mapped_column(nullable=False)
 
 
-class MetricValueModel(Base):
+class MetricValue(Base):
     """Data for the processed metrics."""
 
     __tablename__ = "metric_values"
