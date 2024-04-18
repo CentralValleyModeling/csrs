@@ -91,10 +91,14 @@ def read(
 
 
 def update_version(db: Session, name: str, new_version: str) -> ScenarioModel:
-    db.query(ScenarioModel).filter(ScenarioModel.name == name).update(
-        {ScenarioModel.version: new_version}
-    )
+    logger.info(f"updating {name} version to {new_version}")
+    obj = db.query(ScenarioModel).filter(ScenarioModel.name == name).first()
+    obj.version = new_version
     db.commit()
+    db.refresh(obj)
+    logger.debug(f"{obj.name} version is now {obj.version}")
+
+    return obj
 
 
 def delete() -> None:
