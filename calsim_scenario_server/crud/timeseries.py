@@ -31,11 +31,13 @@ def get_dss_root(db: Session) -> Path:
 def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
     if not isinstance(scenario, str):
         raise ValueError(f"{scenario=}, expected str")
-    runs = (
-        db.query(models.Run)
-        .filter(models.Run.scenario == scenario and models.Run.history == version)
-        .all()
+    scenario_model = (
+        db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
+    runs = (
+        db.query(models.Run).filter(models.Run.scenario_id == scenario_model.id).all()
+    )
+    runs = [r for r in runs if r.version == version]
     if len(runs) != 1:  # Couldn't find version
         raise ValueError(f"couldn't find unique run with {version=} for {scenario=}")
     return runs[0]
@@ -65,7 +67,7 @@ def create(
     dss = run.dss
     if dss is None:
         s = safe_file_name(sceanrio_model.name)
-        r = safe_file_name(run.history)
+        r = safe_file_name(run.version)
         dss = str(get_dss_root(db) / f"{s}_{r}.dss")
         run.dss = dss
     # Get the path model

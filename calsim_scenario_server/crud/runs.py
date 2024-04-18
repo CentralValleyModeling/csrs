@@ -107,8 +107,6 @@ def read(
     if scenario:
         (scenario_obj,) = read_scenario(db, name=scenario)
         filters.append(models.Run.scenario_id == scenario_obj.id)
-    if version:
-        filters.append(models.Run.history == version)
     if code_version:
         filters.append(models.Run.code_version == code_version)
     if id:
@@ -116,6 +114,8 @@ def read(
     if contact:
         filters.append(models.Run.contact == contact)
     runs = db.query(models.Run).filter(*filters).all()
+    if version:
+        runs = [r for r in runs if r.version == version]
     return [model_to_schema(r) for r in runs]
 
 

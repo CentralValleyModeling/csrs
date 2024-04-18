@@ -97,13 +97,13 @@ def update_version(db: Session, name: str, new_version: str) -> schemas.Scenario
     if scenario is None:
         raise ValueError(f"could not find scenario where {name=}")
     # Check that run exists with that version
-    run = (
-        db.query(models.Run)
-        .join(models.RunHistory, models.RunHistory.version == new_version)
-        .join(models.Scenario, models.Scenario.id == models.Run.scenario_id)
-        .filter(models.Scenario.name == name)
-        .first()
-    )
+    runs = db.query(models.Run).filter(models.Run.scenario_id == scenario.id).all()
+    runs = [r for r in runs if r.version == new_version]
+    if len(runs) != 1:
+        raise ValueError(
+            f"could not find unqiue run for scenario {name=}, {new_version=}"
+        )
+    run = runs[0]
     if run is None:
         raise ValueError("cannot set scenario version to a run that does not exist")
     # Change preference
