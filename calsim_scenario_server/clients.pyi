@@ -25,7 +25,7 @@ class ScenarioManager:
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> list[schemas.Run]: ...
     def get_timeseries(
         self,
         *,
@@ -39,7 +39,7 @@ class ScenarioManager:
         name: str,
         kind: str,
         detail: str,
-    ) -> list[schemas.Assumption]: ...
+    ) -> schemas.Assumption: ...
     def put_scenario(
         self,
         *,
@@ -52,7 +52,7 @@ class ScenarioManager:
         va: str,
         south_of_delta: str,
         version: str = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Scenario: ...
     def put_run(
         self,
         *,
@@ -65,7 +65,7 @@ class ScenarioManager:
         published: bool = False,
         code_version: str,
         detail: str,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Run: ...
     def put_timeseries(
         self,
         *,
@@ -78,7 +78,7 @@ class ScenarioManager:
         period_type: str,
         units: str,
         interval: str,
-    ) -> list[schemas.Timeseries]: ...
+    ) -> schemas.Timeseries: ...
 
 class RemoteClient(ScenarioManager):
     def get_assumption_names(self) -> list[str]: ...
@@ -129,7 +129,7 @@ class RemoteClient(ScenarioManager):
         va: str,
         south_of_delta: str,
         version: str = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Scenario: ...
     def put_run(
         self,
         *,
@@ -142,7 +142,7 @@ class RemoteClient(ScenarioManager):
         published: bool = False,
         code_version: str,
         detail: str,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Run: ...
     def put_timeseries(
         self,
         *,
@@ -155,7 +155,7 @@ class RemoteClient(ScenarioManager):
         period_type: str,
         units: str,
         interval: str,
-    ) -> list[schemas.Timeseries]: ...
+    ) -> schemas.Timeseries: ...
 
 class LocalClient(ScenarioManager):
     def close() -> None: ...
@@ -180,7 +180,7 @@ class LocalClient(ScenarioManager):
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> list[schemas.Run]: ...
     def get_timeseries(
         self,
         *,
@@ -194,7 +194,7 @@ class LocalClient(ScenarioManager):
         name: str,
         kind: str,
         detail: str,
-    ) -> list[schemas.Assumption]: ...
+    ) -> schemas.Assumption: ...
     def put_scenario(
         self,
         *,
@@ -207,7 +207,7 @@ class LocalClient(ScenarioManager):
         va: str,
         south_of_delta: str,
         version: str = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Scenario: ...
     def put_run(
         self,
         *,
@@ -220,7 +220,7 @@ class LocalClient(ScenarioManager):
         published: bool = False,
         code_version: str,
         detail: str,
-    ) -> list[schemas.Scenario]: ...
+    ) -> schemas.Run: ...
     def put_timeseries(
         self,
         *,
@@ -233,4 +233,4 @@ class LocalClient(ScenarioManager):
         period_type: str,
         units: str,
         interval: str,
-    ) -> list[schemas.Timeseries]: ...
+    ) -> schemas.Timeseries: ...
