@@ -102,5 +102,5 @@ class MetricValue(BaseModel):
     run_version: str
     path: str
     metric: str
-    indexes: tuple[int]
-    values: tuple[float]
+    indexes: tuple
+    values: tuple[float, ...]
