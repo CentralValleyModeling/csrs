@@ -9,18 +9,18 @@ from .decorators import rollback_on_exception
 @rollback_on_exception
 def model_to_schema(run: RunModel) -> Run:
     if run.parent:
-        parent_id = run.parent.id
+        parent = run.parent.version
     else:
-        parent_id = None
+        parent = None
     if run.children:
-        children = tuple(c.id for c in run.children)
+        children = tuple(c.version for c in run.children)
     else:
         children = tuple()
     return Run(
         scenario=run.scenario.name,
         version=run.version,
         # info
-        parent_id=parent_id,
+        parent=parent,
         children_ids=children,
         contact=run.contact,
         confidential=run.confidential,
