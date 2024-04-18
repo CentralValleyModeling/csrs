@@ -34,11 +34,11 @@ class Scenario(BaseModel):
     south_of_delta: str
 
     @classmethod
-    def get_non_assumption_attrs(cls):
+    def get_non_assumption_attrs(cls) -> tuple[str]:
         return ("id", "name", "version")
 
     @classmethod
-    def get_assumption_attrs(cls) -> tuple:
+    def get_assumption_attrs(cls) -> tuple[str]:
         excluded = cls.get_non_assumption_attrs()
         return tuple(a for a in cls.model_fields if a not in excluded)
 
@@ -52,8 +52,8 @@ class Run(BaseModel):
     scenario: str
     version: str
     # info
-    parent_id: int | None = None
-    children_ids: tuple[int] | tuple = tuple()
+    parent: str | None = None
+    children: tuple[str, ...] | tuple = tuple()
     contact: str
     confidential: bool = True
     published: bool = False
