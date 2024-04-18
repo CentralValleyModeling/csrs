@@ -1,7 +1,5 @@
 from sqlalchemy.orm import Session
 
-from calsim_scenario_server import models
-
 from .. import models, schemas
 from ..logger import logger
 from . import assumptions
