@@ -37,15 +37,14 @@ async def get_assumption_table_names():
 
 @router.get("/", response_model=list[Assumption])
 async def get_assumption(
-    assumption_type: str,
     id: int = None,
     name: str = None,
     kind: str = None,
     db: Session = Depends(get_db),
 ):
     logger.info(f"{id=}, {name=}, {kind=}")
-    verify_assumption_type(assumption_type)
-    models = assumptions.read(db, id=id, name=name)
+    verify_assumption_type(kind)
+    models = assumptions.read(db, id=id, name=name, kind=kind)
     logger.debug(f"{len(models)} assumptions found")
     for m in models:
         logger.debug(f"{m.name=}, {m.detail=}")
