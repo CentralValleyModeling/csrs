@@ -173,8 +173,8 @@ def test_read_run():
     assert len(runs) == 1
     run = runs[0]
     assert run.scenario == "testing-read-run-scenario"
-    assert len(run.children_ids) == 0
-    assert run.parent_id is None
+    assert len(run.children) == 0
+    assert run.parent is None
 
 
 def test_create_path():
