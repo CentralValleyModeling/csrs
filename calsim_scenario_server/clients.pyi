@@ -26,13 +26,21 @@ class ScenarioManager:
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Run]: ...
+    def get_path(
+        self,
+        *,
+        name: str = None,
+        path: str = None,
+        category: str = None,
+        id: str = None,
+    ) -> list[schemas.NamedDatasetPath]: ...
     def get_timeseries(
         self,
         *,
-        scenario: str = None,
-        version: str = None,
-        path: str = None,
-    ) -> list[schemas.Timeseries]: ...
+        scenario: str,
+        version: str,
+        path: str,
+    ) -> schemas.Timeseries: ...
     def put_assumption(
         self,
         *,
@@ -58,14 +66,24 @@ class ScenarioManager:
         *,
         scenario: str,
         version: str,
-        parent: str | None = None,
-        children: tuple[str, ...] = tuple(),
         contact: str,
-        confidential: bool = True,
-        published: bool = False,
         code_version: str,
         detail: str,
+        # optional
+        parent: str | None = None,
+        children: tuple[str, ...] = tuple(),
+        confidential: bool = True,
+        published: bool = False,
+        prefer_this_version: bool = True,
     ) -> schemas.Run: ...
+    def put_path(
+        self,
+        *,
+        name: str,
+        path: str,
+        category: str,
+        detail: str,
+    ) -> schemas.NamedDatasetPath: ...
     def put_timeseries(
         self,
         *,
@@ -103,13 +121,21 @@ class RemoteClient(ScenarioManager):
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Scenario]: ...
+    def get_path(
+        self,
+        *,
+        name: str = None,
+        path: str = None,
+        category: str = None,
+        id: str = None,
+    ) -> list[schemas.NamedDatasetPath]: ...
     def get_timeseries(
         self,
         *,
-        scenario: str = None,
-        version: str = None,
-        path: str = None,
-    ) -> list[schemas.Timeseries]: ...
+        scenario: str,
+        version: str,
+        path: str,
+    ) -> schemas.Timeseries: ...
     def put_assumption(
         self,
         *,
@@ -135,14 +161,24 @@ class RemoteClient(ScenarioManager):
         *,
         scenario: str,
         version: str,
-        parent: str | None = None,
-        children: tuple[str, ...] = tuple(),
         contact: str,
-        confidential: bool = True,
-        published: bool = False,
         code_version: str,
         detail: str,
+        # optional
+        parent: str | None = None,
+        children: tuple[str, ...] = tuple(),
+        confidential: bool = True,
+        published: bool = False,
+        prefer_this_version: bool = True,
     ) -> schemas.Run: ...
+    def put_path(
+        self,
+        *,
+        name: str,
+        path: str,
+        category: str,
+        detail: str,
+    ) -> schemas.NamedDatasetPath: ...
     def put_timeseries(
         self,
         *,
@@ -181,13 +217,21 @@ class LocalClient(ScenarioManager):
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Run]: ...
+    def get_path(
+        self,
+        *,
+        name: str = None,
+        path: str = None,
+        category: str = None,
+        id: str = None,
+    ) -> list[schemas.NamedDatasetPath]: ...
     def get_timeseries(
         self,
         *,
-        scenario: str = None,
-        version: str = None,
-        path: str = None,
-    ) -> list[schemas.Timeseries]: ...
+        scenario: str,
+        version: str,
+        path: str,
+    ) -> schemas.Timeseries: ...
     def put_assumption(
         self,
         *,
@@ -213,14 +257,24 @@ class LocalClient(ScenarioManager):
         *,
         scenario: str,
         version: str,
-        parent: str | None = None,
-        children: tuple[str, ...] = tuple(),
         contact: str,
-        confidential: bool = True,
-        published: bool = False,
         code_version: str,
         detail: str,
+        # optional
+        parent: str | None = None,
+        children: tuple[str, ...] = tuple(),
+        confidential: bool = True,
+        published: bool = False,
+        prefer_this_version: bool = True,
     ) -> schemas.Run: ...
+    def put_path(
+        self,
+        *,
+        name: str,
+        path: str,
+        category: str,
+        detail: str,
+    ) -> schemas.NamedDatasetPath: ...
     def put_timeseries(
         self,
         *,

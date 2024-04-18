@@ -96,6 +96,10 @@ class LocalClient(ScenarioManager):
         logger.debug(f"{kwargs=}")
         return crud.runs.read(db=self.session, **kwargs)
 
+    def get_path(self, **kwargs):
+        logger.debug(f"{kwargs=}")
+        return crud.paths.read(db=self.session, **kwargs)
+
     def get_timeseries(self, **kwargs):
         logger.debug(f"{kwargs=}")
         return crud.timeseries.read(db=self.session, **kwargs)
@@ -112,6 +116,10 @@ class LocalClient(ScenarioManager):
     def put_run(self, **kwargs):
         logger.debug(f"{kwargs=}")
         return crud.runs.create(db=self.session, **kwargs)
+
+    def put_path(self, **kwargs):
+        logger.debug(f"{kwargs=}")
+        return crud.paths.create(db=self.session, **kwargs)
 
     def put_timeseries(self, **kwargs):
         logger.debug(f"{kwargs=}")
