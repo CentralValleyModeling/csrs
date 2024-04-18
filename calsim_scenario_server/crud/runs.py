@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 
+from ..logger import logger
 from ..models import RunModel
 from ..schemas import Run
 from . import scenarios as crud_scenarios
@@ -21,7 +22,7 @@ def model_to_schema(run: RunModel) -> Run:
         version=run.version,
         # info
         parent=parent,
-        children_ids=children,
+        children=children,
         contact=run.contact,
         confidential=run.confidential,
         published=run.published,
@@ -40,23 +41,24 @@ def create(
     detail: str,
     published: bool = False,
     confidential: bool = True,
-    predecessor_run_name: str = None,
+    parent: str = None,
     dss: str = None,
     prefer_this_version: bool = True,
 ) -> Run:
-    if predecessor_run_name:
-        predecessor_run = read(db, name=predecessor_run_name)
-        if len(predecessor_run) != 1:
+    logger.info(f"creating new run for {scenario=}, {version=} {prefer_this_version=}")
+    if parent:
+        parent: list[Run] = read(db, scenario=scenario, version=parent)
+        if len(parent) != 1:
             raise AttributeError("multiple potential predecessors found")
-        predecessor_run_id = predecessor_run[0].id
+        parent_id = parent[0].id
     else:
-        predecessor_run_id = None
+        parent_id = None
     (scenario_model,) = crud_scenarios.read(db=db, name=scenario)
 
     run = RunModel(
         scenario_id=scenario_model.id,
         version=version,
-        parent_id=predecessor_run_id,
+        parent_id=parent_id,
         contact=contact,
         code_version=code_version,
         detail=detail,
@@ -65,10 +67,12 @@ def create(
         dss=dss,
     )
     db.add(run)
-    if prefer_this_version:
-        crud_scenarios.update_version(db, scenario, version)
     db.commit()
     db.refresh(run)
+
+    if prefer_this_version:
+        scenario_schema = crud_scenarios.update_version(db, scenario, version)
+    db.refresh(scenario_schema)
 
     return model_to_schema(run)
 
