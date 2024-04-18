@@ -94,57 +94,57 @@ def check_schema_column_types(schema: schemas.BaseModel, expectations: dict[str,
     assert len(bad_types) == 0, f"bad types: {bad_types}"
 
 
-def test_schema_assumpiton_columns():
+def test_schema_columns_assumpiton():
     check_schema_columns(schemas.Assumption, EXPECTED_ASSUMPTION)
 
 
-def test_schema_assumpiton_column_types():
+def test_schema_column_types_assumpiton():
     check_schema_column_types(schemas.Assumption, EXPECTED_ASSUMPTION)
 
 
-def test_schema_metric_value_columns():
+def test_schema_columns_metric_value():
     check_schema_columns(schemas.MetricValue, EXPECTED_METRIC_VALUES)
 
 
-def test_schema_metric_value_column_types():
+def test_schema_column_types_metric_value():
     check_schema_column_types(schemas.MetricValue, EXPECTED_METRIC_VALUES)
 
 
-def test_schema_metric_columns():
+def test_schema_columns_metric():
     check_schema_columns(schemas.Metric, EXPECTED_METRIC)
 
 
-def test_schema_metric_column_types():
+def test_schema_column_types_metric():
     check_schema_column_types(schemas.Metric, EXPECTED_METRIC)
 
 
-def test_schema_path_columns():
+def test_schema_columns_path():
     check_schema_columns(schemas.NamedDatasetPath, EXPECTED_PATH)
 
 
-def test_schema_path_column_types():
+def test_schema_column_types_path():
     check_schema_column_types(schemas.NamedDatasetPath, EXPECTED_PATH)
 
 
-def test_schema_run_columns():
+def test_schema_columns_run():
     check_schema_columns(schemas.Run, EXPECTED_RUN)
 
 
-def test_schema_run_column_types():
+def test_schema_column_types_run():
     check_schema_column_types(schemas.Run, EXPECTED_RUN)
 
 
-def test_schema_scenario_columns():
+def test_schema_columns_scenario():
     check_schema_columns(schemas.Scenario, EXPECTED_SCENARIO)
 
 
-def test_schema_scenario_column_types():
+def test_schema_column_types_scenario():
     check_schema_column_types(schemas.Scenario, EXPECTED_SCENARIO)
 
 
-def test_schema_timeseries_columns():
+def test_schema_columns_timeseries():
     check_schema_columns(schemas.Timeseries, EXPECTED_TIMESERIES)
 
 
-def test_schema_timeseries_column_types():
+def test_schema_column_types_timeseries():
     check_schema_column_types(schemas.Timeseries, EXPECTED_TIMESERIES)

@@ -61,6 +61,10 @@ EXPECTED_SCENARIO_ASSUMPTIONS = {
 EXPECTED_SCENARIO = {
     "id": int,
     "name": str,
+}
+
+EXPECTED_PREFERRED_VERSIONS = {
+    "scenario_id": int,
     "version": str,
 }
 
@@ -94,65 +98,81 @@ def check_model_column_types(model: DeclarativeBase, expectations: dict[str, typ
     assert len(bad_types) == 0, f"bad types: {bad_types}"
 
 
-def test_assumption_model_columns():
+def test_model_columns_assumption():
     check_model_columns(m.AssumptionModel, EXPECTED_ASSUMPTION)
 
 
-def test_assumption_model_column_types():
+def test_model_column_types_assumption():
     check_model_column_types(m.AssumptionModel, EXPECTED_ASSUMPTION)
 
 
-def test_metric_value_model_columns():
+def test_model_columns_metric_value():
     check_model_columns(m.MetricValueModel, EXPECTED_METRIC_VALUES)
 
 
-def test_metric_value_model_column_types():
+def test_model_column_types_metric_value():
     check_model_column_types(m.MetricValueModel, EXPECTED_METRIC_VALUES)
 
 
-def test_metric_model_columns():
+def test_model_columns_metric():
     check_model_columns(m.MetricModel, EXPECTED_METRIC)
 
 
-def test_metric_model_column_types():
+def test_model_column_types_metric():
     check_model_column_types(m.MetricModel, EXPECTED_METRIC)
 
 
-def test_path_model_columns():
+def test_model_columns_path():
     check_model_columns(m.NamedPathModel, EXPECTED_PATH)
 
 
-def test_path_model_column_types():
+def test_model_column_types_path():
     check_model_column_types(m.NamedPathModel, EXPECTED_PATH)
 
 
-def test_run_model_columns():
+def test_model_columns_run():
     check_model_columns(m.RunModel, EXPECTED_RUN)
 
 
-def test_run_model_column_types():
+def test_model_column_types_run():
     check_model_column_types(m.RunModel, EXPECTED_RUN)
 
 
-def test_scenario_assumptions_model_columns():
+def test_model_columns_scenario_assumptions():
     check_model_columns(m.ScenarioAssumptionsModel, EXPECTED_SCENARIO_ASSUMPTIONS)
 
 
-def test_scenario_assumptions_model_column_types():
+def test_model_column_types_scenario_assumptions():
     check_model_column_types(m.ScenarioAssumptionsModel, EXPECTED_SCENARIO_ASSUMPTIONS)
 
 
-def test_scenario_model_columns():
+def test_model_columns_scenario():
     check_model_columns(m.ScenarioModel, EXPECTED_SCENARIO)
 
 
-def test_scenario_model_column_types():
+def test_model_column_types_scenario():
     check_model_column_types(m.ScenarioModel, EXPECTED_SCENARIO)
 
 
-def test_unit_model_columns():
+def test_model_columns_preferred_versions():
+    check_model_columns(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+
+
+def test_model_column_types_preferred_versions():
+    check_model_column_types(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+
+
+def test_model_columns_scenario_history():
+    check_model_columns(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+
+
+def test_model_column_types_scenario_history():
+    check_model_column_types(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+
+
+def test_model_columns_unit():
     check_model_columns(m.UnitModel, EXPECTED_UNIT)
 
 
-def test_unit_model_column_types():
+def test_model_column_types_unit():
     check_model_column_types(m.UnitModel, EXPECTED_UNIT)
