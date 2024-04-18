@@ -35,36 +35,18 @@ async def get_assumption_table_names():
     return Scenario.get_assumption_attrs()
 
 
-@router.get("/{assumption_type}", response_model=list[Assumption])
+@router.get("/", response_model=list[Assumption])
 async def get_assumption(
     assumption_type: str,
     id: int = None,
     name: str = None,
+    kind: str = None,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"{assumption_type=}")
+    logger.info(f"{id=}, {name=}, {kind=}")
     verify_assumption_type(assumption_type)
     models = assumptions.read(db, id=id, name=name)
     logger.debug(f"{len(models)} assumptions found")
     for m in models:
         logger.debug(f"{m.name=}, {m.detail=}")
     return [build_reposne_from_model(m) for m in models]
-
-
-@router.put(
-    "/{assumption_type}",
-    response_model=Assumption,
-    responses={
-        200: {"detail": "assumption added"},
-        400: {"detail": "assumption not added"},
-    },
-)
-async def put_assumption(
-    assumption_type: str,
-    assumption: Assumption,
-    db: Session = Depends(get_db),
-):
-    logger.info(f"{assumption_type=}, {assumption=}")
-    verify_assumption_type(assumption_type)
-    model = assumptions.create(db=db, **assumption.model_dump(exclude=("id")))
-    return build_reposne_from_model(model)

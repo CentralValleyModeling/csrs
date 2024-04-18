@@ -32,14 +32,3 @@ async def get_all_runs(
     logger.info(f"{runs=}")
 
     return runs
-
-
-@router.put("", response_model=Run)
-async def put_run(run_data: Run, db: Session = Depends(get_db)):
-    logger.info(run_data)
-    r, rm = crud.runs.create(db, **run_data.model_dump())
-    kwargs = run_data.model_dump()
-    kwargs["id"] = r.id
-    kwargs["predecessor_run_id"] = rm.predecessor_run_id
-
-    return Run(**kwargs)

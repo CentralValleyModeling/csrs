@@ -31,13 +31,3 @@ async def get_scenario(
     for m in models:
         logger.debug(f"{m.name=}")
     return [build_response_from_model(db, m) for m in models]
-
-
-@router.put("", response_model=Scenario)
-async def put_scenario(
-    scenario: Scenario,
-    db: Session = Depends(get_db),
-):
-    logger.info(f"{scenario.name=}")
-    model = crud.scenarios.create(db, **scenario.model_dump(exclude=("id")))
-    return build_response_from_model(db, model)

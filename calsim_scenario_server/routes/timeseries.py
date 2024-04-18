@@ -19,13 +19,3 @@ async def get_timeseries(
     logger.info(f"{run_id=}, {path_id=}, {category=}")
 
     return None
-
-
-@router.put("", response_model=Timeseries)
-async def put_timeseries(
-    ts_block: Timeseries,
-    db: Session = Depends(get_db),
-):
-    logger.info(f"adding {ts_block.count} rows")
-
-    return None
