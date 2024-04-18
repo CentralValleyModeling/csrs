@@ -28,14 +28,12 @@ def get_dss_root(db: Session) -> Path:
     return path
 
 
-def get_run_model(db: Session, scenario: str, version: str) -> models.RunModel:
+def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
     if not isinstance(scenario, str):
         raise ValueError(f"{scenario=}, expected str")
     runs = (
-        db.query(models.RunModel)
-        .filter(
-            models.RunModel.scenario == scenario and models.RunModel.version == version
-        )
+        db.query(models.Run)
+        .filter(models.Run.scenario == scenario and models.Run.history == version)
         .all()
     )
     if len(runs) != 1:  # Couldn't find version
@@ -57,9 +55,7 @@ def create(
 ) -> schemas.Timeseries:
     # Get the scenario, and the run we are adding data to
     sceanrio_model = (
-        db.query(models.ScenarioModel)
-        .filter(models.ScenarioModel.name == scenario)
-        .first()
+        db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
     run = sceanrio_model.run
     if run.version != version:
@@ -69,16 +65,14 @@ def create(
     dss = run.dss
     if dss is None:
         s = safe_file_name(sceanrio_model.name)
-        r = safe_file_name(run.version)
+        r = safe_file_name(run.history)
         dss = str(get_dss_root(db) / f"{s}_{r}.dss")
         run.dss = dss
     # Get the path model
     dsp = pdss.DatasetPath.from_str(path)
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
     path_model = (
-        db.query(models.NamedPathModel)
-        .filter(models.NamedPathModel.path == path_str)
-        .first()
+        db.query(models.NamedPath).filter(models.NamedPath.path == path_str).first()
     )
     if path_model is None:
         raise ValueError(
@@ -119,9 +113,7 @@ def read(
 ) -> schemas.Timeseries:
     # Get the scenario, and the run we are adding data to
     sceanrio_model = (
-        db.query(models.ScenarioModel)
-        .filter(models.ScenarioModel.name == scenario)
-        .first()
+        db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
     run = sceanrio_model.run
     if run.version != version:

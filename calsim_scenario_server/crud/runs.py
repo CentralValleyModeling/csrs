@@ -1,23 +1,23 @@
 from sqlalchemy.orm import Session
 
+from .. import models, schemas
 from ..logger import logger
-from ..models import RunModel
-from ..schemas import Run
-from . import scenarios as crud_scenarios
 from .decorators import rollback_on_exception
+from .scenarios import read as read_scenario
+from .scenarios import update_version
 
 
 @rollback_on_exception
-def model_to_schema(run: RunModel) -> Run:
+def model_to_schema(run: models.Run) -> schemas.Run:
     if run.parent:
-        parent = run.parent.version
+        parent = run.parent.history
     else:
         parent = None
     if run.children:
-        children = tuple(c.version for c in run.children)
+        children = tuple(c.history for c in run.children)
     else:
         children = tuple()
-    return Run(
+    return schemas.Run(
         scenario=run.scenario.name,
         version=run.version,
         # info
@@ -44,20 +44,21 @@ def create(
     parent: str = None,
     dss: str = None,
     prefer_this_version: bool = True,
-) -> Run:
+) -> schemas.Run:
     logger.info(f"creating new run for {scenario=}, {version=} {prefer_this_version=}")
+    # get the information about the parents that we will need
     if parent:
-        parent: list[Run] = read(db, scenario=scenario, version=parent)
+        parent: list[schemas.Run] = read(db, scenario=scenario, version=parent)
         if len(parent) != 1:
             raise AttributeError("multiple potential predecessors found")
         parent_id = parent[0].id
     else:
         parent_id = None
-    (scenario_model,) = crud_scenarios.read(db=db, name=scenario)
-
-    run = RunModel(
+    # Get the scenario
+    (scenario_model,) = read_scenario(db=db, name=scenario)
+    # Create the run model
+    run = models.Run(
         scenario_id=scenario_model.id,
-        version=version,
         parent_id=parent_id,
         contact=contact,
         code_version=code_version,
@@ -69,12 +70,29 @@ def create(
     db.add(run)
     db.commit()
     db.refresh(run)
-
+    # Add the run to the history table
+    create_run_history(db, run.scenario_id, run.id, version)
+    db.refresh(run)
     if prefer_this_version:
-        scenario_schema = crud_scenarios.update_version(db, scenario, version)
-    db.refresh(scenario_schema)
+        update_version(db, scenario, version)
+    db.refresh(run)
 
     return model_to_schema(run)
+
+
+@rollback_on_exception
+def create_run_history(
+    db: Session,
+    scenario_id: int,
+    run_id: int,
+    version: str,
+) -> models.RunHistory:
+    hist = models.RunHistory(scenario_id=scenario_id, run_id=run_id, version=version)
+    db.add(hist)
+    db.commit()
+    db.refresh(hist)
+
+    return hist
 
 
 def read(
@@ -84,20 +102,20 @@ def read(
     code_version: str = None,
     contact: str = None,
     id: int = None,
-) -> list[Run]:
+) -> list[schemas.Run]:
     filters = list()
     if scenario:
-        (scenario_obj,) = crud_scenarios.read(db, name=scenario)
-        filters.append(RunModel.scenario_id == scenario_obj.id)
+        (scenario_obj,) = read_scenario(db, name=scenario)
+        filters.append(models.Run.scenario_id == scenario_obj.id)
     if version:
-        filters.append(RunModel.version == version)
+        filters.append(models.Run.history == version)
     if code_version:
-        filters.append(RunModel.code_version == code_version)
+        filters.append(models.Run.code_version == code_version)
     if id:
-        filters.append(RunModel.id == id)
+        filters.append(models.Run.id == id)
     if contact:
-        filters.append(RunModel.contact == contact)
-    runs = db.query(RunModel).filter(*filters).all()
+        filters.append(models.Run.contact == contact)
+    runs = db.query(models.Run).filter(*filters).all()
     return [model_to_schema(r) for r in runs]
 
 

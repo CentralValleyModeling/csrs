@@ -1,15 +1,16 @@
 from sqlalchemy.orm import Session
 
+from calsim_scenario_server import models
+
+from .. import models, schemas
 from ..logger import logger
-from ..models import ScenarioAssumptionsModel, ScenarioModel
-from ..schemas import Scenario
 from . import assumptions
 from .decorators import rollback_on_exception
 
 
 def validate_full_assumption_specification(assumptions_used: dict):
     missing = list()
-    for attr in Scenario.get_assumption_attrs():
+    for attr in schemas.Scenario.get_assumption_attrs():
         if attr not in assumptions_used:
             missing.append(attr)
     if missing:
@@ -19,28 +20,28 @@ def validate_full_assumption_specification(assumptions_used: dict):
         )
 
 
-def model_to_schema(scenario: ScenarioModel):
+def model_to_schema(scenario: models.Scenario):
     kwargs = dict(name=scenario.name, id=scenario.id)
     for mapping in scenario.assumption_maps:
         kwargs[mapping.assumption_kind] = mapping.assumption.name
-    return Scenario(**kwargs)
+    kwargs["version"] = scenario.version
+    return schemas.Scenario(**kwargs)
 
 
 @rollback_on_exception
 def create(
     db: Session,
     name: str,
-    version: str = None,
     **kwargs: dict[str, str],
-) -> Scenario:
+) -> schemas.Scenario:
     logger.info(f"adding scenario, {name=}")
     validate_full_assumption_specification(kwargs)
-    dup_name = db.query(ScenarioModel).filter_by(name=name).first() is not None
+    dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
         raise AttributeError(f"{name=} is already used")
     scenario_assumptions = dict()
-    for table_name in Scenario.get_assumption_attrs():
+    for table_name in schemas.Scenario.get_assumption_attrs():
         assumption_model = assumptions.read(
             db,
             kind=table_name,
@@ -54,20 +55,20 @@ def create(
                 + f"\tdetails given: {kwargs[table_name]}",
             )
         scenario_assumptions[table_name] = assumption_model[0].id
-    scenario_model = ScenarioModel(name=name, version=version)
+    scenario_model = models.Scenario(name=name)
+    # Update assumptions mapping
     db.add(scenario_model)
     db.flush()
     db.refresh(scenario_model)
     models_to_add = list()
     for kind, id in scenario_assumptions.items():
         models_to_add.append(
-            ScenarioAssumptionsModel(
+            models.ScenarioAssumptions(
                 scenario_id=scenario_model.id,
                 assumption_id=id,
                 assumption_kind=kind,
             )
         )
-
     db.add_all(models_to_add)
     db.commit()
     db.refresh(scenario_model)
@@ -80,25 +81,61 @@ def read(
     db: Session,
     name: str = None,
     id: int = None,
-) -> list[Scenario]:
+) -> list[schemas.Scenario]:
     filters = list()
     if name:
-        filters.append(ScenarioModel.name == name)
+        filters.append(models.Scenario.name == name)
     if id:
-        filters.append(ScenarioModel.id == id)
-    result = db.query(ScenarioModel).filter(*filters).all()
-    return [model_to_schema(m) for m in result]
+        filters.append(models.Scenario.id == id)
+    result = db.query(models.Scenario).filter(*filters).all()
+    return [model_to_schema(mod) for mod in result]
 
 
-def update_version(db: Session, name: str, new_version: str) -> ScenarioModel:
+@rollback_on_exception
+def update_version(db: Session, name: str, new_version: str) -> schemas.Scenario:
     logger.info(f"updating {name} version to {new_version}")
-    obj = db.query(ScenarioModel).filter(ScenarioModel.name == name).first()
-    obj.version = new_version
-    db.commit()
-    db.refresh(obj)
-    logger.debug(f"{obj.name} version is now {obj.version}")
+    # Check to see if a run exists for the version, scenario
+    scenario = db.query(models.Scenario).filter(models.Scenario.name == name).first()
+    if scenario is None:
+        raise ValueError(f"could not find scenario where {name=}")
+    # Check that run exists with that version
+    run = (
+        db.query(models.Run)
+        .join(models.RunHistory, models.RunHistory.version == new_version)
+        .join(models.Scenario, models.Scenario.id == models.Run.scenario_id)
+        .filter(models.Scenario.name == name)
+        .first()
+    )
+    if run is None:
+        raise ValueError("cannot set scenario version to a run that does not exist")
+    # Change preference
+    update_preference(db, scenario.id, run.id)
+    db.refresh(scenario)
+    logger.debug(f"{scenario.name} version is now {scenario.version}")
 
-    return obj
+    return model_to_schema(scenario)
+
+
+@rollback_on_exception
+def update_preference(
+    db: Session,
+    scenario_id: int,
+    run_id: int,
+) -> models.PreferredVersion:
+    pref = (
+        db.query(models.PreferredVersion)
+        .filter(models.PreferredVersion.scenario_id == scenario_id)
+        .first()
+    )
+    if pref is None:
+        pref = models.PreferredVersion(scenario_id=scenario_id, run_id=run_id)
+        db.add(pref)
+    else:
+        pref.run_id = run_id
+    db.commit()
+    db.refresh(pref)
+
+    return pref
 
 
 def delete() -> None:

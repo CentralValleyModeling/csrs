@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from .. import crud
 from ..database import get_db
 from ..logger import logger
-from ..models import ScenarioModel
+from ..models import Scenario
 from ..schemas import Run
 
 router = APIRouter(prefix="/runs", tags=["Model Runs"])
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
 def assert_scenario_exists(s_id: int | None, db: Session):
     if s_id is not None:
-        s_count = db.query(ScenarioModel).filter(ScenarioModel.id == s_id).count()
+        s_count = db.query(Scenario).filter(Scenario.id == s_id).count()
         if s_count != 1:
             logger.error(f"scenario_id was not found, {s_id=}")
             raise HTTPException(

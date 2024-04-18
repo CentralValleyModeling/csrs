@@ -82,6 +82,7 @@ def test_create_scenario():
 
     kwargs = dict(
         name="testing-create-scenario",
+        version="0.1",
         db=session,
     )
     for kind in enum.AssumptionEnum:
@@ -116,8 +117,8 @@ def test_create_scenario_incomplete_assumption_specification():
 
 def test_update_scenario_version():
     default_assumption_kwargs = dict(
-        name="testing-create-scenario",
-        detail="testing create scenario",
+        name="testing-update-scenario-assumption",
+        detail="testing update scenario",
         db=session,
     )
     for kind in enum.AssumptionEnum:
@@ -132,13 +133,20 @@ def test_update_scenario_version():
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
 
+    # Create run
     kwargs = dict(
-        name="testing-update-scenario",
-        new_version="0.2",
+        scenario="testing-update-scenario",
+        version="0.2",
+        contact="user@email.com",
+        code_version="0.1",
+        detail="testing update scenario",
         db=session,
     )
-    scenario = crud.scenarios.update_version(**kwargs)
-    assert scenario.version == kwargs["new_version"]
+    crud.runs.create(**kwargs)
+
+    # See if the version was updated
+    (scenario,) = crud.scenarios.read(db=session, name=kwargs["scenario"])
+    assert scenario.version == kwargs["version"]
 
 
 def test_create_run():

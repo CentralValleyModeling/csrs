@@ -42,7 +42,6 @@ EXPECTED_RUN = {
     "id": int,
     "parent_id": int,
     "scenario_id": int,
-    "version": str,
     "contact": str,
     "confidential": bool,
     "published": bool,
@@ -64,6 +63,13 @@ EXPECTED_SCENARIO = {
 }
 
 EXPECTED_PREFERRED_VERSIONS = {
+    "scenario_id": int,
+    "run_id": int,
+}
+
+EXPECTED_RUN_HISTORY = {
+    "id": int,
+    "run_id": int,
     "scenario_id": int,
     "version": str,
 }
@@ -99,80 +105,80 @@ def check_model_column_types(model: DeclarativeBase, expectations: dict[str, typ
 
 
 def test_model_columns_assumption():
-    check_model_columns(m.AssumptionModel, EXPECTED_ASSUMPTION)
+    check_model_columns(m.Assumption, EXPECTED_ASSUMPTION)
 
 
 def test_model_column_types_assumption():
-    check_model_column_types(m.AssumptionModel, EXPECTED_ASSUMPTION)
+    check_model_column_types(m.Assumption, EXPECTED_ASSUMPTION)
 
 
 def test_model_columns_metric_value():
-    check_model_columns(m.MetricValueModel, EXPECTED_METRIC_VALUES)
+    check_model_columns(m.MetricValue, EXPECTED_METRIC_VALUES)
 
 
 def test_model_column_types_metric_value():
-    check_model_column_types(m.MetricValueModel, EXPECTED_METRIC_VALUES)
+    check_model_column_types(m.MetricValue, EXPECTED_METRIC_VALUES)
 
 
 def test_model_columns_metric():
-    check_model_columns(m.MetricModel, EXPECTED_METRIC)
+    check_model_columns(m.Metric, EXPECTED_METRIC)
 
 
 def test_model_column_types_metric():
-    check_model_column_types(m.MetricModel, EXPECTED_METRIC)
+    check_model_column_types(m.Metric, EXPECTED_METRIC)
 
 
 def test_model_columns_path():
-    check_model_columns(m.NamedPathModel, EXPECTED_PATH)
+    check_model_columns(m.NamedPath, EXPECTED_PATH)
 
 
 def test_model_column_types_path():
-    check_model_column_types(m.NamedPathModel, EXPECTED_PATH)
+    check_model_column_types(m.NamedPath, EXPECTED_PATH)
 
 
 def test_model_columns_run():
-    check_model_columns(m.RunModel, EXPECTED_RUN)
+    check_model_columns(m.Run, EXPECTED_RUN)
 
 
 def test_model_column_types_run():
-    check_model_column_types(m.RunModel, EXPECTED_RUN)
+    check_model_column_types(m.Run, EXPECTED_RUN)
+
+
+def test_model_columns_run_history():
+    check_model_columns(m.RunHistory, EXPECTED_RUN_HISTORY)
+
+
+def test_model_column_types_run_history():
+    check_model_column_types(m.RunHistory, EXPECTED_RUN_HISTORY)
 
 
 def test_model_columns_scenario_assumptions():
-    check_model_columns(m.ScenarioAssumptionsModel, EXPECTED_SCENARIO_ASSUMPTIONS)
+    check_model_columns(m.ScenarioAssumptions, EXPECTED_SCENARIO_ASSUMPTIONS)
 
 
 def test_model_column_types_scenario_assumptions():
-    check_model_column_types(m.ScenarioAssumptionsModel, EXPECTED_SCENARIO_ASSUMPTIONS)
+    check_model_column_types(m.ScenarioAssumptions, EXPECTED_SCENARIO_ASSUMPTIONS)
 
 
 def test_model_columns_scenario():
-    check_model_columns(m.ScenarioModel, EXPECTED_SCENARIO)
+    check_model_columns(m.Scenario, EXPECTED_SCENARIO)
 
 
 def test_model_column_types_scenario():
-    check_model_column_types(m.ScenarioModel, EXPECTED_SCENARIO)
+    check_model_column_types(m.Scenario, EXPECTED_SCENARIO)
 
 
 def test_model_columns_preferred_versions():
-    check_model_columns(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+    check_model_columns(m.PreferredVersion, EXPECTED_PREFERRED_VERSIONS)
 
 
 def test_model_column_types_preferred_versions():
-    check_model_column_types(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
-
-
-def test_model_columns_scenario_history():
-    check_model_columns(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
-
-
-def test_model_column_types_scenario_history():
-    check_model_column_types(m.PreferredVersionsModel, EXPECTED_PREFERRED_VERSIONS)
+    check_model_column_types(m.PreferredVersion, EXPECTED_PREFERRED_VERSIONS)
 
 
 def test_model_columns_unit():
-    check_model_columns(m.UnitModel, EXPECTED_UNIT)
+    check_model_columns(m.Unit, EXPECTED_UNIT)
 
 
 def test_model_column_types_unit():
-    check_model_column_types(m.UnitModel, EXPECTED_UNIT)
+    check_model_column_types(m.Unit, EXPECTED_UNIT)

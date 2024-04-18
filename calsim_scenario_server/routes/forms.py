@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import AssumptionModel, ScenarioModel
+from ..models import Assumption, Scenario
 
 router = APIRouter(prefix="/forms")
 templates = Jinja2Templates(directory="calsim_scenario_server/templates")
@@ -13,18 +13,18 @@ templates = Jinja2Templates(directory="calsim_scenario_server/templates")
 
 @router.get("/scenarios", response_class=HTMLResponse)
 async def get_scenario_form(request: Request, db: Session = Depends(get_db)):
-    scenarios = db.query(ScenarioModel).all()
+    scenarios = db.query(Scenario).all()
     # The keys to this dict will be converted to ids in the HTML,
     # those ids should be valid python vars, because they are what FastAPI
     # passes to the PUT request handler
     assumption_tables = {
-        "Hydrology": AssumptionModel,
-        "Sea Level Rise": AssumptionModel,
-        "Land Use": AssumptionModel,
-        "TUCP": AssumptionModel,
-        "DCP": AssumptionModel,
-        "VA": AssumptionModel,
-        "South of Delta Storage": AssumptionModel,
+        "Hydrology": Assumption,
+        "Sea Level Rise": Assumption,
+        "Land Use": Assumption,
+        "TUCP": Assumption,
+        "DCP": Assumption,
+        "VA": Assumption,
+        "South of Delta Storage": Assumption,
     }
 
     existing_assumptions = {
@@ -55,7 +55,7 @@ async def put_scenario_form(
 ):
     logger.info(f"adding assumption {scenario_name=}")
     try:
-        row = ScenarioModel(
+        row = Scenario(
             scenario_name=scenario_name,
             hydrology_id=hydrology,
             sea_level_rise_id=sea_level_rise,
@@ -82,9 +82,7 @@ async def put_scenario_form(
 async def get_dcp_form(
     assumption_type: str, request: Request, db: Session = Depends(get_db)
 ):
-    assumptions = db.query(AssumptionModel).filter(
-        AssumptionModel.kind == assumption_type
-    )
+    assumptions = db.query(Assumption).filter(Assumption.kind == assumption_type)
 
     return templates.TemplateResponse(
         "project.html",
@@ -100,7 +98,7 @@ async def get_dcp_form(
 async def put_dcp_form(detail: str = Form(...), db: Session = Depends(get_db)):
     logger.info(f"adding assumption {detail=}")
     try:
-        row = AssumptionModel(detail=detail)
+        row = Assumption(detail=detail)
         # Add the new path to the database session
         db.add(row)
         db.commit()

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..logger import logger
-from ..models import NamedPathModel, RunModel
+from ..models import NamedPath, Run
 from ..schemas import Timeseries
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])

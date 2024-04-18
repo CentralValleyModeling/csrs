@@ -4,13 +4,13 @@ from sqlalchemy.orm import Session
 from ..crud import assumptions
 from ..database import get_db
 from ..logger import logger
-from ..models import AssumptionModel
+from ..models import Assumption
 from ..schemas import Assumption, Scenario
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 
-def build_reposne_from_model(model: AssumptionModel) -> Assumption:
+def build_reposne_from_model(model: Assumption) -> Assumption:
     return Assumption(
         name=model.name,
         kind=model.kind,

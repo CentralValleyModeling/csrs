@@ -1,9 +1,8 @@
 import pandss
 from sqlalchemy.orm import Session
 
+from .. import models, schemas
 from ..enum import PathCategoryEnum
-from ..models import NamedPathModel
-from ..schemas import NamedDatasetPath
 from .decorators import rollback_on_exception
 
 
@@ -14,7 +13,7 @@ def create(
     path: str,
     category: str,
     detail: str,
-) -> NamedDatasetPath:
+) -> schemas.NamedDatasetPath:
     # Check if category is valid
     try:
         category = PathCategoryEnum(category)
@@ -29,7 +28,7 @@ def create(
     except Exception:
         raise AttributeError(f"{path=} cannot be converted to DSS path")
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
-    path = NamedPathModel(
+    path = models.NamedPath(
         name=name,
         path=path_str,
         category=category,
@@ -38,7 +37,7 @@ def create(
     db.add(path)
     db.commit()
     db.refresh(path)
-    return NamedDatasetPath.model_validate(path, from_attributes=True)
+    return schemas.NamedDatasetPath.model_validate(path, from_attributes=True)
 
 
 @rollback_on_exception
@@ -48,20 +47,22 @@ def read(
     path: str = None,
     category: str = None,
     id: int = None,
-) -> list[NamedDatasetPath]:
+) -> list[schemas.NamedDatasetPath]:
     filters = list()
     if name:
-        filters.append(NamedPathModel.name == name)
+        filters.append(models.NamedPath.name == name)
     if path:
         dsp = pandss.DatasetPath.from_str(path)
         path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
-        filters.append(NamedPathModel.path == path_str)
+        filters.append(models.NamedPath.path == path_str)
     if category:
-        filters.append(NamedPathModel.category == category)
+        filters.append(models.NamedPath.category == category)
     if id:
-        filters.append(NamedPathModel.id == id)
-    paths = db.query(NamedPathModel).filter(*filters).all()
-    return [NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths]
+        filters.append(models.NamedPath.id == id)
+    paths = db.query(models.NamedPath).filter(*filters).all()
+    return [
+        schemas.NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths
+    ]
 
 
 def update():
