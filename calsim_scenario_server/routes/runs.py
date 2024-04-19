@@ -1,34 +1,64 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
-from .. import crud
+from .. import crud, schemas
 from ..database import get_db
 from ..logger import logger
-from ..models import Scenario
-from ..schemas import Run
 
 router = APIRouter(prefix="/runs", tags=["Model Runs"])
 
 
-def assert_scenario_exists(s_id: int | None, db: Session):
-    if s_id is not None:
-        s_count = db.query(Scenario).filter(Scenario.id == s_id).count()
-        if s_count != 1:
-            logger.error(f"scenario_id was not found, {s_id=}")
-            raise HTTPException(
-                status_code=400,
-                detail=f"scenario_id={s_id} not found, you need to add it first",
-            )
-
-
-@router.get("", response_model=list[Run])
-async def get_all_runs(
-    id: int = None,
-    name: str = None,
+@router.get("", response_model=list[schemas.Run])
+async def get_runs(
+    scenario: str = None,
+    version: str = None,
+    code_version: str = None,
     db: Session = Depends(get_db),
 ):
-    logger.info("getting all runs")
-    runs = crud.runs.read(db, id=id, name=name)
-    logger.info(f"{runs=}")
+    logger.info(f"getting all runs, filters, {scenario=}, {version=}, {code_version=}")
+    runs = crud.runs.read(
+        db=db,
+        scenario=scenario,
+        version=version,
+        code_version=code_version,
+    )
+    logger.info(f"runs: {[(r.scenario, r.version) for r in runs]}")
 
     return runs
+
+
+@router.put("")
+async def put_run(*args, **kwargs):
+    # Default to preferring the new run
+    return RedirectResponse(url="/preferred")
+
+
+@router.put("/preferred", response_model=schemas.Run)
+async def put_preferred_run(
+    _in: schemas.Run,
+    db: Session = Depends(get_db),
+):
+    logger.info(_in)
+    _out = crud.runs.create(
+        db=db,
+        prefer_this_version=True,  # Prefer this new run on the scenario
+        **_in.model_dump(exclude=("id")),
+    )
+    logger.debug(f"new run {_out.id=}")
+    return _out
+
+
+@router.put("/legacy", response_model=schemas.Run)
+async def put_legacy_run(
+    _in: schemas.Run,
+    db: Session = Depends(get_db),
+):
+    logger.info(_in)
+    _out = crud.runs.create(
+        db=db,
+        prefer_this_version=False,  # Do not change the preferred run for scenario
+        **_in.model_dump(exclude=("id")),
+    )
+    logger.debug(f"new run {_out.id=}")
+    return _out
