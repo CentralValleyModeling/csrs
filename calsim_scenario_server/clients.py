@@ -124,3 +124,6 @@ class LocalClient(ScenarioManager):
     def put_timeseries(self, **kwargs):
         logger.debug(f"{kwargs=}")
         return crud.timeseries.create(db=self.session, **kwargs)
+
+    # TODO: 2024-04-18 Add ability to upload timeseries from DSS
+    # TODO: 2024-04-18 Add ability to upload run and all timeseries from one method
