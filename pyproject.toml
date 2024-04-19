@@ -16,6 +16,11 @@ classifiers = [
 ]
 dependencies = [
     "fastapi",
+    "packaging",
+    "uvicorn",
+    "sqlalchemy",
+    "jinja2",
+    "python-multipart",
     "pandss"
 ]
 

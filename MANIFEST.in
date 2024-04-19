@@ -1,0 +1,4 @@
+recursive-include calsim_scenario_server *.py
+recursive-include calsim_scenario_server *.pyi
+recursive-include calsim_scenario_server *.json
+recursive-include calsim_scenario_server *.html
