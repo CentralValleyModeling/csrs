@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends
-from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from .. import crud, schemas
@@ -28,14 +27,8 @@ async def get_runs(
     return runs
 
 
-@router.put("")
-async def put_run(*args, **kwargs):
-    # Default to preferring the new run
-    return RedirectResponse(url="/preferred")
-
-
-@router.put("/preferred", response_model=schemas.Run)
-async def put_preferred_run(
+@router.put("", response_model=schemas.Run)
+async def put_run(
     _in: schemas.Run,
     db: Session = Depends(get_db),
 ):

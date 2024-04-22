@@ -8,12 +8,12 @@ from ..logger import logger
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 
-@router.get("", response_model=list[str])
+@router.get("/names", response_model=list[str])
 async def get_assumption_table_names():
     return schemas.Scenario.get_assumption_attrs()
 
 
-@router.get("/", response_model=list[schemas.Assumption])
+@router.get("", response_model=list[schemas.Assumption])
 async def get_assumption(
     id: int = None,
     name: str = None,
@@ -28,7 +28,7 @@ async def get_assumption(
     return models
 
 
-@router.put("/", response_model=schemas.Assumption)
+@router.put("", response_model=schemas.Assumption)
 async def put_assumption(
     _in: schemas.Assumption,
     db: Session = Depends(get_db),

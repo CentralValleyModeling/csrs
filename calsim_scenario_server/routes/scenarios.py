@@ -22,7 +22,7 @@ async def get_scenario(
     return scenarios
 
 
-@router.put("/", response_model=schemas.Scenario)
+@router.put("", response_model=schemas.Scenario)
 async def put_scenario(
     _in: schemas.Scenario,
     db: Session = Depends(get_db),
