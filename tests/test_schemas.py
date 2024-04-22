@@ -1,3 +1,4 @@
+import pandas as pd
 import pandss as pdss
 
 from calsim_scenario_server import schemas
@@ -148,3 +149,48 @@ def test_schema_columns_timeseries():
 
 def test_schema_column_types_timeseries():
     check_schema_column_types(schemas.Timeseries, EXPECTED_TIMESERIES)
+
+
+def test_schema_conversion_timeseries():
+    ts = schemas.Timeseries(
+        scenario="test-schema-conversion-timeseries",
+        version="0.1",
+        path=pdss.DatasetPath(b="TEST", c="TESTING"),
+        values=(1.0, 2.0, 3.0),
+        dates=("2024-01-31", "2024-02-29", "2024-03-30"),
+        period_type="PER-CUM",
+        units="TAF",
+        interval="1MON",
+    )
+    rts = ts.to_pandss()
+
+    assert isinstance(rts, pdss.RegularTimeseries)
+
+    ts2 = schemas.Timeseries.from_pandss(
+        scenario=ts.scenario,
+        version=ts.version,
+        rts=rts,
+    )
+
+    assert isinstance(ts2, schemas.Timeseries)
+
+    assert ts.interval == ts2.interval  # Check an attr that pandss mutates
+    for L, R in zip(ts.dates, ts2.dates):  # Check an array of values
+        assert L == R
+
+
+def test_schema_conversion_dataframe():
+    ts = schemas.Timeseries(
+        scenario="test-schema-conversion-timeseries",
+        version="0.1",
+        path=pdss.DatasetPath(b="TEST", c="TESTING"),
+        values=(1.0, 2.0, 3.0),
+        dates=("2024-01-31", "2024-02-29", "2024-03-30"),
+        period_type="PER-CUM",
+        units="TAF",
+        interval="1MON",
+    )
+    df = ts.to_frame()
+    assert isinstance(df, pd.DataFrame)
+    assert "SCENARIO" in df.columns.names
+    assert ts.version == df.columns.to_frame()["VERSION"].iat[0]
