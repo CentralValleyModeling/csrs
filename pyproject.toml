@@ -18,6 +18,7 @@ dependencies = [
     "fastapi",
     "packaging",
     "uvicorn",
+    "gunicorn",
     "sqlalchemy",
     "jinja2",
     "python-multipart",
