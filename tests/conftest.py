@@ -34,7 +34,7 @@ def client_local():
 
 
 @pytest.fixture(scope="function", autouse=True)
-def client_server():
+def client_remote():
     engine = create_engine(
         "sqlite:///:memory:",
         connect_args={"check_same_thread": False},
