@@ -536,9 +536,8 @@ class LocalClient(ClientABC):
 
     def put_default_paths(self):
         logger.debug(f"adding paths from {enums.StandardPathsEnum}")
-        paths = [p.value for p in enums.StandardPathsEnum]
-        for p in paths:
-            self.put_path(**p.model_dump(exclude=("id")))
+        for p in enums.StandardPathsEnum:
+            self.put_path(**p.value.model_dump(exclude=("id")))
 
     def put_timeseries(
         self,
