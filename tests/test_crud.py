@@ -214,7 +214,7 @@ def test_read_run():
 
 def test_create_path():
     kwargs = dict(
-        name="Shasta Storage",
+        name="shasta-storage-test-create-path",
         path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
         category="storage",
         detail="The storage in Shasta Reservoir, in TAF.",
@@ -269,7 +269,7 @@ def test_create_read_timeseries():
     crud.runs.create(**kwargs)
     # path
     kwargs = dict(
-        name="Shasta Storage",
+        name="shasta-sotrage-test-read-timeseries",
         path="/CALSIM/S_SHSTA/STORAGE//1MON/L2020A/",
         category="storage",
         detail="Storage in Shasta Reservoir in TAF.",
