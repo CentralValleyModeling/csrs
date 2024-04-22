@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from calsim_scenario_server import crud, enum, models, schemas
+from calsim_scenario_server import crud, enum, errors, models, schemas
 
 TEST_ASSETS_DIR = Path(__file__).parent / "assets"
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
@@ -67,7 +67,7 @@ def test_create_assumption_duplicate():
         db=session,
     )
     crud.assumptions.create(**kwargs)
-    with pytest.raises(AttributeError):
+    with pytest.raises(errors.DuplicateAssumptionError):
         crud.assumptions.create(**kwargs)
 
 
@@ -111,7 +111,7 @@ def test_create_scenario_incomplete_assumption_specification():
         if kind.value == "dcp":
             continue
         kwargs[kind.value] = default_assumption_kwargs["name"]
-    with pytest.raises(AttributeError):
+    with pytest.raises(errors.ScenarioAssumptionError):
         crud.scenarios.create(**kwargs)
 
 
