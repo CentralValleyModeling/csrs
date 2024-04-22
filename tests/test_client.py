@@ -141,7 +141,7 @@ TESTING_DATA = {
 }
 
 
-def do_assumptions(client: clients.ScenarioManager):
+def do_assumptions(client: clients.ClientABC):
     names = client.get_assumption_names()
     for n in names:
         assert n in schemas.Scenario.get_assumption_attrs()
@@ -156,7 +156,7 @@ def do_assumptions(client: clients.ScenarioManager):
     assert obj.detail == ASSUMPTIONS[0]["detail"]
 
 
-def do_scenarios(client: clients.ScenarioManager):
+def do_scenarios(client: clients.ClientABC):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
         client.put_assumption(**assumption)
@@ -172,7 +172,7 @@ def do_scenarios(client: clients.ScenarioManager):
     assert obj.land_use == SCENARIOS[0]["land_use"]
 
 
-def do_runs(client: clients.ScenarioManager):
+def do_runs(client: clients.ClientABC):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
         client.put_assumption(**assumption)
@@ -204,7 +204,7 @@ def do_runs(client: clients.ScenarioManager):
     assert obj.version == RUNS[1]["version"]
 
 
-def do_paths(client: clients.ScenarioManager):
+def do_paths(client: clients.ClientABC):
     PATHS = TESTING_DATA["paths"]
     for assumption in PATHS:
         client.put_path(**assumption)
@@ -217,7 +217,11 @@ def do_paths(client: clients.ScenarioManager):
     assert obj.detail == PATHS[0]["detail"]
 
 
-def do_timeseries(client: clients.ScenarioManager):
+def do_paths_deafult(client: clients.ClientABC):
+    client.put_default_paths()
+
+
+def do_timeseries(client: clients.ClientABC):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
         client.put_assumption(**assumption)
@@ -267,6 +271,11 @@ def test_local_runs(client_local: clients.LocalClient):
 def test_local_paths(client_local: clients.LocalClient):
     logger.debug("starting test")
     do_paths(client_local)
+
+
+def test_local_paths_default(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_paths_deafult(client_local)
 
 
 def test_local_timeseries(client_local: clients.LocalClient):
