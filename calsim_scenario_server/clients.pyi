@@ -142,7 +142,7 @@ class RemoteClient(ScenarioManager):
         name: str,
         kind: str,
         detail: str,
-    ) -> list[schemas.Assumption]: ...
+    ) -> schemas.Assumption: ...
     def put_scenario(
         self,
         *,
