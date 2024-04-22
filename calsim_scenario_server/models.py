@@ -208,7 +208,7 @@ class NamedPath(Base):
     )
     detail: Mapped[str] = mapped_column(nullable=False)
     # Multi-column unique rules
-    __table_args__ = (UniqueConstraint("path", "category", name="unique_purpose"),)
+    __table_args__ = (UniqueConstraint("name", "category", name="unique_purpose"),)
 
 
 class Unit(Base):
