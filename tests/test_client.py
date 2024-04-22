@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from calsim_scenario_server import clients, schemas
 from calsim_scenario_server.logger import logger
 
@@ -253,6 +255,31 @@ def do_timeseries(client: clients.ClientABC):
     assert ts.values == TIMESERIES[1]["values"]
 
 
+def do_many_timeseries(client: clients.ClientABC):
+    ASSUMPTIONS = TESTING_DATA["assumptions"]
+    for assumption in ASSUMPTIONS:
+        client.put_assumption(**assumption)
+
+    SCENARIOS = TESTING_DATA["scearios"]
+    for scenario in SCENARIOS:
+        obj = client.put_scenario(**scenario)
+        assert isinstance(obj, schemas.Scenario)
+
+    RUNS = TESTING_DATA["runs"]
+    for run in RUNS:
+        obj = client.put_run(**run)
+        assert isinstance(obj, schemas.Run)
+
+    client.put_default_paths()
+
+    DSS = Path(r"tests\assets\DV.dss")
+    client.put_many_timeseries(
+        scenario=RUNS[0]["scenario"],
+        version=RUNS[0]["version"],
+        dss=DSS,
+    )
+
+
 def test_local_assumptions(client_local: clients.LocalClient):
     logger.debug("starting test")
     do_assumptions(client_local)
@@ -303,6 +330,16 @@ def test_remote_paths(client_remote: clients.RemoteClient):
     do_paths(client_remote)
 
 
+def test_remote_paths_default(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_paths_deafult(client_remote)
+
+
 def test_remote_timeseries(client_remote: clients.RemoteClient):
     logger.debug("starting test")
     do_timeseries(client_remote)
+
+
+def test_remote_many_timeseries(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_many_timeseries(client_remote)
