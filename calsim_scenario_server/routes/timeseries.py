@@ -8,16 +8,23 @@ from ..logger import logger
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 
 
-@router.get("", response_model=list[schemas.Timeseries])
+@router.get("", response_model=schemas.Timeseries)
 async def get_timeseries(
-    run_id: int = None,
-    path_id: int = None,
-    category: str = None,
+    scenario: str = None,
+    version: str = None,
+    path: str = None,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"{run_id=}, {path_id=}, {category=}")
+    logger.info(f"getting all timeseries, filters, {scenario=}, {version=}, {path=}")
+    ts = crud.timeseries.read(
+        db=db,
+        scenario=scenario,
+        version=version,
+        path=path,
+    )
+    logger.info(f"timeseries: {ts.scenario}, {ts.version}, {ts.path}")
 
-    return None
+    return ts
 
 
 @router.put("", response_model=schemas.Timeseries)
@@ -26,6 +33,9 @@ async def put_timeseries(
     db: Session = Depends(get_db),
 ):
     logger.info(_in)
-    _out = crud.timeseries.create(db=db, **_in.model_dump())
-    logger.debug(f"new timeseries {_out.path=}")
+    _out = crud.timeseries.create(
+        db=db,
+        **_in.model_dump(exclude=("id")),
+    )
+    logger.debug(f"new timeseries {_out.scenario}, {_out.version}, {_out.path}")
     return _out
