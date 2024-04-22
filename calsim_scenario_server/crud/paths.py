@@ -11,7 +11,7 @@ from .decorators import rollback_on_exception
 def create(
     db: Session,
     name: str,
-    path: str,
+    path: str | pandss.DatasetPath,
     category: str,
     detail: str,
 ) -> schemas.NamedDatasetPath:
@@ -21,11 +21,11 @@ def create(
     except ValueError:
         raise PathCategoryError(category)
     # Check if pathstr is valid
-    dsp = pandss.DatasetPath.from_str(path)
-    path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
+    if not isinstance(path, pandss.DatasetPath):
+        path = pandss.DatasetPath.from_str(path)
     path = models.NamedDatasetPath(
         name=name,
-        path=path_str,
+        path=str(path),
         category=category,
         detail=detail,
     )
@@ -39,7 +39,7 @@ def create(
 def read(
     db: Session,
     name: str = None,
-    path: str = None,
+    path: str | pandss.DatasetPath = None,
     category: str = None,
     id: int = None,
 ) -> list[schemas.NamedDatasetPath]:
@@ -47,9 +47,9 @@ def read(
     if name:
         filters.append(models.NamedDatasetPath.name == name)
     if path:
-        dsp = pandss.DatasetPath.from_str(path)
-        path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
-        filters.append(models.NamedDatasetPath.path == path_str)
+        if not isinstance(path, pandss.DatasetPath):
+            path = pandss.DatasetPath.from_str(path)
+        filters.append(models.NamedDatasetPath.path == str(path))
     if category:
         filters.append(models.NamedDatasetPath.category == category)
     if id:

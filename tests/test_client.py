@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from calsim_scenario_server import clients, schemas
+from calsim_scenario_server import clients, enums, schemas
 from calsim_scenario_server.logger import logger
 
 logger.setLevel("DEBUG")
@@ -219,10 +219,6 @@ def do_paths(client: clients.ClientABC):
     assert obj.detail == PATHS[0]["detail"]
 
 
-def do_paths_deafult(client: clients.ClientABC):
-    client.put_default_paths()
-
-
 def do_timeseries(client: clients.ClientABC):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
@@ -239,8 +235,8 @@ def do_timeseries(client: clients.ClientABC):
         assert isinstance(obj, schemas.Run)
 
     PATHS = TESTING_DATA["paths"]
-    for assumption in PATHS:
-        client.put_path(**assumption)
+    for path in PATHS:
+        client.put_path(**path)
 
     TIMESERIES = TESTING_DATA["timeseries"]
     for ts in TIMESERIES:
@@ -270,13 +266,13 @@ def do_many_timeseries(client: clients.ClientABC):
         obj = client.put_run(**run)
         assert isinstance(obj, schemas.Run)
 
-    client.put_default_paths()
-
+    paths = [p.value for p in enums.StandardPathsEnum]
     DSS = Path(r"tests\assets\DV.dss")
     client.put_many_timeseries(
         scenario=RUNS[0]["scenario"],
         version=RUNS[0]["version"],
         dss=DSS,
+        paths=paths,
     )
 
 
@@ -300,14 +296,14 @@ def test_local_paths(client_local: clients.LocalClient):
     do_paths(client_local)
 
 
-def test_local_paths_default(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_paths_deafult(client_local)
-
-
 def test_local_timeseries(client_local: clients.LocalClient):
     logger.debug("starting test")
     do_timeseries(client_local)
+
+
+def test_local_many_timeseries(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_many_timeseries(client_local)
 
 
 def test_remote_assumptions(client_remote: clients.RemoteClient):
@@ -328,11 +324,6 @@ def test_remote_runs(client_remote: clients.RemoteClient):
 def test_remote_paths(client_remote: clients.RemoteClient):
     logger.debug("starting test")
     do_paths(client_remote)
-
-
-def test_remote_paths_default(client_remote: clients.RemoteClient):
-    logger.debug("starting test")
-    do_paths_deafult(client_remote)
 
 
 def test_remote_timeseries(client_remote: clients.RemoteClient):

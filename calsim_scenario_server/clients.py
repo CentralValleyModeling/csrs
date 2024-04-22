@@ -112,9 +112,6 @@ class ClientABC:
     ) -> schemas.NamedDatasetPath:
         raise NotImplementedError()
 
-    def put_default_paths(self) -> None:
-        raise NotImplementedError()
-
     def put_timeseries(
         self,
         *,
@@ -309,11 +306,6 @@ class RemoteClient(ClientABC):
         response.raise_for_status()
         return schemas.NamedDatasetPath.model_validate(response.json())
 
-    def put_default_paths(self) -> None:
-        logger.debug(f"adding paths from {enums.StandardPathsEnum}")
-        for p in enums.StandardPathsEnum:
-            self.put_path(**p.value.model_dump(exclude=("id")))
-
     @overload
     def put_timeseries(
         self,
@@ -346,10 +338,20 @@ class RemoteClient(ClientABC):
         url = "/timeseries"
         if paths is None:
             paths = [p.value for p in enums.StandardPathsEnum]
+        elif not isinstance(paths[0], schemas.NamedDatasetPath):
+            raise ValueError(f"paths not given as {schemas.NamedDatasetPath}")
         added = list()
         with pdss.DSS(dss) as dss_obj:
             for p in paths:
-                rts = dss_obj.read_rts(p.path)
+                try:
+                    rts = dss_obj.read_rts(p.path)
+                except pdss.errors.UnexpectedDSSReturn:
+                    logger.warning(f"couldn't read {p} from {dss}")
+                    continue
+                # Add path
+                p.path = str(rts.path)
+                self.actor.put("/paths", json=p.model_dump(exclude=("id")))
+                # Add timeseries
                 ts = schemas.Timeseries.from_pandss(scenario, version, rts)
                 response = self.actor.put(url, json=ts.model_dump(mode="json"))
                 response.raise_for_status()
@@ -532,11 +534,6 @@ class LocalClient(ClientABC):
         logger.debug(f"{obj=}")
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
-    def put_default_paths(self):
-        logger.debug(f"adding paths from {enums.StandardPathsEnum}")
-        for p in enums.StandardPathsEnum:
-            self.put_path(**p.value.model_dump(exclude=("id")))
-
     @overload
     def put_timeseries(
         self,
@@ -563,11 +560,26 @@ class LocalClient(ClientABC):
         version: str,
         dss: Path,
         paths: Iterable[schemas.NamedDatasetPath] = None,
-    ):
+    ) -> list[schemas.Timeseries]:
         if paths is None:
-            paths = [p.value for p in enums.StandardPathsEnum]
+            paths = [str(p.value) for p in enums.StandardPathsEnum]
+        elif not isinstance(paths[0], schemas.NamedDatasetPath):
+            raise ValueError(f"paths not given as {schemas.NamedDatasetPath}")
+        added = list()
         with pdss.DSS(dss) as dss_obj:
             for p in paths:
-                rts = dss_obj.read_rts(p.path)
+                try:
+                    rts = dss_obj.read_rts(p.path)
+                except pdss.errors.UnexpectedDSSReturn:
+                    logger.warning(f"couldn't read {p} from {dss}")
+                    continue
+                # Add path
+                p.path = str(rts.path)
+                crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
+                # Add timeseries
                 ts = schemas.Timeseries.from_pandss(scenario, version, rts)
-                crud.timeseries.create(db=self.session, **ts.model_dump())
+                kwargs = ts.model_dump()
+                kwargs["path"] = rts.path
+                ts = crud.timeseries.create(db=self.session, **kwargs)
+                added.append(ts)
+        return added

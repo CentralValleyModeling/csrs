@@ -278,7 +278,7 @@ def test_create_read_timeseries():
     crud.paths.create(**kwargs)
     # timeseries
     dss = TEST_ASSETS_DIR / "DV.dss"
-    path = pdss.DatasetPath(b="S_SHSTA", c="STORAGE")
+    path = pdss.DatasetPath.from_str(kwargs["path"])
     rts = pdss.read_rts(dss, path)
     assert isinstance(rts, pdss.RegularTimeseries)
 

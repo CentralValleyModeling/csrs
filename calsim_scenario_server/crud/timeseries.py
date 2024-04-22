@@ -20,9 +20,13 @@ def safe_file_name(s: str) -> str:
 def get_dss_root(db: Session) -> Path:
     path = None
     if db.bind.dialect.name == "sqlite":
-        path = Path(db.bind.url.database).parent
-
-    if (path is None) or (path == ":memory:"):
+        db_path = db.bind.url.database
+        if db_path and (":memory:" not in db_path):
+            try:
+                path = Path(db.bind.url.database).parent
+            except Exception:
+                path = None
+    if path is None:
         path = Path("./dss").resolve()
 
     path.mkdir(parents=False, exist_ok=True)
@@ -72,22 +76,22 @@ def create(
         dss = str(get_dss_root(db) / f"{s}_{r}.dss")
         run.dss = dss
     # Get the path model
-    dsp = pdss.DatasetPath.from_str(path)
-    path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
+    if not isinstance(path, pdss.DatasetPath):
+        path = pdss.DatasetPath.from_str(path)
     path_model = (
         db.query(models.NamedDatasetPath)
-        .filter(models.NamedDatasetPath.path == path_str)
+        .filter(models.NamedDatasetPath.path == str(path))
         .first()
     )
     if path_model is None:
-        raise LookupUniqueError(models.NamedDatasetPath, path_model, path=path)
+        raise LookupUniqueError(models.NamedDatasetPath, path_model, path=repr(path))
     # Add the timeseries to the common catalog
     catalog_row = models.CommonCatalog(dss=dss, path_id=path_model.id)
     db.add(catalog_row)
     # Put the data into the DSS
     rts = pdss.RegularTimeseries.from_json(
         dict(
-            path=path_str,  # TODO: update pandss to handle types better on from_json
+            path=str(path),  # TODO: update pandss to handle types better on from_json
             values=values,
             dates=dates,
             period_type=period_type,
@@ -97,7 +101,7 @@ def create(
     )
     dss_obj = pdss.DSS(dss)
     with dss_obj:
-        dss_obj.write_rts(path_str, rts)
+        dss_obj.write_rts(path, rts)
 
     timeseries = schemas.Timeseries(scenario=scenario, version=version, **rts.to_json())
 
@@ -111,7 +115,7 @@ def read(
     db: Session,
     scenario: str,
     version: str,
-    path: str,
+    path: str | pdss.DatasetPath,
 ) -> schemas.Timeseries:
     # Get the scenario, and the run we are adding data to
     sceanrio_model = (
@@ -125,10 +129,12 @@ def read(
     dss = run.dss
     if not dss:
         raise LookupUniqueError(models.Run, run, dss=pdss.DSS)
-    dsp = pdss.DatasetPath.from_str(path)
-    path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
+    elif not Path(dss).exists():
+        raise FileNotFoundError(dss)
+    if not isinstance(path, pdss.DatasetPath):
+        path = pdss.DatasetPath.from_str(path)
     with pdss.DSS(dss) as dss_obj:
-        rts = dss_obj.read_rts(path_str)
+        rts = dss_obj.read_rts(path)
 
     return schemas.Timeseries(scenario=scenario, version=version, **rts.to_json())
 
