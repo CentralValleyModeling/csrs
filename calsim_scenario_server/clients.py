@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from . import crud, enum, models, schemas
+from . import crud, enums, models, schemas
 from .logger import logger
 
 
@@ -535,8 +535,8 @@ class LocalClient(ClientABC):
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
     def put_default_paths(self):
-        logger.debug(f"adding paths from {enum.StandardPathsEnum}")
-        paths = [p.value for p in enum.StandardPathsEnum]
+        logger.debug(f"adding paths from {enums.StandardPathsEnum}")
+        paths = [p.value for p in enums.StandardPathsEnum]
         for p in paths:
             self.put_path(**p.model_dump(exclude=("id")))
 
@@ -574,7 +574,7 @@ class LocalClient(ClientABC):
         paths: Iterable[schemas.NamedDatasetPath] = None,
     ):
         if paths is None:
-            paths = [p.value for p in enum.StandardPathsEnum]
+            paths = [p.value for p in enums.StandardPathsEnum]
 
         with pdss.DSS(dss) as dss_obj:
             for p in paths:

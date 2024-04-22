@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from .enum import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
+from .enums import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
 
 
 # Create a base class for our ORM models

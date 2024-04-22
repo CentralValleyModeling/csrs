@@ -1,6 +1,6 @@
 from typing import Iterable
 
-from .enum import PathCategoryEnum
+from .enums import PathCategoryEnum
 
 
 class DuplicateAssumptionError(Exception):

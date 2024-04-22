@@ -1,7 +1,7 @@
 from sqlalchemy.orm import DeclarativeBase
 
 from calsim_scenario_server import models as m
-from calsim_scenario_server.enum import (
+from calsim_scenario_server.enums import (
     AssumptionEnum,
     DimensionalityEnum,
     PathCategoryEnum,

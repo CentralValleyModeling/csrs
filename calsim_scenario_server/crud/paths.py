@@ -2,7 +2,7 @@ import pandss
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..enum import PathCategoryEnum
+from ..enums import PathCategoryEnum
 from ..errors import PathCategoryError
 from .decorators import rollback_on_exception
 

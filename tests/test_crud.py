@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from calsim_scenario_server import crud, enum, errors, models, schemas
+from calsim_scenario_server import crud, enums, errors, models, schemas
 
 TEST_ASSETS_DIR = Path(__file__).parent / "assets"
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
@@ -77,7 +77,7 @@ def test_create_scenario():
         detail="testing create scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
 
     kwargs = dict(
@@ -85,7 +85,7 @@ def test_create_scenario():
         version="0.1",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     scenario = crud.scenarios.create(**kwargs)
     assert scenario.name == kwargs["name"]
@@ -98,7 +98,7 @@ def test_create_scenario_incomplete_assumption_specification():
         detail="testing create scenario with not all assumptions",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         if kind.value == "dcp":
             continue
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
@@ -107,7 +107,7 @@ def test_create_scenario_incomplete_assumption_specification():
         name="testing-create-scenario-incomplete",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         if kind.value == "dcp":
             continue
         kwargs[kind.value] = default_assumption_kwargs["name"]
@@ -121,7 +121,7 @@ def test_update_scenario_version():
         detail="testing update scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
 
     kwargs = dict(
@@ -129,7 +129,7 @@ def test_update_scenario_version():
         version="0.1",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
 
@@ -155,14 +155,14 @@ def test_create_run():
         detail="testing create run",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
     # Create scenario
     kwargs = dict(
         name="testing-create-run-scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # Create run
@@ -183,14 +183,14 @@ def test_read_run():
         detail="testing read run",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
 
     kwargs = dict(
         name="testing-read-run-scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
 
@@ -246,14 +246,14 @@ def test_create_read_timeseries():
         detail="testing create timeseries",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
     # scenario
     kwargs = dict(
         name="testing-create-timeseries-scenario",
         db=session,
     )
-    for kind in enum.AssumptionEnum:
+    for kind in enums.AssumptionEnum:
         kwargs[kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # run
