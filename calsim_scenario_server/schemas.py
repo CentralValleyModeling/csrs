@@ -1,6 +1,9 @@
 """Pydantic Models for the CalSim Scenario Server"""
 
+from typing import Self
+
 import pandss as pdss
+from pandas import DataFrame, MultiIndex
 from pydantic import BaseModel
 
 
@@ -73,6 +76,34 @@ class Timeseries(BaseModel):
     period_type: str
     units: str
     interval: str
+
+    def to_pandss(self) -> pdss.RegularTimeseries:
+        kwargs = self.model_dump(
+            exclude=("scenario", "version"),
+        )
+        if isinstance(self.path, pdss.DatasetPath):
+            kwargs["path"] = str(self.path)
+
+        return pdss.RegularTimeseries(**kwargs)
+
+    @classmethod
+    def from_pandss(
+        cls,
+        scenario: str,
+        version: str,
+        rts: pdss.RegularTimeseries,
+    ) -> Self:
+        kwargs = rts.to_json()
+        return cls(scenario=scenario, version=version, **kwargs)
+
+    def to_frame(self) -> DataFrame:
+        df = self.to_pandss().to_frame()
+        columns: MultiIndex = df.columns
+        df.columns = MultiIndex.from_product(
+            columns.levels + [[self.scenario], [self.version]],
+            names=tuple(tuple(columns.names) + (("SCENARIO"), ("VERSION"))),
+        )
+        return df
 
 
 class NamedDatasetPath(BaseModel):
