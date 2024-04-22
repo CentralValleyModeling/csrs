@@ -23,7 +23,7 @@ def create(
     # Check if pathstr is valid
     dsp = pandss.DatasetPath.from_str(path)
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
-    path = models.NamedPath(
+    path = models.NamedDatasetPath(
         name=name,
         path=path_str,
         category=category,
@@ -45,16 +45,16 @@ def read(
 ) -> list[schemas.NamedDatasetPath]:
     filters = list()
     if name:
-        filters.append(models.NamedPath.name == name)
+        filters.append(models.NamedDatasetPath.name == name)
     if path:
         dsp = pandss.DatasetPath.from_str(path)
         path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
-        filters.append(models.NamedPath.path == path_str)
+        filters.append(models.NamedDatasetPath.path == path_str)
     if category:
-        filters.append(models.NamedPath.category == category)
+        filters.append(models.NamedDatasetPath.category == category)
     if id:
-        filters.append(models.NamedPath.id == id)
-    paths = db.query(models.NamedPath).filter(*filters).all()
+        filters.append(models.NamedDatasetPath.id == id)
+    paths = db.query(models.NamedDatasetPath).filter(*filters).all()
     return [
         schemas.NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths
     ]

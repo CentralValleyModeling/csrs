@@ -75,10 +75,12 @@ def create(
     dsp = pdss.DatasetPath.from_str(path)
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
     path_model = (
-        db.query(models.NamedPath).filter(models.NamedPath.path == path_str).first()
+        db.query(models.NamedDatasetPath)
+        .filter(models.NamedDatasetPath.path == path_str)
+        .first()
     )
     if path_model is None:
-        raise LookupUniqueError(models.NamedPath, path_model, path=path)
+        raise LookupUniqueError(models.NamedDatasetPath, path_model, path=path)
     # Add the timeseries to the common catalog
     catalog_row = models.CommonCatalog(dss=dss, path_id=path_model.id)
     db.add(catalog_row)

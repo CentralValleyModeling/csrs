@@ -191,11 +191,11 @@ class CommonCatalog(Base):
     dss: Mapped[str] = mapped_column(ForeignKey("runs.dss"), nullable=False)
     path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), nullable=False)
     # ORM relationships
-    path: Mapped["NamedPath"] = relationship()
+    path: Mapped["NamedDatasetPath"] = relationship()
     run: Mapped["Run"] = relationship(back_populates="catalog")
 
 
-class NamedPath(Base):
+class NamedDatasetPath(Base):
     """Data about the meaning and A-F representation of DSS Paths."""
 
     __tablename__ = "paths"
