@@ -10,14 +10,15 @@ from .scenarios import update_version
 @rollback_on_exception
 def model_to_schema(run: models.Run) -> schemas.Run:
     if run.parent:
-        parent = run.parent.history
+        parent = run.parent.version
     else:
         parent = None
     if run.children:
-        children = tuple(c.history for c in run.children)
+        children = tuple(c.version for c in run.children)
     else:
         children = tuple()
     return schemas.Run(
+        id=run.id,
         scenario=run.scenario.name,
         version=run.version,
         # info
@@ -42,6 +43,7 @@ def create(
     published: bool = False,
     confidential: bool = True,
     parent: str = None,
+    children: tuple[str, ...] = None,  # Will be ignored
     dss: str = None,
     prefer_this_version: bool = True,
 ) -> schemas.Run:
@@ -54,6 +56,8 @@ def create(
         parent_id = parent[0].id
     else:
         parent_id = None
+    if children:
+        logger.warning(f"children specified, ignored in crud: {children=}")
     # Get the scenario
     (scenario_model,) = read_scenario(db=db, name=scenario)
     # Create the run model
