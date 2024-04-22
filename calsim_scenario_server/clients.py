@@ -21,32 +21,76 @@ class RemoteClient(ScenarioManager):
     # annotations and type hints are in pyi file
     # GET
     def get_assumption_names(self):
-        raise NotImplementedError()
+        url = "/assumptions/names"
+        response = self.actor.get(url)
+        response.raise_for_status()
+        return response.json()
 
     def get_assumption(self, **kwargs):
-        raise NotImplementedError()
+        url = "/assumptions"
+        response = self.actor.get(url, params=kwargs)
+        response.raise_for_status()
+        return [schemas.Assumption.model_validate(a) for a in response.json()]
 
     def get_scenario(self, **kwargs):
-        raise NotImplementedError()
+        url = "/scenarios"
+        response = self.actor.get(url, params=kwargs)
+        response.raise_for_status()
+        return [schemas.Scenario.model_validate(a) for a in response.json()]
 
     def get_run(self, **kwargs):
-        raise NotImplementedError()
+        url = "/runs"
+        response = self.actor.get(url, params=kwargs)
+        response.raise_for_status()
+        return [schemas.Run.model_validate(a) for a in response.json()]
+
+    def get_path(self, **kwargs):
+        url = "/paths"
+        response = self.actor.get(url, params=kwargs)
+        response.raise_for_status()
+        return [schemas.NamedDatasetPath.model_validate(a) for a in response.json()]
 
     def get_timeseries(self, **kwargs):
-        raise NotImplementedError()
+        url = "/timeseries"
+        response = self.actor.get(url, params=kwargs)
+        response.raise_for_status()
+        return schemas.Timeseries.model_validate(response.json())
 
     # PUT
     def put_assumption(self, **kwargs):
-        raise NotImplementedError()
+        obj = schemas.Assumption(**kwargs)
+        url = "/assumptions"
+        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response.raise_for_status()
+        return schemas.Assumption.model_validate(response.json())
 
     def put_scenario(self, **kwargs):
-        raise NotImplementedError()
+        obj = schemas.Scenario(**kwargs)
+        url = "/scenarios"
+        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response.raise_for_status()
+        return schemas.Scenario.model_validate(response.json())
 
     def put_run(self, **kwargs):
-        raise NotImplementedError()
+        obj = schemas.Run(**kwargs)
+        url = "/runs"
+        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response.raise_for_status()
+        return schemas.Run.model_validate(response.json())
+
+    def put_path(self, **kwargs):
+        obj = schemas.NamedDatasetPath(**kwargs)
+        url = "/paths"
+        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response.raise_for_status()
+        return schemas.NamedDatasetPath.model_validate(response.json())
 
     def put_timeseries(self, **kwargs):
-        raise NotImplementedError()
+        obj = schemas.Timeseries(**kwargs)
+        url = "/timeseries"
+        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response.raise_for_status()
+        return schemas.Timeseries.model_validate(response.json())
 
 
 class LocalClient(ScenarioManager):
