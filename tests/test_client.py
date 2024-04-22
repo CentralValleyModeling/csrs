@@ -141,53 +141,53 @@ TESTING_DATA = {
 }
 
 
-def test_local_assumptions(client_local: clients.LocalClient):
-    logger.debug("starting test")
+def do_assumptions(client: clients.ScenarioManager):
+    names = client.get_assumption_names()
+    for n in names:
+        assert n in schemas.Scenario.get_assumption_attrs()
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
-        obj = client_local.put_assumption(**assumption)
+        obj = client.put_assumption(**assumption)
         assert isinstance(obj, schemas.Assumption)
 
-    array = client_local.get_assumption(kind=ASSUMPTIONS[0]["kind"])
+    array = client.get_assumption(kind=ASSUMPTIONS[0]["kind"])
     assert len(array) == 1
     obj = array[0]
     assert obj.detail == ASSUMPTIONS[0]["detail"]
 
 
-def test_local_scenarios(client_local: clients.LocalClient):
-    logger.debug("starting test")
+def do_scenarios(client: clients.ScenarioManager):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
-        client_local.put_assumption(**assumption)
+        client.put_assumption(**assumption)
 
     SCENARIOS = TESTING_DATA["scearios"]
     for scenario in SCENARIOS:
-        obj = client_local.put_scenario(**scenario)
+        obj = client.put_scenario(**scenario)
         assert isinstance(obj, schemas.Scenario)
 
-    array = client_local.get_scenario(name=SCENARIOS[0]["name"])
+    array = client.get_scenario(name=SCENARIOS[0]["name"])
     assert len(array) == 1
     obj = array[0]
     assert obj.land_use == SCENARIOS[0]["land_use"]
 
 
-def test_local_runs(client_local: clients.LocalClient):
-    logger.debug("starting test")
+def do_runs(client: clients.ScenarioManager):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
-        client_local.put_assumption(**assumption)
+        client.put_assumption(**assumption)
 
     SCENARIOS = TESTING_DATA["scearios"]
     for scenario in SCENARIOS:
-        obj = client_local.put_scenario(**scenario)
+        obj = client.put_scenario(**scenario)
         assert isinstance(obj, schemas.Scenario)
 
     RUNS = TESTING_DATA["runs"]
     for run in RUNS:
-        obj = client_local.put_run(**run)
+        obj = client.put_run(**run)
         assert isinstance(obj, schemas.Run)
 
-    array = client_local.get_run(
+    array = client.get_run(
         scenario=RUNS[1]["scenario"],
         version=RUNS[1]["version"],
     )
@@ -196,7 +196,7 @@ def test_local_runs(client_local: clients.LocalClient):
     assert obj.version == RUNS[1]["version"]
 
     # make sure scenario version was updated
-    array = client_local.get_scenario(
+    array = client.get_scenario(
         name=RUNS[1]["scenario"],
     )
     assert len(array) == 1
@@ -204,13 +204,12 @@ def test_local_runs(client_local: clients.LocalClient):
     assert obj.version == RUNS[1]["version"]
 
 
-def test_local_paths(client_local: clients.LocalClient):
-    logger.debug("starting test")
+def do_paths(client: clients.ScenarioManager):
     PATHS = TESTING_DATA["paths"]
     for assumption in PATHS:
-        client_local.put_path(**assumption)
+        client.put_path(**assumption)
 
-    array = client_local.get_path(
+    array = client.get_path(
         path=PATHS[0]["path"],
     )
     assert len(array) == 1
@@ -218,34 +217,83 @@ def test_local_paths(client_local: clients.LocalClient):
     assert obj.detail == PATHS[0]["detail"]
 
 
-def test_local_timeseries(client_local: clients.LocalClient):
-    logger.debug("starting test")
+def do_timeseries(client: clients.ScenarioManager):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
-        client_local.put_assumption(**assumption)
+        client.put_assumption(**assumption)
 
     SCENARIOS = TESTING_DATA["scearios"]
     for scenario in SCENARIOS:
-        obj = client_local.put_scenario(**scenario)
+        obj = client.put_scenario(**scenario)
         assert isinstance(obj, schemas.Scenario)
 
     RUNS = TESTING_DATA["runs"]
     for run in RUNS:
-        obj = client_local.put_run(**run)
+        obj = client.put_run(**run)
         assert isinstance(obj, schemas.Run)
 
     PATHS = TESTING_DATA["paths"]
     for assumption in PATHS:
-        client_local.put_path(**assumption)
+        client.put_path(**assumption)
 
     TIMESERIES = TESTING_DATA["timeseries"]
     for ts in TIMESERIES:
-        client_local.put_timeseries(**ts)
+        client.put_timeseries(**ts)
 
-    ts = client_local.get_timeseries(
+    ts = client.get_timeseries(
         scenario=TIMESERIES[1]["scenario"],
         version=TIMESERIES[1]["version"],
         path=TIMESERIES[1]["path"],
     )
     assert isinstance(ts, schemas.Timeseries)
     assert ts.values == TIMESERIES[1]["values"]
+
+
+def test_local_assumptions(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_assumptions(client_local)
+
+
+def test_local_scenarios(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_scenarios(client_local)
+
+
+def test_local_runs(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_runs(client_local)
+
+
+def test_local_paths(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_paths(client_local)
+
+
+def test_local_timeseries(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_timeseries(client_local)
+
+
+def test_remote_assumptions(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_assumptions(client_remote)
+
+
+def test_remote_scenarios(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_scenarios(client_remote)
+
+
+def test_remote_runs(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_runs(client_remote)
+
+
+def test_remote_paths(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_paths(client_remote)
+
+
+def test_remote_timeseries(client_remote: clients.RemoteClient):
+    logger.debug("starting test")
+    do_timeseries(client_remote)
