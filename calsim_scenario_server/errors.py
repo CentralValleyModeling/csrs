@@ -22,7 +22,7 @@ class LookupUniqueError(Exception):
         if hasattr(returned, "__iter__"):
             returned = len(returned)
 
-        super.__init__(
+        super().__init__(
             f"couldn't find unique entry in {model} table for filters given,\n"
             + f"\titems found: {returned}\n"
             + "\tfilters:\n\t\t"
@@ -32,7 +32,7 @@ class LookupUniqueError(Exception):
 
 class PathCategoryError(Exception):
     def __init__(self, category_given: str):
-        super.__init__(
+        super().__init__(
             f"{category_given} is not a valid category, must be one of:\n"
             + "\n".join(PathCategoryEnum._member_names_)
             + "."
