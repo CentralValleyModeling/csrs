@@ -17,6 +17,12 @@ class Assumption(BaseModel):
     kind: str
     detail: str
 
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(name={self.name}, kind={self.kind})"
+
+    def __repr__(self) -> str:
+        return str(self)
+
 
 class Scenario(BaseModel):
     """A CalSim modeling Scenario, made up of multiple model runs with the same
@@ -35,6 +41,12 @@ class Scenario(BaseModel):
     dcp: str
     va: str
     south_of_delta: str
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(name={self.name}, version={self.version})"
+
+    def __repr__(self) -> str:
+        return str(self)
 
     @classmethod
     def get_non_assumption_attrs(cls) -> tuple[str]:
@@ -63,6 +75,13 @@ class Run(BaseModel):
     code_version: str
     detail: str
 
+    def __str__(self) -> str:
+        c = self.__class__.__name__
+        return f"{c}(scenario={self.scenario}, version={self.version})"
+
+    def __repr__(self) -> str:
+        return str(self)
+
 
 class Timeseries(BaseModel):
     """The timeseries data belonging to one model Run."""
@@ -76,6 +95,16 @@ class Timeseries(BaseModel):
     period_type: str
     units: str
     interval: str
+
+    def __str__(self) -> str:
+        c = self.__class__.__name__
+        s = self.scenario
+        v = self.version
+        p = self.path
+        return f"{c}(scenario={s}, version={v}, path={p})"
+
+    def __repr__(self) -> str:
+        return str(self)
 
     def to_pandss(self) -> pdss.RegularTimeseries:
         kwargs = self.model_dump(
@@ -115,6 +144,13 @@ class NamedDatasetPath(BaseModel):
     category: str
     detail: str
 
+    def __str__(self) -> str:
+        c = self.__class__.__name__
+        return f"{c}(name={self.name}, path={self.path}, category={self.category})"
+
+    def __repr__(self) -> str:
+        return str(self)
+
 
 class Metric(BaseModel):
     """An method of aggregation of timeseries data."""
@@ -123,6 +159,13 @@ class Metric(BaseModel):
     name: str
     index_detail: str
     detail: str
+
+    def __str__(self) -> str:
+        c = self.__class__.__name__
+        return f"{c}(name={self.name})"
+
+    def __repr__(self) -> str:
+        return str(self)
 
 
 class MetricValue(BaseModel):
@@ -135,3 +178,14 @@ class MetricValue(BaseModel):
     metric: str
     indexes: tuple
     values: tuple[float, ...]
+
+    def __str__(self) -> str:
+        c = self.__class__.__name__
+        s = self.scenario
+        v = self.run_version
+        m = self.metric
+        p = self.path
+        return f"{c}(metric={m}, scenario={s}, run_version={v}, path={p})"
+
+    def __repr__(self) -> str:
+        return str(self)
