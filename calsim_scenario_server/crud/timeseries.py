@@ -6,6 +6,7 @@ import pandss as pdss
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
+from ..errors import LookupUniqueError
 from .decorators import rollback_on_exception
 
 
@@ -39,7 +40,7 @@ def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
     )
     runs = [r for r in runs if r.version == version]
     if len(runs) != 1:  # Couldn't find version
-        raise ValueError(f"couldn't find unique run with {version=} for {scenario=}")
+        raise LookupUniqueError(models.Run, runs, version=version, scenario=scenario)
     return runs[0]
 
 
@@ -77,10 +78,7 @@ def create(
         db.query(models.NamedPath).filter(models.NamedPath.path == path_str).first()
     )
     if path_model is None:
-        raise ValueError(
-            "couldn't find the path for the given timeseries in the known "
-            + "list, add the path and it's metadata first."
-        )
+        raise LookupUniqueError(models.NamedPath, path_model, path=path)
     # Add the timeseries to the common catalog
     catalog_row = models.CommonCatalog(dss=dss, path_id=path_model.id)
     db.add(catalog_row)
@@ -124,7 +122,7 @@ def read(
     # Check if run has a DSS yet
     dss = run.dss
     if not dss:
-        raise ValueError("No data has been added to run yet")
+        raise LookupUniqueError(models.Run, run, dss=pdss.DSS)
     dsp = pdss.DatasetPath.from_str(path)
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
     with pdss.DSS(dss) as dss_obj:

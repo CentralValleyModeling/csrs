@@ -1,21 +1,24 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
+from ..errors import DuplicateScenarioError, LookupUniqueError, ScenarioAssumptionError
 from ..logger import logger
 from . import assumptions
 from .decorators import rollback_on_exception
 
 
 def validate_full_assumption_specification(assumptions_used: dict):
+    expected = schemas.Scenario.get_assumption_attrs()
     missing = list()
-    for attr in schemas.Scenario.get_assumption_attrs():
+    for attr in expected:
         if attr not in assumptions_used:
             missing.append(attr)
-    if missing:
-        logger.error(f"missing scenario assumptions: {missing}")
-        raise AttributeError(
-            f"the scenario is missing assumptions:\n{missing}",
-        )
+    extra = list()
+    for attr in assumptions_used:
+        if attr not in expected:
+            extra.append(attr)
+    if missing or extra:
+        raise ScenarioAssumptionError(missing, extra)
 
 
 def model_to_schema(scenario: models.Scenario):
@@ -30,14 +33,19 @@ def model_to_schema(scenario: models.Scenario):
 def create(
     db: Session,
     name: str,
+    version: str = None,
     **kwargs: dict[str, str],
 ) -> schemas.Scenario:
     logger.info(f"adding scenario, {name=}")
+    if version:
+        logger.warning(
+            f"version given, but ignored when creating new scenario, {version=}"
+        )
     validate_full_assumption_specification(kwargs)
     dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
-        raise AttributeError(f"{name=} is already used")
+        raise DuplicateScenarioError(name)
     scenario_assumptions = dict()
     for table_name in schemas.Scenario.get_assumption_attrs():
         assumption_model = assumptions.read(
@@ -47,10 +55,10 @@ def create(
         )
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
-            raise AttributeError(
-                "couldn't find single assumption with data given:\n"
-                + f"\tfound: {assumption_model}"
-                + f"\tdetails given: {kwargs[table_name]}",
+            raise LookupUniqueError(
+                models.Assumption,
+                assumption_model,
+                **kwargs[table_name],
             )
         scenario_assumptions[table_name] = assumption_model[0].id
     scenario_model = models.Scenario(name=name)
@@ -95,17 +103,13 @@ def update_version(db: Session, name: str, new_version: str) -> schemas.Scenario
     # Check to see if a run exists for the version, scenario
     scenario = db.query(models.Scenario).filter(models.Scenario.name == name).first()
     if scenario is None:
-        raise ValueError(f"could not find scenario where {name=}")
+        raise LookupUniqueError(models.Scenario, scenario, name=name)
     # Check that run exists with that version
     runs = db.query(models.Run).filter(models.Run.scenario_id == scenario.id).all()
     runs = [r for r in runs if r.version == new_version]
     if len(runs) != 1:
-        raise ValueError(
-            f"could not find unqiue run for scenario {name=}, {new_version=}"
-        )
+        raise LookupUniqueError(models.Run, runs, version=new_version)
     run = runs[0]
-    if run is None:
-        raise ValueError("cannot set scenario version to a run that does not exist")
     # Change preference
     update_preference(db, scenario.id, run.id)
     db.refresh(scenario)

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..enum import PathCategoryEnum
+from ..errors import PathCategoryError
 from .decorators import rollback_on_exception
 
 
@@ -18,15 +19,9 @@ def create(
     try:
         category = PathCategoryEnum(category)
     except ValueError:
-        raise AttributeError(
-            f"{category} is not a valid category, must be one of:\n"
-            + "\n".join(PathCategoryEnum._member_names_)
-        )
+        raise PathCategoryError(category)
     # Check if pathstr is valid
-    try:
-        dsp = pandss.DatasetPath.from_str(path)
-    except Exception:
-        raise AttributeError(f"{path=} cannot be converted to DSS path")
+    dsp = pandss.DatasetPath.from_str(path)
     path_str = f"/CALSIM/{dsp.b}/{dsp.c}//{dsp.e}/SERVER/"
     path = models.NamedPath(
         name=name,
