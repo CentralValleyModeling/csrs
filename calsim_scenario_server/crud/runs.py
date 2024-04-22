@@ -1,10 +1,13 @@
+from pathlib import Path
+
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
+from ..errors import LookupUniqueError
 from ..logger import logger
 from .decorators import rollback_on_exception
 from .scenarios import read as read_scenario
-from .scenarios import update_version
+from .scenarios import update_version as update_scenario_version
 
 
 @rollback_on_exception
@@ -78,7 +81,7 @@ def create(
     create_run_history(db, run.scenario_id, run.id, version)
     db.refresh(run)
     if prefer_this_version:
-        update_version(db, scenario, version)
+        update_scenario_version(db, scenario, version)
     db.refresh(run)
 
     return model_to_schema(run)
@@ -123,8 +126,28 @@ def read(
     return [model_to_schema(r) for r in runs]
 
 
-def update():
-    raise NotImplementedError()
+def update_dss(
+    db: Session,
+    scenario: str = None,
+    version: str = None,
+    dss: str = None,
+) -> schemas.Run:
+    runs = (
+        db.query(models.Run)
+        .filter(models.Run.scenario == scenario and models.Run.version == version)
+        .all()
+    )
+    if len(runs) != 1:
+        raise LookupUniqueError(models.Run, runs, scenario=scenario, version=version)
+    run = runs[0]
+    dss_path = Path(dss)
+    if not dss_path.exists():
+        raise FileNotFoundError(dss)
+    run.dss = dss
+    db.commit()
+    db.refresh(run)
+
+    return model_to_schema(run)
 
 
 def delete():
