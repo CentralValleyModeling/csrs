@@ -1,11 +1,7 @@
 from sqlalchemy.orm import DeclarativeBase
 
-from calsim_scenario_server import models as m
-from calsim_scenario_server.enums import (
-    AssumptionEnum,
-    DimensionalityEnum,
-    PathCategoryEnum,
-)
+from csrs import models as m
+from csrs.enums import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
 
 EXPECTED_ASSUMPTION = {
     "id": int,

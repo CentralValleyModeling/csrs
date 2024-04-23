@@ -1,7 +1,7 @@
 import pandas as pd
 import pandss as pdss
 
-from calsim_scenario_server import schemas
+from csrs import schemas
 
 EXPECTED_ASSUMPTION = {
     "id": int | None,
@@ -39,7 +39,7 @@ EXPECTED_RUN = {
 EXPECTED_TIMESERIES = {
     "scenario": str,
     "version": str,
-    "path": str | pdss.DatasetPath,
+    "path": str,
     "values": tuple[float, ...],
     "dates": tuple[str, ...],
     "period_type": str,
@@ -155,7 +155,7 @@ def test_schema_conversion_timeseries():
     ts = schemas.Timeseries(
         scenario="test-schema-conversion-timeseries",
         version="0.1",
-        path=pdss.DatasetPath(b="TEST", c="TESTING"),
+        path=str(pdss.DatasetPath(b="TEST", c="TESTING")),
         values=(1.0, 2.0, 3.0),
         dates=("2024-01-31", "2024-02-29", "2024-03-30"),
         period_type="PER-CUM",
@@ -183,7 +183,7 @@ def test_schema_conversion_dataframe():
     ts = schemas.Timeseries(
         scenario="test-schema-conversion-timeseries",
         version="0.1",
-        path=pdss.DatasetPath(b="TEST", c="TESTING"),
+        path=str(pdss.DatasetPath(b="TEST", c="TESTING")),
         values=(1.0, 2.0, 3.0),
         dates=("2024-01-31", "2024-02-29", "2024-03-30"),
         period_type="PER-CUM",

@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "calsim_scenario_server"
+name = "csrs"
 authors = [
     {name = "Zachary Roy", email = "zachary.roy@water.ca.gov" }
 ]

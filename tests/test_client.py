@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from calsim_scenario_server import clients, enums, schemas
-from calsim_scenario_server.logger import logger
+from csrs import clients, enums, schemas
+from csrs.logger import logger
 
 logger.setLevel("DEBUG")
 

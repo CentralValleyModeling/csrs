@@ -8,9 +8,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from calsim_scenario_server import app, clients
-from calsim_scenario_server.database import get_db
-from calsim_scenario_server.models import Base
+from csrs import app, clients
+from csrs.database import get_db
+from csrs.models import Base
 
 
 @pytest.fixture(scope="function", autouse=True)

@@ -89,7 +89,7 @@ class Timeseries(BaseModel):
     scenario: str
     version: str
     # shadow pandss RegularTimeseries attributes
-    path: str | pdss.DatasetPath
+    path: str
     values: tuple[float, ...]
     dates: tuple[str, ...]
     period_type: str
