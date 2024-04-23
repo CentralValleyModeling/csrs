@@ -1,7 +1,7 @@
 SETLOCAL
-    CALL activate dev_calsim_scenario_server
+    CALL activate csrs
     SET database-name=calsim_scenario_database.sqlite
-    CALL uvicorn src.calsim_scenario_server.main:app --reload
+    CALL uvicorn src.csrs.main:app --reload
 ENDLOCAL
 
 PAUSE

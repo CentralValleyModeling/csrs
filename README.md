@@ -35,6 +35,6 @@ FastAPI is semi-self documenting, when running the app, the homepage is automati
 
 To access that information, run the app locally using `uvicorn`:
 
-```uvicorn calsim_scenario_server.main:app --reload```
+```uvicorn csrs.main:app --reload```
 
 The server is designed to be hosted on an Azure WebApp. The deployment of this server is not documented here.

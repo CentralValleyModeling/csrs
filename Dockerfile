@@ -18,7 +18,7 @@ COPY environment.yaml .
 
 RUN conda env create -f environment.yaml && \
     conda install -c conda-forge conda-pack &&\
-    conda-pack -n calsim_scenario_server -o /tmp/env.tar && \
+    conda-pack -n csrs -o /tmp/env.tar && \
     conda clean --all --force-pkgs-dirs -y && \
     mkdir /env && cd /env && tar xf /tmp/env.tar && \
     rm /tmp/env.tar

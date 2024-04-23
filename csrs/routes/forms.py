@@ -8,7 +8,7 @@ from ..logger import logger
 from ..models import Assumption, Scenario
 
 router = APIRouter(prefix="/forms")
-templates = Jinja2Templates(directory="calsim_scenario_server/templates")
+templates = Jinja2Templates(directory="csrs/templates")
 
 
 @router.get("/scenarios", response_class=HTMLResponse)
