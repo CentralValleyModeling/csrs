@@ -1,0 +1,15 @@
+.git/
+**/*.pyc
+**/*.log
+.coverage
+*.txt
+
+.gitignore
+**/__pycache__/
+.venv/
+.vscode/
+.pytest_cache/
+tests/
+dist/
+scripts/
+
