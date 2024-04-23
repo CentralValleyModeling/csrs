@@ -14,7 +14,7 @@ A FastAPI-based app to serve results and metadata from multiple CalSim3 model ru
 Below is a simple example of how to get timeseries data from a remote server if you know the name of the scenario, and the dss path that corresponds to the data.
 
 ```python
-from csrs.clients  import RemoteClient
+from csrs.clients import RemoteClient
 
 # Create a client, which handles server interactions and parsing the response
 client = RemoteClient("https://www.server_url.com")
