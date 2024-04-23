@@ -4,10 +4,11 @@ from fastapi.templating import Jinja2Templates
 from . import __version__
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
-TITLE = "CalSim-Results Server"
-SUMMARY = "A FastAPI app to serve CalSim3 model results and metadata."
+TITLE = "CSRS"
+SUMMARY = "CalSim Scenario Results Server"
 DESCRIPTION = """
-Helps you to interact with the CalSim Scnario Database.
+A FastAPI app to serve CalSim3 model results and metadata. Helps you interact with many 
+CalSim Scenarios at a time.
 """
 CONTACT = {
     "name": "California DWR, Central Valley Modeling",
