@@ -19,14 +19,12 @@ requirements:
   run:
     - python=3.11
     - fastapi
-    - packaging=23
+    - packaging
     - pandss>=0.7.3
     - uvicorn
-    - sqlalchemy=2
-    - jinja2=3
+    - sqlalchemy
+    - jinja2
     - python-multipart
   
-
-
 about:
-  home: https://github.com/CentralValleyModeling/calsim_scenario_server
+  home: https://github.com/CentralValleyModeling/csrs
