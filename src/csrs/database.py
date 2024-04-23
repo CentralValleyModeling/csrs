@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from .logger import logger
 from .models import Base
 
-DATABASE_NAME = os.environ.get("database-name", "example.sqlite")
+DATABASE_NAME = os.environ.get("database-name", "csrs.db")
 
 
 def get_db_dir() -> Path:
@@ -15,7 +15,7 @@ def get_db_dir() -> Path:
     if loc:
         loc = Path(loc).resolve()
     else:
-        loc = Path(".").resolve()
+        loc = Path("./database").resolve()
     if loc.name == "src":
         loc = loc.parent
     if not loc.exists():
