@@ -143,6 +143,7 @@ class NamedPath(BaseModel):
     path: str
     category: str
     detail: str
+    # units: str
 
     def __str__(self) -> str:
         c = self.__class__.__name__
