@@ -1,4 +1,5 @@
 import os
+from datetime import date
 from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
@@ -8,6 +9,7 @@ from .logger import logger
 from .models import Base
 
 DATABASE_NAME = os.environ.get("database-name", "csrs.db")
+EPOCH = date(1900, 1, 1)
 
 
 def get_db_dir() -> Path:
