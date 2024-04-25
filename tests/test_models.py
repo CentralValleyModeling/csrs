@@ -80,12 +80,6 @@ EXPECTED_RUN_HISTORY = {
     "version": str,
 }
 
-EXPECTED_UNIT = {
-    "id": int,
-    "name": str,
-    "dimensionality": DimensionalityEnum,
-}
-
 
 def check_model_columns(model: DeclarativeBase, expectations: dict[str, type]):
     columns = [c.key for c in model.__table__.columns]
@@ -188,11 +182,3 @@ def test_model_columns_preferred_versions():
 
 def test_model_column_types_preferred_versions():
     check_model_column_types(m.PreferredVersion, EXPECTED_PREFERRED_VERSIONS)
-
-
-def test_model_columns_unit():
-    check_model_columns(m.Unit, EXPECTED_UNIT)
-
-
-def test_model_column_types_unit():
-    check_model_column_types(m.Unit, EXPECTED_UNIT)
