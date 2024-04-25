@@ -35,6 +35,18 @@ class PathCategoryEnum(enum.StrEnum):
     water_year_type = "wyt"
 
 
+class PeriodTypeEnum(enum.StrEnum):
+    per_aver = "PER-AVER"
+    per_cum = "PER-CUM"
+    inst_val = "INST-VAL"
+    inst_cum = "INST-CUM"
+
+
+class IntervalEnum(enum.StrEnum):
+    mon_1 = "1MON"
+    year_1 = "1YEAR"
+
+
 class StandardPathsEnum(enum.Enum):
     cvp_allocation_nod_ag = NamedPath(
         name="cvp_allocation_nod_ag",
