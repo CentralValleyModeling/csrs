@@ -1,7 +1,13 @@
 from sqlalchemy.orm import DeclarativeBase
 
 from csrs import models as m
-from csrs.enums import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
+from csrs.enums import (
+    AssumptionEnum,
+    DimensionalityEnum,
+    IntervalEnum,
+    PathCategoryEnum,
+    PeriodTypeEnum,
+)
 
 EXPECTED_ASSUMPTION = {
     "id": int,
@@ -26,11 +32,22 @@ EXPECTED_METRIC = {
     "detail": str,
 }
 
+EXPECTED_TIMESERIES_LEDGER = {
+    "id": int,
+    "run_id": int,
+    "path_id": int,
+    "time": int,
+    "value": float,
+}
+
 EXPECTED_PATH = {
     "id": int,
     "name": str,
     "path": str,
     "category": PathCategoryEnum,
+    "interval": IntervalEnum,
+    "period_type": PeriodTypeEnum,
+    "units": str,
     "detail": str,
 }
 
@@ -43,7 +60,6 @@ EXPECTED_RUN = {
     "published": bool,
     "code_version": str,
     "detail": str,
-    "dss": str,
 }
 
 EXPECTED_SCENARIO_ASSUMPTIONS = {
@@ -122,6 +138,14 @@ def test_model_columns_metric():
 
 def test_model_column_types_metric():
     check_model_column_types(m.Metric, EXPECTED_METRIC)
+
+
+def test_model_columns_timeseries_ledger():
+    check_model_columns(m.TimeseriesLedger, EXPECTED_TIMESERIES_LEDGER)
+
+
+def test_model_column_types_timeseries_ledger():
+    check_model_column_types(m.TimeseriesLedger, EXPECTED_TIMESERIES_LEDGER)
 
 
 def test_model_columns_path():
