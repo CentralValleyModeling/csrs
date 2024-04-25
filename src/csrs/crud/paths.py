@@ -11,8 +11,11 @@ from .decorators import rollback_on_exception
 def create(
     db: Session,
     name: str,
-    path: str | pandss.DatasetPath,
+    path: str,
     category: str,
+    period_type: str,
+    interval: str,
+    units: str,
     detail: str,
 ) -> schemas.NamedPath:
     # Check if category is valid
@@ -20,13 +23,13 @@ def create(
         category = PathCategoryEnum(category)
     except ValueError:
         raise PathCategoryError(category)
-    # Check if pathstr is valid
-    if not isinstance(path, pandss.DatasetPath):
-        path = pandss.DatasetPath.from_str(path)
     path = models.NamedPath(
         name=name,
         path=str(path),
         category=category,
+        period_type=period_type,
+        interval=interval,
+        units=units,
         detail=detail,
     )
     db.add(path)
