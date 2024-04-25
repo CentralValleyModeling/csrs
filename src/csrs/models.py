@@ -6,13 +6,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from .enums import (
-    AssumptionEnum,
-    DimensionalityEnum,
-    IntervalEnum,
-    PathCategoryEnum,
-    PeriodTypeEnum,
-)
+from .enums import AssumptionEnum, IntervalEnum, PathCategoryEnum, PeriodTypeEnum
 
 
 # Create a base class for our ORM models
@@ -210,19 +204,9 @@ class NamedPath(Base):
     period_type: Mapped[PeriodTypeEnum] = mapped_column(nullable=False)
     interval: Mapped[IntervalEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
-    units: Mapped[str] = mapped_column(ForeignKey("units.name"), nullable=False)
+    units: Mapped[str] = mapped_column(nullable=False)
     # Multi-column unique rules
     __table_args__ = (UniqueConstraint("name", "category", name="unique_purpose"),)
-
-
-class Unit(Base):
-    """Data about the units used by timeseries and metrics."""
-
-    __tablename__ = "units"
-
-    id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(unique=True)
-    dimensionality: Mapped[DimensionalityEnum] = mapped_column(nullable=False)
 
 
 class TimeseriesLedger(Base):
@@ -257,5 +241,5 @@ class MetricValue(Base):
     run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), primary_key=True)
     metric_id: Mapped[int] = mapped_column(ForeignKey("metrics.id"), primary_key=True)
     index: Mapped[int] = mapped_column(nullable=False)
-    units: Mapped[str] = mapped_column(ForeignKey("units.name"))
+    units: Mapped[str] = mapped_column(nullable=False)
     value: Mapped[float] = mapped_column(nullable=False)
