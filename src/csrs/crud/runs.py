@@ -47,7 +47,6 @@ def create(
     confidential: bool = True,
     parent: str = None,
     children: tuple[str, ...] = None,  # Will be ignored
-    dss: str = None,
     prefer_this_version: bool = True,
 ) -> schemas.Run:
     logger.info(f"creating new run for {scenario=}, {version=} {prefer_this_version=}")
@@ -72,7 +71,6 @@ def create(
         detail=detail,
         published=published,
         confidential=confidential,
-        dss=dss,
     )
     db.add(run)
     db.commit()
