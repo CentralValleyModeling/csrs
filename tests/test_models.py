@@ -1,13 +1,7 @@
 from sqlalchemy.orm import DeclarativeBase
 
 from csrs import models as m
-from csrs.enums import (
-    AssumptionEnum,
-    DimensionalityEnum,
-    IntervalEnum,
-    PathCategoryEnum,
-    PeriodTypeEnum,
-)
+from csrs.enums import AssumptionEnum, IntervalEnum, PathCategoryEnum, PeriodTypeEnum
 
 EXPECTED_ASSUMPTION = {
     "id": int,
