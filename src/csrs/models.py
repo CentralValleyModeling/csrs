@@ -2,12 +2,17 @@
 
 from typing import Optional
 
-from sqlalchemy import Enum as sqlalchemyEnum
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from .enums import AssumptionEnum, DimensionalityEnum, PathCategoryEnum
+from .enums import (
+    AssumptionEnum,
+    DimensionalityEnum,
+    IntervalEnum,
+    PathCategoryEnum,
+    PeriodTypeEnum,
+)
 
 
 # Create a base class for our ORM models
@@ -107,8 +112,6 @@ class Run(Base):
     published: Mapped[bool] = mapped_column(nullable=False)
     code_version: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
-    # external data
-    dss: Mapped[Optional[str]] = mapped_column(unique=True, nullable=True)
     # ORM relationships
     history: Mapped["RunHistory"] = relationship(back_populates="run")
     prefered_via: Mapped["PreferredVersion"] = relationship(back_populates="run")
@@ -188,7 +191,7 @@ class CommonCatalog(Base):
     __tablename__ = "common_catalog"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    dss: Mapped[str] = mapped_column(ForeignKey("runs.dss"), nullable=False)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), nullable=False)
     path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), nullable=False)
     # ORM relationships
     path: Mapped["NamedPath"] = relationship()
@@ -203,10 +206,11 @@ class NamedPath(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column()
     path: Mapped[str] = mapped_column()
-    category: Mapped[PathCategoryEnum] = mapped_column(
-        sqlalchemyEnum(PathCategoryEnum), nullable=False
-    )
+    category: Mapped[PathCategoryEnum] = mapped_column(nullable=False)
+    period_type: Mapped[PeriodTypeEnum] = mapped_column(nullable=False)
+    interval: Mapped[IntervalEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
+    units: Mapped[str] = mapped_column(ForeignKey("units.name"), nullable=False)
     # Multi-column unique rules
     __table_args__ = (UniqueConstraint("name", "category", name="unique_purpose"),)
 
@@ -218,9 +222,19 @@ class Unit(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(unique=True)
-    dimensionality: Mapped[DimensionalityEnum] = mapped_column(
-        sqlalchemyEnum(DimensionalityEnum), nullable=False
-    )
+    dimensionality: Mapped[DimensionalityEnum] = mapped_column(nullable=False)
+
+
+class TimeseriesLedger(Base):
+    """Long ledger of timeseries data."""
+
+    __tablename__ = "timeseries_ledger"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), nullable=False)
+    path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), nullable=False)
+    time: Mapped[int] = mapped_column(nullable=False)
+    value: Mapped[float] = mapped_column(nullable=False)
 
 
 class Metric(Base):
