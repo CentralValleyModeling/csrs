@@ -53,6 +53,7 @@ EXPECTED_PATH = {
     "path": str,
     "category": str,
     "detail": str,
+    "units": str,
 }
 
 EXPECTED_METRIC = {
