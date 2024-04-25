@@ -217,6 +217,9 @@ def test_create_path():
         name="shasta-storage-test-create-path",
         path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
         category="storage",
+        period_type="PER-AVER",
+        interval="1MON",
+        units="TAF",
         detail="The storage in Shasta Reservoir, in TAF.",
         db=session,
     )
@@ -229,6 +232,9 @@ def test_read_path():
         name="Oroville Storage",
         path="/.*/S_OROVL/STORAGE/.*/.*/.*/",
         category="storage",
+        period_type="PER-AVER",
+        interval="1MON",
+        units="TAF",
         detail="The storage in Oroville Reservoir, in TAF.",
         db=session,
     )
