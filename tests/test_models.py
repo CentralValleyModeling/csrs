@@ -125,11 +125,11 @@ def test_model_column_types_metric():
 
 
 def test_model_columns_path():
-    check_model_columns(m.NamedDatasetPath, EXPECTED_PATH)
+    check_model_columns(m.NamedPath, EXPECTED_PATH)
 
 
 def test_model_column_types_path():
-    check_model_column_types(m.NamedDatasetPath, EXPECTED_PATH)
+    check_model_column_types(m.NamedPath, EXPECTED_PATH)
 
 
 def test_model_columns_run():

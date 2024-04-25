@@ -189,16 +189,16 @@ class CommonCatalog(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     dss: Mapped[str] = mapped_column(ForeignKey("runs.dss"), nullable=False)
-    path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), nullable=False)
+    path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), nullable=False)
     # ORM relationships
-    path: Mapped["NamedDatasetPath"] = relationship()
+    path: Mapped["NamedPath"] = relationship()
     run: Mapped["Run"] = relationship(back_populates="catalog")
 
 
-class NamedDatasetPath(Base):
+class NamedPath(Base):
     """Data about the meaning and A-F representation of DSS Paths."""
 
-    __tablename__ = "paths"
+    __tablename__ = "named_paths"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column()
@@ -239,7 +239,7 @@ class MetricValue(Base):
 
     __tablename__ = "metric_values"
 
-    path_id: Mapped[int] = mapped_column(ForeignKey("paths.id"), primary_key=True)
+    path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), primary_key=True)
     run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), primary_key=True)
     metric_id: Mapped[int] = mapped_column(ForeignKey("metrics.id"), primary_key=True)
     index: Mapped[int] = mapped_column(nullable=False)

@@ -79,12 +79,10 @@ def create(
     if not isinstance(path, pdss.DatasetPath):
         path = pdss.DatasetPath.from_str(path)
     path_model = (
-        db.query(models.NamedDatasetPath)
-        .filter(models.NamedDatasetPath.path == str(path))
-        .first()
+        db.query(models.NamedPath).filter(models.NamedPath.path == str(path)).first()
     )
     if path_model is None:
-        raise LookupUniqueError(models.NamedDatasetPath, path_model, path=repr(path))
+        raise LookupUniqueError(models.NamedPath, path_model, path=repr(path))
     # Add the timeseries to the common catalog
     catalog_row = models.CommonCatalog(dss=dss, path_id=path_model.id)
     db.add(catalog_row)

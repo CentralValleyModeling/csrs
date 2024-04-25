@@ -8,7 +8,7 @@ from ..logger import logger
 router = APIRouter(prefix="/paths", tags=["Paths"])
 
 
-@router.get("", response_model=list[schemas.NamedDatasetPath])
+@router.get("", response_model=list[schemas.NamedPath])
 async def get_paths(
     name: str = None,
     path: str = None,
@@ -27,9 +27,9 @@ async def get_paths(
     return paths
 
 
-@router.put("", response_model=schemas.NamedDatasetPath)
+@router.put("", response_model=schemas.NamedPath)
 async def put_path(
-    _in: schemas.NamedDatasetPath,
+    _in: schemas.NamedPath,
     db: Session = Depends(get_db),
 ):
     logger.info(_in)

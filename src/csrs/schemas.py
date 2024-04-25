@@ -135,7 +135,7 @@ class Timeseries(BaseModel):
         return df
 
 
-class NamedDatasetPath(BaseModel):
+class NamedPath(BaseModel):
     """A single DSS path, with information about the data it represents."""
 
     id: int | None = None

@@ -14,7 +14,7 @@ def create(
     path: str | pandss.DatasetPath,
     category: str,
     detail: str,
-) -> schemas.NamedDatasetPath:
+) -> schemas.NamedPath:
     # Check if category is valid
     try:
         category = PathCategoryEnum(category)
@@ -23,7 +23,7 @@ def create(
     # Check if pathstr is valid
     if not isinstance(path, pandss.DatasetPath):
         path = pandss.DatasetPath.from_str(path)
-    path = models.NamedDatasetPath(
+    path = models.NamedPath(
         name=name,
         path=str(path),
         category=category,
@@ -32,7 +32,7 @@ def create(
     db.add(path)
     db.commit()
     db.refresh(path)
-    return schemas.NamedDatasetPath.model_validate(path, from_attributes=True)
+    return schemas.NamedPath.model_validate(path, from_attributes=True)
 
 
 @rollback_on_exception
@@ -42,22 +42,20 @@ def read(
     path: str | pandss.DatasetPath = None,
     category: str = None,
     id: int = None,
-) -> list[schemas.NamedDatasetPath]:
+) -> list[schemas.NamedPath]:
     filters = list()
     if name:
-        filters.append(models.NamedDatasetPath.name == name)
+        filters.append(models.NamedPath.name == name)
     if path:
         if not isinstance(path, pandss.DatasetPath):
             path = pandss.DatasetPath.from_str(path)
-        filters.append(models.NamedDatasetPath.path == str(path))
+        filters.append(models.NamedPath.path == str(path))
     if category:
-        filters.append(models.NamedDatasetPath.category == category)
+        filters.append(models.NamedPath.category == category)
     if id:
-        filters.append(models.NamedDatasetPath.id == id)
-    paths = db.query(models.NamedDatasetPath).filter(*filters).all()
-    return [
-        schemas.NamedDatasetPath.model_validate(p, from_attributes=True) for p in paths
-    ]
+        filters.append(models.NamedPath.id == id)
+    paths = db.query(models.NamedPath).filter(*filters).all()
+    return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 
 
 def update():

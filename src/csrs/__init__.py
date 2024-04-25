@@ -7,4 +7,4 @@ except PackageNotFoundError:
     __version__ = None
 from .clients import LocalClient, RemoteClient
 from .main import app
-from .schemas import Assumption, NamedDatasetPath, Run, Scenario, Timeseries
+from .schemas import Assumption, NamedPath, Run, Scenario, Timeseries

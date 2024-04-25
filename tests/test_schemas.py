@@ -120,11 +120,11 @@ def test_schema_column_types_metric():
 
 
 def test_schema_columns_path():
-    check_schema_columns(schemas.NamedDatasetPath, EXPECTED_PATH)
+    check_schema_columns(schemas.NamedPath, EXPECTED_PATH)
 
 
 def test_schema_column_types_path():
-    check_schema_column_types(schemas.NamedDatasetPath, EXPECTED_PATH)
+    check_schema_column_types(schemas.NamedPath, EXPECTED_PATH)
 
 
 def test_schema_columns_run():

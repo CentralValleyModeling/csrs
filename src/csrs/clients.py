@@ -49,7 +49,7 @@ class ClientABC:
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedDatasetPath]:
+    ) -> list[schemas.NamedPath]:
         raise NotImplementedError()
 
     def get_timeseries(
@@ -109,7 +109,7 @@ class ClientABC:
         path: str,
         category: str,
         detail: str,
-    ) -> schemas.NamedDatasetPath:
+    ) -> schemas.NamedPath:
         raise NotImplementedError()
 
     def put_timeseries(
@@ -133,7 +133,7 @@ class ClientABC:
         scenario: str,
         version: str,
         dss: Path,
-        paths: Iterable[schemas.NamedDatasetPath] = None,
+        paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
         raise NotImplementedError()
 
@@ -203,13 +203,13 @@ class RemoteClient(ClientABC):
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedDatasetPath]: ...
+    ) -> list[schemas.NamedPath]: ...
 
     def get_path(self, **kwargs):
         url = "/paths"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
-        return [schemas.NamedDatasetPath.model_validate(a) for a in response.json()]
+        return [schemas.NamedPath.model_validate(a) for a in response.json()]
 
     @overload
     def get_timeseries(
@@ -297,14 +297,14 @@ class RemoteClient(ClientABC):
         path: str,
         category: str,
         detail: str,
-    ) -> schemas.NamedDatasetPath: ...
+    ) -> schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
-        obj = schemas.NamedDatasetPath(**kwargs)
+        obj = schemas.NamedPath(**kwargs)
         url = "/paths"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
-        return schemas.NamedDatasetPath.model_validate(response.json())
+        return schemas.NamedPath.model_validate(response.json())
 
     @overload
     def put_timeseries(
@@ -333,13 +333,13 @@ class RemoteClient(ClientABC):
         scenario: str,
         version: str,
         dss: Path,
-        paths: Iterable[schemas.NamedDatasetPath] = None,
+        paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
         url = "/timeseries"
         if paths is None:
             paths = [p.value for p in enums.StandardPathsEnum]
-        elif not isinstance(paths[0], schemas.NamedDatasetPath):
-            raise ValueError(f"paths not given as {schemas.NamedDatasetPath}")
+        elif not isinstance(paths[0], schemas.NamedPath):
+            raise ValueError(f"paths not given as {schemas.NamedPath}")
         added = list()
         with pdss.DSS(dss) as dss_obj:
             for p in paths:
@@ -441,7 +441,7 @@ class LocalClient(ClientABC):
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedDatasetPath]: ...
+    ) -> list[schemas.NamedPath]: ...
 
     def get_path(self, **kwargs):
         logger.debug(f"{kwargs=}")
@@ -527,10 +527,10 @@ class LocalClient(ClientABC):
         path: str,
         category: str,
         detail: str,
-    ) -> schemas.NamedDatasetPath: ...
+    ) -> schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
-        obj = schemas.NamedDatasetPath(**kwargs)
+        obj = schemas.NamedPath(**kwargs)
         logger.debug(f"{obj=}")
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
@@ -559,12 +559,12 @@ class LocalClient(ClientABC):
         scenario: str,
         version: str,
         dss: Path,
-        paths: Iterable[schemas.NamedDatasetPath] = None,
+        paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
         if paths is None:
             paths = [str(p.value) for p in enums.StandardPathsEnum]
-        elif not isinstance(paths[0], schemas.NamedDatasetPath):
-            raise ValueError(f"paths not given as {schemas.NamedDatasetPath}")
+        elif not isinstance(paths[0], schemas.NamedPath):
+            raise ValueError(f"paths not given as {schemas.NamedPath}")
         added = list()
         with pdss.DSS(dss) as dss_obj:
             for p in paths:
