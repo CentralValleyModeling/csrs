@@ -1,4 +1,3 @@
-import pandss
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
@@ -10,6 +9,7 @@ from .decorators import rollback_on_exception
 @rollback_on_exception
 def create(
     db: Session,
+    *,
     name: str,
     path: str,
     category: str,
@@ -41,8 +41,9 @@ def create(
 @rollback_on_exception
 def read(
     db: Session,
+    *,
     name: str = None,
-    path: str | pandss.DatasetPath = None,
+    path: str = None,
     category: str = None,
     id: int = None,
 ) -> list[schemas.NamedPath]:
@@ -50,8 +51,6 @@ def read(
     if name:
         filters.append(models.NamedPath.name == name)
     if path:
-        if not isinstance(path, pandss.DatasetPath):
-            path = pandss.DatasetPath.from_str(path)
         filters.append(models.NamedPath.path == str(path))
     if category:
         filters.append(models.NamedPath.category == category)

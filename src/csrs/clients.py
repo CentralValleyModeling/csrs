@@ -108,6 +108,9 @@ class ClientABC:
         name: str,
         path: str,
         category: str,
+        period_type: str,
+        interval: str,
+        units: str,
         detail: str,
     ) -> schemas.NamedPath:
         raise NotImplementedError()
@@ -296,6 +299,9 @@ class RemoteClient(ClientABC):
         name: str,
         path: str,
         category: str,
+        period_type: str,
+        interval: str,
+        units: str,
         detail: str,
     ) -> schemas.NamedPath: ...
 
@@ -526,10 +532,14 @@ class LocalClient(ClientABC):
         name: str,
         path: str,
         category: str,
+        period_type: str,
+        interval: str,
+        units: str,
         detail: str,
     ) -> schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
+        logger.debug(f"{kwargs.keys()=}")
         obj = schemas.NamedPath(**kwargs)
         logger.debug(f"{obj=}")
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))

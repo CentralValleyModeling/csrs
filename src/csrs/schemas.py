@@ -143,6 +143,8 @@ class NamedPath(BaseModel):
     path: str
     category: str
     detail: str
+    period_type: str
+    interval: str
     units: str
 
     def __str__(self) -> str:
