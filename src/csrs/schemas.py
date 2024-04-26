@@ -1,10 +1,13 @@
 """Pydantic Models for the CalSim Scenario Server"""
 
-from typing import Self
+from typing import TYPE_CHECKING, Self
 
-import pandss as pdss
 from pandas import DataFrame, MultiIndex
 from pydantic import BaseModel
+
+if TYPE_CHECKING:
+    # Optional dependency
+    import pandss as pdss
 
 
 class Assumption(BaseModel):
@@ -106,7 +109,9 @@ class Timeseries(BaseModel):
     def __repr__(self) -> str:
         return str(self)
 
-    def to_pandss(self) -> pdss.RegularTimeseries:
+    def to_pandss(self) -> "pdss.RegularTimeseries":
+        import pandss as pdss
+
         kwargs = self.model_dump(
             exclude=("scenario", "version"),
         )
@@ -120,7 +125,7 @@ class Timeseries(BaseModel):
         cls,
         scenario: str,
         version: str,
-        rts: pdss.RegularTimeseries,
+        rts: "pdss.RegularTimeseries",
     ) -> Self:
         kwargs = rts.to_json()
         return cls(scenario=scenario, version=version, **kwargs)

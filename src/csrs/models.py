@@ -217,7 +217,7 @@ class TimeseriesLedger(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), nullable=False)
     path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), nullable=False)
-    time: Mapped[int] = mapped_column(nullable=False)
+    datetime: Mapped[float] = mapped_column(nullable=False)
     value: Mapped[float] = mapped_column(nullable=False)
 
 
