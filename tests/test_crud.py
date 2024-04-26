@@ -276,8 +276,11 @@ def test_create_read_timeseries():
     # path
     kwargs = dict(
         name="shasta-sotrage-test-read-timeseries",
-        path="/CALSIM/S_SHSTA/STORAGE//1MON/L2020A/",
+        path="/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/",
         category="storage",
+        period_type="PER-AVER",
+        interval="1MON",
+        units="TAF",
         detail="Storage in Shasta Reservoir in TAF.",
         db=session,
     )
@@ -311,7 +314,7 @@ def test_create_read_timeseries():
         path=kwargs["path"],
     )
     assert timeseries.path == timeseries_read.path
-    for L, R in zip(timeseries.values, timeseries_read.values):
+    for L, R in zip(timeseries.dates, timeseries_read.dates):
         assert L == R
 
 

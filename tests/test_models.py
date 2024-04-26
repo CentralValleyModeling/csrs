@@ -30,7 +30,7 @@ EXPECTED_TIMESERIES_LEDGER = {
     "id": int,
     "run_id": int,
     "path_id": int,
-    "time": int,
+    "datetime": float,
     "value": float,
 }
 
