@@ -105,6 +105,9 @@ TESTING_DATA = {
             "name": "testing-client-path",
             "path": "/TESTING/PATH/CLIENT//1MON/LOCAL/",
             "category": "other",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE",
             "detail": "Dummy path to test the API client.",
         }
     ],
@@ -177,7 +180,8 @@ def do_scenarios(client: clients.ClientABC):
 def do_runs(client: clients.ClientABC):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
-        client.put_assumption(**assumption)
+        assumption = client.put_assumption(**assumption)
+        assert isinstance(assumption, schemas.Assumption)
 
     SCENARIOS = TESTING_DATA["scearios"]
     for scenario in SCENARIOS:
@@ -208,8 +212,9 @@ def do_runs(client: clients.ClientABC):
 
 def do_paths(client: clients.ClientABC):
     PATHS = TESTING_DATA["paths"]
-    for assumption in PATHS:
-        client.put_path(**assumption)
+    for path in PATHS:
+        path = client.put_path(**path)
+        assert isinstance(path, schemas.NamedPath)
 
     array = client.get_path(
         path=PATHS[0]["path"],

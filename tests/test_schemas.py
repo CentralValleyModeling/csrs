@@ -53,6 +53,8 @@ EXPECTED_PATH = {
     "path": str,
     "category": str,
     "detail": str,
+    "period_type": str,
+    "interval": str,
     "units": str,
 }
 
