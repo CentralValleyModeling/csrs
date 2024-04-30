@@ -10,6 +10,7 @@ router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 @router.get("/names", response_model=list[str])
 async def get_assumption_table_names():
+    logger.info("getting assumption categories")
     return schemas.Scenario.get_assumption_attrs()
 
 

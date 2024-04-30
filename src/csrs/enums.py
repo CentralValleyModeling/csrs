@@ -1,6 +1,9 @@
 import enum
 
+from .logger import logger
 from .schemas import NamedPath
+
+logger.info("setting up custom enums")
 
 
 # Define the assumption types as a Python enumeration

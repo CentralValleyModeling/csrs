@@ -2,12 +2,13 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
 from . import __version__
+from .logger import logger
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
 TITLE = "CSRS"
 SUMMARY = "CalSim Scenario Results Server"
 DESCRIPTION = """
-A FastAPI app to serve CalSim3 model results and metadata. Helps you interact with many 
+A FastAPI app to serve CalSim3 model results and metadata. Helps you interact with many
 CalSim Scenarios at a time.
 """
 CONTACT = {
@@ -19,8 +20,15 @@ LISCENSE = {
     "name": "MIT",
     "identifier": "MIT",
 }
+ENABLE_FORMS = False
 
-
+logger.info("setting up FastAPI app")
+logger.info(f"{TITLE=}")
+logger.info(f"{SUMMARY=}")
+logger.info(f"{DESCRIPTION=}")
+logger.info(f"{CONTACT=}")
+logger.info(f"{LISCENSE=}")
+logger.info(f"{ENABLE_FORMS=}")
 app = FastAPI(
     title=TITLE,
     summary=SUMMARY,
@@ -30,8 +38,6 @@ app = FastAPI(
     contact=CONTACT,
     license_info=LISCENSE,
 )
-
-ENABLE_FORMS = False
 
 app.include_router(timeseries.router)
 app.include_router(runs.router)
