@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Iterable, overload
+from warnings import warn
 
 import pandss as pdss
 from httpx import Client
@@ -8,7 +9,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
 from . import crud, enums, models, schemas
-from .logger import logger
 
 
 class ClientABC:
@@ -352,7 +352,7 @@ class RemoteClient(ClientABC):
                 try:
                     rts = dss_obj.read_rts(p.path)
                 except pdss.errors.UnexpectedDSSReturn:
-                    logger.warning(f"couldn't read {p} from {dss}")
+                    warn(f"couldn't read {p} from {dss}")
                     continue
                 # Add path
                 p.path = str(rts.path)
@@ -397,7 +397,6 @@ class LocalClient(ClientABC):
     # annotations and type hints are in pyi file
     # GET
     def get_assumption_names(self):
-        logger.debug("get_assumption_names")
         return schemas.Scenario.get_assumption_attrs()
 
     @overload
@@ -410,7 +409,6 @@ class LocalClient(ClientABC):
     ) -> list[schemas.Assumption]: ...
 
     def get_assumption(self, **kwargs):
-        logger.debug(f"{kwargs=}")
         return crud.assumptions.read(db=self.session, **kwargs)
 
     @overload
@@ -422,7 +420,6 @@ class LocalClient(ClientABC):
     ) -> list[schemas.Scenario]: ...
 
     def get_scenario(self, **kwargs):
-        logger.debug(f"{kwargs=}")
         return crud.scenarios.read(db=self.session, **kwargs)
 
     @overload
@@ -436,7 +433,6 @@ class LocalClient(ClientABC):
     ) -> list[schemas.Scenario]: ...
 
     def get_run(self, **kwargs):
-        logger.debug(f"{kwargs=}")
         return crud.runs.read(db=self.session, **kwargs)
 
     @overload
@@ -450,7 +446,6 @@ class LocalClient(ClientABC):
     ) -> list[schemas.NamedPath]: ...
 
     def get_path(self, **kwargs):
-        logger.debug(f"{kwargs=}")
         return crud.paths.read(db=self.session, **kwargs)
 
     @overload
@@ -463,7 +458,6 @@ class LocalClient(ClientABC):
     ) -> schemas.Timeseries: ...
 
     def get_timeseries(self, **kwargs):
-        logger.debug(f"{kwargs=}")
         return crud.timeseries.read(db=self.session, **kwargs)
 
     # PUT
@@ -478,7 +472,6 @@ class LocalClient(ClientABC):
 
     def put_assumption(self, **kwargs):
         obj = schemas.Assumption(**kwargs)
-        logger.debug(f"{obj=}")
         return crud.assumptions.create(
             db=self.session, **obj.model_dump(exclude=("id"))
         )
@@ -500,7 +493,6 @@ class LocalClient(ClientABC):
 
     def put_scenario(self, **kwargs):
         obj = schemas.Scenario(**kwargs)
-        logger.debug(f"{obj=}")
         return crud.scenarios.create(db=self.session, **obj.model_dump(exclude=("id")))
 
     @overload
@@ -522,7 +514,6 @@ class LocalClient(ClientABC):
 
     def put_run(self, **kwargs):
         obj = schemas.Run(**kwargs)
-        logger.debug(f"{obj=}")
         return crud.runs.create(db=self.session, **obj.model_dump(exclude=("id")))
 
     @overload
@@ -539,9 +530,7 @@ class LocalClient(ClientABC):
     ) -> schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
-        logger.debug(f"{kwargs.keys()=}")
         obj = schemas.NamedPath(**kwargs)
-        logger.debug(f"{obj=}")
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
     @overload
@@ -561,7 +550,6 @@ class LocalClient(ClientABC):
 
     def put_timeseries(self, **kwargs):
         obj = schemas.Timeseries(**kwargs)
-        logger.debug(f"{obj=}")
         return crud.timeseries.create(db=self.session, **obj.model_dump())
 
     def put_many_timeseries(
@@ -581,7 +569,7 @@ class LocalClient(ClientABC):
                 try:
                     rts = dss_obj.read_rts(p.path)
                 except pdss.errors.UnexpectedDSSReturn:
-                    logger.warning(f"couldn't read {p} from {dss}")
+                    warn(f"couldn't read {p} from {dss}")
                     continue
                 # Add path
                 p.path = str(rts.path)
