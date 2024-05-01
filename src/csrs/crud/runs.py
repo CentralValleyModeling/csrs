@@ -52,10 +52,12 @@ def create(
     logger.info(f"creating new run for {scenario=}, {version=} {prefer_this_version=}")
     # get the information about the parents that we will need
     if parent:
-        parent: list[schemas.Run] = read(db, scenario=scenario, version=parent)
-        if len(parent) != 1:
+        parent_lookup: list[schemas.Run] = read(db, scenario=scenario, version=parent)
+        if len(parent_lookup) > 1:
             raise AttributeError("multiple potential predecessors found")
-        parent_id = parent[0].id
+        if len(parent_lookup) == 0:
+            raise AttributeError("no potential predecessors found")
+        parent_id = parent_lookup[0].id
     else:
         parent_id = None
     if children:
