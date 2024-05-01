@@ -6,5 +6,4 @@ except PackageNotFoundError:
     # pandss not installed, likely developer mode
     __version__ = None
 from .clients import LocalClient, RemoteClient
-from .main import app
 from .schemas import Assumption, NamedPath, Run, Scenario, Timeseries
