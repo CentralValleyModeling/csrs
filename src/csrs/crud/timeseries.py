@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..database import EPOCH
 from ..errors import LookupUniqueError
+from ..logger import logger
 from .decorators import rollback_on_exception
 
 
@@ -60,6 +61,8 @@ def create(
     dates: tuple[str],
     **kwargs,
 ) -> schemas.Timeseries:
+    logger.info(f"creating new timeseries for {scenario=}, {version=} {path=}")
+
     # ignore certain kwargs
     for k in ("period_type", "interval", "units"):
         kwargs.pop(k)
@@ -124,6 +127,7 @@ def read(
     version: str,
     path: str,
 ) -> schemas.Timeseries:
+    logger.info(f"reading timeseries where {scenario=}, {version=} {path=}")
     # Get the scenario, and the run we are adding data to
     sceanrio_model = (
         db.query(models.Scenario).filter(models.Scenario.name == scenario).first()

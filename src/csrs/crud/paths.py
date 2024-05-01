@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..enums import PathCategoryEnum
 from ..errors import PathCategoryError
+from ..logger import logger
 from .decorators import rollback_on_exception
 
 
@@ -18,6 +19,7 @@ def create(
     units: str,
     detail: str,
 ) -> schemas.NamedPath:
+    logger.info(f"creating new named path {name=}, {path=}")
     # Check if category is valid
     try:
         category = PathCategoryEnum(category)
@@ -47,6 +49,7 @@ def read(
     category: str = None,
     id: int = None,
 ) -> list[schemas.NamedPath]:
+    logger.info(f"reading named path where {name=}, {category=}, {path=}")
     filters = list()
     if name:
         filters.append(models.NamedPath.name == name)
