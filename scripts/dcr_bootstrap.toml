@@ -1,0 +1,277 @@
+[[assumptions]]
+name = "No TUCP"
+kind = "tucp"
+detail = "No TUCP in model."
+
+[[assumptions]]
+name = "No DCP"
+kind = "dcp"
+detail = "No DCP in model."
+
+[[assumptions]]
+name = "No VA"
+kind = "va"
+detail = "No VAs in model."
+
+[[assumptions]]
+name = "No SOD"
+kind = "south_of_delta"
+detail = "No additional SOD storage in model."
+
+[[assumptions]]
+name = "2020 (2020 UWMP)"
+kind = "land_use"
+detail = "2020 Land Use, and Urban Demands, from 2020 UWMP."
+
+[[assumptions]]
+name = "2040 (2020 UWMP)"
+kind = "land_use"
+detail = "2040 Land Use, and Urban Demands, from 2020 UWMP."
+
+[[assumptions]]
+name = "No SLR"
+kind = "sea_level_rise"
+detail = "No sea level rise in model."
+
+[[assumptions]]
+name = "15cm"
+kind = "sea_level_rise"
+detail = """15 cm of sea level rise. SLR assumptions for the DCR scenarios \
+are based on the 2022 SLR technical report (Sweet et al. 2022) and \
+accompanying datasets from the Interagency Task Force Sea Level Rise Scenario \
+Tool."""
+
+[[assumptions]]
+name = "30cm"
+kind = "sea_level_rise"
+detail = """30 cm of sea level rise. SLR assumptions for the DCR scenarios \
+are based on the 2022 SLR technical report (Sweet et al. 2022) and \
+accompanying datasets from the Interagency Task Force Sea Level Rise Scenario \
+Tool."""
+
+[[assumptions]]
+name = "Historical Hydrology (Danube)"
+kind="hydrology"
+detail = """\
+The historical hydrologic conditions input data represents a period of record \
+of water years 1922 through 2021 (October 1, 1921, through September 30, \
+2021). The historical hydrologic conditions data set was developed using \
+historical data (streamflow, land use, and meteorological data) when \
+available, and extrapolation from historical data when the full period of \
+historical data was not available"""
+
+[[assumptions]]
+name = "Adjusted Historical Hydrology (Danube)"
+kind="hydrology"
+detail = """\
+The Adjusted Historical Hydrology represents current day hydrologic patterns, \
+accounting for the effects of climate change that have already occured.
+Statistical characteristics of historical rim inflow in California’s Central \
+Valley show noticeable and statistically significant changes in the past 100 \
+years. Standard deviations of precipitation and rim inflow from most of the \
+rim watersheds in the early periods of the past 100 years are significantly \
+different from the recent 30 years. These differences indicate that the \
+non-stationary historical meteorological and hydrological data may not be \
+completely representative of recent and current conditions. To develop a \
+hydrologic data set for the entire modeled period that represents current \
+hydrology, an adjusted historical hydrologic conditions data set was \
+developed. The intent of the adjusted historical hydrologic conditions data \
+set is to provide a reasonable representation of recent climatic conditions \
+and serve as a basis for creating future climate change scenarios.
+The standard deviation and monthly distribution of historical streamflow for \
+the first 70 years of the period of record were adjusted to match the last 30 \
+years via a combination of statistical scaling methods. The resulting data \
+set is identical to the historical hydrologic conditions for water years 1992 \
+through 2021, with adjustments to water years 1922 through 1991."""
+
+[[assumptions]]
+name = "CC LOC 50% (Danube)"
+kind="hydrology"
+detail = """\
+The 50th percentile level-of-concern scenario represents a 2043 \
+middle-of-the-road or central tendency future for the SWP. It includes:
+- A temperature increase over current average temperatures of 1.5 degrees \
+  Celsius (2.7 degrees Fahrenheit [°F]).
+- 1.5 percent wetter average precipitation than current conditions.
+- 10.5-percent increase in the 99th percentile daily precipitation event.
+- 15 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development, and regulations are \
+represented by current regulations, including the 2019 U.S. Fish and Wildlife \
+Service (USFWS) and National Marine Fisheries Service (NMFS) biological \
+opinions, its associated incidental take permit, and the 2018 addendum to \
+the Coordinated Operations Agreement between the SWP and CVP. Ongoing \
+processes, such as voluntary agreements and the 2021 Reinitiation of \
+Consultation for Long-Term Operations of the CVP and SWP, are not included \
+in the modeling.
+Users of this scenario should assume that current climate model simulations \
+indicate that actual 2043 climate conditions would have an approximate \
+equal chance of either being worse than conditions represented in this \
+scenario or as being better than the conditions represented in this \
+scenario — better or worse generally meaning higher or lower SWP water \
+supply deliveries. Put another way, there is an approximate 50-percent \
+chance that planning only this scenario would leave an agency underplanned \
+and potentially under prepared for the actual climate conditions to \
+which they would need to operate. Nonetheless, this scenario could also be \
+considered the statistically expected future level of performance of the SWP \
+system. This scenario may be appropriate for use in certain types of \
+planning documents, such as California Environmental Quality Act \
+environmental impact reports which require agencies to consider “reasonably \
+foreseeable indirect physical change in the environment.” (Public Resources \
+Code section 21065)."""
+
+[[assumptions]]
+name = "CC LOC 75% (Danube)"
+kind="hydrology"
+detail = """\
+The 75th percentile level-of-concern scenario represents a 2043 worse than \
+average future for the SWP. It includes:
+- A temperature increase above current average temperatures of 1.7 °C (3 °F).
+- Average precipitation amount that is very similar to current conditions.
+- 12-percent increase in the 99th percentile daily precipitation event.
+- 30 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development and regulations are \
+represented by current regulations, including the 2019 USFWS and NMFS \
+biological opinions, its associated incidental take permit and the 2018 \
+addendum to the Coordinated Operations Agreement between the SWP and \
+CVP. Ongoing processes, such as voluntary agreements and the 2021 \
+Reinitiation of Consultation for Long-Term Operations of the CVP and SWP, \
+are not included in the modeling.
+Users of this scenario should assume that current climate model simulations \
+indicate that actual 2043 climate conditions would have about a 25-percent \
+chance of being worse than the conditions represented in this scenario. Put \
+another way, there is an approximate 25-percent chance that planning to \
+only this scenario would leave an agency under-planned and potentially \
+under prepared for the actual climate conditions to which they need to \
+operate. This scenario may be considered a moderate risk aversion scenario, \
+as it provides significantly more challenging future conditions than the 50th \
+percentile level of concern but does not provide the most extreme planning \
+conditions."""
+
+[[assumptions]]
+name = "CC LOC 95% (Danube)"
+kind="hydrology"
+detail = """\
+The 95th percentile level-of-concern scenario represents a 2043 much worse \
+than average future for the SWP. It includes:
+- A temperature increase over current average temperatures of 1.8 °C (3.2 °F).
+- Average precipitation amount that is 1.8 percent drier than current \
+  conditions.
+- 12.6-percent increase in the 99th percentile daily precipitation event.
+- 30 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development and regulations are \
+represented by current regulations, including the 2019 USFWS and NMFS \
+biological opinions, its associated incidental take permit and the 2018 \
+addendum to the Coordinated Operations Agreement between the SWP and \
+CVP. Ongoing processes, such as voluntary agreements and the 2021 \
+Reinitiation of Consultation for Long-Term Operations of the CVP and SWP, \
+are not included in the modeling.
+Users of this scenario should understand that current climate model \
+simulations indicate that actual 2043 climate conditions would have an \
+approximate 5-percent chance of being worse than the conditions \
+represented in this scenario. Put another way, there is only an approximate \
+5-percent chance that planning for only this scenario would leave an agency \
+under-planned and potentially under-prepared for the actual climate \
+conditions to which they need to operate. This scenario may be considered a \
+high-risk aversion scenario, as it provides significantly more challenging \
+future conditions than the 50th and 75th percentile levels-of-concern. This \
+scenario provides the most extreme planning conditions for DCR users."""
+
+[[scenarios]]
+name = "Historical (Danube)"
+land_use = "2020 (2020 UWMP)"
+sea_level_rise = "No SLR"
+hydrology = "Historical Hydrology (Danube)"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[scenarios]]
+name = "Adjusted Historical (Danube)"
+land_use = "2020 (2020 UWMP)"
+sea_level_rise = "No SLR"
+hydrology = "Adjusted Historical Hydrology (Danube)"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[scenarios]]
+name = "CC LOC 50% (Danube)"
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "15cm"
+hydrology = "CC LOC 50% (Danube)"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[scenarios]]
+name = "CC LOC 75% (Danube)"
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "30cm"
+hydrology = "CC LOC 75% (Danube)"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[scenarios]]
+name = "CC LOC 95% (Danube)"
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "30cm"
+hydrology = "CC LOC 95% (Danube)"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[runs]]
+scenario = "Historical (Danube)"
+version = "1.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+dss_to_upload = "//cnrastore-bdo/CVM_Inventory/_DeliveryCapabilityReport/2023_DCR_Studies/Modeling/Second_Iteration_Runs_ICC_CCWD/9.0.0_danube_hist/DSS/output/DCR2023_DV_9.0.0_Danube_Hist_v1.1.dss"
+
+[[runs]]
+scenario = "Adjusted Historical (Danube)"
+version = "1.2"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+dss_to_upload = "//cnrastore-bdo/CVM_Inventory/_DeliveryCapabilityReport/2023_DCR_Studies/Modeling/Second_Iteration_Runs_ICC_CCWD/9.0.0_danube_histadj/DSS/output/DCR2023_DV_9.0.0_Danube_Adj_v1.2.dss"
+
+[[runs]]
+scenario = "CC LOC 50% (Danube)"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+dss_to_upload = "//cnrastore-bdo/CVM_Inventory/_DeliveryCapabilityReport/2023_DCR_Studies/Modeling/Second_Iteration_Runs_ICC_CCWD/9.0.0_danube_cc50/DSS/output/DCR2023_DV_9.0.0_Danube_CC50_v1.2.1.dss"
+
+[[runs]]
+scenario = "CC LOC 75% (Danube)"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+dss_to_upload = "//cnrastore-bdo/CVM_Inventory/_DeliveryCapabilityReport/2023_DCR_Studies/Modeling/Second_Iteration_Runs_ICC_CCWD/9.0.0_danube_cc75/DSS/output/DCR2023_DV_9.0.0_Danube_CC75_v1.2.1.dss"
+
+[[runs]]
+scenario = "CC LOC 95% (Danube)"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+dss_to_upload = "//cnrastore-bdo/CVM_Inventory/_DeliveryCapabilityReport/2023_DCR_Studies/Modeling/Second_Iteration_Runs_ICC_CCWD/9.0.0_danube_cc95/DSS/output/DCR2023_DV_9.0.0_Danube_CC95_v1.2.1.dss"
