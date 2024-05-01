@@ -58,7 +58,7 @@ def create(
             raise LookupUniqueError(
                 models.Assumption,
                 assumption_model,
-                **kwargs[table_name],
+                table_name=kwargs[table_name],
             )
         scenario_assumptions[table_name] = assumption_model[0].id
     scenario_model = models.Scenario(name=name)
