@@ -39,7 +39,7 @@ def read(
     name: str = None,
     id: int = None,
 ) -> list[schemas.Assumption]:
-    logger.debug(f"reading assumptions where {kind=}, {name=}, {id=}")
+    logger.info(f"reading assumptions where {kind=}, {name=}, {id=}")
     filters = list()
     if name:
         filters.append(models.Assumption.name == name)
