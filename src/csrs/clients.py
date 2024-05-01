@@ -356,7 +356,13 @@ class RemoteClient(ClientABC):
                     continue
                 # Add path
                 p.path = str(rts.path)
-                self.actor.put("/paths", json=p.model_dump(exclude=("id")))
+                found_paths = self.get_path(
+                    name=p.name,
+                    path=p.path,
+                    category=p.category,
+                )
+                if not found_paths:
+                    self.actor.put("/paths", json=p.model_dump(exclude=("id")))
                 # Add timeseries
                 ts = schemas.Timeseries.from_pandss(scenario, version, rts)
                 response = self.actor.put(url, json=ts.model_dump(mode="json"))
@@ -560,7 +566,7 @@ class LocalClient(ClientABC):
         paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
         if paths is None:
-            paths = [str(p.value) for p in enums.StandardPathsEnum]
+            paths = [p.value for p in enums.StandardPathsEnum]
         elif not isinstance(paths[0], schemas.NamedPath):
             raise ValueError(f"paths not given as {schemas.NamedPath}")
         added = list()
@@ -569,15 +575,25 @@ class LocalClient(ClientABC):
                 try:
                     rts = dss_obj.read_rts(p.path)
                 except pdss.errors.UnexpectedDSSReturn:
-                    warn(f"couldn't read {p} from {dss}")
+                    warn(f"couldn't read {p} from {dss}, (UnexpectedDSSReturn)")
+                    continue
+                except ValueError:
+                    warn(f"couldn't read {p} from {dss}, (ValueError)")
                     continue
                 # Add path
                 p.path = str(rts.path)
-                crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
+                found_paths = crud.paths.read(
+                    db=self.session,
+                    name=p.name,
+                    path=p.path,
+                    category=p.category,
+                )
+                if not found_paths:
+                    crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
                 # Add timeseries
                 ts = schemas.Timeseries.from_pandss(scenario, version, rts)
                 kwargs = ts.model_dump()
-                kwargs["path"] = rts.path
+                kwargs["path"] = str(rts.path)
                 ts = crud.timeseries.create(db=self.session, **kwargs)
                 added.append(ts)
         return added
