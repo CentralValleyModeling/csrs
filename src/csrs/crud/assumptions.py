@@ -13,6 +13,7 @@ def create(
     detail: str,
     db: Session,
 ) -> schemas.Assumption:
+    logger.info(f"adding assumption, {name=}, {kind=}")
     # check if it exists already
     dup_name = (
         db.query(models.Assumption).filter_by(name=name, kind=kind).first() is not None
