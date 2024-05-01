@@ -27,13 +27,14 @@ def get_logger() -> logging.Logger:
     )
     # Set up handler for sending logs to file
     file_handler_kwargs = dict(
-        get_dir() / "debug.log",
+        filename=get_dir() / "debug.log",
         when="d",
         backupCount=8,  # One more day than a week
     )
     file_handler = TimedRotatingFileHandler(**file_handler_kwargs)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
+
     # Set up handler to send logs to stdout
     stream_handler = logging.StreamHandler(stream=sys.stdout)
     stream_handler.setFormatter(formatter)
