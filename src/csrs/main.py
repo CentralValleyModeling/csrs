@@ -22,13 +22,17 @@ LISCENSE = {
 }
 ENABLE_FORMS = False
 
-logger.info("setting up FastAPI app")
-logger.info(f"{TITLE=}")
-logger.info(f"{SUMMARY=}")
-logger.info(f"{DESCRIPTION=}")
-logger.info(f"{CONTACT=}")
-logger.info(f"{LISCENSE=}")
-logger.info(f"{ENABLE_FORMS=}")
+
+def log_app_args():
+    logger.info("setting up FastAPI app")
+    for name, val in globals():
+        # Log the all-uppercase variables in local
+        if name.upper() == name:
+            logger.info(f"{name}={val}")
+
+
+# log the environment args
+log_app_args()
 app = FastAPI(
     title=TITLE,
     summary=SUMMARY,
