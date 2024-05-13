@@ -5,13 +5,9 @@ from typing import TYPE_CHECKING, Self
 from pandas import DataFrame, MultiIndex
 from pydantic import BaseModel
 
-from .logger import logger
-
 if TYPE_CHECKING:
     # Optional dependency
     import pandss as pdss
-
-logger.info("setting up pydantic Schemas")
 
 
 class Assumption(BaseModel):

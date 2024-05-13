@@ -7,9 +7,6 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
 from .enums import AssumptionEnum, IntervalEnum, PathCategoryEnum, PeriodTypeEnum
-from .logger import logger
-
-logger.info("setting up ORM models")
 
 
 # Create a base class for our ORM models
