@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
@@ -23,16 +25,17 @@ LISCENSE = {
 ENABLE_FORMS = False
 
 
-def log_app_args():
+def log_global_args():
     logger.info("setting up FastAPI app")
     for name, val in globals().items():
         # Log the all-uppercase variables in local
         if name.upper() == name:
             logger.info(f"{name}={val}")
+            if isinstance(val, Path):
+                logger.info(f"above path exists: {val.exists()}")
 
 
 # log the environment args
-log_app_args()
 app = FastAPI(
     title=TITLE,
     summary=SUMMARY,
@@ -53,3 +56,5 @@ if ENABLE_FORMS:
 
 # TODO move this into a sub-module so the routes can interact with them easily
 templates = Jinja2Templates(directory="./templates")
+
+log_global_args()
