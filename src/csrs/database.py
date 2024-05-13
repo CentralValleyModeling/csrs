@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -7,7 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from .logger import logger
 from .models import Base
 
-DATABASE = os.environ.get("database-name", "./database/csrs.db")
+DATABASE = Path(os.environ.get("database-name", "./database/csrs.db")).resolve()
 EPOCH = datetime(1900, 1, 1)
 
 
