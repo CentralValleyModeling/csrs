@@ -10,6 +10,7 @@ from .models import Base
 
 DATABASE_NAME = os.environ.get("database-name", "csrs.db")
 EPOCH = datetime(1900, 1, 1)
+logger.info(f"{DATABASE_NAME=}")
 
 
 def get_db_dir() -> Path:
