@@ -25,7 +25,7 @@ ENABLE_FORMS = False
 
 def log_app_args():
     logger.info("setting up FastAPI app")
-    for name, val in globals():
+    for name, val in globals().items():
         # Log the all-uppercase variables in local
         if name.upper() == name:
             logger.info(f"{name}={val}")
