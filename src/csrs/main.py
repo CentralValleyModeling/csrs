@@ -10,10 +10,9 @@ from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
 TITLE = "CSRS"
 SUMMARY = "CalSim Scenario Results Server"
-DESCRIPTION = """
+DESCRIPTION = """\
 A FastAPI app to serve CalSim3 model results and metadata. Helps you interact with many
-CalSim Scenarios at a time.
-"""
+CalSim Scenarios at a time."""
 CONTACT = {
     "name": "California DWR, Central Valley Modeling",
     "url": "https://water.ca.gov/Library/"
@@ -31,6 +30,9 @@ def log_global_args():
     for name, val in globals().items():
         # Log the all-uppercase variables in local
         if name.upper() == name:
+            val = str(val)
+            if "\n" in val:
+                val = val.spit("\n")[0] + "..."
             logger.info(f"{name}={val}")
             if isinstance(val, Path):
                 logger.info(f"above path exists: {val.exists()}")
