@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -8,40 +7,29 @@ from sqlalchemy.orm import Session, sessionmaker
 from .logger import logger
 from .models import Base
 
-DATABASE_NAME = os.environ.get("database-name", "./database/csrs.db")
+DATABASE = os.environ.get("database-name", "./database/csrs.db")
 EPOCH = datetime(1900, 1, 1)
 
 
-def get_db_dir() -> Path:
-    loc = os.environ.get("database-dir", None)
-    if loc:
-        loc = Path(loc).resolve()
+def get_database_url(db, db_type="sqlite") -> str:
+    if db_type == "sqlite":
+        url = f"sqlite:///{db}"
     else:
-        loc = Path("./database").resolve()
-    if loc.name == "src":
-        loc = loc.parent
-    if not loc.exists():
-        loc.mkdir()
-    logger.debug(f"database directory={loc}")
-    return loc
-
-
-def get_database_url(name) -> str:
-    url = f"sqlite:///{get_db_dir()}/{name}"
-    logger.debug(f"database url={url}")
+        raise NotImplementedError(f"{db_type=} not supported")
+    logger.debug(f"{url=}")
     return url
 
 
-def make_engine(database_name) -> Engine:
-    logger.debug(f"{database_name=}")
+def make_engine(db) -> Engine:
+    logger.debug(f"{db=}")
     logger.debug("creating database engine")
-    url = get_database_url(database_name)
+    url = get_database_url(db)
     return create_engine(url)
 
 
-def get_session(database_name) -> Session:
+def get_session(db) -> Session:
     logger.debug("creating database session")
-    engine = make_engine(database_name)
+    engine = make_engine(db)
     maker = sessionmaker(
         autocommit=False,
         autoflush=False,
@@ -58,7 +46,7 @@ def get_session(database_name) -> Session:
 def get_db():
     logger.debug("getting database connection")
     try:
-        db = get_session(DATABASE_NAME)
+        db = get_session(DATABASE)
         yield db
     finally:
         db.close()

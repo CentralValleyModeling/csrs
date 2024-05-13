@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 
 from . import __version__
-from .database import DATABASE_NAME
+from .database import DATABASE
 from .logger import logger
 from .routes import assumptions, forms, paths, runs, scenarios, timeseries
 
