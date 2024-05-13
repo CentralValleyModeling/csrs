@@ -49,5 +49,6 @@ EXPOSE 80
 # activated env and git clone repo provided as first argument to setup_run_server.sh and cd to it
 # and source run_server.sh there expecting it to start server listening to port 80
 # Use bash instead of sh
-ADD setup_run_server.sh .
-ENTRYPOINT ["/bin/bash", "setup_run_server.sh", "https://github.com/CentralValleyModeling/csrs"]
+ADD run_server.sh .
+
+ENTRYPOINT ["/bin/bash", "run_server.sh"]

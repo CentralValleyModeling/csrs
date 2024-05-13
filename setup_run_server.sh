@@ -18,7 +18,7 @@ while getopts ":g:d:" o; do
 done
 shift $((OPTIND-1))
 
-if [ -z "${git_repo_url}" ] && [ -z "${dir_path}" ]; then
+if [ -z "${git_repo_url}" ] && [ -z "${dir_path}" ]; then 
     usage
 fi
 if [ -n "${git_repo_url}" ]; then
@@ -33,6 +33,4 @@ fi
 # TODO: check that run_server.sh exists in this path else fail
 
 # run_server.sh in the git repo should start a web server listening to port 80
-# e.g. with holoviz panel like 
-# panel serve my_dash.ipynb --address 0.0.0.0 --port 80 --allow-websocket-origin="*"
 source run_server.sh
