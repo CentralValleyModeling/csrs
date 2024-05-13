@@ -32,7 +32,7 @@ def log_global_args():
         if name.upper() == name:
             val = str(val)
             if "\n" in val:
-                val = val.spit("\n")[0] + "..."
+                val = val.split("\n")[0] + "..."
             logger.info(f"{name}={val}")
             if isinstance(val, Path):
                 logger.info(f"above path exists: {val.exists()}")
