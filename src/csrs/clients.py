@@ -383,6 +383,23 @@ class RemoteClient(ClientABC):
     ) -> schemas.Assumption: ...
 
     def put_assumption(self, **kwargs):
+        """Create a new `Assumption` on the results server.
+
+        Parameters
+        ----------
+        name : str
+            The name of the `Assumption`
+        kind : str
+            The type of `Assumption`, should be a member of `csrs.enums.AssumptionEnum`
+        detail : str
+            A description and metadata for the assumption.
+
+        Returns
+        -------
+        schemas.Assumption
+            The `Assumption` object created
+        """
+
         obj = schemas.Assumption(**kwargs)
         url = "/assumptions"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
