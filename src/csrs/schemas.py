@@ -3,53 +3,54 @@
 from typing import TYPE_CHECKING, Self
 
 from pandas import DataFrame, MultiIndex
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 if TYPE_CHECKING:
     # Optional dependency
     import pandss as pdss
 
 
-class Assumption(BaseModel):
+class CSRS_Model(BaseModel):
+    def __str__(self) -> str:
+        s = self.__class__.__name__
+        attrs = list()
+        for name, field in self.model_fields.items():
+            if field.repr:
+                attrs.append(f"{name}={getattr(self, name)}")
+        if attrs:
+            attrs = ", ".join(attrs)
+
+        return f"{s}({attrs})"
+
+
+class Assumption(CSRS_Model):
     """A single assumption used by a Scenario modeling Scenario. One Assumption
     can be used by multiple Scenarios.
     """
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
     name: str
     kind: str
-    detail: str
-
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name}, kind={self.kind})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    detail: str = Field(repr=False)
 
 
-class Scenario(BaseModel):
+class Scenario(CSRS_Model):
     """A CalSim modeling Scenario, made up of multiple model runs with the same
     Assumptions. One Scenario can have multiple model Runs to allow for
     improvements and bug fixes over time.
     """
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
     name: str
     version: str | None = None
     # The attributes below should match the enum AssumptionEnumeration
-    land_use: str
-    sea_level_rise: str
-    hydrology: str
-    tucp: str
-    dcp: str
-    va: str
-    south_of_delta: str
-
-    def __str__(self) -> str:
-        return f"{self.__class__.__name__}(name={self.name}, version={self.version})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    land_use: str = Field(repr=False)
+    sea_level_rise: str = Field(repr=False)
+    hydrology: str = Field(repr=False)
+    tucp: str = Field(repr=False)
+    dcp: str = Field(repr=False)
+    va: str = Field(repr=False)
+    south_of_delta: str = Field(repr=False)
 
     @classmethod
     def get_non_assumption_attrs(cls) -> tuple[str]:
@@ -61,53 +62,36 @@ class Scenario(BaseModel):
         return tuple(a for a in cls.model_fields if a not in excluded)
 
 
-class Run(BaseModel):
+class Run(CSRS_Model):
     """A CalSim model run belonging to one Scenario. A model Run can contain
     many timeseries, and many metrics.
     """
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
     scenario: str
     version: str
     # info
-    parent: str | None = None
-    children: tuple[str, ...] | tuple = tuple()
-    contact: str
-    confidential: bool = True
-    published: bool = False
-    code_version: str
-    detail: str
-
-    def __str__(self) -> str:
-        c = self.__class__.__name__
-        return f"{c}(scenario={self.scenario}, version={self.version})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    parent: str | None = Field(default=None, repr=False)
+    children: tuple[str, ...] | tuple = Field(default_factory=tuple, repr=False)
+    contact: str = Field(repr=False)
+    confidential: bool = Field(default=False, repr=False)
+    published: bool = Field(default=False, repr=False)
+    code_version: str = Field(repr=False)
+    detail: str = Field(repr=False)
 
 
-class Timeseries(BaseModel):
+class Timeseries(CSRS_Model):
     """The timeseries data belonging to one model Run."""
 
     scenario: str
     version: str
     # shadow pandss RegularTimeseries attributes
     path: str
-    values: tuple[float, ...]
-    dates: tuple[str, ...]
-    period_type: str
-    units: str
-    interval: str
-
-    def __str__(self) -> str:
-        c = self.__class__.__name__
-        s = self.scenario
-        v = self.version
-        p = self.path
-        return f"{c}(scenario={s}, version={v}, path={p})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    values: tuple[float, ...] = Field(default_factory=tuple, repr=False)
+    dates: tuple[str, ...] = Field(default_factory=tuple, repr=False)
+    period_type: str = Field(repr=False)
+    units: str = Field(repr=False)
+    interval: str = Field(repr=False)
 
     def to_pandss(self) -> "pdss.RegularTimeseries":
         import pandss as pdss
@@ -140,60 +124,35 @@ class Timeseries(BaseModel):
         return df
 
 
-class NamedPath(BaseModel):
+class NamedPath(CSRS_Model):
     """A single DSS path, with information about the data it represents."""
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
     name: str
     path: str
     category: str
-    detail: str
-    period_type: str
-    interval: str
-    units: str
-
-    def __str__(self) -> str:
-        c = self.__class__.__name__
-        return f"{c}(name={self.name}, path={self.path}, category={self.category})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    detail: str = Field(repr=False)
+    period_type: str = Field(repr=False)
+    interval: str = Field(repr=False)
+    units: str = Field(repr=False)
 
 
-class Metric(BaseModel):
+class Metric(CSRS_Model):
     """An method of aggregation of timeseries data."""
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
     name: str
     index_detail: str
-    detail: str
-
-    def __str__(self) -> str:
-        c = self.__class__.__name__
-        return f"{c}(name={self.name})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    detail: str = Field(repr=False)
 
 
-class MetricValue(BaseModel):
+class MetricValue(CSRS_Model):
     """Aggregated values of timeseries data."""
 
-    id: int | None = None
+    id: int | None = Field(default=None, repr=False)
+    metric: str
     scenario: str
     run_version: str
     path: str
-    metric: str
-    indexes: tuple
-    values: tuple[float, ...]
-
-    def __str__(self) -> str:
-        c = self.__class__.__name__
-        s = self.scenario
-        v = self.run_version
-        m = self.metric
-        p = self.path
-        return f"{c}(metric={m}, scenario={s}, run_version={v}, path={p})"
-
-    def __repr__(self) -> str:
-        return str(self)
+    indexes: tuple = Field(default_factory=tuple, repr=False)
+    values: tuple[float, ...] = Field(default_factory=tuple, repr=False)
