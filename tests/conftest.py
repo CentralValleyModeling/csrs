@@ -8,8 +8,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from csrs import app, clients
+from csrs import clients
 from csrs.database import get_db
+from csrs.main import app
 from csrs.models import Base
 
 
