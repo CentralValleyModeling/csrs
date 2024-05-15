@@ -23,6 +23,10 @@ def create(
         is not None
     )
     if dup_name or dup_detail:
+        if dup_name:
+            dup_name = name
+        if dup_detail:
+            dup_detail = detail
         logger.error(f"error adding assumption, {dup_name=}, {dup_detail=}")
         raise DuplicateAssumptionError(dup_name, dup_detail)
     model = models.Assumption(name=name, kind=kind, detail=detail)
