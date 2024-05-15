@@ -102,3 +102,6 @@ target/
 # SQL
 *.db
 *.sqlite
+
+# mkdocs
+site
