@@ -142,12 +142,46 @@ class ClientABC:
 
 
 class RemoteClient(ClientABC):
+    """Client used to interact with a remote Results Server."""
+
     def __init__(self, base_url: str):
+        """Initialize a client, and target a remote URL.
+
+        Parameters
+        ----------
+        base_url : str
+            The URL of the results server.
+
+        Example
+        -------
+        ```python-repl
+        >>> import csrs
+        >>> url = "calsim-scenario-results-server.azurewebsites.net"
+        >>> client = csrs.RemoteClient(url)
+        ```
+        """
         self.actor = Client(base_url=base_url)
 
-    # annotations and type hints are in pyi file
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(url={self.actor.base_url})"
+
     # GET
     def get_assumption_names(self) -> list[str]:
+        """Get the list of assumption categories that each scenario requires.
+
+        Returns
+        -------
+        list[str]
+            A list of names of assumption categories
+
+        Example
+        -------
+        ```python-repl
+        >>> client.get_assumption_names()
+        ["land_use", "hydrology", "sea_level_rise"]
+        ```
+
+        """
         url = "/assumptions/names"
         response = self.actor.get(url)
         response.raise_for_status()
@@ -163,6 +197,35 @@ class RemoteClient(ClientABC):
     ) -> list[schemas.Assumption]: ...
 
     def get_assumption(self, **kwargs):
+        """Get the `Assumption` objects that match the information provided.
+
+        If no arguments are given, all Assumption objects in the database will be
+        returned.
+
+        Parameters
+        ----------
+        kind : str, optional
+            Matches against `Assumption.kind`, use `get_assumption_names` to get the
+            full list of assumption types, by default None
+        name : str, optional
+            Matches against `Assumption.name`. If provided, this method will return at
+            most one `Assumption` object, by default None
+        id : int, optional
+            Matches against `Assumption.id`. If provided, this method will return at
+            most one `Assumption` object, by default None
+
+        Returns
+        -------
+        list[schemas.Assumption]
+            All of the `Assumption` objects that were matched.
+
+        Example
+        -------
+        ```python-repl
+        >>> client.get_assumption(kind="hydrolgy")
+        [Assumption(name="Historical"), Assumption(name="Future")]
+        ```
+        """
         url = "/assumptions"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
@@ -177,6 +240,23 @@ class RemoteClient(ClientABC):
     ) -> list[schemas.Scenario]: ...
 
     def get_scenario(self, **kwargs):
+        """Get the `Scenario` objects that match the information provided.
+
+        Parameters
+        ----------
+        name : str, optional
+            Matches against `Scenario.name`. If provided, this method will return at
+            most one `Scenario` object, by default None
+        id : int, optional
+            Matches against `Scenario.id`. If provided, this method will return at most
+            one `Scenario` object, by default None
+
+        Returns
+        -------
+        list[schemas.Scenario]
+            All of the `Scenario` objects that were matched.
+        """
+
         url = "/scenarios"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
@@ -190,9 +270,30 @@ class RemoteClient(ClientABC):
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> list[schemas.Run]: ...
 
     def get_run(self, **kwargs):
+        """Get the `Run` objects that match the information provided.
+
+        Parameters
+        ----------
+        scenario : str, optional
+            Matches against `Run.scenario`, by default None
+        version : str, optional
+            Matches against `Run.version`. If provided, this method will return at most
+            one `Run` object, by default None
+        code_version : str, optional
+            Matches against `Run.code_version`, by default None
+        id : int, optional
+            Matches against `Run.id`. If provided, this method will return at most one
+            `Run` object, by default None
+
+        Returns
+        -------
+        list[schemas.Run]
+            All of the `Run` objects that were matched.
+        """
+
         url = "/runs"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
@@ -209,6 +310,28 @@ class RemoteClient(ClientABC):
     ) -> list[schemas.NamedPath]: ...
 
     def get_path(self, **kwargs):
+        """Get the `NamedPath` objects that match the information provided.
+
+        Parameters
+        ----------
+        name : str, optional
+            Matches against `NamedPath.name`. If provided, this method will return at
+            most one `NamedPath` object, by default None
+        path : str, optional
+            Matches against `NamedPath.path`. If provided, this method will return at
+            most one `NamedPath` object, by default None
+        category : str, optional
+            Matches against `NamedPath.category`, by default None
+        id : str, optional
+            Matches against `NamedPath.id`. If provided this method will return at most
+            one `NamedPath` object, by default None
+
+        Returns
+        -------
+        list[schemas.NamedPath]
+            All of the `NamedPath` objects that were matched.
+        """
+
         url = "/paths"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
@@ -224,6 +347,26 @@ class RemoteClient(ClientABC):
     ) -> schemas.Timeseries: ...
 
     def get_timeseries(self, **kwargs):
+        """Get the `Timeseries` object that matches the information provided.
+
+        Parameters
+        ----------
+        scenario : str
+            Matches against `Run.scenario`. If provided this method will return at most
+            one `Timeseries` object
+        version : str
+            Matches against `Run.version`. If provided this method will return at most
+            one `Timeseries` object
+        path : str
+            Matches against `Timeseries.path`. If provided this method will return at
+            most one `Timeseries` object
+
+        Returns
+        -------
+        schemas.Timeseries
+            The `Timeseries` object matched
+        """
+
         url = "/timeseries"
         response = self.actor.get(url, params=kwargs)
         response.raise_for_status()
@@ -262,6 +405,34 @@ class RemoteClient(ClientABC):
     ) -> schemas.Scenario: ...
 
     def put_scenario(self, **kwargs):
+        """Create a new `Scenario` on the results server.
+
+        Parameters
+        ----------
+        name : str
+            The name of the `Scenario`, should be easy to read, must be unique.
+        land_use : str
+            The name of the `Assumption` to tag as the `land_use` assumption.
+        sea_level_rise : str
+            The name of the `Assumption` to tag as the `sea_level_rise` assumption.
+        hydrology : str
+            The name of the `Assumption` to tag as the `hydrology` assumption.
+        tucp : str
+            The name of the `Assumption` to tag as the `tucp` assumption.
+        dcp : str
+            The name of the `Assumption` to tag as the `dcp` assumption.
+        va : str
+            The name of the `Assumption` to tag as the `va` assumption.
+        south_of_delta : str
+            The name of the `Assumption` to tag as the `south_of_delta` assumption.
+        version : str, optional
+            The preferred version of the `Run` for this `Scenario`, by default None
+
+        Returns
+        -------
+        schemas.Scenario
+            The `Scenario` object created in the database.
+        """
         obj = schemas.Scenario(**kwargs)
         url = "/scenarios"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -436,7 +607,7 @@ class LocalClient(ClientABC):
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> list[schemas.Run]: ...
 
     def get_run(self, **kwargs):
         return crud.runs.read(db=self.session, **kwargs)
