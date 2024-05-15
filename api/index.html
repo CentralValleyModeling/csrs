@@ -62,7 +62,17 @@
     </li>
     <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.get_timeseries">get_timeseries</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_assumption">put_assumption</a>
+    </li>
     <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_scenario">put_scenario</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_run">put_run</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_path">put_path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_timeseries">put_timeseries</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#csrs.clients.RemoteClient.put_many_timeseries">put_many_timeseries</a>
     </li>
         </ul>
     </li>
@@ -379,6 +389,23 @@
     ) -&gt; schemas.Assumption: ...
 
     def put_assumption(self, **kwargs):
+        """Create a new `Assumption` on the results server.
+
+        Parameters
+        ----------
+        name : str
+            The name of the `Assumption`
+        kind : str
+            The type of `Assumption`, should be a member of `csrs.enums.AssumptionEnum`
+        detail : str
+            A description and metadata for the assumption.
+
+        Returns
+        -------
+        schemas.Assumption
+            The `Assumption` object created
+        """
+
         obj = schemas.Assumption(**kwargs)
         url = "/assumptions"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -406,7 +433,7 @@
         Parameters
         ----------
         name : str
-            The name of the `Scenario`, should be easy to read, must be unique.
+            Value to assign to `Scenario.name`, should be easy to read, must be unique.
         land_use : str
             The name of the `Assumption` to tag as the `land_use` assumption.
         sea_level_rise : str
@@ -453,6 +480,42 @@
     ) -&gt; schemas.Run: ...
 
     def put_run(self, **kwargs):
+        """Create a new `Run` on the results server.
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` this `Run` should be assigned to.
+        version : str
+            The `version` of this run in the `Scenario` context, suggested to follow the
+            `major.minor` pattern.
+        contact : str
+            Contact information for the modeler knowledgable about the run results.
+        code_version : str
+            The version of the code base, will likely differ from the `Run.version`.
+        detail : str
+            A description of the run, and it's purpose. This is where metadata regarding
+            the `Run`, it's results, and it's changes compared to it's parents should be
+            written.
+        parent : str | None, optional
+            The `Run` that this version was based on, by default None
+        children : tuple[str, ...], optional
+            The `Run` objects that are immediately based on this `Run`, usually not
+            specified on __init__, by default tuple()
+        confidential : bool, optional
+            Whether or not this `Run` data is confidential, by default True
+        published : bool, optional
+            Whether or not this `Run` data has been published, by default False
+        prefer_this_version : bool, optional
+            Each `Scenario` prefers a single `Run`, if this is `True` the `Scenario` ]
+            will be updated to prefer this new `Run`, by default True
+
+        Returns
+        -------
+        schemas.Run
+            The newly created `Run` object
+        """
+
         obj = schemas.Run(**kwargs)
         url = "/runs"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -473,6 +536,31 @@
     ) -&gt; schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
+        """Create a new `NamedPath` on the results server.
+
+        Parameters
+        ----------
+        name : str
+            The name of the path, should be easy to read, and unique
+        path : str
+            The A-F DSS path corresponding to the NamedPath data
+        category : str
+            A category to help organize similar paths
+        period_type : str
+            The `period_type` of the DSS timeseries
+        interval : str
+            The `interval` of the DSS timeseries
+        units : str
+            The `units` of the DSS timeseries
+        detail : str
+            A description of, and metadata for the data represented by the path
+
+        Returns
+        -------
+        schemas.NamedPath
+            The `NamedPath` object created
+        """
+
         obj = schemas.NamedPath(**kwargs)
         url = "/paths"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -495,6 +583,33 @@
     ) -&gt; schemas.Timeseries: ...
 
     def put_timeseries(self, **kwargs):
+        """Create a new `Timeseries` on the results server
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` that this data should be assigned to
+        version : str
+            The verson of the `Run` that this data should be assigned to
+        path : str | pdss.DatasetPath
+            The path of the `NamedPath` that this data should be assigned to
+        values : tuple[float, ...]
+            The values for the timeseries
+        dates : tuple[str, ...]
+            The ISO formatted dates for the timeseries
+        period_type : str
+            The `period_type` of the DSS data for the timeseries
+        units : str
+            The `units` of the DSS data for the timeseries
+        interval : str
+            The `interval` of the DSS data for the timeseries
+
+        Returns
+        -------
+        schemas.Timeseries
+            The `Timeseries` object that was created
+        """
+
         obj = schemas.Timeseries(**kwargs)
         url = "/timeseries"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -508,6 +623,34 @@
         dss: Path,
         paths: Iterable[schemas.NamedPath] = None,
     ) -&gt; list[schemas.Timeseries]:
+        """Create multiple `Timeseries` objects from a DSS file.
+
+        The datasets to be extracted are specified as an iterable of `NamedPath`
+        objects, but it will default to uploading the data for all the paths in
+        `csrs.enums.StandardPathsEnum`.
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` that this data should be assigned to
+        version : str
+            The verson of the `Run` that this data should be assigned to
+        dss : Path
+            The DSS file to extract data from
+        paths : Iterable[schemas.NamedPath], optional
+            The collection of Paths to extract from the DSS file, by default
+            `csrs.enums.StandardPathsEnum`
+
+        Returns
+        -------
+        list[schemas.Timeseries]
+            The `Timeseries` object created
+
+        Raises
+        ------
+        ValueError
+            Raised of the collection of paths is incorrectly given
+        """
         url = "/timeseries"
         if paths is None:
             paths = [p.value for p in enums.StandardPathsEnum]
@@ -1296,6 +1439,116 @@ most one <code>Timeseries</code> object</p>
 
 
 
+<h4 id="csrs.clients.RemoteClient.put_assumption" class="doc doc-heading">
+          <code class="highlight language-python">put_assumption(**kwargs)</code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a new <code>Assumption</code> on the results server.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>name</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the <code>Assumption</code></p>
+              </div>
+            </li>
+            <li>
+              <b><code>kind</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The type of <code>Assumption</code>, should be a member of <code>csrs.enums.AssumptionEnum</code></p>
+              </div>
+            </li>
+            <li>
+              <b><code>detail</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>A description and metadata for the assumption.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code><span title="csrs.schemas.Assumption">Assumption</span></code>
+            –
+            <div class="doc-md-description">
+              <p>The <code>Assumption</code> object created</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src\csrs\clients.py</code></summary>
+            <pre class="highlight"><code class="language-python">def put_assumption(self, **kwargs):
+    """Create a new `Assumption` on the results server.
+
+    Parameters
+    ----------
+    name : str
+        The name of the `Assumption`
+    kind : str
+        The type of `Assumption`, should be a member of `csrs.enums.AssumptionEnum`
+    detail : str
+        A description and metadata for the assumption.
+
+    Returns
+    -------
+    schemas.Assumption
+        The `Assumption` object created
+    """
+
+    obj = schemas.Assumption(**kwargs)
+    url = "/assumptions"
+    response = self.actor.put(url, json=obj.model_dump(mode="json"))
+    response.raise_for_status()
+    return schemas.Assumption.model_validate(response.json())</code></pre>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
 <h4 id="csrs.clients.RemoteClient.put_scenario" class="doc doc-heading">
           <code class="highlight language-python">put_scenario(**kwargs)</code>
 
@@ -1323,7 +1576,7 @@ most one <code>Timeseries</code> object</p>
                   (<code>str</code>)
               –
               <div class="doc-md-description">
-                <p>The name of the <code>Scenario</code>, should be easy to read, must be unique.</p>
+                <p>Value to assign to <code>Scenario.name</code>, should be easy to read, must be unique.</p>
               </div>
             </li>
             <li>
@@ -1427,7 +1680,7 @@ most one <code>Timeseries</code> object</p>
     Parameters
     ----------
     name : str
-        The name of the `Scenario`, should be easy to read, must be unique.
+        Value to assign to `Scenario.name`, should be easy to read, must be unique.
     land_use : str
         The name of the `Assumption` to tag as the `land_use` assumption.
     sea_level_rise : str
@@ -1455,6 +1708,694 @@ most one <code>Timeseries</code> object</p>
     response = self.actor.put(url, json=obj.model_dump(mode="json"))
     response.raise_for_status()
     return schemas.Scenario.model_validate(response.json())</code></pre>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="csrs.clients.RemoteClient.put_run" class="doc doc-heading">
+          <code class="highlight language-python">put_run(**kwargs)</code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a new <code>Run</code> on the results server.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>scenario</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the <code>Scenario</code> this <code>Run</code> should be assigned to.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>version</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>version</code> of this run in the <code>Scenario</code> context, suggested to follow the
+<code>major.minor</code> pattern.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>contact</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>Contact information for the modeler knowledgable about the run results.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>code_version</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The version of the code base, will likely differ from the <code>Run.version</code>.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>detail</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>A description of the run, and it's purpose. This is where metadata regarding
+the <code>Run</code>, it's results, and it's changes compared to it's parents should be
+written.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>parent</code></b>
+                  (<code>str | None</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>Run</code> that this version was based on, by default None</p>
+              </div>
+            </li>
+            <li>
+              <b><code>children</code></b>
+                  (<code>tuple[str, ...]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>Run</code> objects that are immediately based on this <code>Run</code>, usually not
+specified on <strong>init</strong>, by default tuple()</p>
+              </div>
+            </li>
+            <li>
+              <b><code>confidential</code></b>
+                  (<code>bool</code>)
+              –
+              <div class="doc-md-description">
+                <p>Whether or not this <code>Run</code> data is confidential, by default True</p>
+              </div>
+            </li>
+            <li>
+              <b><code>published</code></b>
+                  (<code>bool</code>)
+              –
+              <div class="doc-md-description">
+                <p>Whether or not this <code>Run</code> data has been published, by default False</p>
+              </div>
+            </li>
+            <li>
+              <b><code>prefer_this_version</code></b>
+                  (<code>bool</code>)
+              –
+              <div class="doc-md-description">
+                <p>Each <code>Scenario</code> prefers a single <code>Run</code>, if this is <code>True</code> the <code>Scenario</code> ]
+will be updated to prefer this new <code>Run</code>, by default True</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code><span title="csrs.schemas.Run">Run</span></code>
+            –
+            <div class="doc-md-description">
+              <p>The newly created <code>Run</code> object</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src\csrs\clients.py</code></summary>
+            <pre class="highlight"><code class="language-python">def put_run(self, **kwargs):
+    """Create a new `Run` on the results server.
+
+    Parameters
+    ----------
+    scenario : str
+        The name of the `Scenario` this `Run` should be assigned to.
+    version : str
+        The `version` of this run in the `Scenario` context, suggested to follow the
+        `major.minor` pattern.
+    contact : str
+        Contact information for the modeler knowledgable about the run results.
+    code_version : str
+        The version of the code base, will likely differ from the `Run.version`.
+    detail : str
+        A description of the run, and it's purpose. This is where metadata regarding
+        the `Run`, it's results, and it's changes compared to it's parents should be
+        written.
+    parent : str | None, optional
+        The `Run` that this version was based on, by default None
+    children : tuple[str, ...], optional
+        The `Run` objects that are immediately based on this `Run`, usually not
+        specified on __init__, by default tuple()
+    confidential : bool, optional
+        Whether or not this `Run` data is confidential, by default True
+    published : bool, optional
+        Whether or not this `Run` data has been published, by default False
+    prefer_this_version : bool, optional
+        Each `Scenario` prefers a single `Run`, if this is `True` the `Scenario` ]
+        will be updated to prefer this new `Run`, by default True
+
+    Returns
+    -------
+    schemas.Run
+        The newly created `Run` object
+    """
+
+    obj = schemas.Run(**kwargs)
+    url = "/runs"
+    response = self.actor.put(url, json=obj.model_dump(mode="json"))
+    response.raise_for_status()
+    return schemas.Run.model_validate(response.json())</code></pre>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="csrs.clients.RemoteClient.put_path" class="doc doc-heading">
+          <code class="highlight language-python">put_path(**kwargs)</code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a new <code>NamedPath</code> on the results server.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>name</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the path, should be easy to read, and unique</p>
+              </div>
+            </li>
+            <li>
+              <b><code>path</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The A-F DSS path corresponding to the NamedPath data</p>
+              </div>
+            </li>
+            <li>
+              <b><code>category</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>A category to help organize similar paths</p>
+              </div>
+            </li>
+            <li>
+              <b><code>period_type</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>period_type</code> of the DSS timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>interval</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>interval</code> of the DSS timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>units</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>units</code> of the DSS timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>detail</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>A description of, and metadata for the data represented by the path</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code><span title="csrs.schemas.NamedPath">NamedPath</span></code>
+            –
+            <div class="doc-md-description">
+              <p>The <code>NamedPath</code> object created</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src\csrs\clients.py</code></summary>
+            <pre class="highlight"><code class="language-python">def put_path(self, **kwargs):
+    """Create a new `NamedPath` on the results server.
+
+    Parameters
+    ----------
+    name : str
+        The name of the path, should be easy to read, and unique
+    path : str
+        The A-F DSS path corresponding to the NamedPath data
+    category : str
+        A category to help organize similar paths
+    period_type : str
+        The `period_type` of the DSS timeseries
+    interval : str
+        The `interval` of the DSS timeseries
+    units : str
+        The `units` of the DSS timeseries
+    detail : str
+        A description of, and metadata for the data represented by the path
+
+    Returns
+    -------
+    schemas.NamedPath
+        The `NamedPath` object created
+    """
+
+    obj = schemas.NamedPath(**kwargs)
+    url = "/paths"
+    response = self.actor.put(url, json=obj.model_dump(mode="json"))
+    response.raise_for_status()
+    return schemas.NamedPath.model_validate(response.json())</code></pre>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="csrs.clients.RemoteClient.put_timeseries" class="doc doc-heading">
+          <code class="highlight language-python">put_timeseries(**kwargs)</code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create a new <code>Timeseries</code> on the results server</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>scenario</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the <code>Scenario</code> that this data should be assigned to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>version</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The verson of the <code>Run</code> that this data should be assigned to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>path</code></b>
+                  (<code>str | <span title="pandss.DatasetPath">DatasetPath</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The path of the <code>NamedPath</code> that this data should be assigned to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>values</code></b>
+                  (<code>tuple[float, ...]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The values for the timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dates</code></b>
+                  (<code>tuple[str, ...]</code>)
+              –
+              <div class="doc-md-description">
+                <p>The ISO formatted dates for the timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>period_type</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>period_type</code> of the DSS data for the timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>units</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>units</code> of the DSS data for the timeseries</p>
+              </div>
+            </li>
+            <li>
+              <b><code>interval</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The <code>interval</code> of the DSS data for the timeseries</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code><span title="csrs.schemas.Timeseries">Timeseries</span></code>
+            –
+            <div class="doc-md-description">
+              <p>The <code>Timeseries</code> object that was created</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src\csrs\clients.py</code></summary>
+            <pre class="highlight"><code class="language-python">def put_timeseries(self, **kwargs):
+    """Create a new `Timeseries` on the results server
+
+    Parameters
+    ----------
+    scenario : str
+        The name of the `Scenario` that this data should be assigned to
+    version : str
+        The verson of the `Run` that this data should be assigned to
+    path : str | pdss.DatasetPath
+        The path of the `NamedPath` that this data should be assigned to
+    values : tuple[float, ...]
+        The values for the timeseries
+    dates : tuple[str, ...]
+        The ISO formatted dates for the timeseries
+    period_type : str
+        The `period_type` of the DSS data for the timeseries
+    units : str
+        The `units` of the DSS data for the timeseries
+    interval : str
+        The `interval` of the DSS data for the timeseries
+
+    Returns
+    -------
+    schemas.Timeseries
+        The `Timeseries` object that was created
+    """
+
+    obj = schemas.Timeseries(**kwargs)
+    url = "/timeseries"
+    response = self.actor.put(url, json=obj.model_dump(mode="json"))
+    response.raise_for_status()
+    return schemas.Timeseries.model_validate(response.json())</code></pre>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h4 id="csrs.clients.RemoteClient.put_many_timeseries" class="doc doc-heading">
+          <code class="highlight language-python">put_many_timeseries(scenario, version, dss, paths=None)</code>
+
+</h4>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Create multiple <code>Timeseries</code> objects from a DSS file.</p>
+<p>The datasets to be extracted are specified as an iterable of <code>NamedPath</code>
+objects, but it will default to uploading the data for all the paths in
+<code>csrs.enums.StandardPathsEnum</code>.</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>scenario</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The name of the <code>Scenario</code> that this data should be assigned to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>version</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The verson of the <code>Run</code> that this data should be assigned to</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dss</code></b>
+                  (<code><span title="pathlib.Path">Path</span></code>)
+              –
+              <div class="doc-md-description">
+                <p>The DSS file to extract data from</p>
+              </div>
+            </li>
+            <li>
+              <b><code>paths</code></b>
+                  (<code><span title="typing.Iterable">Iterable</span>[<span title="csrs.schemas.NamedPath">NamedPath</span>]</code>, default:
+                      <code>None</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>The collection of Paths to extract from the DSS file, by default
+<code>csrs.enums.StandardPathsEnum</code></p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+                <code>list[<span title="csrs.schemas.Timeseries">Timeseries</span>]</code>
+            –
+            <div class="doc-md-description">
+              <p>The <code>Timeseries</code> object created</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Raises:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+                  <code>ValueError</code>
+              –
+              <div class="doc-md-description">
+                <p>Raised of the collection of paths is incorrectly given</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src\csrs\clients.py</code></summary>
+            <pre class="highlight"><code class="language-python">def put_many_timeseries(
+    self,
+    scenario: str,
+    version: str,
+    dss: Path,
+    paths: Iterable[schemas.NamedPath] = None,
+) -&gt; list[schemas.Timeseries]:
+    """Create multiple `Timeseries` objects from a DSS file.
+
+    The datasets to be extracted are specified as an iterable of `NamedPath`
+    objects, but it will default to uploading the data for all the paths in
+    `csrs.enums.StandardPathsEnum`.
+
+    Parameters
+    ----------
+    scenario : str
+        The name of the `Scenario` that this data should be assigned to
+    version : str
+        The verson of the `Run` that this data should be assigned to
+    dss : Path
+        The DSS file to extract data from
+    paths : Iterable[schemas.NamedPath], optional
+        The collection of Paths to extract from the DSS file, by default
+        `csrs.enums.StandardPathsEnum`
+
+    Returns
+    -------
+    list[schemas.Timeseries]
+        The `Timeseries` object created
+
+    Raises
+    ------
+    ValueError
+        Raised of the collection of paths is incorrectly given
+    """
+    url = "/timeseries"
+    if paths is None:
+        paths = [p.value for p in enums.StandardPathsEnum]
+    elif not isinstance(paths[0], schemas.NamedPath):
+        raise ValueError(f"paths not given as {schemas.NamedPath}")
+    added = list()
+    with pdss.DSS(dss) as dss_obj:
+        for p in paths:
+            try:
+                rts = dss_obj.read_rts(p.path)
+            except pdss.errors.UnexpectedDSSReturn:
+                warn(f"couldn't read {p} from {dss}")
+                continue
+            # Add path
+            p.path = str(rts.path)
+            found_paths = self.get_path(
+                name=p.name,
+                path=p.path,
+                category=p.category,
+            )
+            if not found_paths:
+                self.actor.put("/paths", json=p.model_dump(exclude=("id")))
+            # Add timeseries
+            ts = schemas.Timeseries.from_pandss(scenario, version, rts)
+            response = self.actor.put(url, json=ts.model_dump(mode="json"))
+            response.raise_for_status()
+            added.append(schemas.Timeseries.model_validate(response.json()))
+    return added</code></pre>
           </details>
   </div>
 
