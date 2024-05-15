@@ -40,6 +40,50 @@ def test_schema_str_timeseries():
         scenario="test-scenario",
         version="1.2",
         path="/TEST/B/C//E/F/",
-        values=tuple(1.0, 2.0, 3.0),
+        values=(1.0, 2.0, 3.0),
+        dates=("2024-01-01", "2024-02-01", "2024-03-01"),
+        units="TEST",
+        period_type="PER-AVER",
+        interval="1MON",
     )
-    assert "Run(scenario=test-scenario, version=1.2)" == str(obj)
+    assert (
+        "Timeseries(scenario=test-scenario, version=1.2, path=/TEST/B/C//E/F/)"
+        == str(obj)
+    )
+
+
+def test_schema_str_named_path():
+    obj = csrs.schemas.NamedPath(
+        name="test-name",
+        path="/TEST/B/C//E/F/",
+        category="test-category",
+        detail="test-detail",
+        period_type="PER-AVER",
+        interval="1MON",
+        units="TEST",
+    )
+    assert "NamedPath(name=test-name, path=/TEST/B/C//E/F/)" == str(obj)
+
+
+def test_schema_str_metric():
+    obj = csrs.schemas.Metric(
+        name="test-name",
+        index_detail="test-index-detail",
+        detail="test-detail",
+    )
+    assert "Metric(name=test-name)" == str(obj)
+
+
+def test_schema_str_metric_value():
+    obj = csrs.schemas.MetricValue(
+        metric="test-metric",
+        scenario="test-scenario",
+        run_version="1.2",
+        path="/TEST/B/C//E/F/",
+        indexes=(0, 1, 2),
+        values=(1.0, 2.0, 3.0),
+    )
+    assert (
+        "MetricValue(metric=test-metric, scenario=test-scenario, path=/TEST/B/C//E/F/)"
+        == str(obj)
+    )

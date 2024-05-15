@@ -130,7 +130,7 @@ class NamedPath(CSRS_Model):
     id: int | None = Field(default=None, repr=False)
     name: str
     path: str
-    category: str
+    category: str = Field(repr=False)
     detail: str = Field(repr=False)
     period_type: str = Field(repr=False)
     interval: str = Field(repr=False)
@@ -142,7 +142,7 @@ class Metric(CSRS_Model):
 
     id: int | None = Field(default=None, repr=False)
     name: str
-    index_detail: str
+    index_detail: str = Field(repr=False)
     detail: str = Field(repr=False)
 
 
@@ -152,7 +152,7 @@ class MetricValue(CSRS_Model):
     id: int | None = Field(default=None, repr=False)
     metric: str
     scenario: str
-    run_version: str
+    run_version: str = Field(repr=False)
     path: str
     indexes: tuple = Field(default_factory=tuple, repr=False)
     values: tuple[float, ...] = Field(default_factory=tuple, repr=False)
