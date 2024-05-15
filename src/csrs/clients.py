@@ -410,7 +410,7 @@ class RemoteClient(ClientABC):
         Parameters
         ----------
         name : str
-            The name of the `Scenario`, should be easy to read, must be unique.
+            Value to assign to `Scenario.name`, should be easy to read, must be unique.
         land_use : str
             The name of the `Assumption` to tag as the `land_use` assumption.
         sea_level_rise : str
@@ -457,6 +457,42 @@ class RemoteClient(ClientABC):
     ) -> schemas.Run: ...
 
     def put_run(self, **kwargs):
+        """Create a new `Run` on the results server.
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` this `Run` should be assigned to.
+        version : str
+            The `version` of this run in the `Scenario` context, suggested to follow the
+            `major.minor` pattern.
+        contact : str
+            Contact information for the modeler knowledgable about the run results.
+        code_version : str
+            The version of the code base, will likely differ from the `Run.version`.
+        detail : str
+            A description of the run, and it's purpose. This is where metadata regarding
+            the `Run`, it's results, and it's changes compared to it's parents should be
+            written.
+        parent : str | None, optional
+            The `Run` that this version was based on, by default None
+        children : tuple[str, ...], optional
+            The `Run` objects that are immediately based on this `Run`, usually not
+            specified on __init__, by default tuple()
+        confidential : bool, optional
+            Whether or not this `Run` data is confidential, by default True
+        published : bool, optional
+            Whether or not this `Run` data has been published, by default False
+        prefer_this_version : bool, optional
+            Each `Scenario` prefers a single `Run`, if this is `True` the `Scenario` ]
+            will be updated to prefer this new `Run`, by default True
+
+        Returns
+        -------
+        schemas.Run
+            The newly created `Run` object
+        """
+
         obj = schemas.Run(**kwargs)
         url = "/runs"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -477,6 +513,31 @@ class RemoteClient(ClientABC):
     ) -> schemas.NamedPath: ...
 
     def put_path(self, **kwargs):
+        """Create a new `NamedPath` on the results server.
+
+        Parameters
+        ----------
+        name : str
+            The name of the path, should be easy to read, and unique
+        path : str
+            The A-F DSS path corresponding to the NamedPath data
+        category : str
+            A category to help organize similar paths
+        period_type : str
+            The `period_type` of the DSS timeseries
+        interval : str
+            The `interval` of the DSS timeseries
+        units : str
+            The `units` of the DSS timeseries
+        detail : str
+            A description of, and metadata for the data represented by the path
+
+        Returns
+        -------
+        schemas.NamedPath
+            The `NamedPath` object created
+        """
+
         obj = schemas.NamedPath(**kwargs)
         url = "/paths"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -499,6 +560,33 @@ class RemoteClient(ClientABC):
     ) -> schemas.Timeseries: ...
 
     def put_timeseries(self, **kwargs):
+        """Create a new `Timeseries` on the results server
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` that this data should be assigned to
+        version : str
+            The verson of the `Run` that this data should be assigned to
+        path : str | pdss.DatasetPath
+            The path of the `NamedPath` that this data should be assigned to
+        values : tuple[float, ...]
+            The values for the timeseries
+        dates : tuple[str, ...]
+            The ISO formatted dates for the timeseries
+        period_type : str
+            The `period_type` of the DSS data for the timeseries
+        units : str
+            The `units` of the DSS data for the timeseries
+        interval : str
+            The `interval` of the DSS data for the timeseries
+
+        Returns
+        -------
+        schemas.Timeseries
+            The `Timeseries` object that was created
+        """
+
         obj = schemas.Timeseries(**kwargs)
         url = "/timeseries"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
@@ -512,6 +600,34 @@ class RemoteClient(ClientABC):
         dss: Path,
         paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
+        """Create multiple `Timeseries` objects from a DSS file.
+
+        The datasets to be extracted are specified as an iterable of `NamedPath`
+        objects, but it will default to uploading the data for all the paths in
+        `csrs.enums.StandardPathsEnum`.
+
+        Parameters
+        ----------
+        scenario : str
+            The name of the `Scenario` that this data should be assigned to
+        version : str
+            The verson of the `Run` that this data should be assigned to
+        dss : Path
+            The DSS file to extract data from
+        paths : Iterable[schemas.NamedPath], optional
+            The collection of Paths to extract from the DSS file, by default
+            `csrs.enums.StandardPathsEnum`
+
+        Returns
+        -------
+        list[schemas.Timeseries]
+            The `Timeseries` object created
+
+        Raises
+        ------
+        ValueError
+            Raised of the collection of paths is incorrectly given
+        """
         url = "/timeseries"
         if paths is None:
             paths = [p.value for p in enums.StandardPathsEnum]
