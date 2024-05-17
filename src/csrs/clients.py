@@ -223,7 +223,7 @@ class RemoteClient(ClientABC):
         -------
         ```python-repl
         >>> client.get_assumption(kind="hydrolgy")
-        [Assumption(name="Historical"), Assumption(name="Future")]
+        [Assumption(name=hist, kind=hydrology), Assumption(name=future, kind=hydrology)]
         ```
         """
         url = "/assumptions"
