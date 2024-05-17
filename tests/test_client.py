@@ -283,7 +283,7 @@ def do_many_timeseries(client: clients.ClientABC):
         ts = client.get_timeseries(
             scenario=RUNS[0]["scenario"],
             version=RUNS[0]["version"],
-            path=e.value.path,
+            path=e.value.name,
         )
         # Accept these lenghts as these are what are in the test DV
         assert 1_200 <= len(ts.dates) <= 1_278, (
