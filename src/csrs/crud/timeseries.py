@@ -7,6 +7,7 @@ from .. import models, schemas
 from ..database import EPOCH
 from ..errors import LookupUniqueError
 from ..logger import logger
+from . import paths
 from .decorators import rollback_on_exception
 
 
@@ -84,11 +85,15 @@ def create(
         # Adding data to an older version
         run_model = get_run_model(db, scenario=scenario, version=version)
     # Get the path model
+    path_schemas = paths.read(db=db, path=path)
+    if not path_schemas:
+        path_schemas = paths.read(db=db, name=path)
+    if len(path_schemas) != 1:
+        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+    dss_path = path_schemas[0].path
     path_model = (
-        db.query(models.NamedPath).filter(models.NamedPath.path == str(path)).first()
+        db.query(models.NamedPath).filter(models.NamedPath.path == dss_path).first()
     )
-    if path_model is None:
-        raise LookupUniqueError(models.NamedPath, path_model, path=repr(path))
     # Add the timeseries to the common catalog
     catalog_row = models.CommonCatalog(run_id=run_model.id, path_id=path_model.id)
     db.add(catalog_row)
