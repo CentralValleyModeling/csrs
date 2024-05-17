@@ -146,14 +146,14 @@ def read(
     rows = (
         db.query(models.TimeseriesLedger)
         .filter(
-            (models.TimeseriesLedger.run_id == run.id)
-            and (models.TimeseriesLedger.path_id == path_model.id)
+            models.TimeseriesLedger.run_id == run.id,
+            models.TimeseriesLedger.path_id == path_model.id,
         )
         .all()
     )
-    dv = tuple((row.datetime, row.value) for row in rows)
-    dates, values = map(tuple, (zip(*dv)))
-    dates = tuple(float_to_date(d) for d in dates)
+    logger.info(f"{len(rows):,} rows found matching criteria")
+    dates = tuple(float_to_date(r.datetime) for r in rows)
+    values = tuple(r.value for r in rows)
 
     return schemas.Timeseries(
         scenario=scenario,
