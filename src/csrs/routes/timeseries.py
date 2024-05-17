@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
+from ..errors import LookupUniqueError
 from ..logger import logger
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
@@ -16,14 +17,19 @@ async def get_timeseries(
     db: Session = Depends(get_db),
 ):
     logger.info(f"getting all timeseries, filters, {scenario=}, {version=}, {path=}")
-    ts = crud.timeseries.read(
-        db=db,
-        scenario=scenario,
-        version=version,
-        path=path,
-    )
+    try:
+        ts = crud.timeseries.read(
+            db=db,
+            scenario=scenario,
+            version=version,
+            path=path,
+        )
+    except LookupUniqueError:
+        raise HTTPException(
+            status_code=404,
+            detail=f"couldn't find unique {path=} in database",
+        )
     logger.info(f"timeseries: {ts.scenario}, {ts.version}, {ts.path}")
-
     return ts
 
 
