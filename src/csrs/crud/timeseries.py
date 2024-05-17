@@ -142,17 +142,18 @@ def read(
         # Adding data to an older version
         run = get_run_model(db, scenario=scenario, version=version)
     # Get the path model
-    path_model = (
-        db.query(models.NamedPath).filter(models.NamedPath.path == str(path)).first()
-    )
-    if path_model is None:
-        raise LookupUniqueError(models.NamedPath, path_model, path=repr(path))
+    path_schemas = paths.read(db=db, path=path)
+    if not path_schemas:
+        path_schemas = paths.read(db=db, name=path)
+    if len(path_schemas) != 1:
+        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+    path_schema = path_schemas[0]
     # Get data from database
     rows = (
         db.query(models.TimeseriesLedger)
         .filter(
             models.TimeseriesLedger.run_id == run.id,
-            models.TimeseriesLedger.path_id == path_model.id,
+            models.TimeseriesLedger.path_id == path_schema.id,
         )
         .all()
     )
@@ -163,10 +164,10 @@ def read(
     return schemas.Timeseries(
         scenario=scenario,
         version=version,
-        path=path_model.path,
-        units=path_model.units,
-        period_type=path_model.period_type,
-        interval=path_model.interval,
+        path=path_schema.path,
+        units=path_schema.units,
+        period_type=path_schema.period_type,
+        interval=path_schema.interval,
         dates=dates,
         values=values,
     )
