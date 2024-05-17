@@ -229,7 +229,7 @@
         -------
         ```python-repl
         &gt;&gt;&gt; client.get_assumption(kind="hydrolgy")
-        [Assumption(name="Historical"), Assumption(name="Future")]
+        [Assumption(name=hist, kind=hydrology), Assumption(name=future, kind=hydrology)]
         ```
         """
         url = "/assumptions"
@@ -924,7 +924,7 @@ most one <code>Assumption</code> object, by default None</p>
 <details class="example" open>
   <summary>Example</summary>
   <pre><code class="language-python-repl">&gt;&gt;&gt; client.get_assumption(kind=&quot;hydrolgy&quot;)
-[Assumption(name=&quot;Historical&quot;), Assumption(name=&quot;Future&quot;)]
+[Assumption(name=hist, kind=hydrology), Assumption(name=future, kind=hydrology)]
 </code></pre>
 </details>
           <details class="quote">
@@ -956,7 +956,7 @@ most one <code>Assumption</code> object, by default None</p>
     -------
     ```python-repl
     &gt;&gt;&gt; client.get_assumption(kind="hydrolgy")
-    [Assumption(name="Historical"), Assumption(name="Future")]
+    [Assumption(name=hist, kind=hydrology), Assumption(name=future, kind=hydrology)]
     ```
     """
     url = "/assumptions"
