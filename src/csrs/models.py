@@ -219,6 +219,15 @@ class TimeseriesLedger(Base):
     path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), nullable=False)
     datetime: Mapped[float] = mapped_column(nullable=False)
     value: Mapped[float] = mapped_column(nullable=False)
+    # Multi-column unique rules
+    __table_args__ = (
+        UniqueConstraint(
+            "run_id",
+            "path_id",
+            "datetime",
+            name="unique_datapoint",
+        ),
+    )
 
 
 class Metric(Base):
