@@ -109,15 +109,15 @@ class StandardPathsEnum(enum.Enum):
         period_type="PER-AVER",
         interval="1MON",
     )
-    cvp_delivery_american = NamedPath(
-        name="cvp_delivery_american",
-        path="/.*/DEL_CVP_P_AMER/DELIVERY-CVP//.*/.*/",
-        category="delivery",
-        detail="cvp_delivery_american",
-        units="CFS",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
+    # cvp_delivery_american = NamedPath(
+    #     name="cvp_delivery_american",
+    #     path="/.*/DEL_CVP_P_AMER/DELIVERY-CVP//.*/.*/",
+    #     category="delivery",
+    #     detail="cvp_delivery_american",
+    #     units="CFS",
+    #     period_type="PER-AVER",
+    #     interval="1MON",
+    # )
     cvp_delivery_nod = NamedPath(
         name="cvp_delivery_nod",
         path="/.*/DEL_CVP_TOTAL_N/DELIVERY-CVP//.*/.*/",
@@ -163,15 +163,15 @@ class StandardPathsEnum(enum.Enum):
         period_type="PER-AVER",
         interval="1MON",
     )
-    cvp_delivery_pmi_n_with_amer = NamedPath(
-        name="cvp_delivery_pmi_n_with_amer",
-        path="/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP//.*/.*/",
-        category="delivery",
-        detail="cvp_delivery_pmi_n_with_amer",
-        units="CFS",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
+    # cvp_delivery_pmi_n_with_amer = NamedPath(
+    #     name="cvp_delivery_pmi_n_with_amer",
+    #     path="/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP//.*/.*/",
+    #     category="delivery",
+    #     detail="cvp_delivery_pmi_n_with_amer",
+    #     units="CFS",
+    #     period_type="PER-AVER",
+    #     interval="1MON",
+    # )
     cvp_delivery_pmi_s = NamedPath(
         name="cvp_delivery_pmi_s",
         path="/.*/DEL_CVP_PMI_S/DELIVERY-CVP//.*/.*/",
@@ -728,15 +728,15 @@ class StandardPathsEnum(enum.Enum):
         period_type="PER-AVER",
         interval="1MON",
     )
-    di_cvp = NamedPath(
-        name="di_cvp",
-        path="/.*/DI_CVP_sysdv/DEMAND-INDEX//.*/.*/",
-        category="other",
-        detail="di_cvp",
-        units="NONE",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
+    # di_cvp = NamedPath(
+    #     name="di_cvp",
+    #     path="/.*/DI_CVP_sysdv/DEMAND-INDEX//.*/.*/",
+    #     category="other",
+    #     detail="di_cvp",
+    #     units="NONE",
+    #     period_type="PER-AVER",
+    #     interval="1MON",
+    # )
     dmc_inflow_to_mendotapool = NamedPath(
         name="dmc_inflow_to_mendotapool",
         path="/.*/C_DMC116/CHANNEL//.*/.*/",
@@ -899,15 +899,15 @@ class StandardPathsEnum(enum.Enum):
         period_type="PER-AVER",
         interval="1MON",
     )
-    trinity_export_ops_limit = NamedPath(
-        name="trinity_export_ops_limit",
-        path="/.*/TRIN_IMPDV/UNDEFINED//.*/.*/",
-        category="other",
-        detail="trinity_export_ops_limit",
-        units="NONE",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
+    # trinity_export_ops_limit = NamedPath(
+    #     name="trinity_export_ops_limit",
+    #     path="/.*/TRIN_IMPDV/UNDEFINED//.*/.*/",
+    #     category="other",
+    #     detail="trinity_export_ops_limit",
+    #     units="NONE",
+    #     period_type="PER-AVER",
+    #     interval="1MON",
+    # )
     trinity_export_ops_x = NamedPath(
         name="trinity_export_ops_x",
         path="/.*/D_LWSTN_IMPORT/FLOW-DELIVERY//.*/.*/",
@@ -917,15 +917,15 @@ class StandardPathsEnum(enum.Enum):
         period_type="PER-AVER",
         interval="1MON",
     )
-    wsi_cvp = NamedPath(
-        name="wsi_cvp",
-        path="/.*/WSI_CVP_sysdv/WATER-SUPPLY-INDEX//.*/.*/",
-        category="other",
-        detail="wsi_cvp",
-        units="NONE",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
+    # wsi_cvp = NamedPath(
+    #     name="wsi_cvp",
+    #     path="/.*/WSI_CVP_sysdv/WATER-SUPPLY-INDEX//.*/.*/",
+    #     category="other",
+    #     detail="wsi_cvp",
+    #     units="NONE",
+    #     period_type="PER-AVER",
+    #     interval="1MON",
+    # )
     bd_ec = NamedPath(
         name="bd_ec",
         path="/.*/BD_EC_MONTH/SALINITY//.*/.*/",
@@ -1156,15 +1156,6 @@ class StandardPathsEnum(enum.Enum):
         path="/.*/C_FTR068/CHANNEL//.*/.*/",
         category="upstream_flows",
         detail="featherlowflow",
-        units="CFS",
-        period_type="PER-AVER",
-        interval="1MON",
-    )
-    feathermouth = NamedPath(
-        name="feathermouth",
-        path="/.*/C_FTR003/CHANNEL//.*/.*/",
-        category="upstream_flows",
-        detail="feathermouth",
         units="CFS",
         period_type="PER-AVER",
         interval="1MON",
