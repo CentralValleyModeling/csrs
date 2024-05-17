@@ -279,6 +279,17 @@ def do_many_timeseries(client: clients.ClientABC):
         dss=DSS,
         paths=paths,
     )
+    for e in enums.StandardPathsEnum:
+        ts = client.get_timeseries(
+            scenario=RUNS[0]["scenario"],
+            version=RUNS[0]["version"],
+            path=e.value.path,
+        )
+        # Accept these lenghts as these are what are in the test DV
+        assert 1_200 <= len(ts.dates) <= 1_278, (
+            f"{e.value.name} has the wrong size in the database: "
+            + f"{len(ts.dates)}, ({len(set(ts.dates))} unique dates)"
+        )
 
 
 def test_local_assumptions(client_local: clients.LocalClient):
