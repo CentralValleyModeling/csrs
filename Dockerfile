@@ -54,7 +54,4 @@ COPY run_server.sh .
 # Copy the bootstrap database
 COPY /database /database
 
-ARG GITHUB_TOKEN
-ENV GITHUB_TOKEN="$GITHUB_TOKEN"
-
 ENTRYPOINT ["/bin/bash", "run_server.sh", "CentralValleyModeling/csrs"]
