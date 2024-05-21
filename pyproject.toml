@@ -21,7 +21,8 @@ dependencies = [
     "sqlalchemy",
     "jinja2",
     "python-multipart",
-    "pandss>=0.7.4"
+    "pandss>=0.7.4",
+    "httpx"
 ]
 
 [tool.setuptools]
