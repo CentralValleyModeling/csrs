@@ -144,13 +144,15 @@ class ClientABC:
 class RemoteClient(ClientABC):
     """Client used to interact with a remote Results Server."""
 
-    def __init__(self, base_url: str):
+    def __init__(self, base_url: str, **kwargs):
         """Initialize a client, and target a remote URL.
 
         Parameters
         ----------
         base_url : str
             The URL of the results server.
+        kwargs
+            All other keyword arguments are passed to httpx.Client()
 
         Example
         -------
@@ -160,7 +162,7 @@ class RemoteClient(ClientABC):
         >>> client = csrs.RemoteClient(url)
         ```
         """
-        self.actor = Client(base_url=base_url)
+        self.actor = Client(base_url=base_url, **kwargs)
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(url={self.actor.base_url})"
