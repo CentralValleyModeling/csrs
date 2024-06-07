@@ -1,4 +1,26 @@
+from typing import TypeVar
+
 from sqlalchemy.orm import Session
+
+from ..models import Base
+
+Model = TypeVar("Model", bound=Base)
+
+
+def common_update(
+    db: Session,
+    obj: Model,
+    raise_on_extra_key: bool = True,
+    **kwargs,
+) -> Model:
+    for k, v in kwargs.items():
+        if not hasattr(obj, k) and raise_on_extra_key:
+            raise AttributeError(obj, k)
+        else:
+            setattr(obj, k, v)
+    db.commit()
+
+    return obj
 
 
 def rollback_on_exception(func):

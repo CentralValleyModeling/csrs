@@ -4,7 +4,7 @@ from .. import models, schemas
 from ..errors import DuplicateScenarioError, LookupUniqueError, ScenarioAssumptionError
 from ..logger import logger
 from . import assumptions
-from .decorators import rollback_on_exception
+from ._common import rollback_on_exception
 
 
 def validate_full_assumption_specification(assumptions_used: dict):

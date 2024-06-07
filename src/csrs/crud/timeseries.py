@@ -8,7 +8,7 @@ from ..database import EPOCH
 from ..errors import LookupUniqueError
 from ..logger import logger
 from . import paths
-from .decorators import rollback_on_exception
+from ._common import rollback_on_exception
 
 
 def date_to_float(date: str) -> float:

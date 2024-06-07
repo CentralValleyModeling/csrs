@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..errors import LookupUniqueError
 from ..logger import logger
-from .decorators import rollback_on_exception
+from ._common import rollback_on_exception
 from .scenarios import read as read_scenario
 from .scenarios import update_version as update_scenario_version
 
@@ -132,6 +132,7 @@ def update_dss(
     version: str = None,
     dss: str = None,
 ) -> schemas.Run:
+    # CLEANUP: 2024-06-07 Remove this function, it will not work on server side
     runs = (
         db.query(models.Run)
         .filter(models.Run.scenario == scenario and models.Run.version == version)
