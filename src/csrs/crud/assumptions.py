@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..errors import DuplicateAssumptionError
 from ..logger import logger
-from .decorators import rollback_on_exception
+from ._common import common_update, rollback_on_exception
 
 
 @rollback_on_exception
@@ -55,8 +55,17 @@ def read(
     return [schemas.Assumption.model_validate(m, from_attributes=True) for m in results]
 
 
-def update() -> schemas.Assumption:
-    raise NotImplementedError()
+def update(
+    db: Session,
+    id: int,
+    **kwargs,
+) -> schemas.Assumption:
+    obj = db.query(models.Assumption).filter(models.Assumption.id == id).first()
+    if obj:
+        updated = common_update(db, obj, **kwargs)
+    else:
+        raise ValueError(f"Cannot find Assumption with {id=}")
+    return updated
 
 
 def delete() -> None:

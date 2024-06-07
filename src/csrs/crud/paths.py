@@ -4,7 +4,7 @@ from .. import models, schemas
 from ..enums import PathCategoryEnum
 from ..errors import PathCategoryError
 from ..logger import logger
-from .decorators import rollback_on_exception
+from ._common import common_update, rollback_on_exception
 
 
 @rollback_on_exception
@@ -63,8 +63,17 @@ def read(
     return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 
 
-def update():
-    raise NotImplementedError()
+def update(
+    db: Session,
+    id: int,
+    **kwargs,
+) -> schemas.NamedPath:
+    obj = db.query(models.NamedPath).filter(models.NamedPath.id == id).first()
+    if obj:
+        updated = common_update(db, obj, **kwargs)
+    else:
+        raise ValueError(f"Cannot find Assumption with {id=}")
+    return updated
 
 
 def delete():
