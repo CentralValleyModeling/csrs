@@ -163,6 +163,16 @@ def do_assumptions(client: Client):
     assert obj.detail == ASSUMPTIONS[0]["detail"]
 
 
+def test_local_assumptions(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_assumptions(client_local)
+
+
+def test_remote_assumptions(client_remote: clients.remote):
+    logger.debug("starting test")
+    do_assumptions(client_remote)
+
+
 def do_scenarios(client: Client):
     ASSUMPTIONS = TESTING_DATA["assumptions"]
     for assumption in ASSUMPTIONS:
@@ -177,6 +187,16 @@ def do_scenarios(client: Client):
     assert len(array) == 1
     obj = array[0]
     assert obj.land_use == SCENARIOS[0]["land_use"]
+
+
+def test_local_scenarios(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_scenarios(client_local)
+
+
+def test_remote_scenarios(client_remote: clients.remote):
+    logger.debug("starting test")
+    do_scenarios(client_remote)
 
 
 def do_runs(client: Client):
@@ -212,6 +232,16 @@ def do_runs(client: Client):
     assert obj.version == RUNS[1]["version"]
 
 
+def test_local_runs(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_runs(client_local)
+
+
+def test_remote_runs(client_remote: clients.remote):
+    logger.debug("starting test")
+    do_runs(client_remote)
+
+
 def do_paths(client: Client):
     PATHS = TESTING_DATA["paths"]
     for path in PATHS:
@@ -224,6 +254,16 @@ def do_paths(client: Client):
     assert len(array) == 1
     obj = array[0]
     assert obj.detail == PATHS[0]["detail"]
+
+
+def test_local_paths(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_paths(client_local)
+
+
+def test_remote_paths(client_remote: clients.remote):
+    logger.debug("starting test")
+    do_paths(client_remote)
 
 
 def do_timeseries(client: Client):
@@ -256,6 +296,16 @@ def do_timeseries(client: Client):
     )
     assert isinstance(ts, schemas.Timeseries)
     assert ts.values == TIMESERIES[1]["values"]
+
+
+def test_local_timeseries(client_local: clients.LocalClient):
+    logger.debug("starting test")
+    do_timeseries(client_local)
+
+
+def test_remote_timeseries(client_remote: clients.remote):
+    logger.debug("starting test")
+    do_timeseries(client_remote)
 
 
 def do_many_timeseries(client: Client):
@@ -294,59 +344,9 @@ def do_many_timeseries(client: Client):
         )
 
 
-def test_local_assumptions(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_assumptions(client_local)
-
-
-def test_local_scenarios(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_scenarios(client_local)
-
-
-def test_local_runs(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_runs(client_local)
-
-
-def test_local_paths(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_paths(client_local)
-
-
-def test_local_timeseries(client_local: clients.LocalClient):
-    logger.debug("starting test")
-    do_timeseries(client_local)
-
-
 def test_local_many_timeseries(client_local: clients.LocalClient):
     logger.debug("starting test")
     do_many_timeseries(client_local)
-
-
-def test_remote_assumptions(client_remote: clients.remote):
-    logger.debug("starting test")
-    do_assumptions(client_remote)
-
-
-def test_remote_scenarios(client_remote: clients.remote):
-    logger.debug("starting test")
-    do_scenarios(client_remote)
-
-
-def test_remote_runs(client_remote: clients.remote):
-    logger.debug("starting test")
-    do_runs(client_remote)
-
-
-def test_remote_paths(client_remote: clients.remote):
-    logger.debug("starting test")
-    do_paths(client_remote)
-
-
-def test_remote_timeseries(client_remote: clients.remote):
-    logger.debug("starting test")
-    do_timeseries(client_remote)
 
 
 def test_remote_many_timeseries(client_remote: clients.remote):
