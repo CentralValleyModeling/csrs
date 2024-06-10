@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from .. import models, schemas
+from .. import enums, models, schemas
 from ..errors import DuplicateAssumptionError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
@@ -53,6 +53,14 @@ def read(
         filters.append(models.Assumption.kind == kind)
     results = db.query(models.Assumption).filter(*filters).all()
     return [schemas.Assumption.model_validate(m, from_attributes=True) for m in results]
+
+
+@rollback_on_exception
+def read_kinds(db: Session) -> tuple[str, ...]:
+    logger.info("reading assumption kinds present in the database")
+    return tuple(
+        str(r._asdict()["kind"]) for r in db.query(models.Assumption.kind).distinct()
+    )
 
 
 def update(
