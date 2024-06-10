@@ -13,15 +13,17 @@ def test_schema_str_assumption():
 def test_schema_str_scenario():
     obj = csrs.schemas.Scenario(
         name="test-name",
-        land_use="test-land_use",
-        sea_level_rise="test-sea_level_rise",
-        hydrology="test-hydrology",
-        tucp="test-tucp",
-        dcp="test-dcp",
-        va="test-va",
-        south_of_delta="test-south_of_delta",
+        assumptions=dict(
+            land_use="test-land_use",
+            sea_level_rise="test-sea_level_rise",
+            hydrology="test-hydrology",
+            tucp="test-tucp",
+            dcp="test-dcp",
+            va="test-va",
+            south_of_delta="test-south_of_delta",
+        ),
     )
-    assert "Scenario(name=test-name, version=None)" == str(obj)
+    assert "Scenario(name=test-name)" == str(obj)
 
 
 def test_schema_str_run():
