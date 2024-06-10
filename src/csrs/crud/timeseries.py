@@ -81,7 +81,9 @@ def create(
         db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
     run_model = sceanrio_model.run
-    if run_model.version != version:
+    if run_model is None:
+        raise ValueError(f"Run {scenario} (v{version}) does not exist in the database")
+    elif run_model.version != version:
         # Adding data to an older version
         run_model = get_run_model(db, scenario=scenario, version=version)
     # Get the path model
