@@ -13,14 +13,7 @@ EXPECTED_ASSUMPTION = {
 EXPECTED_SCENARIO = {
     "id": int | None,
     "name": str,
-    "version": str | None,
-    "land_use": str,
-    "sea_level_rise": str,
-    "hydrology": str,
-    "tucp": str,
-    "dcp": str,
-    "va": str,
-    "south_of_delta": str,
+    "assumptions": dict[str, str],
 }
 
 EXPECTED_RUN = {
