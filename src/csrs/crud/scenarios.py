@@ -1,31 +1,22 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateScenarioError, LookupUniqueError, ScenarioAssumptionError
+from ..errors import DuplicateScenarioError, LookupUniqueError
 from ..logger import logger
-from . import assumptions
+from . import assumptions as assumptions_module
 from ._common import rollback_on_exception
 
 
-def validate_full_assumption_specification(assumptions_used: dict):
-    expected = schemas.Scenario.get_assumption_attrs()
-    missing = list()
-    for attr in expected:
-        if attr not in assumptions_used:
-            missing.append(attr)
-    extra = list()
-    for attr in assumptions_used:
-        if attr not in expected:
-            extra.append(attr)
-    if missing or extra:
-        raise ScenarioAssumptionError(missing, extra)
-
-
 def model_to_schema(scenario: models.Scenario):
-    kwargs = dict(name=scenario.name, id=scenario.id)
+    kwargs = dict(
+        name=scenario.name,
+        id=scenario.id,
+        version=scenario.version,
+    )
+    assumptions = dict()
     for mapping in scenario.assumption_maps:
-        kwargs[mapping.assumption_kind] = mapping.assumption.name
-    kwargs["version"] = scenario.version
+        assumptions[mapping.assumption_kind] = mapping.assumption.name
+    kwargs["assumptions"] = assumptions
     return schemas.Scenario(**kwargs)
 
 
@@ -33,34 +24,24 @@ def model_to_schema(scenario: models.Scenario):
 def create(
     db: Session,
     name: str,
-    version: str = None,
-    **kwargs: dict[str, str],
+    assumptions: dict[str, str],
 ) -> schemas.Scenario:
     logger.info(f"adding scenario, {name=}")
-    if version:
-        logger.warning(
-            f"version given, but ignored when creating new scenario, {version=}"
-        )
-    validate_full_assumption_specification(kwargs)
     dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
         raise DuplicateScenarioError(name)
     scenario_assumptions = dict()
-    for table_name in schemas.Scenario.get_assumption_attrs():
-        assumption_model = assumptions.read(
-            db,
-            kind=table_name,
-            name=kwargs[table_name],
-        )
+    for a_kind, a_name in assumptions.items():
+        assumption_model = assumptions_module.read(db, kind=a_kind, name=a_name)
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
             raise LookupUniqueError(
                 models.Assumption,
                 assumption_model,
-                table_name=kwargs[table_name],
+                table_name=a_kind,
             )
-        scenario_assumptions[table_name] = assumption_model[0].id
+        scenario_assumptions[a_kind] = assumption_model[0].id
     scenario_model = models.Scenario(name=name)
     # Update assumptions mapping
     db.add(scenario_model)
