@@ -82,71 +82,14 @@ def test_create_scenario():
 
     kwargs = dict(
         name="testing-create-scenario",
-        version="0.1",
+        assumptions=dict(),
         db=session,
     )
     for kind in enums.AssumptionEnum:
-        kwargs[kind.value] = default_assumption_kwargs["name"]
+        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
     scenario = crud.scenarios.create(**kwargs)
     assert scenario.name == kwargs["name"]
-    assert scenario.hydrology == default_assumption_kwargs["name"]
-
-
-def test_create_scenario_incomplete_assumption_specification():
-    default_assumption_kwargs = dict(
-        name="testing-create-scenario-incomplete",
-        detail="testing create scenario with not all assumptions",
-        db=session,
-    )
-    for kind in enums.AssumptionEnum:
-        if kind.value == "dcp":
-            continue
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-create-scenario-incomplete",
-        db=session,
-    )
-    for kind in enums.AssumptionEnum:
-        if kind.value == "dcp":
-            continue
-        kwargs[kind.value] = default_assumption_kwargs["name"]
-    with pytest.raises(errors.ScenarioAssumptionError):
-        crud.scenarios.create(**kwargs)
-
-
-def test_update_scenario_version():
-    default_assumption_kwargs = dict(
-        name="testing-update-scenario-assumption",
-        detail="testing update scenario",
-        db=session,
-    )
-    for kind in enums.AssumptionEnum:
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-update-scenario",
-        version="0.1",
-        db=session,
-    )
-    for kind in enums.AssumptionEnum:
-        kwargs[kind.value] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-
-    # Create run
-    kwargs = dict(
-        scenario="testing-update-scenario",
-        version="0.2",
-        contact="user@email.com",
-        code_version="0.1",
-        detail="testing update scenario",
-        db=session,
-    )
-    crud.runs.create(**kwargs)
-
-    # See if the version was updated
-    (scenario,) = crud.scenarios.read(db=session, name=kwargs["scenario"])
-    assert scenario.version == kwargs["version"]
+    assert scenario.assumptions["hydrology"] == default_assumption_kwargs["name"]
 
 
 def test_create_run():
@@ -160,10 +103,11 @@ def test_create_run():
     # Create scenario
     kwargs = dict(
         name="testing-create-run-scenario",
+        assumptions=dict(),
         db=session,
     )
     for kind in enums.AssumptionEnum:
-        kwargs[kind.value] = default_assumption_kwargs["name"]
+        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # Create run
     kwargs = dict(
@@ -174,7 +118,8 @@ def test_create_run():
         detail="testing-create-run",
         db=session,
     )
-    crud.runs.create(**kwargs)
+    run = crud.runs.create(**kwargs)
+    assert isinstance(run, schemas.Run)
 
 
 def test_read_run():
@@ -188,10 +133,11 @@ def test_read_run():
 
     kwargs = dict(
         name="testing-read-run-scenario",
+        assumptions=dict(),
         db=session,
     )
     for kind in enums.AssumptionEnum:
-        kwargs[kind.value] = default_assumption_kwargs["name"]
+        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
 
     kwargs = dict(
@@ -257,10 +203,11 @@ def test_create_read_timeseries():
     # scenario
     kwargs = dict(
         name="testing-create-timeseries-scenario",
+        assumptions=dict(),
         db=session,
     )
     for kind in enums.AssumptionEnum:
-        kwargs[kind.value] = default_assumption_kwargs["name"]
+        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # run
     kwargs = dict(
