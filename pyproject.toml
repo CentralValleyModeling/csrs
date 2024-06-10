@@ -10,7 +10,7 @@ authors = [
 description = "A FastAPI server for CalSim model results and metadata"
 readme = "README.md"
 license = {text = "MIT"}
-version = "0.4.2"
+version = "0.5.1"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
