@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Iterable, overload
+from typing import Iterable
 from warnings import warn
 
 import pandss as pdss
@@ -44,30 +44,23 @@ class LocalClient:
     def get_assumption_names(self) -> tuple[enums.AssumptionEnum]:
         return crud.assumptions.read_kinds(db=self.session)
 
-    @overload
     def get_assumption(
         self,
         *,
         kind: str = None,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Assumption]: ...
+    ) -> list[schemas.Assumption]:
+        return crud.assumptions.read(db=self.session, kind=kind, name=name, id=id)
 
-    def get_assumption(self, **kwargs):
-        return crud.assumptions.read(db=self.session, **kwargs)
-
-    @overload
     def get_scenario(
         self,
         *,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
+    ) -> list[schemas.Scenario]:
+        return crud.scenarios.read(db=self.session, name=name, id=id)
 
-    def get_scenario(self, **kwargs):
-        return crud.scenarios.read(db=self.session, **kwargs)
-
-    @overload
     def get_run(
         self,
         *,
@@ -75,12 +68,15 @@ class LocalClient:
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Run]: ...
+    ) -> list[schemas.Run]:
+        return crud.runs.read(
+            db=self.session,
+            scenario=scenario,
+            version=version,
+            code_version=code_version,
+            id=id,
+        )
 
-    def get_run(self, **kwargs):
-        return crud.runs.read(db=self.session, **kwargs)
-
-    @overload
     def get_path(
         self,
         *,
@@ -88,52 +84,56 @@ class LocalClient:
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedPath]: ...
+    ) -> list[schemas.NamedPath]:
+        return crud.paths.read(
+            db=self.session,
+            name=name,
+            path=path,
+            category=category,
+            id=id,
+        )
 
-    def get_path(self, **kwargs):
-        return crud.paths.read(db=self.session, **kwargs)
-
-    @overload
     def get_timeseries(
         self,
         *,
         scenario: str,
         version: str,
         path: str,
-    ) -> schemas.Timeseries: ...
-
-    def get_timeseries(self, **kwargs):
-        return crud.timeseries.read(db=self.session, **kwargs)
+    ) -> schemas.Timeseries:
+        return crud.timeseries.read(
+            db=self.session,
+            scenario=scenario,
+            version=version,
+            path=path,
+        )
 
     # PUT
-    @overload
+
     def put_assumption(
         self,
         *,
         name: str,
         kind: str,
         detail: str,
-    ) -> schemas.Assumption: ...
-
-    def put_assumption(self, **kwargs):
-        obj = schemas.Assumption(**kwargs)
+    ) -> schemas.Assumption:
+        obj = schemas.Assumption(
+            name=name,
+            kind=kind,
+            detail=detail,
+        )
         return crud.assumptions.create(
             db=self.session, **obj.model_dump(exclude=("id"))
         )
 
-    @overload
     def put_scenario(
         self,
         *,
         name: str,
-        assumpionts: dict[str, str],
-    ) -> schemas.Scenario: ...
-
-    def put_scenario(self, **kwargs):
-        obj = schemas.Scenario(**kwargs)
+        assumptions: dict[str, str],
+    ) -> schemas.Scenario:
+        obj = schemas.Scenario(name=name, assumptions=assumptions)
         return crud.scenarios.create(db=self.session, **obj.model_dump(exclude=("id")))
 
-    @overload
     def put_run(
         self,
         *,
@@ -148,13 +148,24 @@ class LocalClient:
         confidential: bool = True,
         published: bool = False,
         prefer_this_version: bool = True,
-    ) -> schemas.Run: ...
+    ) -> schemas.Run:
+        obj = schemas.Run(
+            scenario=scenario,
+            version=version,
+            contact=contact,
+            code_version=code_version,
+            detail=detail,
+            parent=parent,
+            children=children,
+            confidential=confidential,
+            published=published,
+        )
+        return crud.runs.create(
+            db=self.session,
+            prefer_this_version=prefer_this_version,
+            **obj.model_dump(exclude=("id")),
+        )
 
-    def put_run(self, **kwargs):
-        obj = schemas.Run(**kwargs)
-        return crud.runs.create(db=self.session, **obj.model_dump(exclude=("id")))
-
-    @overload
     def put_path(
         self,
         *,
@@ -165,13 +176,18 @@ class LocalClient:
         interval: str,
         units: str,
         detail: str,
-    ) -> schemas.NamedPath: ...
-
-    def put_path(self, **kwargs):
-        obj = schemas.NamedPath(**kwargs)
+    ) -> schemas.NamedPath:
+        obj = schemas.NamedPath(
+            name=name,
+            path=path,
+            category=category,
+            period_type=period_type,
+            interval=interval,
+            units=units,
+            detail=detail,
+        )
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
-    @overload
     def put_timeseries(
         self,
         *,
@@ -184,10 +200,17 @@ class LocalClient:
         period_type: str,
         units: str,
         interval: str,
-    ) -> schemas.Timeseries: ...
-
-    def put_timeseries(self, **kwargs):
-        obj = schemas.Timeseries(**kwargs)
+    ) -> schemas.Timeseries:
+        obj = schemas.Timeseries(
+            scenario=scenario,
+            version=version,
+            path=path,
+            values=values,
+            dates=dates,
+            period_type=period_type,
+            units=units,
+            interval=interval,
+        )
         return crud.timeseries.create(db=self.session, **obj.model_dump())
 
     def put_many_timeseries(

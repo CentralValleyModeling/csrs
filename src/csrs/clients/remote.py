@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Iterable, overload
+from typing import Iterable
 from warnings import warn
 
 import pandss as pdss
@@ -56,16 +56,13 @@ class RemoteClient:
         response.raise_for_status()
         return response.json()
 
-    @overload
     def get_assumption(
         self,
         *,
         kind: str = None,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Assumption]: ...
-
-    def get_assumption(self, **kwargs):
+    ) -> list[schemas.Assumption]:
         """Get the `Assumption` objects that match the information provided.
 
         If no arguments are given, all Assumption objects in the database will be
@@ -96,19 +93,16 @@ class RemoteClient:
         ```
         """
         url = "/assumptions"
-        response = self.actor.get(url, params=kwargs)
+        response = self.actor.get(url, params=dict(kind=kind, name=name, id=id))
         response.raise_for_status()
         return [schemas.Assumption.model_validate(a) for a in response.json()]
 
-    @overload
     def get_scenario(
         self,
         *,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
-
-    def get_scenario(self, **kwargs):
+    ) -> list[schemas.Scenario]:
         """Get the `Scenario` objects that match the information provided.
 
         Parameters
@@ -127,11 +121,10 @@ class RemoteClient:
         """
 
         url = "/scenarios"
-        response = self.actor.get(url, params=kwargs)
+        response = self.actor.get(url, params=dict(name=name, id=id))
         response.raise_for_status()
         return [schemas.Scenario.model_validate(a) for a in response.json()]
 
-    @overload
     def get_run(
         self,
         *,
@@ -139,9 +132,7 @@ class RemoteClient:
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Run]: ...
-
-    def get_run(self, **kwargs):
+    ) -> list[schemas.Run]:
         """Get the `Run` objects that match the information provided.
 
         Parameters
@@ -164,11 +155,18 @@ class RemoteClient:
         """
 
         url = "/runs"
-        response = self.actor.get(url, params=kwargs)
+        response = self.actor.get(
+            url,
+            params=dict(
+                scenario=scenario,
+                version=version,
+                code_version=code_version,
+                id=id,
+            ),
+        )
         response.raise_for_status()
         return [schemas.Run.model_validate(a) for a in response.json()]
 
-    @overload
     def get_path(
         self,
         *,
@@ -176,9 +174,7 @@ class RemoteClient:
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedPath]: ...
-
-    def get_path(self, **kwargs):
+    ) -> list[schemas.NamedPath]:
         """Get the `NamedPath` objects that match the information provided.
 
         Parameters
@@ -202,20 +198,25 @@ class RemoteClient:
         """
 
         url = "/paths"
-        response = self.actor.get(url, params=kwargs)
+        response = self.actor.get(
+            url,
+            params=dict(
+                name=name,
+                path=path,
+                category=category,
+                id=id,
+            ),
+        )
         response.raise_for_status()
         return [schemas.NamedPath.model_validate(a) for a in response.json()]
 
-    @overload
     def get_timeseries(
         self,
         *,
         scenario: str,
         version: str,
         path: str,
-    ) -> schemas.Timeseries: ...
-
-    def get_timeseries(self, **kwargs):
+    ) -> schemas.Timeseries:
         """Get the `Timeseries` object that matches the information provided.
 
         Parameters
@@ -237,21 +238,26 @@ class RemoteClient:
         """
 
         url = "/timeseries"
-        response = self.actor.get(url, params=kwargs)
+        response = self.actor.get(
+            url,
+            params=dict(
+                scenario=scenario,
+                version=version,
+                path=path,
+            ),
+        )
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
     # PUT
-    @overload
+
     def put_assumption(
         self,
         *,
         name: str,
         kind: str,
         detail: str,
-    ) -> schemas.Assumption: ...
-
-    def put_assumption(self, **kwargs):
+    ) -> schemas.Assumption:
         """Create a new `Assumption` on the results server.
 
         Parameters
@@ -269,22 +275,18 @@ class RemoteClient:
             The `Assumption` object created
         """
 
-        obj = schemas.Assumption(**kwargs)
+        obj = schemas.Assumption(name=name, kind=kind, detail=detail)
         url = "/assumptions"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Assumption.model_validate(response.json())
 
-    @overload
     def put_scenario(
         self,
         *,
         name: str,
         assumptions: dict[str, str],
-        version: str = None,
-    ) -> schemas.Scenario: ...
-
-    def put_scenario(self, **kwargs):
+    ) -> schemas.Scenario:
         """Create a new `Scenario` on the results server.
 
         Parameters
@@ -293,21 +295,18 @@ class RemoteClient:
             Value to assign to `Scenario.name`, should be easy to read, must be unique.
         assumptions: dict[str, str]
             Dictionary of assumption kinds to assumption names
-        version : str, optional
-            The preferred version of the `Run` for this `Scenario`, by default None
 
         Returns
         -------
         schemas.Scenario
             The `Scenario` object created in the database.
         """
-        obj = schemas.Scenario(**kwargs)
+        obj = schemas.Scenario(name=name, assumptions=assumptions)
         url = "/scenarios"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Scenario.model_validate(response.json())
 
-    @overload
     def put_run(
         self,
         *,
@@ -322,9 +321,7 @@ class RemoteClient:
         confidential: bool = True,
         published: bool = False,
         prefer_this_version: bool = True,
-    ) -> schemas.Run: ...
-
-    def put_run(self, **kwargs):
+    ) -> schemas.Run:
         """Create a new `Run` on the results server.
 
         Parameters
@@ -361,13 +358,24 @@ class RemoteClient:
             The newly created `Run` object
         """
 
-        obj = schemas.Run(**kwargs)
+        obj = schemas.Run(
+            scenario=scenario,
+            version=version,
+            contact=contact,
+            code_version=code_version,
+            detail=detail,
+            parent=parent,
+            children=children,
+            confidential=confidential,
+            published=published,
+        )
         url = "/runs"
+        if not prefer_this_version:
+            url = url + "/legacy"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Run.model_validate(response.json())
 
-    @overload
     def put_path(
         self,
         *,
@@ -378,9 +386,7 @@ class RemoteClient:
         interval: str,
         units: str,
         detail: str,
-    ) -> schemas.NamedPath: ...
-
-    def put_path(self, **kwargs):
+    ) -> schemas.NamedPath:
         """Create a new `NamedPath` on the results server.
 
         Parameters
@@ -406,13 +412,20 @@ class RemoteClient:
             The `NamedPath` object created
         """
 
-        obj = schemas.NamedPath(**kwargs)
+        obj = schemas.NamedPath(
+            name=name,
+            path=path,
+            category=category,
+            period_type=period_type,
+            interval=interval,
+            units=units,
+            detail=detail,
+        )
         url = "/paths"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.NamedPath.model_validate(response.json())
 
-    @overload
     def put_timeseries(
         self,
         *,
@@ -425,9 +438,7 @@ class RemoteClient:
         period_type: str,
         units: str,
         interval: str,
-    ) -> schemas.Timeseries: ...
-
-    def put_timeseries(self, **kwargs):
+    ) -> schemas.Timeseries:
         """Create a new `Timeseries` on the results server
 
         Parameters
@@ -455,7 +466,16 @@ class RemoteClient:
             The `Timeseries` object that was created
         """
 
-        obj = schemas.Timeseries(**kwargs)
+        obj = schemas.Timeseries(
+            scenario=scenario,
+            version=version,
+            path=path,
+            values=values,
+            dates=dates,
+            period_type=period_type,
+            units=units,
+            interval=interval,
+        )
         url = "/timeseries"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
