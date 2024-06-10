@@ -41,8 +41,8 @@ class LocalClient:
 
     # annotations and type hints are in pyi file
     # GET
-    def get_assumption_names(self):
-        return schemas.Scenario.get_assumption_attrs()
+    def get_assumption_names(self) -> tuple[enums.AssumptionEnum]:
+        return crud.assumptions.read_kinds(db=self.session)
 
     @overload
     def get_assumption(
@@ -126,14 +126,7 @@ class LocalClient:
         self,
         *,
         name: str,
-        land_use: str,
-        sea_level_rise: str,
-        hydrology: str,
-        tucp: str,
-        dcp: str,
-        va: str,
-        south_of_delta: str,
-        version: str = None,
+        assumpionts: dict[str, str],
     ) -> schemas.Scenario: ...
 
     def put_scenario(self, **kwargs):
