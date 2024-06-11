@@ -19,12 +19,12 @@ def common_update(
         else:
             setattr(obj, k, v)
     db.commit()
-
+    db.refresh(obj)
     return obj
 
 
 def rollback_on_exception(func):
-    def inner(*args, **kwargs):
+    def _rollback_inner(*args, **kwargs):
         # First find the session in the arguments
         db = None
         for obj in args:
@@ -36,10 +36,10 @@ def rollback_on_exception(func):
                     db = v
         # Run the fuctions
         try:
-            return func(*args, **kwargs)
+            return func(*args, **kwargs)  # Decorated function
         except Exception as e:
             if db:
                 db.rollback()
-            raise e
+            raise e  # Raise error from decorated func
 
-    return inner
+    return _rollback_inner
