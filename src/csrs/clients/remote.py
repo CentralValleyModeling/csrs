@@ -93,7 +93,9 @@ class RemoteClient:
         ```
         """
         url = "/assumptions"
-        response = self.actor.get(url, params=dict(kind=kind, name=name, id=id))
+        params = dict(kind=kind, name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Assumption.model_validate(a) for a in response.json()]
 
@@ -121,7 +123,9 @@ class RemoteClient:
         """
 
         url = "/scenarios"
-        response = self.actor.get(url, params=dict(name=name, id=id))
+        params = dict(name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Scenario.model_validate(a) for a in response.json()]
 
@@ -155,15 +159,14 @@ class RemoteClient:
         """
 
         url = "/runs"
-        response = self.actor.get(
-            url,
-            params=dict(
-                scenario=scenario,
-                version=version,
-                code_version=code_version,
-                id=id,
-            ),
+        params = dict(
+            scenario=scenario,
+            version=version,
+            code_version=code_version,
+            id=id,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Run.model_validate(a) for a in response.json()]
 
@@ -198,15 +201,14 @@ class RemoteClient:
         """
 
         url = "/paths"
-        response = self.actor.get(
-            url,
-            params=dict(
-                name=name,
-                path=path,
-                category=category,
-                id=id,
-            ),
+        params = dict(
+            name=name,
+            path=path,
+            category=category,
+            id=id,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.NamedPath.model_validate(a) for a in response.json()]
 
@@ -238,14 +240,13 @@ class RemoteClient:
         """
 
         url = "/timeseries"
-        response = self.actor.get(
-            url,
-            params=dict(
-                scenario=scenario,
-                version=version,
-                path=path,
-            ),
+        params = dict(
+            scenario=scenario,
+            version=version,
+            path=path,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
