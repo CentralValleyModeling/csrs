@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from .. import enums, models, schemas
+from .. import models, schemas
 from ..errors import DuplicateAssumptionError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
