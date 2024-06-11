@@ -179,5 +179,26 @@ def update():
     raise NotImplementedError()
 
 
-def delete():
-    raise NotImplementedError()
+def delete(db: Session, scenario: str, version: str, path: str) -> int:
+    statement = (
+        db.query(models.TimeseriesLedger)
+        .join(models.Run)
+        .join(models.Scenario)
+        .where(models.Scenario.name == scenario)
+        .where(models.Run.version == version)
+        .join(models.NamedPath)
+        .where(models.NamedPath.path == path)
+    )
+    objs = statement.all()
+    if not objs:
+        raise LookupUniqueError(
+            models.TimeseriesLedger,
+            objs,
+            sceanrio=scenario,
+            version=version,
+            path=path,
+        )
+    n_deleted = len(objs)
+    statement.delete(synchronize_session="auto")
+    db.commit()
+    return n_deleted
