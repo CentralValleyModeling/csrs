@@ -43,10 +43,11 @@ class Scenario(CSRS_Model):
     id: int | None = Field(default=None, repr=False)
     name: str
     assumptions: dict[str, str] = Field(repr=False)
+    preferred_run: str | None = Field(None, repr=False)
 
     @classmethod
     def get_non_assumption_attrs(cls) -> tuple[str]:
-        return ("id", "name")
+        return ("id", "name", "preferred_run")
 
     def get_assumption_attrs(self) -> tuple[str]:
         return tuple(self.assumptions.keys())

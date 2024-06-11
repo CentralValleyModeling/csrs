@@ -25,8 +25,14 @@ def create(
     db: Session,
     name: str,
     assumptions: dict[str, str],
+    preferred_run: str | None = None,
 ) -> schemas.Scenario:
     logger.info(f"adding scenario, {name=}")
+    if preferred_run:
+        logger.info(
+            "when creating a new `Scenario`, the `preferred_run` attr is ignored "
+            + "until the corresponding `Run` is created."
+        )
     dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
