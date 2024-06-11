@@ -1,13 +1,11 @@
-from pathlib import Path
-
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..errors import LookupUniqueError
 from ..logger import logger
-from ._common import rollback_on_exception
+from ._common import common_update, rollback_on_exception
 from .scenarios import read as read_scenario
-from .scenarios import update_version as update_scenario_version
+from .scenarios import update as update_scenario
 
 
 @rollback_on_exception
@@ -80,8 +78,8 @@ def create(
     # Add the run to the history table
     create_run_history(db, run.scenario_id, run.id, version)
     db.refresh(run)
-    if prefer_this_version:
-        update_scenario_version(db, scenario, version)
+    if prefer_this_version and version:
+        update_scenario(db, id=scenario_model.id, preferred_run=version)
     db.refresh(run)
 
     return model_to_schema(run)
@@ -126,29 +124,35 @@ def read(
     return [model_to_schema(r) for r in runs]
 
 
-def update_dss(
+@rollback_on_exception
+def update(
     db: Session,
-    scenario: str = None,
-    version: str = None,
-    dss: str = None,
+    id: int,
+    version: str | None = None,
+    contact: str | None = None,
+    confidential: bool | None = None,
+    published: bool | None = None,
+    code_version: str | None = None,
+    detail: str | None = None,
 ) -> schemas.Run:
-    # CLEANUP: 2024-06-07 Remove this function, it will not work on server side
-    runs = (
-        db.query(models.Run)
-        .filter(models.Run.scenario == scenario and models.Run.version == version)
-        .all()
+    obj = db.query(models.Run).where(models.Run.id == id).first()
+    if not obj:
+        raise LookupUniqueError(models.Run, obj, id=id)
+    # All supported updates on Run are simple setattr actions,
+    # so we will just use the common_update func using args that were not None
+    updates = dict(  # make sure this dict uses all the args above
+        version=version,
+        contact=contact,
+        confidential=confidential,
+        published=published,
+        code_version=code_version,
+        detail=detail,
     )
-    if len(runs) != 1:
-        raise LookupUniqueError(models.Run, runs, scenario=scenario, version=version)
-    run = runs[0]
-    dss_path = Path(dss)
-    if not dss_path.exists():
-        raise FileNotFoundError(dss)
-    run.dss = dss
+    updates = {k: v for k, v in updates.items() if v is not None}
+    obj = common_update(db, obj, **updates)
     db.commit()
-    db.refresh(run)
-
-    return model_to_schema(run)
+    db.refresh(obj)
+    return model_to_schema(obj)
 
 
 def delete():
