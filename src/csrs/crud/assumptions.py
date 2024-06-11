@@ -69,10 +69,9 @@ def update(
     **kwargs,
 ) -> schemas.Assumption:
     obj = db.query(models.Assumption).filter(models.Assumption.id == id).first()
-    if obj:
-        updated = common_update(db, obj, **kwargs)
-    else:
+    if not obj:
         raise ValueError(f"Cannot find Assumption with {id=}")
+    updated = common_update(db, obj, **kwargs)
     return updated
 
 
