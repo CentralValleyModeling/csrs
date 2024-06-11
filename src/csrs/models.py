@@ -174,7 +174,12 @@ class RunHistory(Base):
         UniqueConstraint(
             "scenario_id",
             "run_id",
-            name="unique_edition",
+            name="unique_run",
+        ),
+        UniqueConstraint(
+            "scenario_id",
+            "version",
+            name="unique_version",
         ),
     )
 
