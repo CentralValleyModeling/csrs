@@ -25,6 +25,7 @@ requirements:
     - sqlalchemy
     - jinja2
     - python-multipart
+    - httpx
   
 about:
   home: https://github.com/CentralValleyModeling/csrs
