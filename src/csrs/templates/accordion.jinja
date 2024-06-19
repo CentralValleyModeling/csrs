@@ -1,0 +1,32 @@
+{# Variables need to be set: accordion_obj #}
+<!-- Accordion for {{accordion_obj.header}} -->
+<div class="accordion" id="accordion-{{accordion_obj.header}}">
+    {% for label, obj in accordion_obj.items() %}
+    {% set panel_id = "panel-" + accordion_obj.panel_id + "-" + obj.panel_id%}
+    <div class="accordion-item" id="accordion-assumption">
+        <!-- heading -->
+        <h2 class="accordion-header p-1">
+            <button class="accordion-button collapsed p-1" type="button" data-bs-toggle="collapse" data-bs-target="#{{panel_id}}" aria-controls="panelsStayOpen-collapseOne">
+                {{obj.title}}
+            </button>
+        </h2>
+        <!-- attrs -->
+        <div id="{{panel_id}}" class="accordion-collapse collapse">
+            <div class="accordion-body p-1">
+                <ul class="list-group"></ul>
+                    {% for key, value in obj.pitems()%}
+                    <li class="list-group-item d-flex">
+                        <div class="col-1 mx-2"><code>{{key}}</code></div>
+                        <div class="col">
+                        {% for line in value.split("\n")%}
+                            <p class="p-0 m-0">{{line}}</p>
+                        {% endfor %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul> 
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

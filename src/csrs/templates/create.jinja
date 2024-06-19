@@ -6,63 +6,40 @@
 {% block content %}
 <div class="container-lg">
     <h1>{{ page_label }}</h1>
-        {% set parent = request.path.rsplit("/", 1)[0]%}
-        <!-- Links to other actions -->
-        {% if action_links is defined%}
-        <div class="d-grid gap-2 d-md-block">
-            {% if "read" in action_links %}
-            <a type="button" class="btn btn-outline-primary btn-sm" href="{{parent}}/read">
-                Read Existing
-            </a>
-            {% endif %}
-            {% if "update" in action_links %}
-            <a type="button" class="btn btn-outline-info btn-sm" href="{{parent}}/update">
-                Update Existing
-            </a>
-            {% endif %}
-            {% if "delete" in action_links %}
-            <a type="button" class="btn btn-outline-danger btn-sm" href="{{parent}}/delete">
-                Delete Existing
-            </a>
-            {% endif %}
-        </div>
-        {% endif %}
-        {% if error_message %}
-        <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
-            {{error_message}}
-        </div>
-        {% endif %}
-        <!-- Create Form -->
-        <form class="my-3" action="{{parent}}/create" method="POST">
-            {% for attr_info in attrs %}
+    {% set parent = request.path.rsplit("/", 1)[0]%}
+    {% include "actions.jinja"%}
+    {% include "error.jinja"%}
+    <!-- Create Form -->
+    <form class="my-3" action="{{parent}}/create" method="POST">
+        {% for attr_info in attrs %}
 
-            {# Set some helpful variables #}
-            {% set name = attr_info["name"] %}
-            {% set kind = attr_info["kind"] %}
-            {% set value = attr_info["value"]%}
-            
-            {% if kind == "input" %}
-            <div class="form-floating my-2">
-                <input name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" value="{{value}}" required>
-                <label for="form-item-{{loop.index}}">{{name}}</label>
-            </div>
-            {% elif kind == "textarea" %}
-            <div class="form-floating my-2">
-                <textarea name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" required>{{value}}</textarea>
-                <label for="form-item-{{loop.index}}">{{name}}</label>
-            </div>
-            {% elif kind == "select" %}
-            <div class="form-floating my-2">
-                <select name={{name}} class="form-select" id="form-item-{{loop.index}}" required>
-                    {% for opt in attr_info['options'] %}
-                    <option value="{{opt}}">{{opt}}</option>
-                    {% endfor %}
-                </select>
-                <label for="form-item-{{loop.index}}">{{name}}</label>
-            </div>
-            {% endif %}
-            {% endfor %}
-            <button type="submit" class="btn btn-success">Create</button>
-        </form>
+        {# Set some helpful variables #}
+        {% set name = attr_info["name"] %}
+        {% set kind = attr_info["kind"] %}
+        {% set value = attr_info["value"]%}
+        
+        {% if kind == "input" %}
+        <div class="form-floating my-2">
+            <input name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" value="{{value}}" required>
+            <label for="form-item-{{loop.index}}">{{name}}</label>
+        </div>
+        {% elif kind == "textarea" %}
+        <div class="form-floating my-2">
+            <textarea name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" required>{{value}}</textarea>
+            <label for="form-item-{{loop.index}}">{{name}}</label>
+        </div>
+        {% elif kind == "select" %}
+        <div class="form-floating my-2">
+            <select name={{name}} class="form-select" id="form-item-{{loop.index}}" required>
+                {% for opt in attr_info['options'] %}
+                <option value="{{opt}}">{{opt}}</option>
+                {% endfor %}
+            </select>
+            <label for="form-item-{{loop.index}}">{{name}}</label>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
 </div>  
 {% endblock %}

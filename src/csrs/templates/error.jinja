@@ -1,0 +1,7 @@
+{% if error_message is defined%}
+{% if error_message %}
+<div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
+    {{error_message}}
+</div>
+{% endif %}
+{% endif %}

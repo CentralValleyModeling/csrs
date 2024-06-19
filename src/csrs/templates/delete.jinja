@@ -7,33 +7,11 @@
 <div class="container-lg">
     <h1>{{ page_label }}</h1>
         {% set parent = request.path.rsplit("/", 1)[0]%}
-        <!-- Links to other actions -->
-        {% if action_links is defined%}
-        <div class="d-grid gap-2 d-md-block">
-            {% if "read" in action_links %}
-            <a type="button" class="btn btn-outline-primary btn-sm" href="{{parent}}/read">
-                Read Existing
-            </a>
-            {% endif %}
-            {% if "create" in action_links %}
-            <a type="button" class="btn btn-outline-success btn-sm" href="{{parent}}/create">
-                Create New
-            </a>
-            {% endif %}
-            {% if "update" in action_links %}
-            <a type="button" class="btn btn-outline-info btn-sm" href="{{parent}}/update">
-                Update Existing
-            </a>
-            {% endif %}
-        </div>
-        {% endif %}
-        {% if error_message %}
-        <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
-            {{error_message}}
-        </div>
-        {% endif %}
-        <!-- Create Form -->
+        {% include "actions.jinja"%}
+        {% include "error.jinja"%}
+        <!-- Delete Form -->
         <form class="my-3" action="{{parent}}/delete" method="POST">
+            <!-- Option dropdown -->
             <div class="form-floating my-2">
                 <select class="form-select" id="form-select" required>
                     {% for opt in options %}
@@ -42,9 +20,9 @@
                 </select>
                 <label for="form-select">Assumption to Delete</label>
             </div>
-            <!-- Button trigger modal -->
+            <!-- Button - triggers popup -->
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#popup">Delete</button>
-            <!-- Modal -->
+            <!-- Modal popup -->
             <div class="modal fade" id="popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

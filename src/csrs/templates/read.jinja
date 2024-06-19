@@ -5,72 +5,19 @@
 
 {% block content %}
 <div class="container-lg">
+    <!-- Page Header -->
     <div class="my-3">
         <h1>{{ page_label }}</h1>
-        <!-- Links to other actions -->
-        {% if action_links is defined%}
-        <div class="d-grid gap-2 d-md-block">
-            {% set parent = request.path.rsplit("/", 1)[0]%}
-            {% if "create" in action_links %}
-            <a type="button" class="btn btn-outline-success btn-sm" href="{{parent}}/create">
-                Create New
-            </a>
-            {% endif %}
-            {% if "update" in action_links %}
-            <a type="button" class="btn btn-outline-info btn-sm" href="{{parent}}/update">
-                Update Existing
-            </a>
-            {% endif %}
-            {% if "delete" in action_links %}
-            <a type="button" class="btn btn-outline-danger btn-sm" href="{{parent}}/delete">
-                Delete Existing
-            </a>
-            {% endif %}
-        </div>
-        {% endif%}
+        {% include "actions.jinja"%}
+        {% include "error.jinja"%}
     </div>
     <!-- Existing objects -->
     <div class="my-3">
         <h3>Existing Data</h3>
-        {% for obj_group in accordion_content %}
-        {% set outer_loop = loop %}
-        {% if obj_group["label"] is defined %}
-        <h6 class="mt-2">{{obj_group["label"].replace("_", " ")}}</h6>
-        {% endif %}
-        <div class="accordion">
-            {% for obj in obj_group["items"] %}
-            <div class="accordion-item" id="accordion-assumption">
-                <h2 class="accordion-header p-1">
-                    <button class="accordion-button collapsed p-1" type="button" data-bs-toggle="collapse" data-bs-target="#panel-{{outer_loop.index}}-{{loop.index}}" aria-controls="panelsStayOpen-collapseOne">
-                        {%if obj.name%}
-                        {{obj.name}}
-                        {%else%}
-                        {{obj.version}}
-                        {%endif%}
-                    </button>
-                </h2>
-                <div id="panel-{{outer_loop.index}}-{{loop.index}}" class="accordion-collapse collapse">
-                    <!-- attrs -->
-                    <div class="accordion-body p-1">
-                        <ul class="list-group"></ul>
-                            {% for attr in attrs_to_display%}
-                            <li class="list-group-item d-flex">
-                                <div class="col-2"><code>{{attr}}</code></div>
-                                <div class="col-10">
-                                    {% if obj[attr] is defined %}
-                                        {{obj[attr]}}
-                                    {% else %}
-                                        Not found.
-                                    {% endif %}
-                                </div>
-                            </li>
-                            {% endfor %}
-                        </ul> 
-                    </div>
-                    <!-- end attrs -->
-                </div>
-            </div>
-            {% endfor %}
+        {% for accordion_obj in accordions %}
+        <div class="container p-0 m-0">
+            <h6 class="mt-2">{{accordion_obj.header}}</h6>
+            {% include "accordion.jinja"%}
         </div>
         {% endfor %}
     </div>
