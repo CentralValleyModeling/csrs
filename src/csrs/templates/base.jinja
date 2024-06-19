@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!-- Header -->
+    <head>
+        {% block head %}
+            <title>{%block title %}CSRS{% endblock %}</title>
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+            <!-- Bootstrap Font Icon CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+            <!-- CalSim3 Icon -->
+            <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg">
+        {% endblock %}
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-md bg-body-secondary border-bottom">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/home">
+                    <img src="https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg" alt="CalSim3 Icon" width="30" height="24" class="d-inline-block align-text-top">
+                    CSRS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/forms/assumptions/read">Assumptions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/forms/scenarios/read">Scenarios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/forms/runs/read">Runs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/forms/paths/read">Named Paths</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Content -->
+        <div class="container m-3" id="content">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- Footer -->
+        <div class="container-fluid m-0" id="footer">
+            {% block footer %}
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="mb-3 mb-md-0 text-body-secondary">CA Department of Water Resources</span>
+                </div>
+                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="/home"><i class="bi bi-house-fill"></i></a></li>
+                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="/docs"><i class="bi bi-file-earmark-text-fill"></i></a></li>
+                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://github.com/CentralValleyModeling/csrs"><i class="bi bi-github"></i></a></li>
+                </ul>
+            </footer>
+            {% endblock %}
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>

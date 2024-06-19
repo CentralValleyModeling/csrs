@@ -5,7 +5,7 @@ from warnings import warn
 import pandss as pdss
 from httpx import Client
 
-from csrs import enums, schemas
+from .. import enums, schemas
 
 
 class RemoteClient:

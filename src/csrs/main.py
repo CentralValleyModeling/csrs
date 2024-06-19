@@ -1,12 +1,12 @@
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 
 from . import __version__
 from .database import DATABASE
 from .logger import logger
-from .routes import assumptions, forms, paths, runs, scenarios, timeseries
+from .routes import assumptions, forms, home, paths, runs, scenarios, timeseries
 
 TITLE = "CSRS"
 SUMMARY = "CalSim Scenario Results Server"
@@ -22,7 +22,6 @@ LISCENSE = {
     "name": "MIT",
     "identifier": "MIT",
 }
-ENABLE_FORMS = False
 
 
 def log_global_args():
@@ -43,21 +42,28 @@ app = FastAPI(
     title=TITLE,
     summary=SUMMARY,
     version=__version__ or "dev",
-    docs_url="/",
+    docs_url="/docs",
     description=DESCRIPTION,
     contact=CONTACT,
     license_info=LISCENSE,
 )
 
+app.include_router(home.router)
 app.include_router(timeseries.router)
 app.include_router(runs.router)
 app.include_router(scenarios.router)
 app.include_router(assumptions.router)
 app.include_router(paths.router)
-if ENABLE_FORMS:
-    app.include_router(forms.router)
-
-# TODO move this into a sub-module so the routes can interact with them easily
-templates = Jinja2Templates(directory="./templates")
+app.include_router(forms.router)
 
 log_global_args()
+
+
+@app.get(
+    "/",
+    response_class=RedirectResponse,
+    status_code=302,
+    include_in_schema=False,
+)
+async def redirect_home():
+    return "/home"

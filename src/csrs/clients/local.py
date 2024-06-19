@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from csrs import crud, enums, models, schemas
+from .. import crud, enums, models, schemas
 
 
 class LocalClient:
