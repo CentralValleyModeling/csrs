@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from .logger import logger
 from .models import Base
 
-DATABASE = Path(os.environ.get("database-name", "./database/csrs.db")).resolve()
+DATABASE = Path(os.environ.get("DATABASE_CSRS", "./database/csrs.db")).resolve()
 EPOCH = datetime(1900, 1, 1)
 
 
