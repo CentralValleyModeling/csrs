@@ -1,8 +1,6 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..enums import PathCategoryEnum
-from ..errors import PathCategoryError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
 
@@ -21,10 +19,6 @@ def create(
 ) -> schemas.NamedPath:
     logger.info(f"creating new named path {name=}, {path=}")
     # Check if category is valid
-    try:
-        category = PathCategoryEnum(category)
-    except ValueError:
-        raise PathCategoryError(category)
     path = models.NamedPath(
         name=name,
         path=str(path),

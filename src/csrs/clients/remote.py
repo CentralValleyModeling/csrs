@@ -35,7 +35,7 @@ class RemoteClient:
         return f"{self.__class__.__name__}(url={self.actor.base_url})"
 
     # GET
-    def get_assumption_names(self) -> tuple[enums.AssumptionEnum]:
+    def get_assumption_names(self) -> tuple[str]:
         """Get the list of assumption categories that each scenario requires.
 
         Returns

@@ -41,7 +41,7 @@ class LocalClient:
 
     # annotations and type hints are in pyi file
     # GET
-    def get_assumption_names(self) -> tuple[enums.AssumptionEnum]:
+    def get_assumption_names(self) -> tuple[str]:
         return crud.assumptions.read_kinds(db=self.session)
 
     def get_assumption(

@@ -3,27 +3,6 @@ import enum
 from .schemas import NamedPath
 
 
-# Define the assumption types as a Python enumeration
-class AssumptionEnum(enum.StrEnum):
-    hydrology = "hydrology"
-    sea_level_rise = "sea_level_rise"
-    land_use = "land_use"
-    tucp = "tucp"
-    dcp = "dcp"
-    va = "va"
-    south_of_delta = "south_of_delta"
-
-
-class PathCategoryEnum(enum.StrEnum):
-    delivery = "delivery"
-    delta = "delta"
-    other = "other"
-    salinity = "salinity"
-    storage = "storage"
-    upstream_flows = "upstream_flows"
-    water_year_type = "wyt"
-
-
 class PeriodTypeEnum(enum.StrEnum):
     per_aver = "PER-AVER"
     per_cum = "PER-CUM"
