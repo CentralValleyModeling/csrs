@@ -31,8 +31,9 @@ class AccordionSection:
             yield from sorted(self.obj.model_fields_set)
         else:
             for a in dir(self.obj):
-                if a.startswith("_") or callable(getattr(self.obj, a)):
-                    yield a
+                if a.startswith("_") or callable(getattr(self.obj, a)) or (a in ("id")):
+                    continue
+                yield a
 
     @property
     def panel_id(self):
@@ -63,6 +64,55 @@ class Accordion:
     @property
     def panel_id(self):
         return self.header.lower().replace(" ", "-").split("\n")[0]
+
+
+class Entry:
+    label: str
+    attr: str
+    kind: str
+
+    @property
+    def id(self):
+        return id(self)
+
+
+class SingleLineEntry(Entry):
+    def __init__(self, label: str, attr: str = None):
+        self.label = label
+        self.attr = attr or label.lower()
+        self.kind = "input"
+
+
+class MultiLineEntry(Entry):
+    def __init__(self, label: str, attr: str = None):
+        self.label = label
+        self.attr = attr or label.lower()
+        self.kind = "textarea"
+
+
+class OptionEntry(Entry):
+    def __init__(self, label: str, options: list, attr: str = None):
+        self.label = label
+        self.attr = attr or label.lower()
+        self.kind = "select"
+        self.options = options
+
+
+class CheckBoxOption:
+    def __init__(self, label: str):
+        self.label = label
+
+    @property
+    def id(self):
+        return id(self)
+
+
+class CheckBoxEntry(Entry):
+    def __init__(self, label: str, categories: dict, attr: str = None):
+        self.label = label
+        self.attr = attr or label.lower()
+        self.kind = "checkbox"
+        self.categories = categories
 
 
 ###############################################################################
@@ -127,7 +177,7 @@ async def get_run_form(request: Request, db: Session = Depends(get_db)):
         "read.jinja",
         {
             "request": request,
-            "page_label": "Assumptions",
+            "page_label": "Runs",
             "accordions": accordions,
         },
     )
@@ -164,17 +214,17 @@ async def get_namedpath_form(request: Request, db: Session = Depends(get_db)):
 async def create_assumption_form_get(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
     kinds = crud.assumptions.read_kinds(db=db)
-    attrs = [
-        {"kind": "input", "name": "name"},
-        {"kind": "select", "name": "kind", "options": kinds},
-        {"kind": "textarea", "name": "detail"},
+    sections = [
+        SingleLineEntry("Name", attr="name"),
+        OptionEntry("Kind", kinds, attr="kind"),
+        MultiLineEntry("Detail", attr="detail"),
     ]
     return templates.TemplateResponse(
         "create.jinja",
         {
             "request": request,
             "page_label": "Assumptions",
-            "attrs": attrs,
+            "sections": sections,
         },
     )
 
@@ -192,7 +242,7 @@ async def create_assumption_form_put(
     existing = crud.assumptions.read(db=db, kind=kind, name=name)
     if existing:
         kinds = crud.assumptions.read_kinds(db=db)
-        attrs = [
+        sections = [
             {"kind": "input", "name": "name", "value": name},
             {"kind": "select", "name": "kind", "options": kinds, "value": kind},
             {"kind": "textarea", "name": "detail", "label": "Detail", "value": detail},
@@ -203,7 +253,60 @@ async def create_assumption_form_put(
                 "error_message": "That 'kind' and 'name' combination already exists!",
                 "request": request,
                 "page_label": "Assumptions",
-                "attrs": attrs,
+                "sections": sections,
+            },
+        )
+    else:
+        # Add the new data
+        return RedirectResponse(router.prefix + "/assumptions/read", status_code=302)
+
+
+@router.get("/scenarios/create", response_class=HTMLResponse)
+async def create_scenario_form_get(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    assumptions: dict[str, list] = dict()
+    for a in crud.assumptions.read(db=db):
+        if a.kind not in assumptions:
+            assumptions[a.kind] = list()
+        assumptions[a.kind].append(CheckBoxOption(a.name))
+    sections = [
+        SingleLineEntry("Name", attr="name"),
+        CheckBoxEntry("Select Assumptions", assumptions, attr="assumptions"),
+    ]
+    return templates.TemplateResponse(
+        "create.jinja",
+        {
+            "request": request,
+            "page_label": "Scenarios",
+            "sections": sections,
+        },
+    )
+
+
+@router.post("/scenarios/create", response_class=RedirectResponse)
+async def create_scenario_form_put(
+    request: Request,
+    name: str = Form(...),
+    detail: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # Make sure the assumption doesn't already exists
+    existing = crud.assumptions.read(db=db, kind=kind, name=name)
+    if existing:
+        kinds = crud.assumptions.read_kinds(db=db)
+        sections = [
+            {"kind": "input", "name": "name", "value": name},
+            {"kind": "select", "name": "kind", "options": kinds, "value": kind},
+            {"kind": "textarea", "name": "detail", "label": "Detail", "value": detail},
+        ]
+        return templates.TemplateResponse(
+            "create.jinja",
+            {
+                "error_message": "That 'kind' and 'name' combination already exists!",
+                "request": request,
+                "page_label": "Assumptions",
+                "sections": sections,
             },
         )
     else:
