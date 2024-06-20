@@ -1,0 +1,14 @@
+<div class="my-2">
+    <h5>{{sect.label}}</h5>
+    {% for category, opts in sect.categories.items() %}
+        <div class="m-1">
+        <h6>{{category}}</h6>
+        {% for opt in opts %}
+        <div class="form-check form-switch mx-2">
+            <input class="form-check-input" type="radio" name="{{category}}" id="switch-{{opt.id}}" required>
+            <label class="form-check-label" for="switch-{{opt.id}}">{{opt.label}}</label>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>

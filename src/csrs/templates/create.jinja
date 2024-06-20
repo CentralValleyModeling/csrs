@@ -9,36 +9,21 @@
     {% set parent = request.path.rsplit("/", 1)[0]%}
     {% include "actions.jinja"%}
     {% include "error.jinja"%}
-    <!-- Create Form -->
+    <!-- CREATE Form -->
     <form class="my-3" action="{{parent}}/create" method="POST">
-        {% for attr_info in attrs %}
-
-        {# Set some helpful variables #}
-        {% set name = attr_info["name"] %}
-        {% set kind = attr_info["kind"] %}
-        {% set value = attr_info["value"]%}
-        
-        {% if kind == "input" %}
-        <div class="form-floating my-2">
-            <input name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" value="{{value}}" required>
-            <label for="form-item-{{loop.index}}">{{name}}</label>
-        </div>
-        {% elif kind == "textarea" %}
-        <div class="form-floating my-2">
-            <textarea name={{name}} class="form-control form-control-sm" placeholder="{{name}}" id="form-item-{{loop.index}}" required>{{value}}</textarea>
-            <label for="form-item-{{loop.index}}">{{name}}</label>
-        </div>
-        {% elif kind == "select" %}
-        <div class="form-floating my-2">
-            <select name={{name}} class="form-select" id="form-item-{{loop.index}}" required>
-                {% for opt in attr_info['options'] %}
-                <option value="{{opt}}">{{opt}}</option>
-                {% endfor %}
-            </select>
-            <label for="form-item-{{loop.index}}">{{name}}</label>
-        </div>
+        {% for sect in sections %}
+        <!-- {{sect.kind.title()}} {{sect.label}} -->
+        {% if sect.kind == "input" %}
+        {% include "create_section_input.jinja" %}
+        {% elif sect.kind == "textarea" %}
+        {% include "create_section_textarea.jinja" %}
+        {% elif sect.kind == "select" %}
+        {% include "create_section_select.jinja" %}
+        {% elif sect.kind == "checkbox" %}
+        {% include "create_section_checkbox.jinja" %}
         {% endif %}
         {% endfor %}
+        <!-- Submit -->
         <button type="submit" class="btn btn-success">Create</button>
     </form>
 </div>  

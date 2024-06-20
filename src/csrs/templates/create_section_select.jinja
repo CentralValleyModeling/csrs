@@ -1,0 +1,13 @@
+<div class="form-floating my-2">
+    <select 
+        name={{sect.attr}} 
+        class="form-select" 
+        id="form-item-{{sect.id}}" 
+        required
+    >
+        {% for opt in sect.options %}
+        <option value="{{opt}}">{{opt}}</option>
+        {% endfor %}
+    </select>
+    <label for="form-item-{{sect.id}}">{{sect.label}}</label>
+</div>
