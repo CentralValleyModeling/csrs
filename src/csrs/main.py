@@ -1,14 +1,15 @@
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import RedirectResponse
 
-from . import __version__
-from .database import DATABASE
+from . import __version__, routes
+from .database import get_database_url
 from .logger import logger
-from .routes import assumptions, forms, home, paths, runs, scenarios, timeseries
+from .templates import templates
 
 TITLE = "CSRS"
+DATABASE = get_database_url()
 SUMMARY = "CalSim Scenario Results Server"
 DESCRIPTION = """\
 A FastAPI app to serve CalSim3 model results and metadata. Helps you interact with many
@@ -48,22 +49,23 @@ app = FastAPI(
     license_info=LISCENSE,
 )
 
-app.include_router(home.router)
-app.include_router(timeseries.router)
-app.include_router(runs.router)
-app.include_router(scenarios.router)
-app.include_router(assumptions.router)
-app.include_router(paths.router)
-app.include_router(forms.router)
+app.include_router(routes.home.router)
+app.include_router(routes.timeseries.router)
+app.include_router(routes.runs.router)
+app.include_router(routes.scenarios.router)
+app.include_router(routes.assumptions.router)
+app.include_router(routes.paths.router)
+app.include_router(routes.forms.router)
+app.include_router(routes.error_pages.router)
 
 log_global_args()
 
 
-@app.get(
-    "/",
-    response_class=RedirectResponse,
-    status_code=302,
-    include_in_schema=False,
-)
+@app.get("/", response_class=RedirectResponse, status_code=302, include_in_schema=False)
 async def redirect_home():
-    return "/home"
+    return RedirectResponse("/home")
+
+
+@app.exception_handler(404)
+async def custom_404_handler(request: Request, __):
+    return templates.TemplateResponse("errors/404.jinja", {"request": request})

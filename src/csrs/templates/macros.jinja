@@ -1,0 +1,150 @@
+{% macro input(attr, label, default, id) %}
+<div class="input-group input-group-sm m-0 p-0">
+    <div class="col-1 mx-2"><code>{{label}}</code></div>
+    <div class="col">
+        <input 
+            type="text" 
+            class="form-control form-control-sm toggled-by-button" 
+            id="{{id}}" 
+            name="{{attr}}" 
+            placeholder="{{default}}"
+            value="{{default}}"
+            required
+            disabled
+        >
+    </div>    
+</div>
+{%- endmacro %}
+
+{% macro select(attr, label, default, id, options)%}
+<div class="input-group input-group-sm m-0 p-0">
+    <div class="col-1 mx-2"><code>{{label}}</code></div>
+    <div class="col">
+        <select 
+            name="{{attr}}" 
+            class="form-select form-select-sm toggled-by-button" 
+            id="{{id}}" 
+            required
+            disabled
+        >
+            {% for opt in options %}
+            <option value="{{opt}}">{{opt}}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+{%- endmacro %}
+
+{% macro textarea(attr, label, default, id)%}
+{% set rows = default.split('\n')|length%}
+<div class="input-group input-group-sm m-0 p-0">
+    <div class="col-1 mx-2"><code>{{label}}</code></div>
+    <div class="col">
+        <textarea 
+            name={{attr}} 
+            class="form-control form-control-sm toggled-by-button" 
+            placeholder="{{default}}"
+            id="{{id}}"
+            rows="{{rows}}"
+            required
+            disabled
+        >{{default}}</textarea>
+    </div>
+    
+</div>
+{%- endmacro %}
+
+{% macro scriptToggleForm() %}
+<script>
+    function toggleForm(baseId) {
+        console.log("Changing editable state for " + baseId)
+        // Enable the form entries
+        const form = document.getElementById("form-" + baseId);
+        if (form) {
+            const elements = form.elements;
+            for (element of elements){
+                if (element.classList.contains("toggled-by-button")){
+                    element.disabled = !element.disabled;
+                };
+            };
+        }
+        // Hide/Show & Disable/Enable buttons
+        let buttonPrefixes = ["submit-", "delete-"];
+        for (prefix of buttonPrefixes){
+            let button = document.getElementById(prefix + baseId);
+            if (button.classList.contains('d-none')) {
+                button.classList.remove('d-none');
+            } else {
+                button.classList.add('d-none');
+            }
+            button.disabled = !button.disabled
+        }
+    }
+</script>
+{% endmacro %}
+
+{% macro scriptSubmitForm() %}
+<script>
+    function submitForm(baseId, action) {
+        console.log("Submitting (" + action + ") " + baseId)
+        const form = document.getElementById("form-" + baseId);
+        form.action = action
+        form.submit()
+    }
+</script>
+{% endmacro %}
+
+
+{% macro edit_button(id)%}
+<button id="edit-{{id}}" type="button" class="btn btn-warning btn-sm py-0"  onclick="toggleForm('{{id}}')"><i class="bi bi-pencil-square"></i></button>
+{%- endmacro %}
+
+{% macro submit_button(id)%}
+<button id="submit-{{id}}" type="button" class="btn btn-success btn-sm py-0 d-none" onclick="submitForm('{{id}}', 'update')" disabled><i class="bi bi-send-arrow-up-fill"></i></button>
+{%- endmacro %}
+
+{% macro delete_button(id)%}
+<button id="delete-{{id}}" type="button" class="btn btn-danger btn-sm py-0 d-none" onclick="submitForm('{{id}}', 'delete')" disabled><i class="bi bi-trash-fill"></i></button>
+{%- endmacro %}
+
+{% macro editable_attribute(attr_obj)%}
+{% if attr_obj.kind == 'input' %}
+{{ input(attr_obj.attr, attr_obj.attr, attr_obj.value, attr_obj.id) }}
+{% elif attr_obj.kind == 'select' %}
+{{ select(attr_obj.attr, attr_obj.attr, attr_obj.value, attr_obj.id, attr_obj.options) }}
+{% elif attr_obj.kind == 'textarea' %}
+{{ textarea(attr_obj.attr, attr_obj.attr, attr_obj.value, attr_obj.id) }}
+{% endif %}
+{%- endmacro %}
+
+
+{% macro editable_object(obj, request) %}
+{% set parent = request.path.rsplit("/", 1)[0]%}
+<div class="card my-2">
+    <!-- Form -->
+    <form class="pb-1" id="form-{{obj.id}}" action="{{parent}}/update" method="POST">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                {{obj.title}}
+            </div>
+            <div class="col-3">
+                <div class="float-end mx-1">{{ edit_button(obj.id) }}</div>
+                <div class="float-end mx-1">{{ submit_button(obj.id) }}</div>
+                <div class="float-end mx-1">{{ delete_button(obj.id) }}</div>
+            </div>
+        </div>
+    </div>
+    <ul id="list-{{obj.id}}" class="list-group list-group-flush">
+        {% for attr in obj %}
+        <li class="list-group-item">
+            {{ editable_attribute(attr) }}
+        </li>
+        {% endfor %}
+    </ul>
+    </form>
+</div>
+{%- endmacro %}
+
+
+

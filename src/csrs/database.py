@@ -12,7 +12,7 @@ DATABASE = Path(os.environ.get("DATABASE_CSRS", "./database/csrs.db")).resolve()
 EPOCH = datetime(1900, 1, 1)
 
 
-def get_database_url(db, db_type="sqlite") -> str:
+def get_database_url(db: str = DATABASE, db_type="sqlite") -> str:
     if db_type == "sqlite":
         url = f"sqlite:///{db}"
     else:

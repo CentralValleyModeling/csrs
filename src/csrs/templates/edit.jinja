@@ -1,0 +1,36 @@
+{% extends "base.jinja" %}
+{% import 'macros.jinja' as macro%}
+
+{% block title %}
+{{page_title}}
+{% endblock %}
+
+{% block content %}
+{% for obj in objects %}
+<!-- Card for {{obj.title}} -->
+{{macro.editable_object(obj, request)}}
+{% endfor %}
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{macro.scriptToggleForm()}}
+{{macro.scriptSubmitForm()}}
+{% endblock %}
+
+{% block css %}
+{{ super() }}
+<!-- Custom CSS -->
+<style>
+  .form-control:disabled {
+    border: none; /* Remove default border */
+    background-color: transparent; /* Transparent background */
+    resize: none;
+  } 
+  .form-select:disabled {
+    border: none; /* Remove default border */
+    background-color: transparent; /* Transparent background */
+    background-image: none;
+  }
+</style>
+{% endblock %}
