@@ -27,47 +27,26 @@
     </div>
     <!-- Database Interactions -->
     <div class="mb-3">
-        <h4>Interact with the Database</h4>
-        <p>The following pages can be used to interact with the database.</p>
-        <table class="table table-hover table-sm text-center">
-            <tbody>
-                <tr>
-                    <th scope="row">Assumptions</th>
-                    <td><a href="/forms/assumptions/create">Create</a></td>
-                    <td><a href="/forms/assumptions/read">Read</a></td>
-                    <td><a class="link-secondary" href="/forms/assumptions/update">Update</a></td>
-                    <td><a class="link-secondary" href="/forms/assumptions/delete">Delete</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Scenarios</th>
-                    <td><a class="link-secondary" href="/forms/scenarios/create">Create</a></td>
-                    <td><a href="/forms/scenarios/read">Read</a></td>
-                    <td><a class="link-danger" href="/forms/scenarios/update">Update</a></td>
-                    <td><a class="link-secondary" href="/forms/scenarios/delete">Delete</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Runs</th>
-                    <td><a class="link-secondary" href="/forms/runs/create">Create</a></td>
-                    <td><a href="/forms/runs/read">Read</a></td>
-                    <td><a class="link-danger" href="/forms/runs/update">Update</a></td>
-                    <td><a class="link-secondary" href="/forms/runs/delete">Delete</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Timeseries</th>
-                    <td><a class="link-secondary" href="/forms/timeseries/create">Create</a></td>
-                    <td><a class="link-secondary" href="/forms/timeseries/read">Read</a></td>
-                    <td>N/A</td>
-                    <td><a class="link-secondary" href="/forms/timeseries/delete">Delete</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Named Path</th>
-                    <td><a class="link-secondary" href="/forms/paths/create">Create</a></td>
-                    <td><a href="/forms/paths/read">Read</a></td>
-                    <td><a class="link-secondary" href="/forms/paths/update">Update</a></td>
-                    <td><a class="link-secondary" href="/forms/paths/delete">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
+        <h4>Quick Links</h4>
+        <p>Interact with the database.</p>
+        {% macro double_link(title, end_point, e_edit="")%}
+        <div class="card w-25">
+                <h5 class="card-header">{{title}}</h5>
+                <div class="card-body">
+                    <div class="vstack gap-1">
+                        <a href="/forms/{{end_point}}" class="btn btn-primary btn-sm {{e_edit}}">View</a>
+                    </div>
+                </div>
+            </div>
+        {%- endmacro %}
+        <div class="hstack gap-3">
+            {{double_link("Assumptions", "assumptions")}}
+            {{double_link("Scenarios",   "scenarios",   "disabled")}}
+            {{double_link("Runs",        "runs",        "disabled")}}
+            {{double_link("Timeseries",  "timeseries",  "disabled")}}
+            {{double_link("Paths",       "paths",       "disabled")}}
+            
+        </div>
     </div>
     <!-- Objects Descriptions -->
     <div class="mb-3">

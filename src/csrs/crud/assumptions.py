@@ -75,5 +75,12 @@ def update(
     return updated
 
 
-def delete() -> None:
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    obj = db.query(models.Assumption).filter(models.Assumption.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find Assumption with {id=}")
+    db.query(models.Assumption).filter(models.Assumption.id == id).delete()
+    db.commit()
