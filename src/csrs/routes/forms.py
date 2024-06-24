@@ -2,50 +2,11 @@ from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
-from .. import crud, errors
+from .. import crud, errors, templates
 from ..database import get_db
 from ..logger import logger
-from ..schemas import CSRS_Model
-from ..templates import templates
 
 router = APIRouter(prefix="/forms", include_in_schema=False)
-
-
-class EditableAttribute:
-    def __init__(self, attr: str, value: str, id: str, kind: str = "input"):
-        self.attr = attr
-        self.value = value
-        self.id = id
-        self.kind = kind
-
-
-class LongAttribute(EditableAttribute):
-    def __init__(self, attr: str, value: str, id: str):
-        super().__init__(attr, value, id, "textarea")
-
-
-class SelectedAttribute(EditableAttribute):
-    def __init__(self, attr: str, value: str, id: str, options: list):
-        super().__init__(attr, value, id, "select")
-        self.options = options
-
-
-class TemplateObject:
-    def __init__(
-        self,
-        attrs: list[EditableAttribute],
-        title: str,
-        id: str,
-        db_id: int,
-    ):
-        self.attrs = attrs
-        self.title = title
-        self.id = id
-        self.db_id = db_id
-
-    def __iter__(self):
-        for attr in self.attrs:
-            yield attr
 
 
 @router.get("/test", response_class=HTMLResponse)
@@ -55,22 +16,14 @@ async def test(request: Request, db: Session = Depends(get_db)):
     all_kinds = crud.assumptions.read_kinds(db=db)
     template_objects = list()
     for obj in all_objs:
-        t = TemplateObject(
-            attrs=[
-                EditableAttribute("name", obj.name, f"assumption-{obj.id}"),
-                SelectedAttribute("kind", obj.kind, f"assumption-{obj.id}", all_kinds),
-                LongAttribute("detail", obj.detail, f"assumption-{obj.id}"),
-            ],
-            title=obj.name,
-            id=f"assumption-{obj.id}",
-            db_id=obj.id,
-        )
+        t = templates.EditableAssumption(obj, all_kinds)
         template_objects.append(t)
-    return templates.TemplateResponse(
+    return templates.templates.TemplateResponse(
         "test.jinja",
         {
             "request": request,
             "objects": template_objects,
+            "new_object": templates.NewAssumption(),
         },
     )
 
@@ -85,35 +38,14 @@ def render_assumptions(request: Request, db: Session):
     all_kinds = crud.assumptions.read_kinds(db=db)
     template_objects = list()
     for obj in all_objs:
-        t = TemplateObject(
-            attrs=[
-                EditableAttribute("name", obj.name, f"assumption-{obj.id}"),
-                SelectedAttribute("kind", obj.kind, f"assumption-{obj.id}", all_kinds),
-                LongAttribute("detail", obj.detail, f"assumption-{obj.id}"),
-            ],
-            title=obj.name,
-            id=f"assumption-{obj.id}",
-            db_id=obj.id,
-        )
+        t = templates.EditableAssumption(obj, all_kinds)
         template_objects.append(t)
-    new_t = TemplateObject(
-        attrs=[
-            EditableAttribute("name", "", "assumption-new"),
-            SelectedAttribute("kind", "", "assumption-new", all_kinds),
-            LongAttribute("detail", "", "assumption-new"),
-        ],
-        title="assumption-new",
-        id="assumption-new",
-        db_id=None,
-    )
-    return templates.TemplateResponse(
-        "edit.jinja",
+    return templates.templates.TemplateResponse(
+        "test.jinja",
         {
             "request": request,
-            "page_title": "Assumptions",
-            "page_description": "Assumptions are used by Scenarios.",
-            "new_object_template": new_t,
             "objects": template_objects,
+            "new_object": templates.NewAssumption(),
         },
     )
 

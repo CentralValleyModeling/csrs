@@ -1,0 +1,16 @@
+<div class="col-1 mx-2"><code>{{name}}</code></div>
+<div class="col">
+    <select 
+        name="{{name}}" 
+        class="form-select form-select-sm toggled-by-button" 
+        id="{{id}}"
+        required
+        disabled
+    >
+        {% for opt in options %}
+        {% if opt == default %}<option value="{{opt}}" selected>{{opt}}</option>
+        {% else %}<option value="{{opt}}">{{opt}}</option>
+        {% endif %}
+        {% endfor %}
+    </select>
+</div>

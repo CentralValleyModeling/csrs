@@ -1,0 +1,22 @@
+{# defined: id, request #}
+<div class="card my-2">
+    <form class="pb-1" id="form-{{id}}" action="{{request.path}}/update" method="POST">
+    <!-- Header  -->
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                {% block title %}{%endblock%}
+            </div>
+            <!-- Buttons -->
+            <div class="col-3">
+                <div class="float-end mx-1">{{ macro.edit_button(id) }}</div>
+                <div class="float-end mx-1">{{ macro.submit_button(id, request.path + "/update") }}</div>
+                <div class="float-end mx-1">{{ macro.delete_button(id, request.path + "/delete") }}</div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Area -->
+    {% block edit_area %}
+    {% endblock %}
+    </form>
+</div>
