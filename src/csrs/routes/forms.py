@@ -36,15 +36,12 @@ async def test(request: Request, db: Session = Depends(get_db)):
 def render_assumptions(request: Request, db: Session):
     all_objs = crud.assumptions.read(db=db)
     all_kinds = crud.assumptions.read_kinds(db=db)
-    template_objects = list()
-    for obj in all_objs:
-        t = templates.EditableAssumption(obj, all_kinds)
-        template_objects.append(t)
+    objects = [templates.EditableAssumption(obj, all_kinds) for obj in all_objs]
     return templates.templates.TemplateResponse(
-        "test.jinja",
+        "pages/edit.jinja",
         {
             "request": request,
-            "objects": template_objects,
+            "objects": objects,
             "new_object": templates.NewAssumption(),
         },
     )
