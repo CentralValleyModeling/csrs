@@ -1,13 +1,13 @@
-<div class="col-1 mx-2"><code>{{name}}</code></div>
-<div class="col">
-    <input 
-        type="text" 
-        class="form-control form-control-sm toggled-by-button" 
-        id="{{id}}" 
-        name="{{name}}" 
-        placeholder="{{default}}"
-        value="{{default}}"
-        required
-        disabled
-    >
-</div>
+{% extends "utils/_editable_attr.jinja" %}
+{% block editable %}
+<input 
+    type="text" 
+    class="form-control form-control-sm toggled-by-button" 
+    id="{{id}}" 
+    name="{{name}}" 
+    placeholder="{{default}}"
+    value="{{default}}"
+    required
+    disabled
+>
+{% endblock %}

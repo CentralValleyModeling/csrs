@@ -13,10 +13,10 @@ from ..utils import EditableSelection, EditableStr, EditableStrLong
 class EditableAssumption:
     def __init__(
         self,
-        assumption_object: schemas.Assumption,
+        obj: schemas.Assumption,
         assumption_kinds: list[str],
     ):
-        self.obj = assumption_object
+        self.obj = obj
         self.kinds = assumption_kinds
         self.env: Environment = templates.env
 
@@ -50,7 +50,47 @@ class EditableAssumption:
         )
 
 
-@dataclass
+class EditableScenario:
+    def __init__(
+        self,
+        obj: schemas.Scenario,
+        scenario_versions: list[str],
+        assumption_kinds: list[str],
+    ):
+        self.obj = obj
+        self.kinds = assumption_kinds
+        self.versions = scenario_versions
+        self.env: Environment = templates.env
+
+    def render(self, request: Request) -> str:
+        # Pre render the editable sections
+        name = EditableStr(
+            id=self.obj.id,
+            name="name",
+            default=self.obj.name,
+        ).render(
+            request,
+            name_col_width=2,
+        )
+        preferred_run = EditableSelection(
+            id=self.obj.id,
+            name="preferred_run",
+            default=self.obj.preferred_run,
+            options=self.versions,
+        ).render(
+            request,
+            name_col_width=2,
+        )
+        # render the whole card
+        return self.env.get_template("objects/scenario.jinja").render(
+            request=request,
+            id=self.obj.id,
+            title=self.obj.name,
+            name=name,
+            preferred_run=preferred_run,
+        )
+
+
 class NewAssumption:
     def render(self):
         return Template("<p>New</p>").render()

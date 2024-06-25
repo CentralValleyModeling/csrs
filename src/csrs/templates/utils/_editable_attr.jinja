@@ -1,0 +1,8 @@
+{% if not name_col_width is defined %}
+{% set name_col_width = 1%}
+{% endif %}
+<div class="col-{{name_col_width}} mx-2"><code>{{name}}</code></div>
+<div class="col">
+    {% block editable %}
+    {% endblock %}
+</div>

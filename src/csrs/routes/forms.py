@@ -47,6 +47,24 @@ def render_assumptions(request: Request, db: Session):
     )
 
 
+def render_scenarios(request: Request, db: Session):
+    all_objs = crud.scenarios.read(db=db)
+    all_kinds = crud.assumptions.read_kinds(db=db)
+    objects = list()
+    for obj in all_objs:
+        versions = [r.version for r in crud.runs.read(db=db, scenario=obj.name)]
+        t = templates.EditableScenario(obj, versions, all_kinds)
+        objects.append(t)
+    return templates.templates.TemplateResponse(
+        "pages/edit.jinja",
+        {
+            "request": request,
+            "objects": objects,
+            "new_object": templates.NewAssumption(),
+        },
+    )
+
+
 ###############################################################################
 # CREATE
 # Below are the create for read actions via forms
@@ -133,3 +151,9 @@ async def form_assumptions_delete(
 async def form_assumptions(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
     return render_assumptions(request, db)
+
+
+@router.get("/scenarios", response_class=HTMLResponse)
+async def form_scenarios(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_scenarios(request, db)
