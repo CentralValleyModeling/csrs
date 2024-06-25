@@ -14,7 +14,7 @@ class EditableStr:
     env: Environment = field(default=templates.env)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template("utils/editable_str.jinja").render(
+        return self.env.get_template("utils/editable_attr_str.jinja").render(
             request=request,
             id=self.id,
             name=self.name,
@@ -32,7 +32,7 @@ class EditableStrLong:
     env: Environment = field(default=templates.env)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template("utils/editable_str_long.jinja").render(
+        return self.env.get_template("utils/editable_attr_str_long.jinja").render(
             request=request,
             id=self.id,
             name=self.name,
@@ -51,7 +51,7 @@ class EditableSelection:
     env: Environment = field(default=templates.env)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template("utils/editable_selection.jinja").render(
+        return self.env.get_template("utils/editable_attr_selection.jinja").render(
             request=request,
             id=self.id,
             name=self.name,
