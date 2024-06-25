@@ -26,3 +26,33 @@
         disabled
     ><i class="bi bi-trash-fill"></i></button>
 {%- endmacro %}
+
+{% macro delete_with_warning(id, action, body="This action cannot be un-done.")%}
+<!-- Button - triggers popup -->
+<button 
+    id="delete-{{id}}" 
+    type="button" 
+    class="btn btn-danger btn-sm py-0 d-none" 
+    data-bs-toggle="modal" 
+    data-bs-target="#popup"
+    disabled
+><i class="bi bi-trash-fill"></i></button>
+<!-- Modal popup -->
+<div class="modal fade" id="popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold ">Please verify this action</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="my-0">{{body}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Go back</button>
+                <button type="button" class="btn btn-danger" onclick="submitForm('{{id}}', '{{action}}')" >Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%- endmacro %}
