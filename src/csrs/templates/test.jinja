@@ -1,5 +1,4 @@
 {% extends "base.jinja" %}
-{% import 'utils/macros.jinja' as macro%}
 
 {% block title %}
 {{page_title}}
@@ -22,6 +21,6 @@
 
 {% block scripts %}
 {{ super() }}
-{{macro.scriptToggleForm()}}
-{{macro.scriptSubmitForm()}}
+{% include 'scripts/toggle_form.jinja' %}
+{% include 'scripts/submit_form.jinja' %}
 {% endblock %}

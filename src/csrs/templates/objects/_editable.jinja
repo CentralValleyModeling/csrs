@@ -1,4 +1,6 @@
 {# defined: id, request #}
+{% import 'utils/buttons.jinja' as buttons %}
+
 <div class="card my-2">
     <form class="pb-1" id="form-{{id}}" action="{{request.path}}/update" method="POST">
     <!-- Header  -->
@@ -9,9 +11,9 @@
             </div>
             <!-- Buttons -->
             <div class="col-3">
-                <div class="float-end mx-1">{{ macro.edit_button(id) }}</div>
-                <div class="float-end mx-1">{{ macro.submit_button(id, request.path + "/update") }}</div>
-                <div class="float-end mx-1">{{ macro.delete_button(id, request.path + "/delete") }}</div>
+                <div class="float-end mx-1">{{ buttons.edit_button(id) }}</div>
+                <div class="float-end mx-1">{{ buttons.submit_button(id, request.path + "/update") }}</div>
+                <div class="float-end mx-1">{{ buttons.delete_button(id, request.path + "/delete") }}</div>
             </div>
         </div>
     </div>
