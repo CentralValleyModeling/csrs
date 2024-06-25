@@ -1,4 +1,47 @@
 {% extends "base.jinja" %}
+
+{% macro true_false_icon(flag=false)%}
+{% if flag is true %}
+<i class="bi bi-check-circle-fill text-success font-size-sm"></i>
+{% else %}
+<i class="bi bi-x-circle-fill text-secondary"></i>
+{% endif %}
+{% endmacro %}
+
+{% macro page_link(title, end_point, e_edit=false, create=false, read=false, update=false, delete=false)%}
+    {%if e_edit %}
+    {% set e_edit = ""%}
+    {%else%}
+    {% set e_edit = "diabled"%}
+    {%endif%}
+    <div class="card w-25">
+        <h5 class="card-header">{{title}}</h5>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                    <code>create</code>
+                    <span class="badge">{{true_false_icon(create)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                    <code>read</code>
+                    <span class="badge">{{true_false_icon(read)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                    <code>update</code>
+                    <span class="badge">{{true_false_icon(update)}}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-1">
+                    <code>delete</code>
+                    <span class="badge">{{true_false_icon(delete)}}</span>
+                </li>
+            </ul>
+            <div class="vstack gap-1 mt-2">
+                <a href="/forms/{{end_point}}" class="btn btn-primary btn-sm {{e_edit}}">View</a>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+
 {% block title%} 
     CSRS Home 
 {% endblock %}
@@ -27,24 +70,14 @@
     </div>
     <!-- Database Interactions -->
     <div class="mb-3">
-        <h4>Quick Links</h4>
+         <h4>Quick Links</h4>
         <p>Interact with the database.</p>
-        {% macro double_link(title, end_point, e_edit="")%}
-        <div class="card w-25">
-                <h5 class="card-header">{{title}}</h5>
-                <div class="card-body">
-                    <div class="vstack gap-1">
-                        <a href="/forms/{{end_point}}" class="btn btn-primary btn-sm {{e_edit}}">View</a>
-                    </div>
-                </div>
-            </div>
-        {%- endmacro %}
         <div class="hstack gap-3">
-            {{double_link("Assumptions", "assumptions")}}
-            {{double_link("Scenarios",   "scenarios",   "disabled")}}
-            {{double_link("Runs",        "runs",        "disabled")}}
-            {{double_link("Timeseries",  "timeseries",  "disabled")}}
-            {{double_link("Paths",       "paths",       "disabled")}}
+            {{page_link("Assumptions", "assumptions", "",         false,  true,  true,  true)}}
+            {{page_link("Scenarios",   "scenarios",   "disabled", false, false, false, false)}}
+            {{page_link("Runs",        "runs",        "disabled", false, false, false, false)}}
+            {{page_link("Timeseries",  "timeseries",  "disabled", false, false, false, false)}}
+            {{page_link("Paths",       "paths",       "disabled", false, false, false, false)}}
             
         </div>
     </div>
