@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..errors import DuplicateScenarioError, LookupUniqueError
 from ..logger import logger
-from . import assumptions as assumptions_module
+from . import assumptions as crud_assumptions
+from . import runs as crud_runs
+from . import timeseries as crud_timeseries
 from ._common import rollback_on_exception
 
 
@@ -39,7 +41,7 @@ def create(
         raise DuplicateScenarioError(name)
     scenario_assumptions = dict()
     for a_kind, a_name in assumptions.items():
-        assumption_model = assumptions_module.read(db, kind=a_kind, name=a_name)
+        assumption_model = crud_assumptions.read(db, kind=a_kind, name=a_name)
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
             raise LookupUniqueError(
@@ -136,7 +138,7 @@ def _update_assumptions(
     obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
     existing_assumption_kinds = [a.assumption_kind for a in obj.assumption_maps]
     for kind, name in assumptions.items():
-        assumption_obj = assumptions_module.read(db, kind=kind, name=name)
+        assumption_obj = crud_assumptions.read(db, kind=kind, name=name)
         if len(assumption_obj) != 0:
             raise LookupUniqueError(
                 models.Assumption,
@@ -189,5 +191,29 @@ def update(
     return model_to_schema(obj)
 
 
-def delete() -> None:
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    # To delete a scenario, we also delete all the runs and timeseries that belong to it
+    me = read(db, id=id)
+    if not me:
+        raise ValueError(f"Scenario with {id=} was not found")
+    me = me[0]
+    runs = crud_runs.read(db, scenario=me.name)
+    for run in runs:
+        tss = crud_timeseries.read_all_for_run(
+            db,
+            scenario=me.name,
+            version=run.version,
+        )
+        for ts in tss:
+            crud_timeseries.delete(
+                db,
+                scenario=ts.scenario,
+                version=ts.version,
+                path=ts.path,
+            )
+        crud_runs.delete(db, id=run.id)
+    db.query(models.Scenario).filter(models.Scenario.id == id).delete()
+    db.commit()

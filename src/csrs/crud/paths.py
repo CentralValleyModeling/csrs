@@ -70,5 +70,13 @@ def update(
     return updated
 
 
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    logger.info(f"deleteing path where {id=}")
+    obj = db.query(models.NamedPath).filter(models.NamedPath.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find NamedPath with {id=}")
+    db.query(models.NamedPath).filter(models.NamedPath.id == id).delete()
+    db.commit()

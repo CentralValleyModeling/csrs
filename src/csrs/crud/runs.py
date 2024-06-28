@@ -92,6 +92,7 @@ def create_run_history(
     run_id: int,
     version: str,
 ) -> models.RunHistory:
+    logger.info(f"creating run history {scenario_id=} {version=} {run_id=}")
     hist = models.RunHistory(scenario_id=scenario_id, run_id=run_id, version=version)
     db.add(hist)
     db.commit()
@@ -108,6 +109,9 @@ def read(
     contact: str = None,
     id: int = None,
 ) -> list[schemas.Run]:
+    logger.info(
+        f"reading new run where {scenario=} {version=} {code_version=} {contact=} {id=}"
+    )
     filters = list()
     if scenario:
         (scenario_obj,) = read_scenario(db, name=scenario)
@@ -135,6 +139,7 @@ def update(
     code_version: str | None = None,
     detail: str | None = None,
 ) -> schemas.Run:
+    logger.info(f"updating run where {id=}")
     obj = db.query(models.Run).where(models.Run.id == id).first()
     if not obj:
         raise LookupUniqueError(models.Run, obj, id=id)
@@ -149,11 +154,20 @@ def update(
         detail=detail,
     )
     updates = {k: v for k, v in updates.items() if v is not None}
+    logger.info(f"updating with {updates=}")
     obj = common_update(db, obj, **updates)
     db.commit()
     db.refresh(obj)
     return model_to_schema(obj)
 
 
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    logger.info(f"deleteing run where {id=}")
+    obj = db.query(models.Run).filter(models.Run.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find Run with {id=}")
+    db.query(models.Run).filter(models.Run.id == id).delete()
+    db.commit()
