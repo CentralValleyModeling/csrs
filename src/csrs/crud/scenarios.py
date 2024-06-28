@@ -5,7 +5,6 @@ from ..errors import DuplicateScenarioError, LookupUniqueError
 from ..logger import logger
 from . import assumptions as crud_assumptions
 from . import runs as crud_runs
-from . import timeseries as crud_timeseries
 from ._common import rollback_on_exception
 
 
