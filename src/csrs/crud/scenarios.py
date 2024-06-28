@@ -195,25 +195,13 @@ def delete(
     db: Session,
     id: int,
 ) -> None:
-    # To delete a scenario, we also delete all the runs and timeseries that belong to it
+    # To delete a scenario, we also delete all the runs that belong to it
     me = read(db, id=id)
     if not me:
         raise ValueError(f"Scenario with {id=} was not found")
     me = me[0]
     runs = crud_runs.read(db, scenario=me.name)
     for run in runs:
-        tss = crud_timeseries.read_all_for_run(
-            db,
-            scenario=me.name,
-            version=run.version,
-        )
-        for ts in tss:
-            crud_timeseries.delete(
-                db,
-                scenario=ts.scenario,
-                version=ts.version,
-                path=ts.path,
-            )
         crud_runs.delete(db, id=run.id)
     db.query(models.Scenario).filter(models.Scenario.id == id).delete()
     db.commit()
