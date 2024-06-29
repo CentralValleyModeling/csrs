@@ -59,3 +59,27 @@ class EditableSelection:
             options=self.options,
             **kwargs,
         )
+
+
+@dataclass
+class EditableSelectionGroup:
+    name: str
+    editable_selections: list[EditableSelection]
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        sections = list()
+        for edit_sel in self.editable_selections:
+            sections.append(
+                edit_sel.render(
+                    request,
+                    name_col_width=2,
+                )
+            )
+        return self.env.get_template(
+            "utils/editable_attr_selection_group.jinja"
+        ).render(
+            request=request,
+            name=self.name,
+            sections=sections,
+        )

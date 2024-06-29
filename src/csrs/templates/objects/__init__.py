@@ -7,7 +7,12 @@ from jinja2 import Environment, Template
 
 from ... import schemas
 from ..templates import templates
-from ..utils import EditableSelection, EditableStr, EditableStrLong
+from ..utils import (
+    EditableSelection,
+    EditableSelectionGroup,
+    EditableStr,
+    EditableStrLong,
+)
 
 
 class EditableAssumption:
@@ -55,12 +60,16 @@ class EditableScenario:
         self,
         obj: schemas.Scenario,
         scenario_versions: list[str],
-        assumption_kinds: list[str],
+        assumptions: list[schemas.Assumption],
     ):
         self.obj = obj
-        self.kinds = assumption_kinds
         self.versions = scenario_versions
         self.env: Environment = templates.env
+        self.assumptions: dict[str, list[schemas.Assumption]] = dict()
+        for a in assumptions:
+            if a.kind not in self.assumptions:
+                self.assumptions[a.kind] = list()
+            self.assumptions[a.kind].append(a)
 
     def render(self, request: Request) -> str:
         # Pre render the editable sections
@@ -81,6 +90,21 @@ class EditableScenario:
             request,
             name_col_width=2,
         )
+        assumptions_dropdowns = list()
+        for kind, assumption_name in self.obj.assumptions.items():
+            assumptions_dropdowns.append(
+                EditableSelection(
+                    id=self.obj.id,
+                    name=kind,
+                    default=assumption_name,
+                    options=list(a.name for a in self.assumptions[kind]),
+                )
+            )
+        assumptions = EditableSelectionGroup(
+            name="assumptions",
+            editable_selections=assumptions_dropdowns,
+        ).render(request)
+
         # render the whole card
         return self.env.get_template("objects/scenario.jinja").render(
             request=request,
@@ -88,6 +112,7 @@ class EditableScenario:
             title=self.obj.name,
             name=name,
             preferred_run=preferred_run,
+            assumptions=assumptions,
         )
 
 
