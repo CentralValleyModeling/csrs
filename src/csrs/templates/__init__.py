@@ -1,5 +1,6 @@
 from .objects import (
     EditableAssumption,
+    EditablePaths,
     EditableRuns,
     EditableScenario,
     NewAssumption,
