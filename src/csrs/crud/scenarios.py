@@ -135,10 +135,12 @@ def _update_assumptions(
 ) -> models.Scenario:
     # Depending if the assumptions given are replacing old, or are new specs...
     obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
+    logger.info(f"updating assumptions for scenario {obj.name}")
     existing_assumption_kinds = [a.assumption_kind for a in obj.assumption_maps]
     for kind, name in assumptions.items():
+        logger.debug(f"setting {kind} to {name}")
         assumption_obj = crud_assumptions.read(db, kind=kind, name=name)
-        if len(assumption_obj) != 0:
+        if len(assumption_obj) != 1:
             raise LookupUniqueError(
                 models.Assumption,
                 assumption_obj,

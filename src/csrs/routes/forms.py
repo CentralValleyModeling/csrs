@@ -174,6 +174,102 @@ async def form_assumptions_update(
         return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
 
 
+@router.post("/scenarios/update", response_class=RedirectResponse)
+async def form_scenarios_update(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # unpack to form data
+    regular_attrs = {"name": str, "preferred_run": str, "id": int}
+    kwargs = dict(assumptions=dict())
+    form = await request.form()
+    for attr, value in form.items():
+        if attr in regular_attrs:
+            factory = regular_attrs[attr]  # Get type/constructor
+            kwargs[attr] = factory(value)  # Cast from str
+        else:
+            kwargs["assumptions"][attr] = value
+    # Make sure the scenario doesn't already exists
+    existing = crud.scenarios.read(db=db, id=kwargs["id"])
+    if existing and (len(existing) == 1):
+        logger.info(f"updating scenario {kwargs['id']=}, new data: {kwargs}")
+        crud.scenarios.update(db, **kwargs)
+        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+    else:
+        logger.error("couldn't find scenario, no update made")
+        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+
+
+@router.post("/runs/update", response_class=RedirectResponse)
+async def form_runs_update(
+    request: Request,
+    scenario: str = Form(...),
+    version: str = Form(...),
+    contact: str = Form(...),
+    # default to False because false switches don't get submitted with forms
+    confidential: bool = Form(default=False),
+    published: bool = Form(default=False),
+    code_version: str = Form(...),
+    detail: str = Form(...),
+    id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # Make sure the run doesn't already exists
+    existing = crud.runs.read(db=db, id=id)
+    if existing and (len(existing) == 1):
+        logger.info(f"updating run {id=}")
+        crud.runs.update(
+            db,
+            id=id,
+            contact=contact,
+            confidential=confidential,
+            published=published,
+            code_version=code_version,
+            detail=detail,
+        )
+        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+    else:
+        logger.error("couldn't find run, no update made")
+        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+
+
+@router.post("/paths/update", response_class=RedirectResponse)
+async def form_paths_update(
+    request: Request,
+    name: str = Form(...),
+    path: str = Form(...),
+    category: str = Form(...),
+    period_type: str = Form(...),
+    interval: str = Form(...),
+    units: str = Form(...),
+    detail: str = Form(...),
+    id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # Make sure the path doesn't already exists
+    existing = crud.paths.read(db=db, id=id)
+    if existing and (len(existing) == 1):
+        logger.info(f"updating path {id=}")
+        crud.paths.update(
+            db,
+            id=id,
+            name=name,
+            path=path,
+            category=category,
+            period_type=period_type,
+            interval=interval,
+            units=units,
+            detail=detail,
+        )
+        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+    else:
+        logger.error("couldn't find path, no update made")
+        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+
+
 ###############################################################################
 # DELETE
 # Below are the create for read actions via forms
