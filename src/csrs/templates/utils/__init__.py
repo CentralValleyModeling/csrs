@@ -97,6 +97,7 @@ class EditableSwitch:
         if self.default:
             status = "checked"
         return self.env.get_template("utils/editable_attr_switch.jinja").render(
+            id=self.id,
             request=request,
             name=self.name,
             default=status,
