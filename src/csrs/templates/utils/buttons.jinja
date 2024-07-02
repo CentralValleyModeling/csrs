@@ -27,6 +27,15 @@
     ><i class="bi bi-trash-fill"></i></button>
 {%- endmacro %}
 
+{% macro create_button(id, action) %}
+    <button 
+        id="submit-{{id}}" 
+        type="button" 
+        class="btn btn-success btn-sm py-0" 
+        onclick="submitForm('{{id}}', '{{action}}')" 
+    ><i class="bi bi-cloud-upload-fill"></i></button>
+{%- endmacro %}
+
 {% macro delete_with_warning(id, action, body="This action cannot be un-done.")%}
 <!-- Button - triggers popup -->
 <button 

@@ -1,5 +1,9 @@
 {% extends "base.jinja" %}
 
+{%if edit_on is not defined%}
+{% set edit_on = false%}
+{%-endif%}
+
 {% block title %}
 {{page_title}}
 {% endblock %}
@@ -10,11 +14,14 @@
 <p>{{page_description}}</p>
 <!-- Existing Objects -->
 <div id="existing-objects">
+  {%if edit_on %}
+  {{new_object.render(request)|safe}}
+  <br>
+  {%-endif%}
   {% for obj in objects %}
   <!-- Card for {{obj.title}} -->
-  {{obj.render(request)|safe}}
+  {{obj.render(request, edit_on)|safe}}
   {% endfor %}
-  {{new_object.render()|safe}}
 </div>
 <!-- New Object -->
 {% endblock %}

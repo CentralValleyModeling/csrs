@@ -2,12 +2,12 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from fastapi import Request
-from fastapi.templating import Jinja2Templates
 from jinja2 import Environment, Template
 
 from ... import schemas
 from ..templates import templates
 from ..utils import (
+    CreateStr,
     EditableSelection,
     EditableSelectionGroup,
     EditableStr,
@@ -26,7 +26,7 @@ class EditableAssumption:
         self.kinds = assumption_kinds
         self.env: Environment = templates.env
 
-    def render(self, request: Request) -> str:
+    def render(self, request: Request, edit_on: bool = True) -> str:
         # Pre render the editable sections
         name = EditableStr(
             id=self.obj.id,
@@ -47,6 +47,7 @@ class EditableAssumption:
         ).render(request)
         # render the whole card
         return self.env.get_template("objects/assumption.jinja").render(
+            edit_on=edit_on,
             id=self.obj.id,
             title=self.obj.name,
             name=name,
@@ -72,7 +73,7 @@ class EditableScenario:
                 self.assumptions[a.kind] = list()
             self.assumptions[a.kind].append(a)
 
-    def render(self, request: Request) -> str:
+    def render(self, request: Request, edit_on: bool = True) -> str:
         # Pre render the editable sections
         name = EditableStr(
             id=self.obj.id,
@@ -108,6 +109,7 @@ class EditableScenario:
 
         # render the whole card
         return self.env.get_template("objects/scenario.jinja").render(
+            edit_on=edit_on,
             request=request,
             id=self.obj.id,
             title=self.obj.name,
@@ -125,7 +127,7 @@ class EditableRuns:
         self.obj = obj
         self.env: Environment = templates.env
 
-    def render(self, request: Request) -> str:
+    def render(self, request: Request, edit_on: bool = True) -> str:
         _id = self.obj.id
         scenario = EditableStr(
             id=_id,
@@ -169,6 +171,7 @@ class EditableRuns:
             default=self.obj.detail,
         ).render(request)
         return self.env.get_template("objects/run.jinja").render(
+            edit_on=edit_on,
             request=request,
             title=f"{self.obj.scenario} <code>(v{self.obj.version})</code>",
             scenario=scenario,
@@ -190,7 +193,7 @@ class EditablePaths:
         self.obj = obj
         self.env: Environment = templates.env
 
-    def render(self, request: Request) -> str:
+    def render(self, request: Request, edit_on: bool = True) -> str:
         _id = self.obj.id
         name = EditableStr(
             id=_id,
@@ -207,7 +210,7 @@ class EditablePaths:
             name="category",
             default=self.obj.category,
         ).render(request)
-        detail = EditableStr(
+        detail = EditableStrLong(
             id=_id,
             name="detail",
             default=self.obj.detail,
@@ -228,6 +231,7 @@ class EditablePaths:
             default=self.obj.units,
         ).render(request)
         return self.env.get_template("objects/path.jinja").render(
+            edit_on=edit_on,
             request=request,
             title=self.obj.name,
             name=name,
@@ -242,8 +246,41 @@ class EditablePaths:
 
 
 class NewAssumption:
-    def render(self):
-        return Template("<p>New Assumption</p>").render()
+    def __init__(
+        self,
+        assumption_kinds: list[str],
+    ):
+        self.kinds = assumption_kinds
+        self.env: Environment = templates.env
+
+    def render(self, request: Request):
+        name = CreateStr(
+            id=0,
+            name="name",
+            description="The shorthand or colloquial name for this assumption",
+        ).render(request)
+        kind = CreateStr(
+            id=0,
+            name="kind",
+            description="The type of assumption, used to categorize assumptions",
+            # options=self.kinds,
+        ).render(request)
+        detail = CreateStr(
+            id=0,
+            name="detail",
+            description="A longer description of the assumption, used to explain"
+            + " what the assumption entails",
+            # rows=1,
+        ).render(request)
+        # render the whole card
+        return self.env.get_template("objects/new_assumption.jinja").render(
+            id=0,
+            title="Create a New Assumption",
+            name=name,
+            kind=kind,
+            detail=detail,
+            request=request,
+        )
 
 
 class NewScenario:

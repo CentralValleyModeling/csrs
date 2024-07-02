@@ -6,26 +6,8 @@ from .. import crud, errors, templates
 from ..database import get_db
 from ..logger import logger
 
+ALLOW_EDITING_VIA_FORMS = True
 router = APIRouter(prefix="/forms", include_in_schema=False)
-
-
-@router.get("/test", response_class=HTMLResponse)
-async def test(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    all_objs = crud.assumptions.read(db=db)
-    all_kinds = crud.assumptions.read_kinds(db=db)
-    template_objects = list()
-    for obj in all_objs:
-        t = templates.EditableAssumption(obj, all_kinds)
-        template_objects.append(t)
-    return templates.templates.TemplateResponse(
-        "test.jinja",
-        {
-            "request": request,
-            "objects": template_objects,
-            "new_object": templates.NewAssumption(),
-        },
-    )
 
 
 ###############################################################################
@@ -35,22 +17,15 @@ async def test(request: Request, db: Session = Depends(get_db)):
 
 def render_assumptions(request: Request, db: Session):
     all_objs = crud.assumptions.read(db=db)
-    all_kinds = [
-        "tucp",
-        "dcp",
-        "va",
-        "sod",
-        "land_use",
-        "sea_level_rise",
-        "hydrology",
-    ]  # crud.assumptions.read_kinds(db=db)
+    all_kinds = crud.assumptions.read_kinds(db=db)
     objects = [templates.EditableAssumption(obj, all_kinds) for obj in all_objs]
     return templates.templates.TemplateResponse(
         "pages/edit.jinja",
         {
             "request": request,
             "objects": objects,
-            "new_object": templates.NewAssumption(),
+            "new_object": templates.NewAssumption(all_kinds),
+            "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
 
@@ -69,6 +44,7 @@ def render_scenarios(request: Request, db: Session):
             "request": request,
             "objects": objects,
             "new_object": templates.NewScenario(),
+            "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
 
@@ -85,6 +61,7 @@ def render_runs(request: Request, db: Session):
             "request": request,
             "objects": objects,
             "new_object": templates.NewRuns(),
+            "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
 
@@ -101,6 +78,7 @@ def render_timeseries(request: Request, db: Session):
             "request": request,
             "objects": objects,
             "new_object": templates.NewPath(),
+            "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
 
@@ -117,16 +95,54 @@ def render_paths(request: Request, db: Session):
             "request": request,
             "objects": objects,
             "new_object": templates.NewPath(),
+            "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
 
+
+###############################################################################
+# EDIT
+# Below are the routes for read, update, delete actions via forms
+
+
+@router.get("/assumptions", response_class=HTMLResponse)
+async def form_assumptions(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_assumptions(request, db)
+
+
+@router.get("/scenarios", response_class=HTMLResponse)
+async def form_scenarios(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_scenarios(request, db)
+
+
+@router.get("/runs", response_class=HTMLResponse)
+async def form_runs(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_runs(request, db)
+
+
+@router.get("/timeseries", response_class=HTMLResponse)
+async def form_timeseries(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_timeseries(request, db)
+
+
+@router.get("/paths", response_class=HTMLResponse)
+async def form_paths(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_paths(request, db)
+
+
+###############################################################################
+# BELOW HERE, THE ROUTES ARE NOT ALWAYS AVAILABLE
 
 ###############################################################################
 # CREATE
 # Below are the create for read actions via forms
 
 
-@router.post("/assumptions/create", response_class=RedirectResponse)
 async def form_assumptions_create(
     request: Request,
     name: str = Form(...),
@@ -153,7 +169,6 @@ async def form_assumptions_create(
 # Below are the create for read actions via forms
 
 
-@router.post("/assumptions/update", response_class=RedirectResponse)
 async def form_assumptions_update(
     request: Request,
     id: int = Form(...),
@@ -174,7 +189,6 @@ async def form_assumptions_update(
         return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
 
 
-@router.post("/scenarios/update", response_class=RedirectResponse)
 async def form_scenarios_update(
     request: Request,
     db: Session = Depends(get_db),
@@ -201,7 +215,6 @@ async def form_scenarios_update(
         return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
 
 
-@router.post("/runs/update", response_class=RedirectResponse)
 async def form_runs_update(
     request: Request,
     scenario: str = Form(...),
@@ -235,7 +248,6 @@ async def form_runs_update(
         return RedirectResponse(request.url_for("form_runs"), status_code=302)
 
 
-@router.post("/paths/update", response_class=RedirectResponse)
 async def form_paths_update(
     request: Request,
     name: str = Form(...),
@@ -275,7 +287,6 @@ async def form_paths_update(
 # Below are the create for read actions via forms
 
 
-@router.post("/assumptions/delete", response_class=RedirectResponse)
 async def form_assumptions_delete(
     request: Request,
     id: int = Form(...),
@@ -290,8 +301,7 @@ async def form_assumptions_delete(
     return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
 
 
-@router.post("/scenarios/delete", response_class=RedirectResponse)
-async def form_scenario_delete(
+async def form_scenarios_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -305,8 +315,7 @@ async def form_scenario_delete(
     return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
 
 
-@router.post("/runs/delete", response_class=RedirectResponse)
-async def form_run_delete(
+async def form_runs_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -320,8 +329,7 @@ async def form_run_delete(
     return RedirectResponse(request.url_for("form_runs"), status_code=302)
 
 
-@router.post("/paths/delete", response_class=RedirectResponse)
-async def form_path_delete(
+async def form_paths_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -335,36 +343,59 @@ async def form_path_delete(
     return RedirectResponse(request.url_for("form_paths"), status_code=302)
 
 
-###############################################################################
-# EDIT
-# Below are the routes for read, update, delete actions via forms
+if ALLOW_EDITING_VIA_FORMS:
+    # Assumptions
+    router.post(
+        "/assumptions/create",
+        response_class=RedirectResponse,
+    )(form_assumptions_create)
+    router.post(
+        "/assumptions/update",
+        response_class=RedirectResponse,
+    )(form_assumptions_update)
+    router.post(
+        "/assumptions/delete",
+        response_class=RedirectResponse,
+    )(form_assumptions_delete)
 
+    # Scenarios
+    # router.post(
+    #    "/scenarios/create",
+    #    response_class=RedirectResponse,
+    # (form_scenarios_create)
+    router.post(
+        "/scenarios/update",
+        response_class=RedirectResponse,
+    )(form_scenarios_update)
+    router.post(
+        "/scenarios/delete",
+        response_class=RedirectResponse,
+    )(form_scenarios_delete)
 
-@router.get("/assumptions", response_class=HTMLResponse)
-async def form_assumptions(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_assumptions(request, db)
+    # Runs
+    # router.post(
+    #    "/runs/create",
+    #    response_class=RedirectResponse,
+    # (form_runs_create)
+    router.post(
+        "/runs/update",
+        response_class=RedirectResponse,
+    )(form_runs_update)
+    router.post(
+        "/runs/delete",
+        response_class=RedirectResponse,
+    )(form_runs_delete)
 
-
-@router.get("/scenarios", response_class=HTMLResponse)
-async def form_scenarios(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_scenarios(request, db)
-
-
-@router.get("/runs", response_class=HTMLResponse)
-async def form_runs(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_runs(request, db)
-
-
-@router.get("/timeseries", response_class=HTMLResponse)
-async def form_timeseries(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_timeseries(request, db)
-
-
-@router.get("/paths", response_class=HTMLResponse)
-async def form_paths(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_paths(request, db)
+    # Paths
+    # router.post(
+    #    "/paths/create",
+    #    response_class=RedirectResponse,
+    # (form_paths_create)
+    router.post(
+        "/paths/update",
+        response_class=RedirectResponse,
+    )(form_paths_update)
+    router.post(
+        "/paths/delete",
+        response_class=RedirectResponse,
+    )(form_paths_delete)

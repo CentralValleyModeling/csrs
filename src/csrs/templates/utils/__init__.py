@@ -102,3 +102,20 @@ class EditableSwitch:
             name=self.name,
             default=status,
         )
+
+
+@dataclass
+class CreateStr:
+    id: int | str
+    name: str
+    description: str
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        return self.env.get_template("utils/create_attr_str.jinja").render(
+            request=request,
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            **kwargs,
+        )

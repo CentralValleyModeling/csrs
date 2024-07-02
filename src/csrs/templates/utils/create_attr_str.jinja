@@ -1,0 +1,12 @@
+{% extends "utils/_editable_attr.jinja" %}
+{% block editable %}
+<input 
+    type="text" 
+    class="form-control form-control-sm" 
+    id="new" 
+    name="{{name}}" 
+    placeholder="{{description}}"
+    value=""
+    required
+>
+{% endblock %}
