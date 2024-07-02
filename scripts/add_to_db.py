@@ -35,7 +35,11 @@ def load(src: Path, expected_attr: tuple[str, ...]) -> list[dict[str, Any]]:
 
 def assumption(client: csrs.clients.LocalClient, src: Path):
     logger.info("adding assumptions")
-    expected = ("name", "kind", "detail")
+    expected = (
+        "name",
+        "kind",
+        "detail",
+    )
     content = load(src, expected)
     for o in content:
         logger.info(o)
@@ -44,7 +48,10 @@ def assumption(client: csrs.clients.LocalClient, src: Path):
 
 def scenario(client: csrs.clients.LocalClient, src: Path):
     logger.info("adding scenarios")
-    expected = ("name", "assumptions")
+    expected = (
+        "name",
+        "assumptions",
+    )
     content = load(src, expected)
     for o in content:
         logger.info(o)
@@ -70,8 +77,16 @@ def run(client: csrs.clients.LocalClient, src: Path):
 
 def timseries(client: csrs.clients.LocalClient, src: Path):
     logger.info("adding timeseries")
-    obj = load(src)
-    print(obj)
+    expected = (
+        "scenario",
+        "version",
+        "dss",
+        "paths",
+    )
+    content = load(src, expected)
+    for o in content:
+        logger.info(o)
+        client.put_many_timeseries(**o)
 
 
 def path(client: csrs.clients.LocalClient, src: Path):
