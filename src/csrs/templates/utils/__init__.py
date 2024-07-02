@@ -119,3 +119,44 @@ class CreateStr:
             description=self.description,
             **kwargs,
         )
+
+
+@dataclass
+class CreateSelection:
+    id: int | str
+    name: str
+    default: str
+    options: list[str]
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        return self.env.get_template("utils/create_attr_selection.jinja").render(
+            request=request,
+            id=self.id,
+            name=self.name,
+            default=self.default,
+            options=self.options,
+            **kwargs,
+        )
+
+
+@dataclass
+class CreateSelectionGroup:
+    name: str
+    new_selections: list[CreateSelection]
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        sections = list()
+        for new_sel in self.new_selections:
+            sections.append(
+                new_sel.render(
+                    request,
+                    name_col_width=2,
+                )
+            )
+        return self.env.get_template("utils/create_attr_selection_group.jinja").render(
+            request=request,
+            name=self.name,
+            sections=sections,
+        )

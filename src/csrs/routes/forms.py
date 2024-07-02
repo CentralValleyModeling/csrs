@@ -43,7 +43,7 @@ def render_scenarios(request: Request, db: Session):
         {
             "request": request,
             "objects": objects,
-            "new_object": templates.NewScenario(),
+            "new_object": templates.NewScenario(all_assumptions),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
@@ -162,6 +162,35 @@ async def form_assumptions_create(
         except errors.DuplicateAssumptionError:
             logger.error("duplicate assumption given, no new object made")
         return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+
+
+async def form_scearios_create(
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # unpack to form data
+    regular_attrs = {"name": str, "id": int}
+    kwargs = dict(assumptions=dict())
+    form = await request.form()
+    for attr, value in form.items():
+        if attr in regular_attrs:
+            factory = regular_attrs[attr]  # Get type/constructor
+            kwargs[attr] = factory(value)  # Cast from str
+        else:
+            kwargs["assumptions"][attr] = value
+    kwargs.pop("id")  # don't specify id when creating a new object
+    # Make sure the scenario doesn't already exists
+    existing = crud.scenarios.read(db=db, name=kwargs["name"])
+    if existing:
+        logger.info("scenario already exists")
+        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+    else:
+        try:
+            crud.scenarios.create(db=db, **kwargs)
+        except errors.DuplicateAssumptionError:
+            logger.error("duplicate scenario given, no new object made")
+        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
 
 
 ###############################################################################
@@ -359,10 +388,10 @@ if ALLOW_EDITING_VIA_FORMS:
     )(form_assumptions_delete)
 
     # Scenarios
-    # router.post(
-    #    "/scenarios/create",
-    #    response_class=RedirectResponse,
-    # (form_scenarios_create)
+    router.post(
+        "/scenarios/create",
+        response_class=RedirectResponse,
+    )(form_scearios_create)
     router.post(
         "/scenarios/update",
         response_class=RedirectResponse,

@@ -7,6 +7,8 @@ from jinja2 import Environment, Template
 from ... import schemas
 from ..templates import templates
 from ..utils import (
+    CreateSelection,
+    CreateSelectionGroup,
     CreateStr,
     EditableSelection,
     EditableSelectionGroup,
@@ -94,12 +96,16 @@ class EditableScenario:
         )
         assumptions_dropdowns = list()
         for kind, assumption_name in self.obj.assumptions.items():
+            try:
+                options = list(a.name for a in self.assumptions[kind])
+            except KeyError:
+                options = list()
             assumptions_dropdowns.append(
                 EditableSelection(
                     id=self.obj.id,
                     name=kind,
                     default=assumption_name,
-                    options=list(a.name for a in self.assumptions[kind]),
+                    options=options,
                 )
             )
         assumptions = EditableSelectionGroup(
@@ -259,11 +265,11 @@ class NewAssumption:
             name="name",
             description="The shorthand or colloquial name for this assumption",
         ).render(request)
-        kind = CreateStr(
+        kind = CreateSelection(
             id=0,
             name="kind",
-            description="The type of assumption, used to categorize assumptions",
-            # options=self.kinds,
+            default=self.kinds[0],
+            options=self.kinds,
         ).render(request)
         detail = CreateStr(
             id=0,
@@ -284,20 +290,62 @@ class NewAssumption:
 
 
 class NewScenario:
-    def render(self):
-        return Template("<p>New Scenarios</p>").render()
+    def __init__(
+        self,
+        assumptions: list[schemas.Assumption],
+    ):
+        self.assumptions = assumptions
+        self.env: Environment = templates.env
+
+    def render(self, request: Request):
+        name = CreateStr(
+            id=0,
+            name="name",
+            description="The shorthand or colloquial name for this assumption",
+        ).render(request)
+        assumptions: dict[str, list] = dict()
+        for a in self.assumptions:
+            if a.kind not in assumptions:
+                assumptions[a.kind] = list()
+            assumptions[a.kind].append(a.name)
+        assumptions = {k: sorted(v) for k, v in assumptions.items()}
+        sections = list()
+        for kind, options in assumptions.items():
+            sections.append(
+                CreateSelection(
+                    id="new",
+                    name=kind,
+                    default=options[0],
+                    options=options,
+                    env=self.env,
+                )
+            )
+        assumptions = CreateSelectionGroup(
+            name="assumptions",
+            new_selections=sections,
+            env=self.env,
+        ).render(request)
+
+        # render the whole card
+        return self.env.get_template("objects/new_scenario.jinja").render(
+            id=0,
+            title="Create a New Assumption",
+            name=name,
+            assumptions=assumptions,
+            request=request,
+        )
 
 
 class NewRuns:
-    def render(self):
+    def render(self, request: Request):
         return Template("<p>New Runs</p>").render()
 
 
 class NewTimeseries:
-    def render(self):
+    def render(self, request: Request):
         return Template("<p>New Timeseries</p>").render()
 
 
 class NewPath:
-    def render(self):
+    def render(self, request: Request):
         return Template("<p>New Path</p>").render()
