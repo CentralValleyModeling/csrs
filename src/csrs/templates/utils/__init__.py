@@ -122,6 +122,23 @@ class CreateStr:
 
 
 @dataclass
+class CreateStrLong:
+    id: int | str
+    name: str
+    description: str
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        return self.env.get_template("utils/create_attr_str_long.jinja").render(
+            request=request,
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            **kwargs,
+        )
+
+
+@dataclass
 class CreateSelection:
     id: int | str
     name: str
@@ -159,4 +176,21 @@ class CreateSelectionGroup:
             request=request,
             name=self.name,
             sections=sections,
+        )
+
+
+@dataclass
+class CreateSwitch:
+    id: int | str
+    name: str
+    default: bool
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        return self.env.get_template("utils/create_attr_switch.jinja").render(
+            request=request,
+            id=self.id,
+            name=self.name,
+            default=self.default,
+            **kwargs,
         )

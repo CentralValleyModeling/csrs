@@ -51,6 +51,7 @@ def render_scenarios(request: Request, db: Session):
 
 def render_runs(request: Request, db: Session):
     all_objs = crud.runs.read(db=db)
+    all_scenarios = crud.scenarios.read(db=db)
     objects = list()
     for obj in all_objs:
         t = templates.EditableRuns(obj)
@@ -60,7 +61,7 @@ def render_runs(request: Request, db: Session):
         {
             "request": request,
             "objects": objects,
-            "new_object": templates.NewRuns(),
+            "new_object": templates.NewRuns(all_scenarios),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
         },
     )
@@ -191,6 +192,45 @@ async def form_scearios_create(
         except errors.DuplicateAssumptionError:
             logger.error("duplicate scenario given, no new object made")
         return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+
+
+async def form_runs_create(
+    request: Request,
+    scenario: str = Form(...),
+    version: str = Form(...),
+    parent: str = Form(...),
+    contact: str = Form(...),
+    # default to False because false switches don't get submitted with forms
+    confidential: bool = Form(default=False),
+    published: bool = Form(default=False),
+    code_version: str = Form(...),
+    detail: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # Make sure the run doesn't already exists
+    existing = crud.runs.read(db=db, scenario=scenario, version=version)
+    if existing:
+        logger.info("run already exists")
+        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+    else:
+        try:
+            crud.runs.create(
+                db=db,
+                scenario=scenario,
+                version=version,
+                parent=parent,
+                contact=contact,
+                confidential=confidential,
+                published=published,
+                code_version=code_version,
+                detail=detail,
+            )
+        except errors.DuplicateAssumptionError:
+            logger.error("duplicate run given, no new object made")
+        except AttributeError as e:
+            logger.error(f"{e}")
+        return RedirectResponse(request.url_for("form_runs"), status_code=302)
 
 
 ###############################################################################
@@ -402,10 +442,10 @@ if ALLOW_EDITING_VIA_FORMS:
     )(form_scenarios_delete)
 
     # Runs
-    # router.post(
-    #    "/runs/create",
-    #    response_class=RedirectResponse,
-    # (form_runs_create)
+    router.post(
+        "/runs/create",
+        response_class=RedirectResponse,
+    )(form_runs_create)
     router.post(
         "/runs/update",
         response_class=RedirectResponse,
