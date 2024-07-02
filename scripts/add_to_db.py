@@ -81,7 +81,6 @@ def timseries(client: csrs.clients.LocalClient, src: Path):
         "scenario",
         "version",
         "dss",
-        "paths",
     )
     content = load(src, expected)
     for o in content:
