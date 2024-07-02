@@ -173,7 +173,7 @@ def delete(
         raise ValueError(f"Cannot find Run with {id=}")
     tss = crud_timeseries.read_all_for_run(
         db,
-        scenario=obj.scenario,
+        scenario=obj.scenario.name,
         version=obj.version,
     )
     for ts in tss:
