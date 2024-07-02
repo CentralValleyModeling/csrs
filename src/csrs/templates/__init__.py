@@ -7,6 +7,5 @@ from .objects import (
     NewPath,
     NewRuns,
     NewScenario,
-    NewTimeseries,
 )
 from .templates import templates

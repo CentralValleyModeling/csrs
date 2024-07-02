@@ -67,23 +67,6 @@ def render_runs(request: Request, db: Session):
     )
 
 
-def render_timeseries(request: Request, db: Session):
-    all_objs = crud.paths.read(db=db)
-    objects = list()
-    for obj in all_objs:
-        t = templates.EditablePaths(obj)
-        objects.append(t)
-    return templates.templates.TemplateResponse(
-        "pages/edit.jinja",
-        {
-            "request": request,
-            "objects": objects,
-            "new_object": templates.NewPath(),
-            "edit_on": ALLOW_EDITING_VIA_FORMS,
-        },
-    )
-
-
 def render_paths(request: Request, db: Session):
     all_objs = crud.paths.read(db=db)
     objects = list()
@@ -122,12 +105,6 @@ async def form_scenarios(request: Request, db: Session = Depends(get_db)):
 async def form_runs(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
     return render_runs(request, db)
-
-
-@router.get("/timeseries", response_class=HTMLResponse)
-async def form_timeseries(request: Request, db: Session = Depends(get_db)):
-    logger.info(f"{request.method} {request.url}")
-    return render_timeseries(request, db)
 
 
 @router.get("/paths", response_class=HTMLResponse)
@@ -231,6 +208,42 @@ async def form_runs_create(
         except AttributeError as e:
             logger.error(f"{e}")
         return RedirectResponse(request.url_for("form_runs"), status_code=302)
+
+
+async def form_paths_create(
+    request: Request,
+    name: str = Form(...),
+    path: str = Form(...),
+    category: str = Form(...),
+    period_type: str = Form(...),
+    interval: str = Form(...),
+    units: str = Form(...),
+    detail: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    # Make sure the path doesn't already exists
+    existing = crud.paths.read(db=db, name=name, path=path)
+    if existing:
+        logger.info("path already exists")
+        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+    else:
+        try:
+            crud.paths.create(
+                db=db,
+                name=name,
+                path=path,
+                category=category,
+                period_type=period_type,
+                interval=interval,
+                units=units,
+                detail=detail,
+            )
+        except errors.DuplicateAssumptionError:
+            logger.error("duplicate path given, no new object made")
+        except AttributeError as e:
+            logger.error(f"{e}")
+        return RedirectResponse(request.url_for("form_paths"), status_code=302)
 
 
 ###############################################################################
@@ -456,10 +469,10 @@ if ALLOW_EDITING_VIA_FORMS:
     )(form_runs_delete)
 
     # Paths
-    # router.post(
-    #    "/paths/create",
-    #    response_class=RedirectResponse,
-    # (form_paths_create)
+    router.post(
+        "/paths/create",
+        response_class=RedirectResponse,
+    )(form_paths_create)
     router.post(
         "/paths/update",
         response_class=RedirectResponse,
