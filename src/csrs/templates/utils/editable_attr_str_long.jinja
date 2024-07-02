@@ -1,7 +1,7 @@
 {% extends "utils/_editable_attr.jinja" %}
 {% block editable %}
 <textarea 
-    class="form-control form-control-sm toggled-by-button" 
+    class="form-control form-control-sm {{toggle_tag}}" 
     id="{{id}}"
     name="{{name}}"
     placeholder="{{default}}" 
