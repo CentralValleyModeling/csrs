@@ -1,0 +1,55 @@
+
+[[objects]]
+name = "Historical"
+[objects.assumptions]
+land_use = "2020 (2020 UWMP)"
+sea_level_rise = "No SLR"
+hydrology = "Historical Hydrology"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[objects]]
+name = "Adjusted Historical"
+[objects.assumptions]
+land_use = "2020 (2020 UWMP)"
+sea_level_rise = "No SLR"
+hydrology = "Adjusted Historical Hydrology"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[objects]]
+name = "Climate Change Level of Concern 50%"
+[objects.assumptions]
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "15cm"
+hydrology = "Climate Change Level of Concern 50%"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[objects]]
+name = "Climate Change Level of Concern 75%"
+[objects.assumptions]
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "30cm"
+hydrology = "Climate Change Level of Concern 75%"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"
+
+[[objects]]
+name = "Climate Change Level of Concern 95%"
+[objects.assumptions]
+land_use = "2040 (2020 UWMP)"
+sea_level_rise = "30cm"
+hydrology = "Climate Change Level of Concern 95%"
+tucp = "No TUCP"
+dcp = "No DCP"
+va = "No VA"
+south_of_delta = "No SOD"

@@ -1,0 +1,44 @@
+[[objects]]
+scenario = "Historical"
+version = "1.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+
+[[objects]]
+scenario = "Adjusted Historical"
+version = "1.2"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+
+[[objects]]
+scenario = "Climate Change Level of Concern 50%"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+
+[[objects]]
+scenario = "Climate Change Level of Concern 75%"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
+
+[[objects]]
+scenario = "Climate Change Level of Concern 95%"
+version = "1.2.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = "Run used for DCR draft."
