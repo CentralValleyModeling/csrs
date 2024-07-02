@@ -1,2 +1,11 @@
-from .objects import EditableAssumption, EditableScenario, NewAssumption
+from .objects import (
+    EditableAssumption,
+    EditableRuns,
+    EditableScenario,
+    NewAssumption,
+    NewPath,
+    NewRuns,
+    NewScenario,
+    NewTimeseries,
+)
 from .templates import templates

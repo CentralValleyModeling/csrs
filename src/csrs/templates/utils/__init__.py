@@ -83,3 +83,21 @@ class EditableSelectionGroup:
             name=self.name,
             sections=sections,
         )
+
+
+@dataclass
+class EditableSwitch:
+    id: int
+    name: str
+    default: bool
+    env: Environment = field(default=templates.env)
+
+    def render(self, request: Request, **kwargs) -> str:
+        status = ""
+        if self.default:
+            status = "checked"
+        return self.env.get_template("utils/editable_attr_switch.jinja").render(
+            request=request,
+            name=self.name,
+            default=status,
+        )

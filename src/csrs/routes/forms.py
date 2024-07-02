@@ -65,6 +65,44 @@ def render_scenarios(request: Request, db: Session):
     )
 
 
+def render_runs(request: Request, db: Session):
+    all_objs = crud.runs.read(db=db)
+    objects = list()
+    for obj in all_objs:
+        t = templates.EditableRuns(obj)
+        objects.append(t)
+    return templates.templates.TemplateResponse(
+        "pages/edit.jinja",
+        {
+            "request": request,
+            "objects": objects,
+            "new_object": templates.NewRuns(),
+        },
+    )
+
+
+def render_timeseries(request: Request, db: Session):
+    return templates.templates.TemplateResponse(
+        "pages/edit.jinja",
+        {
+            "request": request,
+            "objects": objects,
+            "new_object": templates.NewAssumption(),
+        },
+    )
+
+
+def render_paths(request: Request, db: Session):
+    return templates.templates.TemplateResponse(
+        "pages/edit.jinja",
+        {
+            "request": request,
+            "objects": objects,
+            "new_object": templates.NewAssumption(),
+        },
+    )
+
+
 ###############################################################################
 # CREATE
 # Below are the create for read actions via forms
@@ -157,3 +195,21 @@ async def form_assumptions(request: Request, db: Session = Depends(get_db)):
 async def form_scenarios(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
     return render_scenarios(request, db)
+
+
+@router.get("/runs", response_class=HTMLResponse)
+async def form_runs(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_runs(request, db)
+
+
+@router.get("/timeseries", response_class=HTMLResponse)
+async def form_timeseries(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_timeseries(request, db)
+
+
+@router.get("/paths", response_class=HTMLResponse)
+async def form_paths(request: Request, db: Session = Depends(get_db)):
+    logger.info(f"{request.method} {request.url}")
+    return render_paths(request, db)

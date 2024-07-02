@@ -12,6 +12,7 @@ from ..utils import (
     EditableSelectionGroup,
     EditableStr,
     EditableStrLong,
+    EditableSwitch,
 )
 
 
@@ -116,6 +117,85 @@ class EditableScenario:
         )
 
 
+class EditableRuns:
+    def __init__(
+        self,
+        obj: schemas.Run,
+    ):
+        self.obj = obj
+        self.env: Environment = templates.env
+
+    def render(self, request: Request) -> str:
+        _id = self.obj.id
+        scenario = EditableStr(
+            id=_id,
+            name="scenario",
+            default=self.obj.scenario,
+        ).render(request)
+        version = EditableStr(
+            id=_id,
+            name="version",
+            default=self.obj.version,
+        ).render(request)
+        contact = EditableStr(
+            id=_id,
+            name="contact",
+            default=self.obj.contact,
+        ).render(request)
+        confidential = EditableSwitch(
+            id=_id,
+            name="confidential",
+            default=self.obj.confidential,
+        ).render(request)
+        published = EditableSwitch(
+            id=_id,
+            name="published",
+            default=self.obj.published,
+        ).render(request)
+        code_version = EditableStr(
+            id=_id,
+            name="code_version",
+            default=self.obj.code_version,
+        ).render(request)
+        detail = EditableStrLong(
+            id=_id,
+            name="detail",
+            default=self.obj.detail,
+        ).render(request)
+        return self.env.get_template("objects/run.jinja").render(
+            request=request,
+            title=f"{self.obj.scenario} <code>(v{self.obj.version})</code>",
+            scenario=scenario,
+            version=version,
+            contact=contact,
+            confidential=confidential,
+            published=published,
+            code_version=code_version,
+            detail=detail,
+            id=self.obj.id,
+        )
+
+
 class NewAssumption:
     def render(self):
-        return Template("<p>New</p>").render()
+        return Template("<p>New Assumption</p>").render()
+
+
+class NewScenario:
+    def render(self):
+        return Template("<p>New Scenarios</p>").render()
+
+
+class NewRuns:
+    def render(self):
+        return Template("<p>New Runs</p>").render()
+
+
+class NewTimeseries:
+    def render(self):
+        return Template("<p>New Timeseries</p>").render()
+
+
+class NewPath:
+    def render(self):
+        return Template("<p>New Path</p>").render()
