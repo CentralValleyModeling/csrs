@@ -278,20 +278,61 @@ async def form_paths_update(
 @router.post("/assumptions/delete", response_class=RedirectResponse)
 async def form_assumptions_delete(
     request: Request,
-    name: str = Form(...),
-    kind: str = Form(...),
-    detail: str = Form(...),
+    id: int = Form(...),
     db: Session = Depends(get_db),
 ):
     logger.info(f"{request.method} {request.url}")
-    # Make sure the assumption doesn't already exists
-    existing = crud.assumptions.read(db=db, kind=kind, name=name)
+    existing = crud.assumptions.read(db=db, id=id)
     if existing and (len(existing) == 1):
         crud.assumptions.delete(db=db, id=existing[0].id)
     else:
         logger.error("couldn't find assumption to delete.")
-
     return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+
+
+@router.post("/scenarios/delete", response_class=RedirectResponse)
+async def form_scenario_delete(
+    request: Request,
+    id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    existing = crud.scenarios.read(db=db, id=id)
+    if existing and (len(existing) == 1):
+        crud.scenarios.delete(db=db, id=existing[0].id)
+    else:
+        logger.error("couldn't find scenario to delete.")
+    return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+
+
+@router.post("/runs/delete", response_class=RedirectResponse)
+async def form_run_delete(
+    request: Request,
+    id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    existing = crud.runs.read(db=db, id=id)
+    if existing and (len(existing) == 1):
+        crud.runs.delete(db=db, id=existing[0].id)
+    else:
+        logger.error("couldn't find run to delete.")
+    return RedirectResponse(request.url_for("form_runs"), status_code=302)
+
+
+@router.post("/paths/delete", response_class=RedirectResponse)
+async def form_path_delete(
+    request: Request,
+    id: int = Form(...),
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    existing = crud.paths.read(db=db, id=id)
+    if existing and (len(existing) == 1):
+        crud.paths.delete(db=db, id=existing[0].id)
+    else:
+        logger.error("couldn't find path to delete.")
+    return RedirectResponse(request.url_for("form_paths"), status_code=302)
 
 
 ###############################################################################
