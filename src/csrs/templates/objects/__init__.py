@@ -131,12 +131,18 @@ class EditableRuns:
             id=_id,
             name="scenario",
             default=self.obj.scenario,
-        ).render(request)
+        ).render(
+            request,
+            toggle_tag="",
+        )
         version = EditableStr(
             id=_id,
             name="version",
             default=self.obj.version,
-        ).render(request)
+        ).render(
+            request,
+            toggle_tag="",
+        )
         contact = EditableStr(
             id=_id,
             name="contact",
