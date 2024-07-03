@@ -157,7 +157,7 @@ async def form_scearios_create(
             kwargs[attr] = factory(value)  # Cast from str
         else:
             kwargs["assumptions"][attr] = value
-    kwargs.pop("id")  # don't specify id when creating a new object
+    kwargs.pop("id", None)  # don't specify id when creating a new object
     # Make sure the scenario doesn't already exists
     existing = crud.scenarios.read(db=db, name=kwargs["name"])
     if existing:
@@ -175,7 +175,7 @@ async def form_runs_create(
     request: Request,
     scenario: str = Form(...),
     version: str = Form(...),
-    parent: str = Form(...),
+    parent: str = Form(default=None),
     contact: str = Form(...),
     # default to False because false switches don't get submitted with forms
     confidential: bool = Form(default=False),
