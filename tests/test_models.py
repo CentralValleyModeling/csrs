@@ -1,12 +1,12 @@
 from sqlalchemy.orm import DeclarativeBase
 
 from csrs import models as m
-from csrs.enums import AssumptionEnum, IntervalEnum, PathCategoryEnum, PeriodTypeEnum
+from csrs.enums import IntervalEnum, PeriodTypeEnum
 
 EXPECTED_ASSUMPTION = {
     "id": int,
     "name": str,
-    "kind": AssumptionEnum,
+    "kind": str,
     "detail": str,
 }
 
@@ -38,7 +38,7 @@ EXPECTED_PATH = {
     "id": int,
     "name": str,
     "path": str,
-    "category": PathCategoryEnum,
+    "category": str,
     "interval": IntervalEnum,
     "period_type": PeriodTypeEnum,
     "units": str,
@@ -59,7 +59,7 @@ EXPECTED_RUN = {
 EXPECTED_SCENARIO_ASSUMPTIONS = {
     "id": int,
     "scenario_id": int,
-    "assumption_kind": AssumptionEnum,
+    "assumption_kind": str,
     "assumption_id": int,
 }
 
