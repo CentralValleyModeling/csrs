@@ -5,6 +5,7 @@ Results
 assets/*
 run/cvgroundwater/data/restart
 .vscode/
+_archive/
 # stubbed directories
 DSS/output/*
 !*.stub
@@ -30,7 +31,7 @@ Error_evaluation.txt
 Error_solving.txt
 */temp.py
 temp.py
-temp*.py
+temp_*.py
 
 # ======================================================================
 # Python flavored ignores

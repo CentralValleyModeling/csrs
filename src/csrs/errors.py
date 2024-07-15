@@ -1,7 +1,5 @@
 from typing import Iterable
 
-from .enums import PathCategoryEnum
-
 
 class DuplicateAssumptionError(Exception):
     def __init__(self, on_name: bool, on_detail: bool):
@@ -27,15 +25,6 @@ class LookupUniqueError(Exception):
             + f"\titems found: {returned}\n"
             + "\tfilters:\n\t\t"
             + "\n\t\t".join(f"{k}: {v}" for k, v in filters.items())
-        )
-
-
-class PathCategoryError(Exception):
-    def __init__(self, category_given: str):
-        super().__init__(
-            f"{category_given} is not a valid category, must be one of:\n"
-            + "\n".join(PathCategoryEnum._member_names_)
-            + "."
         )
 
 

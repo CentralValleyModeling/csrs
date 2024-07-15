@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..errors import LookupUniqueError
 from ..logger import logger
+from . import timeseries as crud_timeseries
 from ._common import common_update, rollback_on_exception
 from .scenarios import read as read_scenario
 from .scenarios import update as update_scenario
@@ -92,6 +93,7 @@ def create_run_history(
     run_id: int,
     version: str,
 ) -> models.RunHistory:
+    logger.info(f"creating run history {scenario_id=} {version=} {run_id=}")
     hist = models.RunHistory(scenario_id=scenario_id, run_id=run_id, version=version)
     db.add(hist)
     db.commit()
@@ -108,6 +110,9 @@ def read(
     contact: str = None,
     id: int = None,
 ) -> list[schemas.Run]:
+    logger.info(
+        f"reading new run where {scenario=} {version=} {code_version=} {contact=} {id=}"
+    )
     filters = list()
     if scenario:
         (scenario_obj,) = read_scenario(db, name=scenario)
@@ -135,6 +140,7 @@ def update(
     code_version: str | None = None,
     detail: str | None = None,
 ) -> schemas.Run:
+    logger.info(f"updating run where {id=}")
     obj = db.query(models.Run).where(models.Run.id == id).first()
     if not obj:
         raise LookupUniqueError(models.Run, obj, id=id)
@@ -149,11 +155,33 @@ def update(
         detail=detail,
     )
     updates = {k: v for k, v in updates.items() if v is not None}
+    logger.info(f"updating with {updates=}")
     obj = common_update(db, obj, **updates)
     db.commit()
     db.refresh(obj)
     return model_to_schema(obj)
 
 
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    # When deleting a run, delete all the timeseries that belong to it
+    logger.info(f"deleteing run where {id=}")
+    obj = db.query(models.Run).filter(models.Run.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find Run with {id=}")
+    tss = crud_timeseries.read_all_for_run(
+        db,
+        scenario=obj.scenario.name,
+        version=obj.version,
+    )
+    for ts in tss:
+        crud_timeseries.delete(
+            db,
+            scenario=ts.scenario,
+            version=ts.version,
+            path=ts.path,
+        )
+    db.query(models.Run).filter(models.Run.id == id).delete()
+    db.commit()

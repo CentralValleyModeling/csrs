@@ -1,0 +1,229 @@
+# ############################################################################
+# Schema Object Relationships
+# >--< many to many
+# 1--< one to many
+# 1--1 one to one
+#
+# Assumption >--< Scenario
+# Scenario   1--< Run
+# Run        1--< Timeseries
+# Timeseries 1--1 Path
+# ############################################################################
+
+
+# ############################################################################
+# Assumption
+# An assumption is a specific value, strategy, or other set of parameters used 
+# by a model. Assumptions are categorized.
+#
+# Metadata given as an array of tables. Tables have these key-value pairs:
+#     name : str
+#         Human-friendly shortname for this assumption.
+#     kind : str
+#         Category for this assumption.
+#     detail : str
+#         Paragraph(s) documenting the assumption.
+# ############################################################################
+[[assumpitons]]
+name = "2020 (2020 UWMP)"
+kind = "land_use"
+detail="""2020 Land Use, and Urban Demands from the 2020 Urban Water 
+Management Plans."""
+
+[[assumpitons]]
+name = "Historical Hydrology"
+kind = "hydrology"
+detail = """The historical hydrologic conditions input data represents a period 
+of record of water years 1922 through 2021 (October 1, 1921, through September 
+30, 2021). The historical hydrologic conditions data set was developed using 
+historical data (streamflow, land use, and meteorological data) when 
+available, and extrapolation from historical data when the full period of 
+historical data was not available."""
+
+[[assumpitons]]
+name = "Adjusted Historical Hydrology"
+kind = "hydrology"
+detail = """The Adjusted Historical Hydrology represents current day hydrologic 
+patterns, accounting for the effects of climate change that have already 
+occured.
+
+Statistical characteristics of historical rim inflow in California's Central 
+Valley show noticeable and statistically significant changes in the past 100 
+years. Standard deviations of precipitation and rim inflow from most of the 
+rim watersheds in the early periods of the past 100 years are significantly 
+different from the recent 30 years. These differences indicate that the 
+non-stationary historical meteorological and hydrological data may not be 
+completely representative of recent and current conditions. To develop a 
+hydrologic data set for the entire modeled period that represents current 
+hydrology, an adjusted historical hydrologic conditions data set was 
+developed. The intent of the adjusted historical hydrologic conditions data 
+set is to provide a reasonable representation of recent climatic conditions 
+and serve as a basis for creating future climate change scenarios.
+
+The standard deviation and monthly distribution of historical streamflow for 
+the first 70 years of the period of record were adjusted to match the last 30 
+years via a combination of statistical scaling methods. The resulting data 
+set is identical to the historical hydrologic conditions for water years 1992 
+through 2021, with adjustments to water years 1922 through 1991."""
+
+
+# ############################################################################
+# Scenario
+# A Sceanrio is a set of model runs that share the same goals, 
+# assumptions, and general construction.
+#
+# Metadata given as an array of tables. Tables have these key-value pairs:
+#     name : str
+#         Human-friendly shortname for this assumption.
+#     assumptions : table
+#         Table of key-value pairs, where the keys are assumption categories, 
+#         and the values are the names of the assumptions used.
+# ############################################################################
+[[scenarios]]
+name = "Historical"
+[scenarios.assumptions]
+land_use = "2020 (2020 UWMP)"
+hydrology = "Historical Hydrology"
+
+
+[[scenarios]]
+name = "Adjusted Historical"
+[scenarios.assumptions]
+land_use = "2020 (2020 UWMP)"
+hydrology = "Adjusted Historical Hydrology"
+
+
+# ############################################################################
+# Run
+# A Run is a single model realization. A Run belongs to a Scenario, and is 
+# versioned so that bugfixes and other minor improvements can be associated.
+#
+# Metadata given as an array of tables. Tables have these key-value pairs:
+#     scenario : str
+#         The name of the Scenario that the Run belongs to
+#     version : str
+#         The version number of the run, this one is used to track the history
+#         of multiple runs.
+#     contact : str
+#         The email, phone number, or other contact information to be used when
+#         inquiring about the Run.
+#     confidential : bool
+#         A flag to indicate if the results from this Run are confidential.
+#     published : bool
+#         A flag to indicate if the results from this Run have been shared yet.
+#     code_version : str
+#         A separate versioning tool to indicate what model version was used to
+#         create this run. This is subtly different than the other version, 
+#         since the model code can be used on different input datasets, in 
+#         which case the code_version would not change between version numbers.
+#     detail : str
+#         Paragraph(s) documenting the run.
+# ############################################################################
+[[run]]
+scenario = "Historical"
+version = "1.0"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = """CalSim3 Run for the State Water Project Delivery Capability Report
+2023. The Run was conducted by the SWP Modeling Support Office, Central Valley
+Section. This run used WRIMS 2, release 2024-01-29. Input SV and output DV 
+files use the HEC-DSS version 6 format. The CalSim3 WRESL and TABLE files are 
+distributed on GitHub (https://github.com/CentralValleyModeling/calsim3-dcr).
+
+The code was developed by beginning with the DCR 2021 codebase, and applying 
+improvements to WRESL, TABLE, and SV files. The improvements were accumulated 
+during other investigations following the release of the 2021 DCR. 
+Documentation of these improvements are included in the Technical Addenda to 
+the DCR 2023."""
+
+[[run]]
+scenario = "Historical"
+version = "1.1"
+contact = "raymond.hoang@water.ca.gov"
+confidential = false
+published = false
+code_version = "9.0.0"
+detail = """CalSim3 Run for the State Water Project Delivery Capability Report
+2023. The Run was conducted by the SWP Modeling Support Office, Central Valley
+Section. This run used WRIMS 2, release 2024-01-29. Input SV and output DV 
+files use the HEC-DSS version 6 format. The CalSim3 WRESL and TABLE files are 
+distributed on GitHub (https://github.com/CentralValleyModeling/calsim3-dcr).
+
+The code was developed by beginning with the DCR 2021 codebase, and applying 
+improvements to WRESL, TABLE, and SV files. The improvements were accumulated 
+during other investigations following the release of the 2021 DCR. 
+Documentation of these improvements are included in the Technical Addenda to 
+the DCR 2023.
+
+This run was used by the DCR 2023 Draft Report."""
+
+
+# ############################################################################
+# Path
+# A Path is the metadata for one Timeseries from a model run. One Path can be 
+# used by multiple runs, but for each run can only have one timeseries that 
+# uses a certain path (one run cannot produce two timeseries with the same 
+# path metadata). Much of the metadata for the path copies the metadata used
+# in the HEC-DSS standard.
+# 
+# Metadata given as an array of tables. Tables have these key-value pairs:
+#     name : str
+#         Human-friendly shortname for this path.
+#     path : str
+#         The HEC-DSS style A-F path for the dataset.
+#     category : str
+#         A category 
+#     period_type : str
+#         The HEC-DSS style period_type for the dataset.
+#     interval : str
+#         The HEC-DSS style interval for the dataset.
+#     units : str
+#         The HEC-DSS style units for the dataset.
+#     detail : str
+#         Paragraph(s) documenting the run.
+# ############################################################################
+[[path]]
+name = "Oroville Storage"
+path = "/.*/S_OROVL/STORAGE//.*/.*/"
+category = "storage"
+period_type = "PER-AVER"
+interval = "1MON"
+units = "TAF"
+detail = """The total volume of storage in Lake Oroville."""
+
+[[path]]
+name = "San Luis Storage (SWP)"
+path = "/.*/S_SLUIS_SWP/STORAGE//.*/.*/"
+category = "storage"
+period_type = "PER-AVER"
+interval = "1MON"
+units = "TAF"
+detail = """The volume of storage in San Luis Reservoir attributed to the State
+Water Project. The storage in San Luis Reservoir is attributed to both the CVP 
+and the SWP, where the sum of those two values is the total storage. This is 
+done as an accounting process."""
+
+# ############################################################################
+# Timeseries
+# A Timeseries is the set of data produced by a single model run. 
+#
+# Metadata given as an array of tables. Tables have these key-value pairs:
+#     scenario : str
+#         The name of the scenario this timeseries belongs to.
+#     version : str
+#         The version of the run this timeseries belongs to.
+#     path : str
+#         The path of the Path this timeseries references.
+#     values: array
+#         The values produced by the model.
+#     dates: array
+#         The dates from the model, maps 1 to 1 to the values array.
+# ############################################################################
+[[timeseries]]
+scenario = "Historical"
+version = "1.1"
+path = "/.*/S_OROVL/STORAGE//.*/.*/"
+values = []  # Array of floats, IEE 754 format (toml standard compliant)
+dates = []  # Array of strings, ISO 8601 format

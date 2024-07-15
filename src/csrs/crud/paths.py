@@ -1,8 +1,6 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..enums import PathCategoryEnum
-from ..errors import PathCategoryError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
 
@@ -21,10 +19,6 @@ def create(
 ) -> schemas.NamedPath:
     logger.info(f"creating new named path {name=}, {path=}")
     # Check if category is valid
-    try:
-        category = PathCategoryEnum(category)
-    except ValueError:
-        raise PathCategoryError(category)
     path = models.NamedPath(
         name=name,
         path=str(path),
@@ -76,5 +70,13 @@ def update(
     return updated
 
 
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    logger.info(f"deleteing path where {id=}")
+    obj = db.query(models.NamedPath).filter(models.NamedPath.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find NamedPath with {id=}")
+    db.query(models.NamedPath).filter(models.NamedPath.id == id).delete()
+    db.commit()

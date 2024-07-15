@@ -1,0 +1,22 @@
+{# defined: id, request #}
+{% import 'utils/buttons.jinja' as buttons %}
+
+<div class="card border-success my-2">
+    <form class="pb-1" id="form-{{id}}" action="{{request.path}}/update" method="POST">
+    <!-- Header  -->
+    <div class="card-header text-success">
+        <div class="row">
+            <div class="col">
+                {% block title %}{%-endblock%}
+            </div>
+            <!-- Buttons -->
+            <div class="col-3">
+                <div class="float-end mx-1">{{ buttons.create_button(id, request.path + "/create") }}</div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Area -->
+    {% block card %}
+    {% endblock %}
+    </form>
+</div>

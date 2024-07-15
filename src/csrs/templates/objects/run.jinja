@@ -1,0 +1,41 @@
+{% extends 'objects/_editable.jinja' %}
+
+{% block title %}{{title|safe}}{% endblock %}
+{% block card %}
+    <!-- Attributes  -->
+    <ul id="list-{{id}}" class="list-group list-group-flush">    
+        <!-- Name -->
+        <li class="list-group-item">
+            <div class="input-group input-group-sm m-0 p-0">
+                {{scenario|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 p-0">
+                {{version|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 pb-1">
+                {{contact|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 pb-1">
+                {{confidential|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 pb-1">
+                {{published|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 pb-1">
+                {{code_version|safe}}
+            </div>
+            <div class="input-group input-group-sm my-1 pb-1">
+                {{detail|safe}}
+            </div>
+        </li>
+    </ul>
+    <input type="hidden"
+        form="form-{{id}}"
+        id="{{id}}"
+        name="id"
+        class="form-control form-control-sm"
+        value="{{id}}"
+        placeholder="{{id}}"
+        required
+    >
+{% endblock %}

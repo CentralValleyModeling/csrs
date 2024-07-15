@@ -48,17 +48,6 @@ def test_read_assumpitons():
         assert assumption.name == kwargs["name"]
 
 
-def test_create_assumption_bad_enum():
-    kwargs = dict(
-        name="testing-create-assumption-failure-enum",
-        kind="bad-enum-type",
-        detail="testing bad assumption enum",
-        db=session,
-    )
-    with pytest.raises(LookupError):
-        crud.assumptions.create(**kwargs)
-
-
 def test_create_assumption_duplicate():
     kwargs = dict(
         name="testing-create-assumption-failure-duplicate",
@@ -77,19 +66,20 @@ def test_create_scenario():
         detail="testing create scenario",
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
+    for kind in test_kinds:
+        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
 
     kwargs = dict(
         name="testing-create-scenario",
         assumptions=dict(),
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
+    for kind in test_kinds:
+        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
     scenario = crud.scenarios.create(**kwargs)
     assert scenario.name == kwargs["name"]
-    assert scenario.assumptions["hydrology"] == default_assumption_kwargs["name"]
+    assert scenario.assumptions[test_kinds[0]] == default_assumption_kwargs["name"]
 
 
 def test_create_run():
@@ -98,16 +88,17 @@ def test_create_run():
         detail="testing create run",
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
+    for kind in test_kinds:
+        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
     # Create scenario
     kwargs = dict(
         name="testing-create-run-scenario",
         assumptions=dict(),
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
+    for kind in test_kinds:
+        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # Create run
     kwargs = dict(
@@ -128,16 +119,17 @@ def test_read_run():
         detail="testing read run",
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
+    for kind in test_kinds:
+        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
 
     kwargs = dict(
         name="testing-read-run-scenario",
         assumptions=dict(),
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
+    for kind in test_kinds:
+        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
 
     kwargs = dict(
@@ -198,16 +190,17 @@ def test_create_read_timeseries():
         detail="testing create timeseries",
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        crud.assumptions.create(kind=kind.value, **default_assumption_kwargs)
+    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
+    for kind in test_kinds:
+        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
     # scenario
     kwargs = dict(
         name="testing-create-timeseries-scenario",
         assumptions=dict(),
         db=session,
     )
-    for kind in enums.AssumptionEnum:
-        kwargs["assumptions"][kind.value] = default_assumption_kwargs["name"]
+    for kind in test_kinds:
+        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
     crud.scenarios.create(**kwargs)
     # run
     kwargs = dict(

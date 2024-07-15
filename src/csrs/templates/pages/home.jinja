@@ -1,0 +1,395 @@
+{% extends "base.jinja" %}
+
+{% macro true_false_icon(flag=false)%}
+{% if flag is true %}
+<i class="bi bi-check-circle-fill text-success font-size-sm"></i>
+{% else %}
+<i class="bi bi-x-circle-fill text-secondary"></i>
+{% endif %}
+{% endmacro %}
+
+{% macro page_link(title, end_point)%}
+    {%if e_edit %}
+    {% set e_edit = ""%}
+    {%else%}
+    {% set e_edit = "diabled"%}
+    {%endif%}
+    
+    <div class="vstack gap-1">
+        <a href="/forms/{{end_point}}" class="btn btn-secondary btn-sm {{e_edit}}">{{title}}</a>
+    </div>     
+{%- endmacro %}
+
+{% block title%} 
+    CSRS Home 
+{% endblock %}
+
+{% block content %}
+<div class="container-lg">
+    <h2>CalSim Scenario Results Server</h2>
+    <div class="row align-items-start mb-3">
+        <div class="col">
+            <h6>CalSim3 Docs</h6>
+            <p>
+                This server contains model results for multiple runs of CalSim3. Before 
+                using these results, learn more about the assumptions, methods, and 
+                limitations of  the CalSim3 model by reading the latest 
+                <a href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3">documentation</a>.
+            </p>
+        </div>
+        <div class="col">
+            <h6>Developer Docs</h6>
+            <p>
+                You can use this site to interact with the database, but the server is 
+                designed to be used by programs. Check out how to do that on the 
+                <a href="https://centralvalleymodeling.github.io/csrs/">GitHub Docs</a>.
+            </p>
+        </div>
+    </div>
+    <!-- Database Interactions -->
+    <div class="mb-3">
+        <h4>Quick Links</h4>
+        <div class="p-3 b-1 border rounded">
+            <p>These pages allow you to view and interact with the data in the database.</p>
+            <hr class="text-secondary">
+            <div class="hstack gap-3 ">
+                {{page_link("Assumptions", "assumptions")}}
+                {{page_link("Scenarios",   "scenarios"  )}}
+                {{page_link("Runs",        "runs"       )}}
+                {{page_link("Paths",       "paths"      )}}
+                
+            </div>
+        </div>
+    </div>
+    <!-- Objects Descriptions -->
+    <div class="mb-3">
+        <h4>What can we get out of the database?</h4>
+        <p>The following objects can all be retrieved from the database.</p>
+        <div class="accordion">
+            <!-- Assumptions accordion -->
+            <div class="accordion-item" id="accordion-assumption">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-1" aria-controls="panelsStayOpen-collapseOne">
+                        Assumptions
+                    </button>
+                </h2>
+                <div id="panel-1" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Assumptions are the core of every CalSim3 scenario. Each model 
+                            uses a wide set of assumptions, and assumptions can be used by 
+                            multiple models. 
+                        </p>
+                        <p>
+                            Each assumption in the database has the following attributes:
+                        </p>
+                        <!-- attrs -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">name <code>str</code></div>
+                                    The common name of the assumption.
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">kind <code>str</code></div>
+                                    The category the assumption belongs to. Common categories for models include: <code>Hydrology</code> or <code>Land Use</code>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">detail <code>str</code></div>
+                                    The metadata about the assumption, this ususally is a paragraph of text describing the assumption.
+                                </div>
+                            </li>
+                        </ul> 
+                        <!-- end attrs -->
+                    </div>
+                </div>
+            </div>
+            <!-- Scenario accordion -->
+            <div class="accordion-item" id="accordion-scenario">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-2" aria-controls="panelsStayOpen-collapseOne">
+                        Scenarios
+                    </button>
+                </h2>
+                <div id="panel-2" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Scenarios are made up of multiple model Runs that all share the 
+                            same assumptions. One scenario might have multiple runs because 
+                            bug-fixes or other improvements might be made to the model that 
+                            do not change the underlying assumptions of the Scenario. 
+                        </p>
+                        <p>
+                            Each Scenario in the database has the following attributes:
+                        </p>
+                        <!-- attrs -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">name <code>str</code></div>
+                                    The common name of the scenario.
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">assumptions <code>dict</code></div>
+                                    The assumptions the scenario uses. The keys of the <code>dict</code> correspond to the <code>kind</code> of the assumption, and the values are the <code>name</code>.
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">preferred_run <code>str</code></div>
+                                    The version number of the run that the scenario preferrs to use. This might be the "newest" run, or the one that has been published, etc.
+                                </div>
+                            </li>
+                        </ul> 
+                        <!-- end attrs -->
+                    </div>
+                </div>
+            </div>
+            <!-- Run accordion -->
+            <div class="accordion-item" id="accordion-run">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-3" aria-controls="panelsStayOpen-collapseOne">
+                        Runs
+                    </button>
+                </h2>
+                <div id="panel-3" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Scenarios are made up of multiple model Runs that all share the 
+                            same assumptions. One scenario might have multiple runs because 
+                            bug-fixes or other improvements might be made to the model that 
+                            do not change the underlying assumptions of the Scenario. 
+                        </p>
+                        <p>
+                            Each Scenario in the database has the following attributes:
+                        </p>
+                        <!-- attrs -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">scenario <code>str</code></div>
+                                    The common name of the scenario the run belongs to.
+                                </div>
+                            </li>
+                    
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">version <code>str</code></div>
+                                    The version of the run, usually something like <code>1.0.5</code>.
+                                </div>
+                            </li>
+                        
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">contact <code>str</code></div>
+                                    The name/organization/email of the "owner" of this run.
+                                </div>
+                            </li>
+                    
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">confidential <code>bool</code></div>
+                                    A flag indicating if this run if confidential or not.
+                                </div>
+                            </li>
+        
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">published <code>bool</code></div>
+                                    A flag indicating if this run has been published or not.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">code_version <code>str</code></div>
+                                    The version of the model code used to make this run.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">detail <code>str</code></div>
+                                    The metadata for this run, usually a paragraph describing the run.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">parent <code>str</code></div>
+                                    The version of the run (from this scenario) that this run is based on. This helps to track the gradual improvement of runs.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">children <code>list</code></div>
+                                    The versions of the runs (from this scenario) that are based on this run. This helps to track the gradual improvement of runs.
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- end attrs -->
+                    </div>
+                </div>
+            </div>
+            <!-- Run accordion -->
+            <div class="accordion-item" id="accordion-timeseries">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-4" aria-controls="panelsStayOpen-collapseOne">
+                        Timeseries
+                    </button>
+                </h2>
+                <div id="panel-4" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Timeseries are the actual data produced by a model run. 
+                        </p>
+                        <p>
+                            Each Timeseries in the database has the following attributes:
+                        </p>
+                        <!-- attrs -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">scenario <code>str</code></div>
+                                    The common name of the scenario the run belongs to.
+                                </div>
+                            </li>
+                    
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">version <code>str</code></div>
+                                    The version of the run, usually something like <code>1.0.5</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">path <code>str</code></div>
+                                    The <code>DSS</code> style A-F path of the Timeseries.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">values <code>list</code></div>
+                                    The values of the Timeseries, the same length as <code>dates</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">dates <code>list</code></div>
+                                    The dates of the Timeseries, the same length as <code>values</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">period_type <code>str</code></div>
+                                    Shadows the HEC-DSS period_type specification for the Timeseries, usually something like <code>PER-CUM</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">units <code>str</code></div>
+                                    The units for the values of this Timeseries.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">interval <code>str</code></div>
+                                    Shadows the HEC-DSS interval specification for the Timeseries, usually something like <code>1MON</code>.
+                                </div>
+                            </li>
+                    
+                        </ul>
+                        <!-- end attrs -->
+                    </div>
+                </div>
+            </div>
+            <!-- NamedPath accordion -->
+            <div class="accordion-item" id="accordion-timeseries">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-5" aria-controls="panelsStayOpen-collapseOne">
+                        Named Path
+                    </button>
+                </h2>
+                <div id="panel-5" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <p>
+                            Named Paths are the HEC-DSS-style A-F paths that are used to 
+                            address data inside a DSS file. 
+                        </p>
+                        <p>
+                            Each <code>NamedPath</code> in the database has the following attributes:
+                        </p>
+                        <!-- attrs -->
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">name <code>str</code></div>
+                                    The common name of the path.
+                                </div>
+                            </li>
+                    
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">path <code>str</code></div>
+                                    The <code>DSS</code> style A-F path of the Timeseries.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">category <code>str</code></div>
+                                    The type of path, something like <code>storage</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">detail <code>str</code></div>
+                                    The metadata describing the path, usually a paragraph of text.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">period_type <code>str</code></div>
+                                    Shadows the HEC-DSS period_type specification for the NamedPath, usually something like <code>PER-CUM</code>.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">units <code>str</code></div>
+                                    The units for the values of this NamedPath.
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="ms-2 me-auto">
+                                    <div class="fw-bold">interval <code>str</code></div>
+                                    Shadows the HEC-DSS interval specification for the NamedPath, usually something like <code>1MON</code>.
+                                </div>
+                            </li>
+                    
+                        </ul>
+                        <!-- end attrs -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

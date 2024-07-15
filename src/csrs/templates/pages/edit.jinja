@@ -1,0 +1,33 @@
+{% extends "base.jinja" %}
+
+{%if edit_on is not defined%}
+{% set edit_on = false%}
+{%-endif%}
+
+{% block title %}
+{{page_title}}
+{% endblock %}
+
+{% block content %}
+<!-- {{page_title}} -->
+<h1>{{page_title}}</h1>
+<p>{{page_description}}</p>
+<!-- Existing Objects -->
+<div id="existing-objects">
+  {%if edit_on %}
+  {{new_object.render(request)|safe}}
+  <br>
+  {%-endif%}
+  {% for obj in objects %}
+  <!-- Card for {{obj.title}} -->
+  {{obj.render(request, edit_on)|safe}}
+  {% endfor %}
+</div>
+<!-- New Object -->
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{% include 'scripts/toggle_form.jinja' %}
+{% include 'scripts/submit_form.jinja' %}
+{% endblock %}

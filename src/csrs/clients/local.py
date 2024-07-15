@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from csrs import crud, enums, models, schemas
+from .. import crud, enums, models, schemas
 
 
 class LocalClient:
@@ -41,7 +41,7 @@ class LocalClient:
 
     # annotations and type hints are in pyi file
     # GET
-    def get_assumption_names(self) -> tuple[enums.AssumptionEnum]:
+    def get_assumption_names(self) -> tuple[str]:
         return crud.assumptions.read_kinds(db=self.session)
 
     def get_assumption(

@@ -1,0 +1,11 @@
+{% extends "utils/_editable_attr.jinja" %}
+{% block editable %}
+<textarea 
+    class="form-control form-control-sm" 
+    id="new"
+    name="{{name}}"
+    placeholder="{{description}}" 
+    rows="1"
+    required
+>{{default}}</textarea>
+{% endblock %}
