@@ -30,8 +30,8 @@ name = "CAA at Panoche Bowl (Pool 17)"
 path = "/.*/C_CAA122/CHANNEL/.*/.*/.*/"
 category = "caa"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "CAA - Panoche Bowl pool 17"
 
 [[paths]]
@@ -129,8 +129,8 @@ name = "CVP Delivery American River"
 path = "/.*/DEL_CVP_P_AMER/DELIVERY-CVP/.*/.*/.*/"
 category = "delivery"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "Delivery - CVP Delivery American"
 
 [[paths]]
@@ -183,8 +183,8 @@ name = "CVP Delivery PMI North with American River"
 path = "/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP/.*/.*/.*/"
 category = "delivery"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "Delivery - CVP Delivery PMI N with Amer"
 
 [[paths]]
@@ -732,8 +732,8 @@ name = "True Surplus Outflow"
 path = "/.*/True_Surplus_DV/outflow metric/.*/.*/.*/"
 category = "delta"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "Delta - True Surplus Outflow"
 
 [[paths]]
@@ -741,8 +741,8 @@ name = "Carriage Water Outflow"
 path = "/.*/Salinity_CW_outflow_DV/outflow metric/.*/.*/.*/"
 category = "delta"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "Delta - Carriage Water  Outflow"
 
 [[paths]]
@@ -863,7 +863,7 @@ units = "CFS"
 detail = "Other - Jones PP Through Delta"
 
 [[paths]]
-name = "WBATOTAL_10"
+name = "WBA 10 Pumping"
 path = "/CALSIM/GP_WBATOTAL_10/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -872,7 +872,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_10"
 
 [[paths]]
-name = "WBATOTAL_11"
+name = "WBA 11 Pumping"
 path = "/CALSIM/GP_WBATOTAL_11/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -881,7 +881,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_11"
 
 [[paths]]
-name = "WBATOTAL_12"
+name = "WBA 12 Pumping"
 path = "/CALSIM/GP_WBATOTAL_12/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -890,7 +890,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_12"
 
 [[paths]]
-name = "WBATOTAL_13"
+name = "WBA 13 Pumping"
 path = "/CALSIM/GP_WBATOTAL_13/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -899,7 +899,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_13"
 
 [[paths]]
-name = "WBATOTAL_14"
+name = "WBA 14 Pumping"
 path = "/CALSIM/GP_WBATOTAL_14/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -908,7 +908,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_14"
 
 [[paths]]
-name = "WBATOTAL_15N"
+name = "WBA 15N Pumping"
 path = "/CALSIM/GP_WBATOTAL_15N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -917,7 +917,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_15N"
 
 [[paths]]
-name = "WBATOTAL_15S"
+name = "WBA 15S Pumping"
 path = "/CALSIM/GP_WBATOTAL_15S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -926,7 +926,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_15S"
 
 [[paths]]
-name = "WBATOTAL_16"
+name = "WBA 16 Pumping"
 path = "/CALSIM/GP_WBATOTAL_16/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -935,7 +935,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_16"
 
 [[paths]]
-name = "WBATOTAL_17N"
+name = "WBA 17N Pumping"
 path = "/CALSIM/GP_WBATOTAL_17N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -944,7 +944,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_17N"
 
 [[paths]]
-name = "WBATOTAL_17S"
+name = "WBA 17S Pumping"
 path = "/CALSIM/GP_WBATOTAL_17S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -953,7 +953,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_17S"
 
 [[paths]]
-name = "WBATOTAL_18"
+name = "WBA 18 Pumping"
 path = "/CALSIM/GP_WBATOTAL_18/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -962,7 +962,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_18"
 
 [[paths]]
-name = "WBATOTAL_19"
+name = "WBA 19 Pumping"
 path = "/CALSIM/GP_WBATOTAL_19/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -971,7 +971,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_19"
 
 [[paths]]
-name = "WBATOTAL_2"
+name = "WBA 2 Pumping"
 path = "/CALSIM/GP_WBATOTAL_2/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -980,7 +980,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_2"
 
 [[paths]]
-name = "WBATOTAL_20"
+name = "WBA 20 Pumping"
 path = "/CALSIM/GP_WBATOTAL_20/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -989,7 +989,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_20"
 
 [[paths]]
-name = "WBATOTAL_21"
+name = "WBA 21 Pumping"
 path = "/CALSIM/GP_WBATOTAL_21/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -998,7 +998,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_21"
 
 [[paths]]
-name = "WBATOTAL_22"
+name = "WBA 22 Pumping"
 path = "/CALSIM/GP_WBATOTAL_22/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1007,7 +1007,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_22"
 
 [[paths]]
-name = "WBATOTAL_23"
+name = "WBA 23 Pumping"
 path = "/CALSIM/GP_WBATOTAL_23/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1016,7 +1016,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_23"
 
 [[paths]]
-name = "WBATOTAL_24"
+name = "WBA 24 Pumping"
 path = "/CALSIM/GP_WBATOTAL_24/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1025,7 +1025,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_24"
 
 [[paths]]
-name = "WBATOTAL_25"
+name = "WBA 25 Pumping"
 path = "/CALSIM/GP_WBATOTAL_25/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1034,7 +1034,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_25"
 
 [[paths]]
-name = "WBATOTAL_26N"
+name = "WBA 26N Pumping"
 path = "/CALSIM/GP_WBATOTAL_26N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1043,7 +1043,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_26N"
 
 [[paths]]
-name = "WBATOTAL_26S"
+name = "WBA 26S Pumping"
 path = "/CALSIM/GP_WBATOTAL_26S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1052,7 +1052,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_26S"
 
 [[paths]]
-name = "WBATOTAL_3"
+name = "WBA 3 Pumping"
 path = "/CALSIM/GP_WBATOTAL_3/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1061,7 +1061,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_3"
 
 [[paths]]
-name = "WBATOTAL_4"
+name = "WBA 4 Pumping"
 path = "/CALSIM/GP_WBATOTAL_4/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1070,7 +1070,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_4"
 
 [[paths]]
-name = "WBATOTAL_5"
+name = "WBA 5 Pumping"
 path = "/CALSIM/GP_WBATOTAL_5/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1079,7 +1079,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_5"
 
 [[paths]]
-name = "WBATOTAL_50"
+name = "WBA 50 Pumping"
 path = "/CALSIM/GP_WBATOTAL_50/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1088,7 +1088,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_50"
 
 [[paths]]
-name = "WBATOTAL_6"
+name = "WBA 6 Pumping"
 path = "/CALSIM/GP_WBATOTAL_6/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1097,7 +1097,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_6"
 
 [[paths]]
-name = "WBATOTAL_60N"
+name = "WBA 60N Pumping"
 path = "/CALSIM/GP_WBATOTAL_60N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1106,7 +1106,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_60N"
 
 [[paths]]
-name = "WBATOTAL_60S"
+name = "WBA 60S Pumping"
 path = "/CALSIM/GP_WBATOTAL_60S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1115,7 +1115,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_60S"
 
 [[paths]]
-name = "WBATOTAL_61"
+name = "WBA 61 Pumping"
 path = "/CALSIM/GP_WBATOTAL_61/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1124,7 +1124,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_61"
 
 [[paths]]
-name = "WBATOTAL_62"
+name = "WBA 62 Pumping"
 path = "/CALSIM/GP_WBATOTAL_62/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1133,7 +1133,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_62"
 
 [[paths]]
-name = "WBATOTAL_63"
+name = "WBA 63 Pumping"
 path = "/CALSIM/GP_WBATOTAL_63/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1142,7 +1142,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_63"
 
 [[paths]]
-name = "WBATOTAL_64"
+name = "WBA 64 Pumping"
 path = "/CALSIM/GP_WBATOTAL_64/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1151,7 +1151,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_64"
 
 [[paths]]
-name = "WBATOTAL_71"
+name = "WBA 71 Pumping"
 path = "/CALSIM/GP_WBATOTAL_71/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1160,7 +1160,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_71"
 
 [[paths]]
-name = "WBATOTAL_72"
+name = "WBA 72 Pumping"
 path = "/CALSIM/GP_WBATOTAL_72/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1169,7 +1169,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_72"
 
 [[paths]]
-name = "WBATOTAL_73"
+name = "WBA 73 Pumping"
 path = "/CALSIM/GP_WBATOTAL_73/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1178,7 +1178,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_73"
 
 [[paths]]
-name = "WBATOTAL_7N"
+name = "WBA 7N Pumping"
 path = "/CALSIM/GP_WBATOTAL_7N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1187,7 +1187,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_7N"
 
 [[paths]]
-name = "WBATOTAL_7S"
+name = "WBA 7S Pumping"
 path = "/CALSIM/GP_WBATOTAL_7S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1196,7 +1196,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_7S"
 
 [[paths]]
-name = "WBATOTAL_8N"
+name = "WBA 8N Pumping"
 path = "/CALSIM/GP_WBATOTAL_8N/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1205,7 +1205,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_8N"
 
 [[paths]]
-name = "WBATOTAL_8S"
+name = "WBA 8S Pumping"
 path = "/CALSIM/GP_WBATOTAL_8S/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1214,7 +1214,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_8S"
 
 [[paths]]
-name = "WBATOTAL_9"
+name = "WBA 9 Pumping"
 path = "/CALSIM/GP_WBATOTAL_9/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1223,7 +1223,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_9"
 
 [[paths]]
-name = "WBATOTAL_90"
+name = "WBA 90 Pumping"
 path = "/CALSIM/GP_WBATOTAL_90/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1232,7 +1232,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_90"
 
 [[paths]]
-name = "WBATOTAL_91"
+name = "WBA 91 Pumping"
 path = "/CALSIM/GP_WBATOTAL_91/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1241,7 +1241,7 @@ units = "CFS"
 detail = "GW Pumping - WBATOTAL_91"
 
 [[paths]]
-name = "Sacramento Basin"
+name = "Total Sacramento Basin Pumping"
 path = "/CALSIM/GP_SACWBA/GW-PUMPING/.*/1MON/L2020A/"
 category = "gw pumping"
 interval = "1MON"
@@ -1250,16 +1250,16 @@ units = "CFS"
 detail = "GW Pumping - Sacramento Basin"
 
 [[paths]]
-name = "San Joaquin Basin"
+name = "Total San Joaquin Basin Pumping"
 path = "/.*/GP_SJRWBA/GW-PUMPING/.*/.*/.*/"
 category = "gw pumping"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "GW Pumping - San Joaquin Basin"
 
 [[paths]]
-name = "DCC gate days open"
+name = "Delta Cross Channel Days Open"
 path = "/CALSIM/DXC/GATE-DAYS-OPEN/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1268,7 +1268,7 @@ units = "NONE"
 detail = "Other - DCC gate days open"
 
 [[paths]]
-name = "EI RATIO"
+name = "E.I. Ratio"
 path = "/CALSIM/EXPRATIO_/EI-RATIO-STD/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1277,7 +1277,7 @@ units = "NONE"
 detail = "Other - EI RATIO"
 
 [[paths]]
-name = "Hamilton City (diversion)"
+name = "Diversion to Hamilton City"
 path = "/CALSIM/D_SAC207_GCC007/DIVERSION/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1286,7 +1286,7 @@ units = "CFS"
 detail = "Other - Hamilton City (diversion)"
 
 [[paths]]
-name = "Red Bluff Diversion Dam (diversion)"
+name = "Diversion to Red Bluff Diversion Dam"
 path = "/CALSIM/D_SAC240_TCC001/DIVERSION/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1295,7 +1295,7 @@ units = "CFS"
 detail = "Other - Red Bluff Diversion Dam (diversion)"
 
 [[paths]]
-name = "RPA Constraint Banks"
+name = "RPA Constraint (Banks)"
 path = "/CALSIM/MAXEXP_RPA_SWPDV/EXPORT-LIMIT/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1304,7 +1304,7 @@ units = "CFS"
 detail = "Other - RPA Constraint Banks"
 
 [[paths]]
-name = "RPA Constraint Jones"
+name = "RPA Constraint (Jones)"
 path = "/CALSIM/MAXEXP_RPA_CVPDV/EXPORT-LIMIT/.*/1MON/L2020A/"
 category = "operations"
 interval = "1MON"
@@ -1313,7 +1313,7 @@ units = "CFS"
 detail = "Other - RPA Constraint Jones"
 
 [[paths]]
-name = "BD EC"
+name = "Brandt Bridge Electrical Conductivity"
 path = "/CALSIM/BD_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1322,7 +1322,7 @@ units = "UMHOS/CM"
 detail = "Salinity - BD EC"
 
 [[paths]]
-name = "CI EC"
+name = "Electrical Conductivity at CI"
 path = "/CALSIM/CI_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1331,7 +1331,7 @@ units = "UMHOS/CM"
 detail = "Salinity - CI EC"
 
 [[paths]]
-name = "CO EC"
+name = "Electrical Conductivity at CO"
 path = "/CALSIM/CO_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1340,7 +1340,7 @@ units = "UMHOS/CM"
 detail = "Salinity - CO EC"
 
 [[paths]]
-name = "EM EC"
+name = "Electrical Conductivity at Emmaton"
 path = "/CALSIM/EM_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1349,7 +1349,7 @@ units = "UMHOS/CM"
 detail = "Salinity - EM EC"
 
 [[paths]]
-name = "JP EC"
+name = "Electrical Conductivity at Jersey Point"
 path = "/CALSIM/JP_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1358,7 +1358,7 @@ units = "UMHOS/CM"
 detail = "Salinity - JP EC"
 
 [[paths]]
-name = "LV EC"
+name = "Electrical Conductivity at LV"
 path = "/CALSIM/LV_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1367,7 +1367,7 @@ units = "UMHOS/CM"
 detail = "Salinity - LV EC"
 
 [[paths]]
-name = "MR EC"
+name = "Electrical Conductivity at Middle River"
 path = "/CALSIM/MR_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1376,7 +1376,7 @@ units = "UMHOS/CM"
 detail = "Salinity - MR EC"
 
 [[paths]]
-name = "RS EC"
+name = "Electrical Conductivity at Rock Slough"
 path = "/CALSIM/RS_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1385,7 +1385,7 @@ units = "UMHOS/CM"
 detail = "Salinity - RS EC"
 
 [[paths]]
-name = "VI EC"
+name = "Electrical Conductivity at VI"
 path = "/CALSIM/VI_EC_MONTH/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1394,7 +1394,7 @@ units = "UMHOS/CM"
 detail = "Salinity - VI EC"
 
 [[paths]]
-name = "X2 Position prev"
+name = "Previous X2 Position"
 path = "/CALSIM/X2_PRV/X2-POSITION-PREV/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1403,7 +1403,7 @@ units = "KM"
 detail = "Salinity - X2 Position prev"
 
 [[paths]]
-name = "CO EC standard"
+name = "Electrical Conductivity Standard at CO"
 path = "/CALSIM/CO_EC_STD/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1412,7 +1412,7 @@ units = "UMHOS/CM"
 detail = "Salinity - CO EC standard"
 
 [[paths]]
-name = "EM EC standard"
+name = "Electrical Conductivity Standard at Emmaton"
 path = "/CALSIM/EM_EC_STD/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1421,7 +1421,7 @@ units = "UMHOS/CM"
 detail = "Salinity - EM EC standard"
 
 [[paths]]
-name = "JP EC standard"
+name = "Electrical Conductivity Standard at Jersey Point"
 path = "/CALSIM/JP_EC_STD/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1430,7 +1430,7 @@ units = "UMHOS/CM"
 detail = "Salinity - JP EC standard"
 
 [[paths]]
-name = "RS EC standard"
+name = "Electrical Conductivity Standard at Rock Slough"
 path = "/CALSIM/RS_EC_STD/SALINITY/.*/1MON/L2020A/"
 category = "salinity"
 interval = "1MON"
@@ -1439,7 +1439,7 @@ units = "UMHOS/CM"
 detail = "Salinity - RS EC standard"
 
 [[paths]]
-name = "Feather River Basin"
+name = "Seepage from the Feather River Basin"
 path = "/CALSIM/SG_FTRALL/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1448,7 +1448,7 @@ units = "CFS"
 detail = "Seepage - Feather River Basin"
 
 [[paths]]
-name = "Sacramento River above Bend Bridge"
+name = "Seepage from the Sacramento River above Bend Bridge"
 path = "/CALSIM/SG_SACAB/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1457,7 +1457,7 @@ units = "CFS"
 detail = "Seepage - Sacramento River above Bend Bridge"
 
 [[paths]]
-name = "Sacramento River from Bend Bridge to Butte City"
+name = "Seepage from the Sacramento River from Bend Bridge to Butte City"
 path = "/CALSIM/SG_SACBB/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1466,7 +1466,7 @@ units = "CFS"
 detail = "Seepage - Sacramento River from Bend Bridge to Butte City"
 
 [[paths]]
-name = "Sacramento River from Butte City to Fremont Weir"
+name = "Seepage from the Sacramento River from Butte City to Fremont Weir"
 path = "/CALSIM/SG_SACFB/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1475,7 +1475,7 @@ units = "CFS"
 detail = "Seepage - Sacramento River from Butte City to Fremont Weir"
 
 [[paths]]
-name = "Sacramento River from Fremont Weir to Freeport (includes American)"
+name = "Seepage from the Sacramento River from Fremont Weir to Freeport, including the American River"
 path = "/CALSIM/SG_SACAMR/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1484,7 +1484,7 @@ units = "CFS"
 detail = "Seepage - Sacramento River from Fremont Weir to Freeport (includes American)"
 
 [[paths]]
-name = "Yolo Bypass, Putah Creek, Cache Creek"
+name = "Seepage from the Yolo Bypass, Putah Creek, and Cache Creek"
 path = "/CALSIM/SG_YBPALL/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1493,7 +1493,7 @@ units = "CFS"
 detail = "Seepage - Yolo Bypass, Putah Creek, Cache Creek"
 
 [[paths]]
-name = "Sacramento Valley Total"
+name = "Sacramento Valley Total Seepage"
 path = "/CALSIM/SG_SACBASIN/STREAM-GAIN/.*/1MON/L2020A/"
 category = "seepage"
 interval = "1MON"
@@ -1502,25 +1502,25 @@ units = "CFS"
 detail = "Seepage - Sacramento Valley Total"
 
 [[paths]]
-name = "Storage"
+name = "Additional South of Delta Storage"
 path = "/.*/S_SODSE/STORAGE/.*/.*/.*/"
 category = "sodse"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "TAF"
 detail = "SODSE - Storage"
 
 [[paths]]
-name = "Allocation increase"
+name = "Allocation Increase due to South of Delta Storage"
 path = "/.*/SODSE_ALLOC_AUGMENT_/VOLUME-AUGMENTATION/.*/.*/.*/"
 category = "sodse"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "TAF"
 detail = "SODSE - Allocation increase"
 
 [[paths]]
-name = "Folsom Storage"
+name = "Storage in Folsom Reservoir"
 path = "/CALSIM/S_FOLSM/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1529,7 +1529,7 @@ units = "TAF"
 detail = "Storage - Folsom Storage"
 
 [[paths]]
-name = "Friant Storage"
+name = "Storage in Millerton Lake"
 path = "/CALSIM/S_MLRTN/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1538,7 +1538,7 @@ units = "TAF"
 detail = "Storage - Friant Storage"
 
 [[paths]]
-name = "McClure Storage"
+name = "Storage in Lake McClure"
 path = "/CALSIM/S_MCLRE/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1547,7 +1547,7 @@ units = "TAF"
 detail = "Storage - McClure Storage"
 
 [[paths]]
-name = "New Don Pedro Storage"
+name = "Storage in New Don Pedro Reservoir"
 path = "/CALSIM/S_PEDRO/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1556,7 +1556,7 @@ units = "TAF"
 detail = "Storage - New Don Pedro Storage"
 
 [[paths]]
-name = "New Melones Storage"
+name = "Storage in New Melones Lake"
 path = "/CALSIM/S_MELON/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1565,7 +1565,7 @@ units = "TAF"
 detail = "Storage - New Melones Storage"
 
 [[paths]]
-name = "Oroville Storage"
+name = "Storage in Oroville Lake"
 path = "/CALSIM/S_OROVL/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1574,7 +1574,7 @@ units = "TAF"
 detail = "Storage - Oroville Storage"
 
 [[paths]]
-name = "San Luis Storage"
+name = "Storage in San Luis Reservoir (CVP)"
 path = "/CALSIM/S_SLUIS_CVP/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1583,7 +1583,7 @@ units = "TAF"
 detail = "Storage - San Luis Storage - CVP"
 
 [[paths]]
-name = "San Luis Storage"
+name = "Storage in San Luis Reservoir (SWP)"
 path = "/CALSIM/S_SLUIS_SWP/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1592,7 +1592,7 @@ units = "TAF"
 detail = "Storage - San Luis Storage - SWP"
 
 [[paths]]
-name = "Shasta Storage"
+name = "Storage in Shasta Reservoir"
 path = "/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1601,7 +1601,7 @@ units = "TAF"
 detail = "Storage - Shasta Storage"
 
 [[paths]]
-name = "SL CVP Rule curve"
+name = "San Luis Rule Curve (CVP)"
 path = "/CALSIM/CVPRULECV/RULECURVE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1610,7 +1610,7 @@ units = "TAF"
 detail = "Storage - SL CVP Rule curve"
 
 [[paths]]
-name = "SL SWP Rule curve"
+name = "San Luis Rule Curve (SWP)"
 path = "/CALSIM/SWPRULECV/RULECURVE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1619,7 +1619,7 @@ units = "TAF"
 detail = "Storage - SL SWP Rule curve"
 
 [[paths]]
-name = "Trinity Storage"
+name = "Storage in Trinity Lake"
 path = "/CALSIM/S_TRNTY/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1628,7 +1628,7 @@ units = "TAF"
 detail = "Storage - Trinity Storage"
 
 [[paths]]
-name = "Whiskeytown"
+name = "Storage in Whiskeytown Lake"
 path = "/CALSIM/S_WKYTN/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1637,7 +1637,7 @@ units = "TAF"
 detail = "Storage - Whiskeytown"
 
 [[paths]]
-name = "San Luis"
+name = "Storage in San Luis Reservoir"
 path = "/CALSIM/S_SLUIS/STORAGE/.*/1MON/L2020A/"
 category = "storage"
 interval = "1MON"
@@ -1646,7 +1646,7 @@ units = "TAF"
 detail = "Storage - San Luis - total"
 
 [[paths]]
-name = "Feather below Thermolito"
+name = "Feather River Flow below Thermolito"
 path = "/CALSIM/C_FTR059/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1655,7 +1655,7 @@ units = "CFS"
 detail = "Upstream Flows - Feather below Thermolito"
 
 [[paths]]
-name = "FeatherFlowAbvFremontWeir"
+name = "Feather River Flow above Fremont Weir"
 path = "/CALSIM/C_FTR003/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1664,7 +1664,7 @@ units = "CFS"
 detail = "Upstream Flows - FeatherFlowAbvFremontWeir"
 
 [[paths]]
-name = "FeatherLowFlow"
+name = "Feather River Low Flow"
 path = "/CALSIM/C_FTR068/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1673,7 +1673,7 @@ units = "CFS"
 detail = "Upstream Flows - FeatherLowFlow"
 
 [[paths]]
-name = "FeatherYubaConfluence"
+name = "Feather River Flow at Yuba Confluence"
 path = "/CALSIM/C_FTR031/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1682,7 +1682,7 @@ units = "CFS"
 detail = "Upstream Flows - FeatherYubaConfluence"
 
 [[paths]]
-name = "Fremont Weir spills"
+name = "Fremont Weir Spills"
 path = "/CALSIM/SP_SAC083_YBP037/RIVER-SPILLS/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1691,7 +1691,7 @@ units = "CFS"
 detail = "Upstream Flows - Fremont Weir spills"
 
 [[paths]]
-name = "H-Street"
+name = "American River Flow at H-Street"
 path = "/CALSIM/C_AMR004/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1700,7 +1700,7 @@ units = "CFS"
 detail = "Upstream Flows - H-Street"
 
 [[paths]]
-name = "MercedMouth"
+name = "Merced River Flow (Mouth)"
 path = "/CALSIM/C_MCD021/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1709,7 +1709,7 @@ units = "CFS"
 detail = "Upstream Flows - MercedMouth"
 
 [[paths]]
-name = "Mokelumne Flow"
+name = "Mokelumne River Flow"
 path = "/CALSIM/C_MOK022/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1718,7 +1718,7 @@ units = "CFS"
 detail = "Upstream Flows - Mokelumne Flow"
 
 [[paths]]
-name = "Release-American Nimbus"
+name = "Lake Natoma Release"
 path = "/CALSIM/C_NTOMA/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1727,7 +1727,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-American Nimbus"
 
 [[paths]]
-name = "Release-ClearCreek"
+name = "Clear Creek Release"
 path = "/CALSIM/C_CLR011/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1736,7 +1736,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-ClearCreek"
 
 [[paths]]
-name = "Release-Friant"
+name = "Millerton Lake Release"
 path = "/CALSIM/C_MLRTN/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1745,16 +1745,16 @@ units = "CFS"
 detail = "Upstream Flows - Release-Friant"
 
 [[paths]]
-name = "Release-McClure"
+name = "New Don Pedro Release"
 path = "/CALSIM/C_PEDRO/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
 period_type = "PER-AVER"
 units = "CFS"
-detail = "Upstream Flows - Release-McClure"
+detail = "Upstream Flows - Release-NewDonPedro"
 
 [[paths]]
-name = "Release-MendotaPool"
+name = "Mendtoa Pool Release"
 path = "/CALSIM/C_MDOTA/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1763,16 +1763,16 @@ units = "CFS"
 detail = "Upstream Flows - Release-MendotaPool"
 
 [[paths]]
-name = "Release-NewDonPedro"
+name = "Lake McClure Release"
 path = "/CALSIM/C_MCLRE/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
 period_type = "PER-AVER"
 units = "CFS"
-detail = "Upstream Flows - Release-NewDonPedro"
+detail = "Upstream Flows - Release-McClure"
 
 [[paths]]
-name = "Release-NewMelones"
+name = "New Melones Lake Release"
 path = "/CALSIM/C_MELON/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1781,7 +1781,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-NewMelones"
 
 [[paths]]
-name = "Release-Oroville"
+name = "Oroville Lake Release"
 path = "/CALSIM/C_OROVL/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1790,7 +1790,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-Oroville"
 
 [[paths]]
-name = "Release-Sacramento Keswick"
+name = "Keswick Reservoir Release"
 path = "/CALSIM/C_KSWCK/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1799,7 +1799,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-Sacramento Keswick"
 
 [[paths]]
-name = "Release-Stanislaus (Goodwin)"
+name = "Stanislaus River Flow at Goodwin Dam"
 path = "/CALSIM/C_STS059/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1808,7 +1808,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-Stanislaus (Goodwin)"
 
 [[paths]]
-name = "Release-Trinity"
+name = "Trinity Lake Release"
 path = "/CALSIM/C_LWSTN/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1817,7 +1817,7 @@ units = "CFS"
 detail = "Upstream Flows - Release-Trinity"
 
 [[paths]]
-name = "SacFlowAbvFremontWeir"
+name = "Sacramento River Flow above Fremont Weir"
 path = "/CALSIM/C_SAC085/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1826,7 +1826,7 @@ units = "CFS"
 detail = "Upstream Flows - SacFlowAbvFremontWeir"
 
 [[paths]]
-name = "SacFlowHood"
+name = "Sacramento River Flow at Hood"
 path = "/CALSIM/C_SAC041/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1835,7 +1835,7 @@ units = "CFS"
 detail = "Upstream Flows - SacFlowHood"
 
 [[paths]]
-name = "SacFlowRedBluff"
+name = "Sacramento River Flow at Red Bluff"
 path = "/CALSIM/C_SAC240/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1844,7 +1844,7 @@ units = "CFS"
 detail = "Upstream Flows - SacFlowRedBluff"
 
 [[paths]]
-name = "SacFlowVerona"
+name = "Sacramento River Flow at Verona"
 path = "/CALSIM/C_SAC083/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1853,7 +1853,7 @@ units = "CFS"
 detail = "Upstream Flows - SacFlowVerona"
 
 [[paths]]
-name = "SacFlowWilkinsSlough"
+name = "Sacramento River Flow at Wilkins Slough"
 path = "/CALSIM/C_SAC097/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1862,7 +1862,7 @@ units = "CFS"
 detail = "Upstream Flows - SacFlowWilkinsSlough"
 
 [[paths]]
-name = "Sacramento Weir spills"
+name = "Sacramento Weir Spills"
 path = "/CALSIM/SP_SAC066_YBP020/RIVER-SPILLS/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1871,7 +1871,7 @@ units = "CFS"
 detail = "Upstream Flows - Sacramento Weir spills"
 
 [[paths]]
-name = "SJR QWEST flows"
+name = "San Joaquin River QWEST Flows"
 path = "/CALSIM/C_SJR013/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1880,7 +1880,7 @@ units = "CFS"
 detail = "Upstream Flows - SJR QWEST flows"
 
 [[paths]]
-name = "SJRUpstreamMerc"
+name = "San Joaquin River Flow at Merced River"
 path = "/CALSIM/C_SJR119/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1889,7 +1889,7 @@ units = "CFS"
 detail = "Upstream Flows - SJRUpstreamMerc"
 
 [[paths]]
-name = "SJRUpstreamStan"
+name = "San Joaquin River Flow at Stanislaus River"
 path = "/CALSIM/C_SJR075/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1898,7 +1898,7 @@ units = "CFS"
 detail = "Upstream Flows - SJRUpstreamStan"
 
 [[paths]]
-name = "Spring Creek Tunnel"
+name = "Flow in Spring Creek Tunnel"
 path = "/CALSIM/D_WKYTN_SPT003/DIVERSION/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1907,7 +1907,7 @@ units = "CFS"
 detail = "Upstream Flows - Spring Creek Tunnel"
 
 [[paths]]
-name = "StanislausMouth"
+name = "Stanislaus River Flow at Mouth"
 path = "/CALSIM/C_STS030/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1916,7 +1916,7 @@ units = "CFS"
 detail = "Upstream Flows - StanislausMouth"
 
 [[paths]]
-name = "TuolumneMouth"
+name = "Tuolumne River Flow at Mouth"
 path = "/CALSIM/C_TUO003/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1925,7 +1925,7 @@ units = "CFS"
 detail = "Upstream Flows - TuolumneMouth"
 
 [[paths]]
-name = "Vernalis Flow"
+name = "San Joaquin River Flow at Vernalis"
 path = "/CALSIM/C_SJR070/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1943,7 +1943,7 @@ units = "CFS"
 detail = "Upstream Flows - Verona Closure Term"
 
 [[paths]]
-name = "Yolo Bypass"
+name = "Yolo Bypass Flow"
 path = "/CALSIM/C_YBP020/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1952,7 +1952,7 @@ units = "CFS"
 detail = "Upstream Flows - Yolo Bypass"
 
 [[paths]]
-name = "YubaFeatherConfluence"
+name = "Yuba River at Feather Confluence"
 path = "/CALSIM/C_YUB002/CHANNEL/.*/1MON/L2020A/"
 category = "upstream flows"
 interval = "1MON"
@@ -1961,12 +1961,12 @@ units = "CFS"
 detail = "Upstream Flows - YubaFeatherConfluence"
 
 [[paths]]
-name = "American VA flow"
+name = "American River VA flow"
 path = "/.*/NDOI_ADD_AMERVA/VA-VOLUME/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - American VA flow"
 
 [[paths]]
@@ -1974,17 +1974,17 @@ name = "Delta VA flow"
 path = "/.*/NDOI_ADD_DELTAVA/VA-VOLUME/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Delta VA flow"
 
 [[paths]]
-name = "Feather VA flow"
+name = "Feather River VA flow"
 path = "/.*/NDOI_ADD_FEATHERVA/FLOW-VA/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Feather VA flow"
 
 [[paths]]
@@ -1997,30 +1997,30 @@ units = "CFS"
 detail = "VA - Friant VA flow"
 
 [[paths]]
-name = "Mokelumne VA flow"
+name = "Mokelumne River VA flow"
 path = "/.*/MOKELUMNEVA_FLOW/FLOW/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Mokelumne VA flow"
 
 [[paths]]
-name = "Putah VA flow"
+name = "Putah Creek VA flow"
 path = "/.*/VAFLOW_PUTAHDV/VA-FLOW/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Putah VA flow"
 
 [[paths]]
-name = "Sacramento VA flow"
+name = "Sacramento River VA flow"
 path = "/.*/NDOI_ADD_SACVA/FLOW-VA/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Sacramento VA flow"
 
 [[paths]]
@@ -2028,17 +2028,17 @@ name = "Total VA Delta outflow"
 path = "/.*/NDOI_ADD_VA/FLOW/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Total VA Delta outflow"
 
 [[paths]]
-name = "Yuba VA flow"
+name = "Yuba River VA flow"
 path = "/.*/YUBA_VA_ADDDV/VA-VOLUME/.*/.*/.*/"
 category = "va"
 interval = "1MON"
-period_type = ""
-units = ""
+period_type = "PER-AVER"
+units = "CFS"
 detail = "VA - Yuba VA flow"
 
 [[paths]]
@@ -2078,7 +2078,7 @@ units = "NONE"
 detail = "WYT_SHASTA_CVP_"
 
 [[paths]]
-name = "DMC Inflow to MendotaPool"
+name = "DMC Inflow to Mendota Pool"
 path = "/CALSIM/C_DMC116/CHANNEL/.*/1MON/L2020A/"
 category = ""
 interval = "1MON"
