@@ -176,7 +176,7 @@
         return f"{self.__class__.__name__}(url={self.actor.base_url})"
 
     # GET
-    def get_assumption_names(self) -&gt; tuple[enums.AssumptionEnum]:
+    def get_assumption_names(self) -&gt; tuple[str]:
         """Get the list of assumption categories that each scenario requires.
 
         Returns
@@ -234,7 +234,9 @@
         ```
         """
         url = "/assumptions"
-        response = self.actor.get(url, params=dict(kind=kind, name=name, id=id))
+        params = dict(kind=kind, name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Assumption.model_validate(a) for a in response.json()]
 
@@ -262,7 +264,9 @@
         """
 
         url = "/scenarios"
-        response = self.actor.get(url, params=dict(name=name, id=id))
+        params = dict(name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Scenario.model_validate(a) for a in response.json()]
 
@@ -296,15 +300,14 @@
         """
 
         url = "/runs"
-        response = self.actor.get(
-            url,
-            params=dict(
-                scenario=scenario,
-                version=version,
-                code_version=code_version,
-                id=id,
-            ),
+        params = dict(
+            scenario=scenario,
+            version=version,
+            code_version=code_version,
+            id=id,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Run.model_validate(a) for a in response.json()]
 
@@ -339,15 +342,14 @@
         """
 
         url = "/paths"
-        response = self.actor.get(
-            url,
-            params=dict(
-                name=name,
-                path=path,
-                category=category,
-                id=id,
-            ),
+        params = dict(
+            name=name,
+            path=path,
+            category=category,
+            id=id,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.NamedPath.model_validate(a) for a in response.json()]
 
@@ -379,14 +381,13 @@
         """
 
         url = "/timeseries"
-        response = self.actor.get(
-            url,
-            params=dict(
-                scenario=scenario,
-                version=version,
-                path=path,
-            ),
+        params = dict(
+            scenario=scenario,
+            version=version,
+            path=path,
         )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
@@ -826,7 +827,7 @@
 </details>
           <details class="quote">
             <summary>Source code in <code>src\csrs\clients\remote.py</code></summary>
-            <pre class="highlight"><code class="language-python">def get_assumption_names(self) -&gt; tuple[enums.AssumptionEnum]:
+            <pre class="highlight"><code class="language-python">def get_assumption_names(self) -&gt; tuple[str]:
     """Get the list of assumption categories that each scenario requires.
 
     Returns
@@ -987,7 +988,9 @@ most one <code>Assumption</code> object, by default None</p>
     ```
     """
     url = "/assumptions"
-    response = self.actor.get(url, params=dict(kind=kind, name=name, id=id))
+    params = dict(kind=kind, name=name, id=id)
+    params = {k: v for k, v in params.items() if v}
+    response = self.actor.get(url, params=params)
     response.raise_for_status()
     return [schemas.Assumption.model_validate(a) for a in response.json()]</code></pre>
           </details>
@@ -1099,7 +1102,9 @@ one <code>Scenario</code> object, by default None</p>
     """
 
     url = "/scenarios"
-    response = self.actor.get(url, params=dict(name=name, id=id))
+    params = dict(name=name, id=id)
+    params = {k: v for k, v in params.items() if v}
+    response = self.actor.get(url, params=params)
     response.raise_for_status()
     return [schemas.Scenario.model_validate(a) for a in response.json()]</code></pre>
           </details>
@@ -1237,15 +1242,14 @@ one <code>Run</code> object, by default None</p>
     """
 
     url = "/runs"
-    response = self.actor.get(
-        url,
-        params=dict(
-            scenario=scenario,
-            version=version,
-            code_version=code_version,
-            id=id,
-        ),
+    params = dict(
+        scenario=scenario,
+        version=version,
+        code_version=code_version,
+        id=id,
     )
+    params = {k: v for k, v in params.items() if v}
+    response = self.actor.get(url, params=params)
     response.raise_for_status()
     return [schemas.Run.model_validate(a) for a in response.json()]</code></pre>
           </details>
@@ -1385,15 +1389,14 @@ one <code>NamedPath</code> object, by default None</p>
     """
 
     url = "/paths"
-    response = self.actor.get(
-        url,
-        params=dict(
-            name=name,
-            path=path,
-            category=category,
-            id=id,
-        ),
+    params = dict(
+        name=name,
+        path=path,
+        category=category,
+        id=id,
     )
+    params = {k: v for k, v in params.items() if v}
+    response = self.actor.get(url, params=params)
     response.raise_for_status()
     return [schemas.NamedPath.model_validate(a) for a in response.json()]</code></pre>
           </details>
@@ -1514,14 +1517,13 @@ most one <code>Timeseries</code> object</p>
     """
 
     url = "/timeseries"
-    response = self.actor.get(
-        url,
-        params=dict(
-            scenario=scenario,
-            version=version,
-            path=path,
-        ),
+    params = dict(
+        scenario=scenario,
+        version=version,
+        path=path,
     )
+    params = {k: v for k, v in params.items() if v}
+    response = self.actor.get(url, params=params)
     response.raise_for_status()
     return schemas.Timeseries.model_validate(response.json())</code></pre>
           </details>
