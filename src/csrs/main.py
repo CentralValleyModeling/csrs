@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
 
 from . import __version__, routes
@@ -68,4 +68,7 @@ async def redirect_home():
 
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, __):
-    return templates.TemplateResponse("errors/404.jinja", {"request": request})
+    if request.url.path.startswith("forms"):
+        return templates.TemplateResponse("errors/404.jinja", {"request": request})
+    else:
+        return HTTPException(status_code=404)
