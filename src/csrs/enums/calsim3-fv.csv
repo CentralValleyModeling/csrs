@@ -1,0 +1,237 @@
+name,path,category,interval,period_type,units,detail
+Dos Amigos Pumping Plant,/CALSIM/C_CAA087/CHANNEL/.*/1MON/L2020A/,caa,1MON,PER-AVER,CFS,CAA - Dos Amigos
+Dos Amigos Pumping Plant (CVP),/CALSIM/C_CAA087_CVP/CHANNEL/.*/1MON/L2020A/,caa,1MON,PER-AVER,CFS,CAA - Dos Amigos CVP
+Dos Amigos Pumping Plant (SWP),/CALSIM/C_CAA087_SWP/CHANNEL/.*/1MON/L2020A/,caa,1MON,PER-AVER,CFS,CAA - Dos Amigos SWP
+CAA at Panoche Bowl (Pool 17),/.*/C_CAA122/CHANNEL/.*/.*/.*/,caa,1MON,,,CAA - Panoche Bowl pool 17
+CAA at Los Gatos Bowl (Pool 20),/CALSIM/C_CAA156/CHANNEL/.*/1MON/L2020A/,caa,1MON,PER-AVER,CFS,"CAA - Los Gatos Bowl, pool 20"
+CAA at Kern Bowl (Pool 24),/CALSIM/C_CAA207/FLOW-CHANNEL/.*/1MON/L2020A/,caa,1MON,PER-AVER,CFS,"CAA - Kern Bowl, pool 24"
+CVP Allocation (NOD Ag),/CALSIM/PERDV_CVPAG_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (NOD Ag)
+CVP Allocation (NOD M&I),/CALSIM/PERDV_CVPMI_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (NOD M&I)
+CVP Allocation (NOD RF),/CALSIM/PERDV_CVPRF_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (NOD RF)
+CVP Allocation (NOD SC),/CALSIM/PERDV_CVPSC_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (NOD SC)
+CVP Allocation (SOD Ag),/CALSIM/PERDV_CVPAG_S/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (SOD Ag)
+CVP Allocation (SOD EX),/CALSIM/PERDV_CVPEX_S/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (SOD EX)
+CVP Allocation (SOD M&I),/CALSIM/PERDV_CVPMI_S/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (SOD M&I)
+CVP Allocation (SOD RF),/CALSIM/PERDV_CVPRF_S/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - CVP Allocation (SOD RF)
+CVP Delivery American River,/.*/DEL_CVP_P_AMER/DELIVERY-CVP/.*/.*/.*/,delivery,1MON,,,Delivery - CVP Delivery American
+CVP Delivery NOD,/CALSIM/DEL_CVP_TOTAL_N/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery NOD
+CVP Delivery PAG North,/CALSIM/DEL_CVP_PAG_N/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PAG N
+CVP Delivery PAG South,/CALSIM/DEL_CVP_PAG_S/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PAG S
+CVP Delivery PEX South,/CALSIM/DEL_CVP_PEX_S/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PEX S
+CVP Delivery PMI North,/CALSIM/DEL_CVP_PMI_N/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PMI N
+CVP Delivery PMI North with American River,/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP/.*/.*/.*/,delivery,1MON,,,Delivery - CVP Delivery PMI N with Amer
+CVP Delivery PMI South,/CALSIM/DEL_CVP_PMI_S/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PMI S
+CVP Delivery PRF North,/CALSIM/DEL_CVP_PRF_N/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PRF N
+CVP Delivery PRF South,/CALSIM/DEL_CVP_PRF_S/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PRF S
+CVP Delivery PSC North,/CALSIM/DEL_CVP_PSC_N/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery PSC N
+CVP Delivery SOD,/CALSIM/CVPTOTALDEL/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery SOD
+CVP Delivery SOD no CVC,/CALSIM/DEL_CVP_TOTAL_S/DELIVERY-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - CVP Delivery SOD no CVC
+CVP Shortage (North),/CALSIM/SHORT_CVP_TOT_N/DELIVERY-SHORTAGE-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SHORT_CVP_TOT_N
+CVP Shortage (South),/CALSIM/SHORT_CVP_TOT_S/DELIVERY-SHORTAGE-CVP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SHORT_CVP_TOT_S
+SWP Carryover Available,/CALSIM/CO_AVAILABLE_DV/CARRYOVER/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP CO available
+SWP Carryover Estimated,/CALSIM/CO_EST_DV/SWP-OUTPUT/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP CO est
+SWP Carryover Final,/CALSIM/CO_FINAL_DV/CARRYOVER/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP CO final
+SWP Delivery Target (Table A),/CALSIM/DELTAR_A_DV/SWP-OUTPUT/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP Del Target TA
+SWP Delivery Target (Table A + Carryover),/CALSIM/DELTARDV_TOTAL/SWP-OUTPUT/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP Del Target TA + CO
+SWP Delivery (%),/CALSIM/SWP_PERDELDV/SWP-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Delivery - SWP PERCENT DELIVERY
+SWP Var Demand Deltar,/CALSIM/VARDELTARDV/SWP-OUTPUT/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP Var Demand Deltar
+SWP Carryover (Feather River),/CALSIM/SWP_CO_FEATH/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_CO_FEATH
+SWP Carryover (North Bay),/CALSIM/SWP_CO_NBAY/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_CO_NBAY
+SWP Carryover Total,/CALSIM/SWP_CO_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_CO_TOTAL
+SWP Article 21 (Feather),/CALSIM/SWP_IN_FEATH/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_IN_FEATH
+SWP Article 21 (North Bay),/CALSIM/SWP_IN_NBAY/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_IN_NBAY
+SWP Article 21 Total,/CALSIM/SWP_IN_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_IN_TOTAL
+SWP Losses,/CALSIM/SWP_LOSS/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_LOSS
+SWP Table A (Feather),/CALSIM/SWP_TA_FEATH/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_TA_FEATH
+SWP Table A (North Bay),/CALSIM/SWP_TA_NBAY/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_TA_NBAY
+SWP Table A Total,/CALSIM/SWP_TA_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP_TA_TOTAL
+SWPTable A (Unused),/CALSIM/UNUSED_TOTALDV/SWP-OUTPUT/.*/1MON/L2020A/,delivery,1MON,PER-AVER,TAF,Delivery - SWP_UNUSED_TA_TOTAL
+SWP Table A SOD,/CALSIM/SWP_TA_SOD/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP TA SOD
+SWP Carryover SOD,/CALSIM/SWP_CO_SOD/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP CO SOD
+SWP Article 21 SOD,/CALSIM/SWP_IN_SOD/SWP_DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP IN SOD
+SWP Total,/CALSIM/SWPTOTALDEL/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - SWP Total
+SWP Shortage,/CALSIM/SHORT_SWP_TOTA/DELIVERY-SHORTAGE-SWP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Other - SHORT_SWP_TOTAL
+SWP Allocation (FRSA),/CALSIM/PERDV_SWP_FSC/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Other - SWP Allocation (FRSA)
+SWP Allocation (M&I),/CALSIM/PERDV_SWP_MWD1/PERCENT-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,NONE,Other - SWP Allocation (M&I)
+SWP Delivery Int,/CALSIM/DEL_SWP_PIN/DELIVERY-SWP/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Other - SWP Delivery Int
+Banks Exports (CVP),/CALSIM/C_CAA003_CVP/FLOW-DELIVERY/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Banks CVP Exports
+Banks Export (CVC),/CALSIM/C_CAA003_CVC/FLOW-DELIVERY/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Banks Export Cross Valley Pumping
+Banks Exports Total,/CALSIM/D_OMR027_CAA000/DIVERSION/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Banks Exports
+Banks Exports (SWP),/CALSIM/C_CAA003_SWP/FLOW-DELIVERY/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Banks SWP Exports
+CCWD Exports,/CALSIM/D408/FLOW-DELIVERY/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - CCWD
+Delta Inflow (NDOI),/CALSIM/DELTAINFLOWFORNDOI/FLOW/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Delta Inflow (NDOI)
+Delta Outflow (NDOI),/CALSIM/NDOI/FLOW/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Delta Outflow (NDOI)
+Delta Cross Channel Flow,/CALSIM/D_SAC030_MOK014/DIVERSION/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - DXC Flow
+Excess Outflow (NDOI),/CALSIM/NDOI_ADD/FLOW/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Excess Outflow (NDOI)
+Excess Outflow ANN (NDOI),/CALSIM/NDOI_ADD_ANN/FLOW-CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Excess Outflow ANN (NDOI)
+Excess Outflow CVP (NDOI),/CALSIM/NDOI_ADD_CVP/FLOW-CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Excess Outflow CVP (NDOI)
+Excess Outflow SWP (NDOI),/CALSIM/NDOI_ADD_SWP/FLOW-CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Excess Outflow SWP (NDOI)
+Flow at Georgiana Slough,/CALSIM/C_SAC029B/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Flow at Georgiana Slough
+Flow at Rio Vista,/CALSIM/C_SAC017/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Flow at Rio Vista
+Flow below Delta Cross Channel,/CALSIM/C_SAC030/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Flow below DXC
+Jones Exports,/CALSIM/D_OMR028_DMC000/DIVERSION/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Jones Exports
+Modeled Required Delta Outflow,/CALSIM/MRDO_FINALDV/FLOW-REQ-MRDO/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Modeled Required DO
+North Bay Aqueduct Exports,/CALSIM/C_CSL004B/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - North Bay Aqueduct
+Old and Middle River flow,/CALSIM/C_OMR014/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Old and Middle River flow
+QWestFlow,/CALSIM/QWESTFLOW/FLOW-CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - QWestFlow
+Required Delta Outflow,/CALSIM/NDOI_MIN/FLOW/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Required Delta Outflow
+Sacramento River Flow at Freeport,/CALSIM/C_SAC048/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Sac Flow at Freeport
+Total NDD Exports,/CALSIM/EXPORTACTUALIF/EXPORT-PRJ/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Total NDD Exports
+Total TD Exports,/CALSIM/EXPORTACTUALTD/EXPORT-PRJ/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Total TD Exports
+Exports Total (CVP+SWP),/CALSIM/TOTAL_EXP/FLOW-DELIVERY/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Exports Total (CVP+SWP)
+Sac Flow at Freeport (above WTP),/CALSIM/C_SAC049/CHANNEL/.*/1MON/L2020A/,delta,1MON,PER-AVER,CFS,Delta - Sac Flow at Freeport (above WTP)
+True Surplus Outflow,/.*/True_Surplus_DV/outflow metric/.*/.*/.*/,delta,1MON,,,Delta - True Surplus Outflow
+Carriage Water Outflow,/.*/Salinity_CW_outflow_DV/outflow metric/.*/.*/.*/,delta,1MON,,,Delta - Carriage Water  Outflow
+Banks Export CVP Dedicated,/CALSIM/C_CAA003_CVPDED/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks Export CVP Dedicated
+Banks Export Fed Share,/CALSIM/C_CAA003_EXP2/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks Export Fed Share
+Banks Export JPOD,/CALSIM/C_CAA003_CVPWHL/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks Export JPOD
+Banks Export State Share,/CALSIM/C_CAA003_EXP1/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks Export State Share
+Banks Export WTS,/CALSIM/C_CAA003_WTS/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks Export WTS
+Banks PP North Delta,/CALSIM/C_CAA003_IF/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks PP North Delta
+Banks PP SWP Through Delta,/CALSIM/C_CAA003_SWP_TD/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks PP SWP Through Delta
+Banks PP Through Delta,/CALSIM/C_CAA003_TD/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Banks PP Through Delta
+Jones Export Fed Share,/CALSIM/C_DMC000_EXP1/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Jones Export Fed Share
+Jones Export State Share,/CALSIM/C_DMC000_EXP2/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Jones Export State Share
+Jones Export WTS,/CALSIM/C_DMC000_WTS/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Jones Export WTS
+Jones PP North Delta,/CALSIM/C_DMC000_IF/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Jones PP North Delta
+Jones PP Through Delta,/CALSIM/C_DMC000_TD/FLOW-DELIVERY/.*/1MON/L2020A/,exports,1MON,PER-AVER,CFS,Other - Jones PP Through Delta
+WBATOTAL_10,/CALSIM/GP_WBATOTAL_10/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_10
+WBATOTAL_11,/CALSIM/GP_WBATOTAL_11/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_11
+WBATOTAL_12,/CALSIM/GP_WBATOTAL_12/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_12
+WBATOTAL_13,/CALSIM/GP_WBATOTAL_13/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_13
+WBATOTAL_14,/CALSIM/GP_WBATOTAL_14/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_14
+WBATOTAL_15N,/CALSIM/GP_WBATOTAL_15N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_15N
+WBATOTAL_15S,/CALSIM/GP_WBATOTAL_15S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_15S
+WBATOTAL_16,/CALSIM/GP_WBATOTAL_16/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_16
+WBATOTAL_17N,/CALSIM/GP_WBATOTAL_17N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_17N
+WBATOTAL_17S,/CALSIM/GP_WBATOTAL_17S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_17S
+WBATOTAL_18,/CALSIM/GP_WBATOTAL_18/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_18
+WBATOTAL_19,/CALSIM/GP_WBATOTAL_19/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_19
+WBATOTAL_2,/CALSIM/GP_WBATOTAL_2/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_2
+WBATOTAL_20,/CALSIM/GP_WBATOTAL_20/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_20
+WBATOTAL_21,/CALSIM/GP_WBATOTAL_21/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_21
+WBATOTAL_22,/CALSIM/GP_WBATOTAL_22/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_22
+WBATOTAL_23,/CALSIM/GP_WBATOTAL_23/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_23
+WBATOTAL_24,/CALSIM/GP_WBATOTAL_24/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_24
+WBATOTAL_25,/CALSIM/GP_WBATOTAL_25/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_25
+WBATOTAL_26N,/CALSIM/GP_WBATOTAL_26N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_26N
+WBATOTAL_26S,/CALSIM/GP_WBATOTAL_26S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_26S
+WBATOTAL_3,/CALSIM/GP_WBATOTAL_3/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_3
+WBATOTAL_4,/CALSIM/GP_WBATOTAL_4/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_4
+WBATOTAL_5,/CALSIM/GP_WBATOTAL_5/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_5
+WBATOTAL_50,/CALSIM/GP_WBATOTAL_50/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_50
+WBATOTAL_6,/CALSIM/GP_WBATOTAL_6/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_6
+WBATOTAL_60N,/CALSIM/GP_WBATOTAL_60N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_60N
+WBATOTAL_60S,/CALSIM/GP_WBATOTAL_60S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_60S
+WBATOTAL_61,/CALSIM/GP_WBATOTAL_61/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_61
+WBATOTAL_62,/CALSIM/GP_WBATOTAL_62/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_62
+WBATOTAL_63,/CALSIM/GP_WBATOTAL_63/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_63
+WBATOTAL_64,/CALSIM/GP_WBATOTAL_64/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_64
+WBATOTAL_71,/CALSIM/GP_WBATOTAL_71/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_71
+WBATOTAL_72,/CALSIM/GP_WBATOTAL_72/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_72
+WBATOTAL_73,/CALSIM/GP_WBATOTAL_73/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_73
+WBATOTAL_7N,/CALSIM/GP_WBATOTAL_7N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_7N
+WBATOTAL_7S,/CALSIM/GP_WBATOTAL_7S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_7S
+WBATOTAL_8N,/CALSIM/GP_WBATOTAL_8N/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_8N
+WBATOTAL_8S,/CALSIM/GP_WBATOTAL_8S/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_8S
+WBATOTAL_9,/CALSIM/GP_WBATOTAL_9/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_9
+WBATOTAL_90,/CALSIM/GP_WBATOTAL_90/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_90
+WBATOTAL_91,/CALSIM/GP_WBATOTAL_91/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - WBATOTAL_91
+Sacramento Basin,/CALSIM/GP_SACWBA/GW-PUMPING/.*/1MON/L2020A/,gw pumping,1MON,PER-AVER,CFS,GW Pumping - Sacramento Basin
+San Joaquin Basin,/.*/GP_SJRWBA/GW-PUMPING/.*/.*/.*/,gw pumping,1MON,,,GW Pumping - San Joaquin Basin
+DCC gate days open,/CALSIM/DXC/GATE-DAYS-OPEN/.*/1MON/L2020A/,operations,1MON,PER-AVER,NONE,Other - DCC gate days open
+EI RATIO,/CALSIM/EXPRATIO_/EI-RATIO-STD/.*/1MON/L2020A/,operations,1MON,PER-AVER,NONE,Other - EI RATIO
+Hamilton City (diversion),/CALSIM/D_SAC207_GCC007/DIVERSION/.*/1MON/L2020A/,operations,1MON,PER-AVER,CFS,Other - Hamilton City (diversion)
+Red Bluff Diversion Dam (diversion),/CALSIM/D_SAC240_TCC001/DIVERSION/.*/1MON/L2020A/,operations,1MON,PER-AVER,CFS,Other - Red Bluff Diversion Dam (diversion)
+RPA Constraint Banks,/CALSIM/MAXEXP_RPA_SWPDV/EXPORT-LIMIT/.*/1MON/L2020A/,operations,1MON,PER-AVER,CFS,Other - RPA Constraint Banks
+RPA Constraint Jones,/CALSIM/MAXEXP_RPA_CVPDV/EXPORT-LIMIT/.*/1MON/L2020A/,operations,1MON,PER-AVER,CFS,Other - RPA Constraint Jones
+BD EC,/CALSIM/BD_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - BD EC
+CI EC,/CALSIM/CI_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - CI EC
+CO EC,/CALSIM/CO_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - CO EC
+EM EC,/CALSIM/EM_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - EM EC
+JP EC,/CALSIM/JP_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - JP EC
+LV EC,/CALSIM/LV_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - LV EC
+MR EC,/CALSIM/MR_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - MR EC
+RS EC,/CALSIM/RS_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - RS EC
+VI EC,/CALSIM/VI_EC_MONTH/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - VI EC
+X2 Position prev,/CALSIM/X2_PRV/X2-POSITION-PREV/.*/1MON/L2020A/,salinity,1MON,PER-AVER,KM,Salinity - X2 Position prev
+CO EC standard,/CALSIM/CO_EC_STD/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - CO EC standard
+EM EC standard,/CALSIM/EM_EC_STD/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - EM EC standard
+JP EC standard,/CALSIM/JP_EC_STD/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - JP EC standard
+RS EC standard,/CALSIM/RS_EC_STD/SALINITY/.*/1MON/L2020A/,salinity,1MON,PER-AVER,UMHOS/CM,Salinity - RS EC standard
+Feather River Basin,/CALSIM/SG_FTRALL/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Feather River Basin
+Sacramento River above Bend Bridge,/CALSIM/SG_SACAB/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Sacramento River above Bend Bridge
+Sacramento River from Bend Bridge to Butte City,/CALSIM/SG_SACBB/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Sacramento River from Bend Bridge to Butte City
+Sacramento River from Butte City to Fremont Weir,/CALSIM/SG_SACFB/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Sacramento River from Butte City to Fremont Weir
+Sacramento River from Fremont Weir to Freeport (includes American),/CALSIM/SG_SACAMR/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Sacramento River from Fremont Weir to Freeport (includes American)
+"Yolo Bypass, Putah Creek, Cache Creek",/CALSIM/SG_YBPALL/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,"Seepage - Yolo Bypass, Putah Creek, Cache Creek"
+Sacramento Valley Total,/CALSIM/SG_SACBASIN/STREAM-GAIN/.*/1MON/L2020A/,seepage,1MON,PER-AVER,CFS,Seepage - Sacramento Valley Total
+Storage,/.*/S_SODSE/STORAGE/.*/.*/.*/,sodse,1MON,,,SODSE - Storage
+Allocation increase,/.*/SODSE_ALLOC_AUGMENT_/VOLUME-AUGMENTATION/.*/.*/.*/,sodse,1MON,,,SODSE - Allocation increase
+Folsom Storage,/CALSIM/S_FOLSM/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Folsom Storage
+Friant Storage,/CALSIM/S_MLRTN/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Friant Storage
+McClure Storage,/CALSIM/S_MCLRE/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - McClure Storage
+New Don Pedro Storage,/CALSIM/S_PEDRO/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - New Don Pedro Storage
+New Melones Storage,/CALSIM/S_MELON/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - New Melones Storage
+Oroville Storage,/CALSIM/S_OROVL/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Oroville Storage
+San Luis Storage,/CALSIM/S_SLUIS_CVP/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - San Luis Storage - CVP
+San Luis Storage,/CALSIM/S_SLUIS_SWP/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - San Luis Storage - SWP
+Shasta Storage,/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Shasta Storage
+SL CVP Rule curve,/CALSIM/CVPRULECV/RULECURVE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - SL CVP Rule curve
+SL SWP Rule curve,/CALSIM/SWPRULECV/RULECURVE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - SL SWP Rule curve
+Trinity Storage,/CALSIM/S_TRNTY/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Trinity Storage
+Whiskeytown,/CALSIM/S_WKYTN/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - Whiskeytown
+San Luis,/CALSIM/S_SLUIS/STORAGE/.*/1MON/L2020A/,storage,1MON,PER-AVER,TAF,Storage - San Luis - total
+Feather below Thermolito,/CALSIM/C_FTR059/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Feather below Thermolito
+FeatherFlowAbvFremontWeir,/CALSIM/C_FTR003/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - FeatherFlowAbvFremontWeir
+FeatherLowFlow,/CALSIM/C_FTR068/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - FeatherLowFlow
+FeatherYubaConfluence,/CALSIM/C_FTR031/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - FeatherYubaConfluence
+Fremont Weir spills,/CALSIM/SP_SAC083_YBP037/RIVER-SPILLS/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Fremont Weir spills
+H-Street,/CALSIM/C_AMR004/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - H-Street
+MercedMouth,/CALSIM/C_MCD021/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - MercedMouth
+Mokelumne Flow,/CALSIM/C_MOK022/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Mokelumne Flow
+Release-American Nimbus,/CALSIM/C_NTOMA/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-American Nimbus
+Release-ClearCreek,/CALSIM/C_CLR011/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-ClearCreek
+Release-Friant,/CALSIM/C_MLRTN/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-Friant
+Release-McClure,/CALSIM/C_PEDRO/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-McClure
+Release-MendotaPool,/CALSIM/C_MDOTA/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-MendotaPool
+Release-NewDonPedro,/CALSIM/C_MCLRE/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-NewDonPedro
+Release-NewMelones,/CALSIM/C_MELON/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-NewMelones
+Release-Oroville,/CALSIM/C_OROVL/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-Oroville
+Release-Sacramento Keswick,/CALSIM/C_KSWCK/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-Sacramento Keswick
+Release-Stanislaus (Goodwin),/CALSIM/C_STS059/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-Stanislaus (Goodwin)
+Release-Trinity,/CALSIM/C_LWSTN/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Release-Trinity
+SacFlowAbvFremontWeir,/CALSIM/C_SAC085/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SacFlowAbvFremontWeir
+SacFlowHood,/CALSIM/C_SAC041/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SacFlowHood
+SacFlowRedBluff,/CALSIM/C_SAC240/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SacFlowRedBluff
+SacFlowVerona,/CALSIM/C_SAC083/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SacFlowVerona
+SacFlowWilkinsSlough,/CALSIM/C_SAC097/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SacFlowWilkinsSlough
+Sacramento Weir spills,/CALSIM/SP_SAC066_YBP020/RIVER-SPILLS/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Sacramento Weir spills
+SJR QWEST flows,/CALSIM/C_SJR013/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SJR QWEST flows
+SJRUpstreamMerc,/CALSIM/C_SJR119/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SJRUpstreamMerc
+SJRUpstreamStan,/CALSIM/C_SJR075/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - SJRUpstreamStan
+Spring Creek Tunnel,/CALSIM/D_WKYTN_SPT003/DIVERSION/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Spring Creek Tunnel
+StanislausMouth,/CALSIM/C_STS030/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - StanislausMouth
+TuolumneMouth,/CALSIM/C_TUO003/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - TuolumneMouth
+Vernalis Flow,/CALSIM/C_SJR070/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Vernalis Flow
+Verona Closure Term,/CALSIM/CT_VERONA/CLOSURE-TERM/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Verona Closure Term
+Yolo Bypass,/CALSIM/C_YBP020/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - Yolo Bypass
+YubaFeatherConfluence,/CALSIM/C_YUB002/CHANNEL/.*/1MON/L2020A/,upstream flows,1MON,PER-AVER,CFS,Upstream Flows - YubaFeatherConfluence
+American VA flow,/.*/NDOI_ADD_AMERVA/VA-VOLUME/.*/.*/.*/,va,1MON,,,VA - American VA flow
+Delta VA flow,/.*/NDOI_ADD_DELTAVA/VA-VOLUME/.*/.*/.*/,va,1MON,,,VA - Delta VA flow
+Feather VA flow,/.*/NDOI_ADD_FEATHERVA/FLOW-VA/.*/.*/.*/,va,1MON,,,VA - Feather VA flow
+Friant VA flow,/CALSIM/FRIANTVA_FLOW/VA-FLOW/.*/1MON/L2020A/,va,1MON,PER-AVER,CFS,VA - Friant VA flow
+Mokelumne VA flow,/.*/MOKELUMNEVA_FLOW/FLOW/.*/.*/.*/,va,1MON,,,VA - Mokelumne VA flow
+Putah VA flow,/.*/VAFLOW_PUTAHDV/VA-FLOW/.*/.*/.*/,va,1MON,,,VA - Putah VA flow
+Sacramento VA flow,/.*/NDOI_ADD_SACVA/FLOW-VA/.*/.*/.*/,va,1MON,,,VA - Sacramento VA flow
+Total VA Delta outflow,/.*/NDOI_ADD_VA/FLOW/.*/.*/.*/,va,1MON,,,VA - Total VA Delta outflow
+Yuba VA flow,/.*/YUBA_VA_ADDDV/VA-VOLUME/.*/.*/.*/,va,1MON,,,VA - Yuba VA flow
+Water Year Type (Sacramento River),/CALSIM/WYT_SAC_/WATERYEARTYPE/.*/1MON/L2020A/,wyt,1MON,PER-AVER,NONE,WYT_SAC_
+Water Year Type (San Joaquin River),/CALSIM/WYT_SJR_/WATERYEARTYPE/.*/1MON/L2020A/,wyt,1MON,PER-AVER,NONE,WYT_SJR_
+Water Year Type (Feather River),/CALSIM/WYT_FEATHER_/WATERYEARTYPE/.*/1MON/L2020A/,wyt,1MON,PER-AVER,NONE,WYT_FEATHER_
+Water Year Type (Shasta CVP),/CALSIM/WYT_SHASTA_CVP_/WATERYEARTYPE/.*/1MON/L2020A/,wyt,1MON,PER-AVER,NONE,WYT_SHASTA_CVP_
+DMC Inflow to MendotaPool,/CALSIM/C_DMC116/CHANNEL/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - DMC inflow to MendotaPool
+Net DICU,/CALSIM/NET_DICU/DICU_FLOW/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - net DICU
+Trinity Export,/CALSIM/D_LWSTN_CCT011/DIVERSION/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export
+Trinity Export Excess,/CALSIM/D_LWSTN_ADD/FLOW-DELIVERY/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export Excess
+Trinity Export Operations,/CALSIM/D_LWSTN_IMPORT/FLOW-DELIVERY/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export Ops x
