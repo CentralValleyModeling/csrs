@@ -2,3 +2,4 @@ recursive-include src *.py
 recursive-include src *.pyi
 recursive-include src *.json
 recursive-include src *.html
+recursive-include src *.toml

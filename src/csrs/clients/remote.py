@@ -1,147 +1,14 @@
 from pathlib import Path
-from typing import Iterable, overload
+from typing import Iterable
 from warnings import warn
 
 import pandss as pdss
 from httpx import Client
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import SingletonThreadPool
 
-from . import crud, enums, models, schemas
+from .. import enums, schemas
 
 
-class ClientABC:
-    def get_assumption_names(self) -> list[str]:
-        raise NotImplementedError()
-
-    def get_assumption(
-        self,
-        *,
-        kind: str = None,
-        name: str = None,
-        id: int = None,
-    ) -> list[schemas.Assumption]:
-        raise NotImplementedError()
-
-    def get_scenario(
-        self,
-        *,
-        name: str = None,
-        id: int = None,
-    ) -> list[schemas.Scenario]:
-        raise NotImplementedError()
-
-    def get_run(
-        self,
-        *,
-        scenario: str = None,
-        version: str = None,
-        code_version: str = None,
-        id: int = None,
-    ) -> list[schemas.Run]:
-        raise NotImplementedError()
-
-    def get_path(
-        self,
-        *,
-        name: str = None,
-        path: str = None,
-        category: str = None,
-        id: str = None,
-    ) -> list[schemas.NamedPath]:
-        raise NotImplementedError()
-
-    def get_timeseries(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        path: str,
-    ) -> schemas.Timeseries:
-        raise NotImplementedError()
-
-    def put_assumption(
-        self,
-        *,
-        name: str,
-        kind: str,
-        detail: str,
-    ) -> schemas.Assumption:
-        raise NotImplementedError()
-
-    def put_scenario(
-        self,
-        *,
-        name: str,
-        land_use: str,
-        sea_level_rise: str,
-        hydrology: str,
-        tucp: str,
-        dcp: str,
-        va: str,
-        south_of_delta: str,
-        version: str = None,
-    ) -> schemas.Scenario:
-        raise NotImplementedError()
-
-    def put_run(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        contact: str,
-        code_version: str,
-        detail: str,
-        # optional
-        parent: str | None = None,
-        children: tuple[str, ...] = tuple(),
-        confidential: bool = True,
-        published: bool = False,
-        prefer_this_version: bool = True,
-    ) -> schemas.Run:
-        raise NotImplementedError()
-
-    def put_path(
-        self,
-        *,
-        name: str,
-        path: str,
-        category: str,
-        period_type: str,
-        interval: str,
-        units: str,
-        detail: str,
-    ) -> schemas.NamedPath:
-        raise NotImplementedError()
-
-    def put_timeseries(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        # shadow pandss RegularTimeseries attributes
-        path: str | pdss.DatasetPath,
-        values: tuple[float, ...],
-        dates: tuple[str, ...],
-        period_type: str,
-        units: str,
-        interval: str,
-    ) -> schemas.Timeseries:
-        raise NotImplementedError()
-
-    def put_many_timeseries(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        dss: Path,
-        paths: Iterable[schemas.NamedPath] = None,
-    ) -> list[schemas.Timeseries]:
-        raise NotImplementedError()
-
-
-class RemoteClient(ClientABC):
+class RemoteClient:
     """Client used to interact with a remote Results Server."""
 
     def __init__(self, base_url: str, **kwargs):
@@ -168,7 +35,7 @@ class RemoteClient(ClientABC):
         return f"{self.__class__.__name__}(url={self.actor.base_url})"
 
     # GET
-    def get_assumption_names(self) -> list[str]:
+    def get_assumption_names(self) -> tuple[str]:
         """Get the list of assumption categories that each scenario requires.
 
         Returns
@@ -189,16 +56,13 @@ class RemoteClient(ClientABC):
         response.raise_for_status()
         return response.json()
 
-    @overload
     def get_assumption(
         self,
         *,
         kind: str = None,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Assumption]: ...
-
-    def get_assumption(self, **kwargs):
+    ) -> list[schemas.Assumption]:
         """Get the `Assumption` objects that match the information provided.
 
         If no arguments are given, all Assumption objects in the database will be
@@ -229,19 +93,18 @@ class RemoteClient(ClientABC):
         ```
         """
         url = "/assumptions"
-        response = self.actor.get(url, params=kwargs)
+        params = dict(kind=kind, name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Assumption.model_validate(a) for a in response.json()]
 
-    @overload
     def get_scenario(
         self,
         *,
         name: str = None,
         id: int = None,
-    ) -> list[schemas.Scenario]: ...
-
-    def get_scenario(self, **kwargs):
+    ) -> list[schemas.Scenario]:
         """Get the `Scenario` objects that match the information provided.
 
         Parameters
@@ -260,11 +123,12 @@ class RemoteClient(ClientABC):
         """
 
         url = "/scenarios"
-        response = self.actor.get(url, params=kwargs)
+        params = dict(name=name, id=id)
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Scenario.model_validate(a) for a in response.json()]
 
-    @overload
     def get_run(
         self,
         *,
@@ -272,9 +136,7 @@ class RemoteClient(ClientABC):
         version: str = None,
         code_version: str = None,
         id: int = None,
-    ) -> list[schemas.Run]: ...
-
-    def get_run(self, **kwargs):
+    ) -> list[schemas.Run]:
         """Get the `Run` objects that match the information provided.
 
         Parameters
@@ -297,11 +159,17 @@ class RemoteClient(ClientABC):
         """
 
         url = "/runs"
-        response = self.actor.get(url, params=kwargs)
+        params = dict(
+            scenario=scenario,
+            version=version,
+            code_version=code_version,
+            id=id,
+        )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.Run.model_validate(a) for a in response.json()]
 
-    @overload
     def get_path(
         self,
         *,
@@ -309,9 +177,7 @@ class RemoteClient(ClientABC):
         path: str = None,
         category: str = None,
         id: str = None,
-    ) -> list[schemas.NamedPath]: ...
-
-    def get_path(self, **kwargs):
+    ) -> list[schemas.NamedPath]:
         """Get the `NamedPath` objects that match the information provided.
 
         Parameters
@@ -335,20 +201,24 @@ class RemoteClient(ClientABC):
         """
 
         url = "/paths"
-        response = self.actor.get(url, params=kwargs)
+        params = dict(
+            name=name,
+            path=path,
+            category=category,
+            id=id,
+        )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return [schemas.NamedPath.model_validate(a) for a in response.json()]
 
-    @overload
     def get_timeseries(
         self,
         *,
         scenario: str,
         version: str,
         path: str,
-    ) -> schemas.Timeseries: ...
-
-    def get_timeseries(self, **kwargs):
+    ) -> schemas.Timeseries:
         """Get the `Timeseries` object that matches the information provided.
 
         Parameters
@@ -370,21 +240,25 @@ class RemoteClient(ClientABC):
         """
 
         url = "/timeseries"
-        response = self.actor.get(url, params=kwargs)
+        params = dict(
+            scenario=scenario,
+            version=version,
+            path=path,
+        )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
     # PUT
-    @overload
+
     def put_assumption(
         self,
         *,
         name: str,
         kind: str,
         detail: str,
-    ) -> schemas.Assumption: ...
-
-    def put_assumption(self, **kwargs):
+    ) -> schemas.Assumption:
         """Create a new `Assumption` on the results server.
 
         Parameters
@@ -402,63 +276,38 @@ class RemoteClient(ClientABC):
             The `Assumption` object created
         """
 
-        obj = schemas.Assumption(**kwargs)
+        obj = schemas.Assumption(name=name, kind=kind, detail=detail)
         url = "/assumptions"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Assumption.model_validate(response.json())
 
-    @overload
     def put_scenario(
         self,
         *,
         name: str,
-        land_use: str,
-        sea_level_rise: str,
-        hydrology: str,
-        tucp: str,
-        dcp: str,
-        va: str,
-        south_of_delta: str,
-        version: str = None,
-    ) -> schemas.Scenario: ...
-
-    def put_scenario(self, **kwargs):
+        assumptions: dict[str, str],
+    ) -> schemas.Scenario:
         """Create a new `Scenario` on the results server.
 
         Parameters
         ----------
         name : str
             Value to assign to `Scenario.name`, should be easy to read, must be unique.
-        land_use : str
-            The name of the `Assumption` to tag as the `land_use` assumption.
-        sea_level_rise : str
-            The name of the `Assumption` to tag as the `sea_level_rise` assumption.
-        hydrology : str
-            The name of the `Assumption` to tag as the `hydrology` assumption.
-        tucp : str
-            The name of the `Assumption` to tag as the `tucp` assumption.
-        dcp : str
-            The name of the `Assumption` to tag as the `dcp` assumption.
-        va : str
-            The name of the `Assumption` to tag as the `va` assumption.
-        south_of_delta : str
-            The name of the `Assumption` to tag as the `south_of_delta` assumption.
-        version : str, optional
-            The preferred version of the `Run` for this `Scenario`, by default None
+        assumptions: dict[str, str]
+            Dictionary of assumption kinds to assumption names
 
         Returns
         -------
         schemas.Scenario
             The `Scenario` object created in the database.
         """
-        obj = schemas.Scenario(**kwargs)
+        obj = schemas.Scenario(name=name, assumptions=assumptions)
         url = "/scenarios"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Scenario.model_validate(response.json())
 
-    @overload
     def put_run(
         self,
         *,
@@ -473,9 +322,7 @@ class RemoteClient(ClientABC):
         confidential: bool = True,
         published: bool = False,
         prefer_this_version: bool = True,
-    ) -> schemas.Run: ...
-
-    def put_run(self, **kwargs):
+    ) -> schemas.Run:
         """Create a new `Run` on the results server.
 
         Parameters
@@ -512,13 +359,24 @@ class RemoteClient(ClientABC):
             The newly created `Run` object
         """
 
-        obj = schemas.Run(**kwargs)
+        obj = schemas.Run(
+            scenario=scenario,
+            version=version,
+            contact=contact,
+            code_version=code_version,
+            detail=detail,
+            parent=parent,
+            children=children,
+            confidential=confidential,
+            published=published,
+        )
         url = "/runs"
+        if not prefer_this_version:
+            url = url + "/legacy"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Run.model_validate(response.json())
 
-    @overload
     def put_path(
         self,
         *,
@@ -529,9 +387,7 @@ class RemoteClient(ClientABC):
         interval: str,
         units: str,
         detail: str,
-    ) -> schemas.NamedPath: ...
-
-    def put_path(self, **kwargs):
+    ) -> schemas.NamedPath:
         """Create a new `NamedPath` on the results server.
 
         Parameters
@@ -557,13 +413,20 @@ class RemoteClient(ClientABC):
             The `NamedPath` object created
         """
 
-        obj = schemas.NamedPath(**kwargs)
+        obj = schemas.NamedPath(
+            name=name,
+            path=path,
+            category=category,
+            period_type=period_type,
+            interval=interval,
+            units=units,
+            detail=detail,
+        )
         url = "/paths"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.NamedPath.model_validate(response.json())
 
-    @overload
     def put_timeseries(
         self,
         *,
@@ -576,9 +439,7 @@ class RemoteClient(ClientABC):
         period_type: str,
         units: str,
         interval: str,
-    ) -> schemas.Timeseries: ...
-
-    def put_timeseries(self, **kwargs):
+    ) -> schemas.Timeseries:
         """Create a new `Timeseries` on the results server
 
         Parameters
@@ -606,7 +467,16 @@ class RemoteClient(ClientABC):
             The `Timeseries` object that was created
         """
 
-        obj = schemas.Timeseries(**kwargs)
+        obj = schemas.Timeseries(
+            scenario=scenario,
+            version=version,
+            path=path,
+            values=values,
+            dates=dates,
+            period_type=period_type,
+            units=units,
+            interval=interval,
+        )
         url = "/timeseries"
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
@@ -674,232 +544,4 @@ class RemoteClient(ClientABC):
                 response = self.actor.put(url, json=ts.model_dump(mode="json"))
                 response.raise_for_status()
                 added.append(schemas.Timeseries.model_validate(response.json()))
-        return added
-
-
-class LocalClient(ClientABC):
-    def __init__(
-        self,
-        db_path: Path,
-        echo: bool = False,
-        autocommit: bool = False,
-        autoflush: bool = True,
-        check_same_thread: bool = True,
-    ):
-        self.db_path = Path(db_path).resolve()
-        self.engine = create_engine(
-            "sqlite:///" + str(self.db_path),
-            connect_args={
-                "check_same_thread": check_same_thread,
-            },
-            poolclass=SingletonThreadPool,
-            echo=echo,
-        )
-        self.session = sessionmaker(
-            autocommit=autocommit,
-            autoflush=autoflush,
-            bind=self.engine,
-        )()
-        models.Base.metadata.create_all(bind=self.engine)
-
-    def close(self):
-        self.session.close()
-        self.engine.dispose()
-
-    # annotations and type hints are in pyi file
-    # GET
-    def get_assumption_names(self):
-        return schemas.Scenario.get_assumption_attrs()
-
-    @overload
-    def get_assumption(
-        self,
-        *,
-        kind: str = None,
-        name: str = None,
-        id: int = None,
-    ) -> list[schemas.Assumption]: ...
-
-    def get_assumption(self, **kwargs):
-        return crud.assumptions.read(db=self.session, **kwargs)
-
-    @overload
-    def get_scenario(
-        self,
-        *,
-        name: str = None,
-        id: int = None,
-    ) -> list[schemas.Scenario]: ...
-
-    def get_scenario(self, **kwargs):
-        return crud.scenarios.read(db=self.session, **kwargs)
-
-    @overload
-    def get_run(
-        self,
-        *,
-        scenario: str = None,
-        version: str = None,
-        code_version: str = None,
-        id: int = None,
-    ) -> list[schemas.Run]: ...
-
-    def get_run(self, **kwargs):
-        return crud.runs.read(db=self.session, **kwargs)
-
-    @overload
-    def get_path(
-        self,
-        *,
-        name: str = None,
-        path: str = None,
-        category: str = None,
-        id: str = None,
-    ) -> list[schemas.NamedPath]: ...
-
-    def get_path(self, **kwargs):
-        return crud.paths.read(db=self.session, **kwargs)
-
-    @overload
-    def get_timeseries(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        path: str,
-    ) -> schemas.Timeseries: ...
-
-    def get_timeseries(self, **kwargs):
-        return crud.timeseries.read(db=self.session, **kwargs)
-
-    # PUT
-    @overload
-    def put_assumption(
-        self,
-        *,
-        name: str,
-        kind: str,
-        detail: str,
-    ) -> schemas.Assumption: ...
-
-    def put_assumption(self, **kwargs):
-        obj = schemas.Assumption(**kwargs)
-        return crud.assumptions.create(
-            db=self.session, **obj.model_dump(exclude=("id"))
-        )
-
-    @overload
-    def put_scenario(
-        self,
-        *,
-        name: str,
-        land_use: str,
-        sea_level_rise: str,
-        hydrology: str,
-        tucp: str,
-        dcp: str,
-        va: str,
-        south_of_delta: str,
-        version: str = None,
-    ) -> schemas.Scenario: ...
-
-    def put_scenario(self, **kwargs):
-        obj = schemas.Scenario(**kwargs)
-        return crud.scenarios.create(db=self.session, **obj.model_dump(exclude=("id")))
-
-    @overload
-    def put_run(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        contact: str,
-        code_version: str,
-        detail: str,
-        # optional
-        parent: str | None = None,
-        children: tuple[str, ...] = tuple(),
-        confidential: bool = True,
-        published: bool = False,
-        prefer_this_version: bool = True,
-    ) -> schemas.Run: ...
-
-    def put_run(self, **kwargs):
-        obj = schemas.Run(**kwargs)
-        return crud.runs.create(db=self.session, **obj.model_dump(exclude=("id")))
-
-    @overload
-    def put_path(
-        self,
-        *,
-        name: str,
-        path: str,
-        category: str,
-        period_type: str,
-        interval: str,
-        units: str,
-        detail: str,
-    ) -> schemas.NamedPath: ...
-
-    def put_path(self, **kwargs):
-        obj = schemas.NamedPath(**kwargs)
-        return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
-
-    @overload
-    def put_timeseries(
-        self,
-        *,
-        scenario: str,
-        version: str,
-        # shadow pandss RegularTimeseries attributes
-        path: str | pdss.DatasetPath,
-        values: tuple[float, ...],
-        dates: tuple[str, ...],
-        period_type: str,
-        units: str,
-        interval: str,
-    ) -> schemas.Timeseries: ...
-
-    def put_timeseries(self, **kwargs):
-        obj = schemas.Timeseries(**kwargs)
-        return crud.timeseries.create(db=self.session, **obj.model_dump())
-
-    def put_many_timeseries(
-        self,
-        scenario: str,
-        version: str,
-        dss: Path,
-        paths: Iterable[schemas.NamedPath] = None,
-    ) -> list[schemas.Timeseries]:
-        if paths is None:
-            paths = [p.value for p in enums.StandardPathsEnum]
-        elif not isinstance(paths[0], schemas.NamedPath):
-            raise ValueError(f"paths not given as {schemas.NamedPath}")
-        added = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rts = dss_obj.read_rts(p.path)
-                except pdss.errors.UnexpectedDSSReturn:
-                    warn(f"couldn't read {p} from {dss}, (UnexpectedDSSReturn)")
-                    continue
-                except ValueError:
-                    warn(f"couldn't read {p} from {dss}, (ValueError)")
-                    continue
-                # Add path
-                p.path = str(rts.path)
-                found_paths = crud.paths.read(
-                    db=self.session,
-                    name=p.name,
-                    path=p.path,
-                    category=p.category,
-                )
-                if not found_paths:
-                    crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
-                # Add timeseries
-                ts = schemas.Timeseries.from_pandss(scenario, version, rts)
-                kwargs = ts.model_dump()
-                kwargs["path"] = str(rts.path)
-                ts = crud.timeseries.create(db=self.session, **kwargs)
-                added.append(ts)
         return added

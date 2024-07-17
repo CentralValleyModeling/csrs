@@ -1,0 +1,90 @@
+[[objects]]
+name="No TUCP"
+kind="tucp"
+detail="Model does not attempt to simulate Temporary Urgency Change Petitions."
+
+[[objects]]
+name="No DCP"
+kind="dcp"
+detail="Model does not attempt to simulate the Delta Conveyance Project."
+
+[[objects]]
+name="No VA"
+kind="va"
+detail="Model does not attempt to simulate the Agreements to Support Healthy Rivers and Landscapes, also known as Voluntary Agreements."
+
+[[objects]]
+name="No SOD"
+kind="south_of_delta"
+detail="Model does not attempt to simulate additional South of Delta storage."
+
+[[objects]]
+name="2020 (2020 UWMP)"
+kind="land_use"
+detail="2020 Land Use, and Urban Demands from the 2020 Urban Water Management Plans."
+
+[[objects]]
+name="2040 (2020 UWMP)"
+kind="land_use"
+detail="2040 Land Use, and Urban Demands from the 2020 Urban Water Management Plans."
+
+[[objects]]
+name="No SLR"
+kind="sea_level_rise"
+detail="Model does not attempt to simulate Sea Level Rise."
+
+[[objects]]
+name="15cm"
+kind="sea_level_rise"
+detail="15 cm of sea level rise. SLR assumptions for the DCR scenarios are based on the 2022 SLR technical report (Sweet et al. 2022) and accompanying datasets from the Interagency Task Force Sea Level Rise Scenario Tool."
+
+[[objects]]
+name="30cm"
+kind="sea_level_rise"
+detail="30 cm of sea level rise. SLR assumptions for the DCR scenarios are based on the 2022 SLR technical report (Sweet et al. 2022) and accompanying datasets from the Interagency Task Force Sea Level Rise Scenario Tool."
+
+[[objects]]
+name="Historical Hydrology"
+kind="hydrology"
+detail="The historical hydrologic conditions input data represents a period of record of water years 1922 through 2021 (October 1, 1921, through September 30, 2021). The historical hydrologic conditions data set was developed using historical data (streamflow, land use, and meteorological data) when available, and extrapolation from historical data when the full period of historical data was not available"
+
+[[objects]]
+name="Adjusted Historical Hydrology"
+kind="hydrology"
+detail="""The Adjusted Historical Hydrology represents current day hydrologic patterns, accounting for the effects of climate change that have already occured.
+Statistical characteristics of historical rim inflow in California’s Central Valley show noticeable and statistically significant changes in the past 100 years. Standard deviations of precipitation and rim inflow from most of the rim watersheds in the early periods of the past 100 years are significantly different from the recent 30 years. These differences indicate that the non-stationary historical meteorological and hydrological data may not be completely representative of recent and current conditions. To develop a hydrologic data set for the entire modeled period that represents current hydrology, an adjusted historical hydrologic conditions data set was developed. The intent of the adjusted historical hydrologic conditions data set is to provide a reasonable representation of recent climatic conditions and serve as a basis for creating future climate change scenarios.
+The standard deviation and monthly distribution of historical streamflow for the first 70 years of the period of record were adjusted to match the last 30 years via a combination of statistical scaling methods. The resulting data set is identical to the historical hydrologic conditions for water years 1992 through 2021, with adjustments to water years 1922 through 1991."""
+
+[[objects]]
+name="Climate Change Level of Concern 50%"
+kind="hydrology"
+detail="""The 50th percentile level-of-concern scenario represents a 2043 middle-of-the-road or central tendency future for the SWP. It includes:
+- A temperature increase over current average temperatures of 1.5 degrees Celsius (2.7 degrees Fahrenheit [°F]).
+- 1.5 percent wetter average precipitation than current conditions.
+- 10.5-percent increase in the 99th percentile daily precipitation event.
+- 15 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development, and regulations are represented by current regulations, including the 2019 U.S. Fish and Wildlife Service (USFWS) and National Marine Fisheries Service (NMFS) biological opinions, its associated incidental take permit, and the 2018 addendum to the Coordinated Operations Agreement between the SWP and CVP. Ongoing processes, such as voluntary agreements and the 2021 Reinitiation of Consultation for Long-Term Operations of the CVP and SWP, are not included in the modeling.
+Users of this scenario should assume that current climate model simulations indicate that actual 2043 climate conditions would have an approximate equal chance of either being worse than conditions represented in this scenario or as being better than the conditions represented in this scenario — better or worse generally meaning higher or lower SWP water supply deliveries. Put another way, there is an approximate 50-percent chance that planning only this scenario would leave an agency underplanned and potentially under prepared for the actual climate conditions to which they would need to operate. Nonetheless, this scenario could also be considered the statistically expected future level of performance of the SWP system. This scenario may be appropriate for use in certain types of planning documents, such as California Environmental Quality Act environmental impact reports which require agencies to consider “reasonably foreseeable indirect physical change in the environment.” (Public Resources Code section 21065)."""
+
+[[objects]]
+name="Climate Change Level of Concern 75%"
+kind="hydrology"
+detail="""The 75th percentile level-of-concern scenario represents a 2043 worse than average future for the SWP. It includes:
+- A temperature increase above current average temperatures of 1.7 °C (3 °F).
+- Average precipitation amount that is very similar to current conditions.
+- 12-percent increase in the 99th percentile daily precipitation event.
+- 30 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development and regulations are represented by current regulations, including the 2019 USFWS and NMFS biological opinions, its associated incidental take permit and the 2018 addendum to the Coordinated Operations Agreement between the SWP and CVP. Ongoing processes, such as voluntary agreements and the 2021 Reinitiation of Consultation for Long-Term Operations of the CVP and SWP, are not included in the modeling.
+Users of this scenario should assume that current climate model simulations indicate that actual 2043 climate conditions would have about a 25-percent chance of being worse than the conditions represented in this scenario. Put another way, there is an approximate 25-percent chance that planning to only this scenario would leave an agency under-planned and potentially under prepared for the actual climate conditions to which they need to operate. This scenario may be considered a moderate risk aversion scenario, as it provides significantly more challenging future conditions than the 50th percentile level of concern but does not provide the most extreme planning conditions."""
+
+[[objects]]
+name="Climate Change Level of Concern 95%"
+kind="hydrology"
+detail="""The 95th percentile level-of-concern scenario represents a 2043 much worse than average future for the SWP. It includes:
+- A temperature increase over current average temperatures of 1.8 °C (3.2 °F).
+- Average precipitation amount that is 1.8 percent drier than current conditions.
+- 12.6-percent increase in the 99th percentile daily precipitation event.
+- 30 cm of SLR at the Golden Gate Bridge.
+Land use is represented by a 2020 level of development and regulations are represented by current regulations, including the 2019 USFWS and NMFS biological opinions, its associated incidental take permit and the 2018 addendum to the Coordinated Operations Agreement between the SWP and CVP. Ongoing processes, such as voluntary agreements and the 2021 Reinitiation of Consultation for Long-Term Operations of the CVP and SWP, are not included in the modeling.
+Users of this scenario should understand that current climate model simulations indicate that actual 2043 climate conditions would have an approximate 5-percent chance of being worse than the conditions represented in this scenario. Put another way, there is only an approximate 5-percent chance that planning for only this scenario would leave an agency under-planned and potentially under-prepared for the actual climate conditions to which they need to operate. This scenario may be considered a high-risk aversion scenario, as it provides significantly more challenging future conditions than the 50th and 75th percentile levels-of-concern. This scenario provides the most extreme planning conditions for DCR users."""
+

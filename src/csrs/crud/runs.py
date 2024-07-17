@@ -1,13 +1,12 @@
-from pathlib import Path
-
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..errors import LookupUniqueError
 from ..logger import logger
-from .decorators import rollback_on_exception
+from . import timeseries as crud_timeseries
+from ._common import common_update, rollback_on_exception
 from .scenarios import read as read_scenario
-from .scenarios import update_version as update_scenario_version
+from .scenarios import update as update_scenario
 
 
 @rollback_on_exception
@@ -80,8 +79,8 @@ def create(
     # Add the run to the history table
     create_run_history(db, run.scenario_id, run.id, version)
     db.refresh(run)
-    if prefer_this_version:
-        update_scenario_version(db, scenario, version)
+    if prefer_this_version and version:
+        update_scenario(db, id=scenario_model.id, preferred_run=version)
     db.refresh(run)
 
     return model_to_schema(run)
@@ -94,6 +93,7 @@ def create_run_history(
     run_id: int,
     version: str,
 ) -> models.RunHistory:
+    logger.info(f"creating run history {scenario_id=} {version=} {run_id=}")
     hist = models.RunHistory(scenario_id=scenario_id, run_id=run_id, version=version)
     db.add(hist)
     db.commit()
@@ -110,6 +110,9 @@ def read(
     contact: str = None,
     id: int = None,
 ) -> list[schemas.Run]:
+    logger.info(
+        f"reading new run where {scenario=} {version=} {code_version=} {contact=} {id=}"
+    )
     filters = list()
     if scenario:
         (scenario_obj,) = read_scenario(db, name=scenario)
@@ -126,29 +129,59 @@ def read(
     return [model_to_schema(r) for r in runs]
 
 
-def update_dss(
+@rollback_on_exception
+def update(
     db: Session,
-    scenario: str = None,
-    version: str = None,
-    dss: str = None,
+    id: int,
+    version: str | None = None,
+    contact: str | None = None,
+    confidential: bool | None = None,
+    published: bool | None = None,
+    code_version: str | None = None,
+    detail: str | None = None,
 ) -> schemas.Run:
-    runs = (
-        db.query(models.Run)
-        .filter(models.Run.scenario == scenario and models.Run.version == version)
-        .all()
+    logger.info(f"updating run where {id=}")
+    obj = db.query(models.Run).where(models.Run.id == id).first()
+    if not obj:
+        raise LookupUniqueError(models.Run, obj, id=id)
+    # All supported updates on Run are simple setattr actions,
+    # so we will just use the common_update func using args that were not None
+    updates = dict(  # make sure this dict uses all the args above
+        version=version,
+        contact=contact,
+        confidential=confidential,
+        published=published,
+        code_version=code_version,
+        detail=detail,
     )
-    if len(runs) != 1:
-        raise LookupUniqueError(models.Run, runs, scenario=scenario, version=version)
-    run = runs[0]
-    dss_path = Path(dss)
-    if not dss_path.exists():
-        raise FileNotFoundError(dss)
-    run.dss = dss
+    updates = {k: v for k, v in updates.items() if v is not None}
+    logger.info(f"updating with {updates=}")
+    obj = common_update(db, obj, **updates)
     db.commit()
-    db.refresh(run)
+    db.refresh(obj)
+    return model_to_schema(obj)
 
-    return model_to_schema(run)
 
-
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    # When deleting a run, delete all the timeseries that belong to it
+    logger.info(f"deleteing run where {id=}")
+    obj = db.query(models.Run).filter(models.Run.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find Run with {id=}")
+    tss = crud_timeseries.read_all_for_run(
+        db,
+        scenario=obj.scenario.name,
+        version=obj.version,
+    )
+    for ts in tss:
+        crud_timeseries.delete(
+            db,
+            scenario=ts.scenario,
+            version=ts.version,
+            path=ts.path,
+        )
+    db.query(models.Run).filter(models.Run.id == id).delete()
+    db.commit()

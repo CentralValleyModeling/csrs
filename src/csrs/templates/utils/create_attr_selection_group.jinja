@@ -1,0 +1,13 @@
+<div class="col">
+    <ul class="list-group">
+        <li class="list-group-item p-2"><code class="m-0 p-0">{{name}}</code></li>
+        {%for section in sections%}
+        <li class="list-group-item py-0">
+            <div class="input-group input-group-sm m-0 my-1 p-0">
+                {{section|safe}}
+            </div>
+        </li>
+        {%-endfor%}
+    </ul>
+</div>
+

@@ -1,31 +1,23 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateScenarioError, LookupUniqueError, ScenarioAssumptionError
+from ..errors import DuplicateScenarioError, LookupUniqueError
 from ..logger import logger
-from . import assumptions
-from .decorators import rollback_on_exception
-
-
-def validate_full_assumption_specification(assumptions_used: dict):
-    expected = schemas.Scenario.get_assumption_attrs()
-    missing = list()
-    for attr in expected:
-        if attr not in assumptions_used:
-            missing.append(attr)
-    extra = list()
-    for attr in assumptions_used:
-        if attr not in expected:
-            extra.append(attr)
-    if missing or extra:
-        raise ScenarioAssumptionError(missing, extra)
+from . import assumptions as crud_assumptions
+from . import runs as crud_runs
+from ._common import rollback_on_exception
 
 
 def model_to_schema(scenario: models.Scenario):
-    kwargs = dict(name=scenario.name, id=scenario.id)
+    assumptions = dict()
     for mapping in scenario.assumption_maps:
-        kwargs[mapping.assumption_kind] = mapping.assumption.name
-    kwargs["version"] = scenario.version
+        assumptions[mapping.assumption_kind] = mapping.assumption.name
+    kwargs = dict(
+        name=scenario.name,
+        id=scenario.id,
+        preferred_run=scenario.version,
+        assumptions=assumptions,
+    )
     return schemas.Scenario(**kwargs)
 
 
@@ -33,34 +25,30 @@ def model_to_schema(scenario: models.Scenario):
 def create(
     db: Session,
     name: str,
-    version: str = None,
-    **kwargs: dict[str, str],
+    assumptions: dict[str, str],
+    preferred_run: str | None = None,
 ) -> schemas.Scenario:
     logger.info(f"adding scenario, {name=}")
-    if version:
-        logger.warning(
-            f"version given, but ignored when creating new scenario, {version=}"
+    if preferred_run:
+        logger.info(
+            "when creating a new `Scenario`, the `preferred_run` attr is ignored "
+            + "until the corresponding `Run` is created."
         )
-    validate_full_assumption_specification(kwargs)
     dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
         raise DuplicateScenarioError(name)
     scenario_assumptions = dict()
-    for table_name in schemas.Scenario.get_assumption_attrs():
-        assumption_model = assumptions.read(
-            db,
-            kind=table_name,
-            name=kwargs[table_name],
-        )
+    for a_kind, a_name in assumptions.items():
+        assumption_model = crud_assumptions.read(db, kind=a_kind, name=a_name)
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
             raise LookupUniqueError(
                 models.Assumption,
                 assumption_model,
-                table_name=kwargs[table_name],
+                table_name=a_kind,
             )
-        scenario_assumptions[table_name] = assumption_model[0].id
+        scenario_assumptions[a_kind] = assumption_model[0].id
     scenario_model = models.Scenario(name=name)
     # Update assumptions mapping
     db.add(scenario_model)
@@ -97,48 +85,124 @@ def read(
     return [model_to_schema(mod) for mod in result]
 
 
-@rollback_on_exception
-def update_version(db: Session, name: str, new_version: str) -> schemas.Scenario:
-    logger.info(f"updating {name} version to {new_version}")
-    # Check to see if a run exists for the version, scenario
-    scenario = db.query(models.Scenario).filter(models.Scenario.name == name).first()
-    if scenario is None:
-        raise LookupUniqueError(models.Scenario, scenario, name=name)
-    # Check that run exists with that version
-    runs = db.query(models.Run).filter(models.Run.scenario_id == scenario.id).all()
-    runs = [r for r in runs if r.version == new_version]
-    if len(runs) != 1:
-        raise LookupUniqueError(models.Run, runs, version=new_version)
-    run = runs[0]
-    # Change preference
-    update_preference(db, scenario.id, run.id)
-    db.refresh(scenario)
-    logger.debug(f"{scenario.name} version is now {scenario.version}")
-
-    return model_to_schema(scenario)
-
-
-@rollback_on_exception
-def update_preference(
+def _update_name(
     db: Session,
-    scenario_id: int,
-    run_id: int,
-) -> models.PreferredVersion:
-    pref = (
-        db.query(models.PreferredVersion)
-        .filter(models.PreferredVersion.scenario_id == scenario_id)
+    id: int,
+    name: str,
+) -> models.Scenario:
+    obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
+    obj.name = name
+    db.commit()
+    db.refresh(obj)
+    return obj
+
+
+def _update_preferred_run(db: Session, id: int, preferred_run: str) -> models.Scenario:
+    # Retrieve the Run model from the database
+    run = (
+        db.query(models.Run)
+        .join(models.RunHistory)
+        .filter(models.RunHistory.scenario_id == id)
+        .filter(models.RunHistory.version == preferred_run)
         .first()
     )
-    if pref is None:
-        pref = models.PreferredVersion(scenario_id=scenario_id, run_id=run_id)
+    if not run:  # Specied Run not found
+        raise LookupUniqueError(
+            models.Run,
+            run,
+            version=preferred_run,
+            scenario_id=id,
+        )
+    # Find the PreferredVersion object in the db, this stores preferences
+    pref = (
+        db.query(models.PreferredVersion)
+        .where(models.PreferredVersion.scenario_id == id)
+        .first()
+    )
+    if pref is None:  # Newly created Scenario without a preferred Run set
+        pref = models.PreferredVersion(scenario_id=id, run_id=run.id)
         db.add(pref)
     else:
-        pref.run_id = run_id
+        pref.run_id = run.id
     db.commit()
-    db.refresh(pref)
-
-    return pref
+    return db.query(models.Scenario).filter(models.Scenario.id == id).first()
 
 
-def delete() -> None:
-    raise NotImplementedError()
+def _update_assumptions(
+    db: Session,
+    id: int,
+    assumptions: dict[str, str],
+) -> models.Scenario:
+    # Depending if the assumptions given are replacing old, or are new specs...
+    obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
+    logger.info(f"updating assumptions for scenario {obj.name}")
+    existing_assumption_kinds = [a.assumption_kind for a in obj.assumption_maps]
+    for kind, name in assumptions.items():
+        logger.debug(f"setting {kind} to {name}")
+        assumption_obj = crud_assumptions.read(db, kind=kind, name=name)
+        if len(assumption_obj) != 1:
+            raise LookupUniqueError(
+                models.Assumption,
+                assumption_obj,
+                kind=kind,
+                name=name,
+            )
+        assumption_obj = assumption_obj[0]
+        if assumption_obj.kind in existing_assumption_kinds:
+            # Update the ScenarioAssumptions objects for these
+            scenario_assumption_obj = (
+                db.query(models.ScenarioAssumptions)
+                .where(models.ScenarioAssumptions.scenario_id == id)
+                .where(models.ScenarioAssumptions.assumption_kind == kind)
+                .first()
+            )
+            scenario_assumption_obj.assumption_id = assumption_obj.id
+        else:
+            scenario_assumption_obj = models.ScenarioAssumptions(
+                scenaio_id=id,
+                assumption_id=assumption_obj.id,
+                assumption_kind=assumption_obj.kind,
+            )
+            db.add(scenario_assumption_obj)
+    db.commit()
+    db.refresh(obj)
+    return obj
+
+
+@rollback_on_exception
+def update(
+    db: Session,
+    id: int,
+    name: str | None = None,
+    preferred_run: str | None = None,
+    assumptions: dict[str, str] = None,
+) -> schemas.Scenario:
+    obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
+    if not obj:
+        raise LookupUniqueError(models.Scenario, obj, id=id)
+    if name:
+        _update_name(db, id, name)
+    if preferred_run:
+        _update_preferred_run(db, id, preferred_run)
+    if assumptions:
+        _update_assumptions(db, id, assumptions)
+    db.commit()
+    db.refresh(obj)
+
+    return model_to_schema(obj)
+
+
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    # To delete a scenario, we also delete all the runs that belong to it
+    me = read(db, id=id)
+    if not me:
+        raise ValueError(f"Scenario with {id=} was not found")
+    me = me[0]
+    runs = crud_runs.read(db, scenario=me.name)
+    for run in runs:
+        crud_runs.delete(db, id=run.id)
+    db.query(models.Scenario).filter(models.Scenario.id == id).delete()
+    db.commit()

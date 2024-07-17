@@ -1,0 +1,11 @@
+<script>
+    function submitForm(baseId, action) {
+        console.log("Submitting (" + action + ") " + baseId)
+        const form = document.getElementById("form-" + baseId);
+        form.action = action;
+        for (element of form.elements){
+            element.disabled = false;
+        }
+        form.submit()
+    }
+</script>

@@ -4,4 +4,4 @@
 
 The Client objects used to interact with the Server.
 
-:::csrs.clients
+:::csrs.clients.remote

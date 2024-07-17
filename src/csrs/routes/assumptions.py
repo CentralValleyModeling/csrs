@@ -8,10 +8,10 @@ from ..logger import logger
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
 
 
-@router.get("/names", response_model=list[str])
-async def get_assumption_table_names():
+@router.get("/names", response_model=tuple[str, ...])
+async def get_assumption_table_names(db: Session = Depends(get_db)):
     logger.info("getting assumption categories")
-    return schemas.Scenario.get_assumption_attrs()
+    return crud.assumptions.read_kinds(db=db)
 
 
 @router.get("", response_model=list[schemas.Assumption])

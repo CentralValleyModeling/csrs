@@ -1,0 +1,2124 @@
+[[paths]]
+name = "Dos Amigos Pumping Plant"
+path = "/CALSIM/C_CAA087/CHANNEL/.*/1MON/L2020A/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Dos Amigos"
+
+[[paths]]
+name = "Dos Amigos Pumping Plant (CVP)"
+path = "/CALSIM/C_CAA087_CVP/CHANNEL/.*/1MON/L2020A/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Dos Amigos CVP"
+
+[[paths]]
+name = "Dos Amigos Pumping Plant (SWP)"
+path = "/CALSIM/C_CAA087_SWP/CHANNEL/.*/1MON/L2020A/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Dos Amigos SWP"
+
+[[paths]]
+name = "CAA at Panoche Bowl (Pool 17)"
+path = "/.*/C_CAA122/CHANNEL/.*/.*/.*/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Panoche Bowl pool 17"
+
+[[paths]]
+name = "CAA at Los Gatos Bowl (Pool 20)"
+path = "/CALSIM/C_CAA156/CHANNEL/.*/1MON/L2020A/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Los Gatos Bowl, pool 20"
+
+[[paths]]
+name = "CAA at Kern Bowl (Pool 24)"
+path = "/CALSIM/C_CAA207/FLOW-CHANNEL/.*/1MON/L2020A/"
+category = "caa"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "CAA - Kern Bowl, pool 24"
+
+[[paths]]
+name = "CVP Allocation (NOD Ag)"
+path = "/CALSIM/PERDV_CVPAG_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (NOD Ag)"
+
+[[paths]]
+name = "CVP Allocation (NOD M&I)"
+path = "/CALSIM/PERDV_CVPMI_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (NOD M&I)"
+
+[[paths]]
+name = "CVP Allocation (NOD RF)"
+path = "/CALSIM/PERDV_CVPRF_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (NOD RF)"
+
+[[paths]]
+name = "CVP Allocation (NOD SC)"
+path = "/CALSIM/PERDV_CVPSC_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (NOD SC)"
+
+[[paths]]
+name = "CVP Allocation (SOD Ag)"
+path = "/CALSIM/PERDV_CVPAG_S/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (SOD Ag)"
+
+[[paths]]
+name = "CVP Allocation (SOD EX)"
+path = "/CALSIM/PERDV_CVPEX_S/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (SOD EX)"
+
+[[paths]]
+name = "CVP Allocation (SOD M&I)"
+path = "/CALSIM/PERDV_CVPMI_S/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (SOD M&I)"
+
+[[paths]]
+name = "CVP Allocation (SOD RF)"
+path = "/CALSIM/PERDV_CVPRF_S/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - CVP Allocation (SOD RF)"
+
+[[paths]]
+name = "CVP Delivery American River"
+path = "/.*/DEL_CVP_P_AMER/DELIVERY-CVP/.*/.*/.*/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery American"
+
+[[paths]]
+name = "CVP Delivery NOD"
+path = "/CALSIM/DEL_CVP_TOTAL_N/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery NOD"
+
+[[paths]]
+name = "CVP Delivery PAG North"
+path = "/CALSIM/DEL_CVP_PAG_N/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PAG N"
+
+[[paths]]
+name = "CVP Delivery PAG South"
+path = "/CALSIM/DEL_CVP_PAG_S/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PAG S"
+
+[[paths]]
+name = "CVP Delivery PEX South"
+path = "/CALSIM/DEL_CVP_PEX_S/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PEX S"
+
+[[paths]]
+name = "CVP Delivery PMI North"
+path = "/CALSIM/DEL_CVP_PMI_N/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PMI N"
+
+[[paths]]
+name = "CVP Delivery PMI North with American River"
+path = "/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP/.*/.*/.*/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PMI N with Amer"
+
+[[paths]]
+name = "CVP Delivery PMI South"
+path = "/CALSIM/DEL_CVP_PMI_S/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PMI S"
+
+[[paths]]
+name = "CVP Delivery PRF North"
+path = "/CALSIM/DEL_CVP_PRF_N/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PRF N"
+
+[[paths]]
+name = "CVP Delivery PRF South"
+path = "/CALSIM/DEL_CVP_PRF_S/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PRF S"
+
+[[paths]]
+name = "CVP Delivery PSC North"
+path = "/CALSIM/DEL_CVP_PSC_N/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery PSC N"
+
+[[paths]]
+name = "CVP Delivery SOD"
+path = "/CALSIM/CVPTOTALDEL/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery SOD"
+
+[[paths]]
+name = "CVP Delivery SOD no CVC"
+path = "/CALSIM/DEL_CVP_TOTAL_S/DELIVERY-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - CVP Delivery SOD no CVC"
+
+[[paths]]
+name = "CVP Shortage (North)"
+path = "/CALSIM/SHORT_CVP_TOT_N/DELIVERY-SHORTAGE-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SHORT_CVP_TOT_N"
+
+[[paths]]
+name = "CVP Shortage (South)"
+path = "/CALSIM/SHORT_CVP_TOT_S/DELIVERY-SHORTAGE-CVP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SHORT_CVP_TOT_S"
+
+[[paths]]
+name = "SWP Carryover Available"
+path = "/CALSIM/CO_AVAILABLE_DV/CARRYOVER/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP CO available"
+
+[[paths]]
+name = "SWP Carryover Estimated"
+path = "/CALSIM/CO_EST_DV/SWP-OUTPUT/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP CO est"
+
+[[paths]]
+name = "SWP Carryover Final"
+path = "/CALSIM/CO_FINAL_DV/CARRYOVER/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP CO final"
+
+[[paths]]
+name = "SWP Delivery Target (Table A)"
+path = "/CALSIM/DELTAR_A_DV/SWP-OUTPUT/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP Del Target TA"
+
+[[paths]]
+name = "SWP Delivery Target (Table A + Carryover)"
+path = "/CALSIM/DELTARDV_TOTAL/SWP-OUTPUT/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP Del Target TA + CO"
+
+[[paths]]
+name = "SWP Delivery (%)"
+path = "/CALSIM/SWP_PERDELDV/SWP-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Delivery - SWP PERCENT DELIVERY"
+
+[[paths]]
+name = "SWP Var Demand Deltar"
+path = "/CALSIM/VARDELTARDV/SWP-OUTPUT/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP Var Demand Deltar"
+
+[[paths]]
+name = "SWP Carryover (Feather River)"
+path = "/CALSIM/SWP_CO_FEATH/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_CO_FEATH"
+
+[[paths]]
+name = "SWP Carryover (North Bay)"
+path = "/CALSIM/SWP_CO_NBAY/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_CO_NBAY"
+
+[[paths]]
+name = "SWP Carryover Total"
+path = "/CALSIM/SWP_CO_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_CO_TOTAL"
+
+[[paths]]
+name = "SWP Article 21 (Feather)"
+path = "/CALSIM/SWP_IN_FEATH/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_IN_FEATH"
+
+[[paths]]
+name = "SWP Article 21 (North Bay)"
+path = "/CALSIM/SWP_IN_NBAY/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_IN_NBAY"
+
+[[paths]]
+name = "SWP Article 21 Total"
+path = "/CALSIM/SWP_IN_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_IN_TOTAL"
+
+[[paths]]
+name = "SWP Losses"
+path = "/CALSIM/SWP_LOSS/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_LOSS"
+
+[[paths]]
+name = "SWP Table A (Feather)"
+path = "/CALSIM/SWP_TA_FEATH/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_TA_FEATH"
+
+[[paths]]
+name = "SWP Table A (North Bay)"
+path = "/CALSIM/SWP_TA_NBAY/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_TA_NBAY"
+
+[[paths]]
+name = "SWP Table A Total"
+path = "/CALSIM/SWP_TA_TOTAL/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP_TA_TOTAL"
+
+[[paths]]
+name = "SWPTable A (Unused)"
+path = "/CALSIM/UNUSED_TOTALDV/SWP-OUTPUT/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Delivery - SWP_UNUSED_TA_TOTAL"
+
+[[paths]]
+name = "SWP Table A SOD"
+path = "/CALSIM/SWP_TA_SOD/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP TA SOD"
+
+[[paths]]
+name = "SWP Carryover SOD"
+path = "/CALSIM/SWP_CO_SOD/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP CO SOD"
+
+[[paths]]
+name = "SWP Article 21 SOD"
+path = "/CALSIM/SWP_IN_SOD/SWP_DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP IN SOD"
+
+[[paths]]
+name = "SWP Total"
+path = "/CALSIM/SWPTOTALDEL/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delivery - SWP Total"
+
+[[paths]]
+name = "SWP Shortage"
+path = "/CALSIM/SHORT_SWP_TOTA/DELIVERY-SHORTAGE-SWP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - SHORT_SWP_TOTAL"
+
+[[paths]]
+name = "SWP Allocation (FRSA)"
+path = "/CALSIM/PERDV_SWP_FSC/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Other - SWP Allocation (FRSA)"
+
+[[paths]]
+name = "SWP Allocation (M&I)"
+path = "/CALSIM/PERDV_SWP_MWD1/PERCENT-DELIVERY/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Other - SWP Allocation (M&I)"
+
+[[paths]]
+name = "SWP Delivery Int"
+path = "/CALSIM/DEL_SWP_PIN/DELIVERY-SWP/.*/1MON/L2020A/"
+category = "delivery"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - SWP Delivery Int"
+
+[[paths]]
+name = "Banks Exports (CVP)"
+path = "/CALSIM/C_CAA003_CVP/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Banks CVP Exports"
+
+[[paths]]
+name = "Banks Export (CVC)"
+path = "/CALSIM/C_CAA003_CVC/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Banks Export Cross Valley Pumping"
+
+[[paths]]
+name = "Banks Exports Total"
+path = "/CALSIM/D_OMR027_CAA000/DIVERSION/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Banks Exports"
+
+[[paths]]
+name = "Banks Exports (SWP)"
+path = "/CALSIM/C_CAA003_SWP/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Banks SWP Exports"
+
+[[paths]]
+name = "CCWD Exports"
+path = "/CALSIM/D408/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - CCWD"
+
+[[paths]]
+name = "Delta Inflow (NDOI)"
+path = "/CALSIM/DELTAINFLOWFORNDOI/FLOW/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Delta Inflow (NDOI)"
+
+[[paths]]
+name = "Delta Outflow (NDOI)"
+path = "/CALSIM/NDOI/FLOW/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Delta Outflow (NDOI)"
+
+[[paths]]
+name = "Delta Cross Channel Flow"
+path = "/CALSIM/D_SAC030_MOK014/DIVERSION/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - DXC Flow"
+
+[[paths]]
+name = "Excess Outflow (NDOI)"
+path = "/CALSIM/NDOI_ADD/FLOW/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Excess Outflow (NDOI)"
+
+[[paths]]
+name = "Excess Outflow ANN (NDOI)"
+path = "/CALSIM/NDOI_ADD_ANN/FLOW-CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Excess Outflow ANN (NDOI)"
+
+[[paths]]
+name = "Excess Outflow CVP (NDOI)"
+path = "/CALSIM/NDOI_ADD_CVP/FLOW-CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Excess Outflow CVP (NDOI)"
+
+[[paths]]
+name = "Excess Outflow SWP (NDOI)"
+path = "/CALSIM/NDOI_ADD_SWP/FLOW-CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Excess Outflow SWP (NDOI)"
+
+[[paths]]
+name = "Flow at Georgiana Slough"
+path = "/CALSIM/C_SAC029B/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Flow at Georgiana Slough"
+
+[[paths]]
+name = "Flow at Rio Vista"
+path = "/CALSIM/C_SAC017/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Flow at Rio Vista"
+
+[[paths]]
+name = "Flow below Delta Cross Channel"
+path = "/CALSIM/C_SAC030/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Flow below DXC"
+
+[[paths]]
+name = "Jones Exports"
+path = "/CALSIM/D_OMR028_DMC000/DIVERSION/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Jones Exports"
+
+[[paths]]
+name = "Modeled Required Delta Outflow"
+path = "/CALSIM/MRDO_FINALDV/FLOW-REQ-MRDO/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Modeled Required DO"
+
+[[paths]]
+name = "North Bay Aqueduct Exports"
+path = "/CALSIM/C_CSL004B/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - North Bay Aqueduct"
+
+[[paths]]
+name = "Old and Middle River flow"
+path = "/CALSIM/C_OMR014/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Old and Middle River flow"
+
+[[paths]]
+name = "QWestFlow"
+path = "/CALSIM/QWESTFLOW/FLOW-CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - QWestFlow"
+
+[[paths]]
+name = "Required Delta Outflow"
+path = "/CALSIM/NDOI_MIN/FLOW/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Required Delta Outflow"
+
+[[paths]]
+name = "Sacramento River Flow at Freeport"
+path = "/CALSIM/C_SAC048/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Sac Flow at Freeport"
+
+[[paths]]
+name = "Total NDD Exports"
+path = "/CALSIM/EXPORTACTUALIF/EXPORT-PRJ/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Total NDD Exports"
+
+[[paths]]
+name = "Total TD Exports"
+path = "/CALSIM/EXPORTACTUALTD/EXPORT-PRJ/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Total TD Exports"
+
+[[paths]]
+name = "Exports Total (CVP+SWP)"
+path = "/CALSIM/TOTAL_EXP/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Exports Total (CVP+SWP)"
+
+[[paths]]
+name = "Sac Flow at Freeport (above WTP)"
+path = "/CALSIM/C_SAC049/CHANNEL/.*/1MON/L2020A/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Sac Flow at Freeport (above WTP)"
+
+[[paths]]
+name = "True Surplus Outflow"
+path = "/.*/True_Surplus_DV/outflow metric/.*/.*/.*/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - True Surplus Outflow"
+
+[[paths]]
+name = "Carriage Water Outflow"
+path = "/.*/Salinity_CW_outflow_DV/outflow metric/.*/.*/.*/"
+category = "delta"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Delta - Carriage Water  Outflow"
+
+[[paths]]
+name = "Banks Export CVP Dedicated"
+path = "/CALSIM/C_CAA003_CVPDED/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks Export CVP Dedicated"
+
+[[paths]]
+name = "Banks Export Fed Share"
+path = "/CALSIM/C_CAA003_EXP2/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks Export Fed Share"
+
+[[paths]]
+name = "Banks Export JPOD"
+path = "/CALSIM/C_CAA003_CVPWHL/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks Export JPOD"
+
+[[paths]]
+name = "Banks Export State Share"
+path = "/CALSIM/C_CAA003_EXP1/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks Export State Share"
+
+[[paths]]
+name = "Banks Export WTS"
+path = "/CALSIM/C_CAA003_WTS/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks Export WTS"
+
+[[paths]]
+name = "Banks PP North Delta"
+path = "/CALSIM/C_CAA003_IF/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks PP North Delta"
+
+[[paths]]
+name = "Banks PP SWP Through Delta"
+path = "/CALSIM/C_CAA003_SWP_TD/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks PP SWP Through Delta"
+
+[[paths]]
+name = "Banks PP Through Delta"
+path = "/CALSIM/C_CAA003_TD/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Banks PP Through Delta"
+
+[[paths]]
+name = "Jones Export Fed Share"
+path = "/CALSIM/C_DMC000_EXP1/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Jones Export Fed Share"
+
+[[paths]]
+name = "Jones Export State Share"
+path = "/CALSIM/C_DMC000_EXP2/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Jones Export State Share"
+
+[[paths]]
+name = "Jones Export WTS"
+path = "/CALSIM/C_DMC000_WTS/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Jones Export WTS"
+
+[[paths]]
+name = "Jones PP North Delta"
+path = "/CALSIM/C_DMC000_IF/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Jones PP North Delta"
+
+[[paths]]
+name = "Jones PP Through Delta"
+path = "/CALSIM/C_DMC000_TD/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = "exports"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Jones PP Through Delta"
+
+[[paths]]
+name = "WBA 10 Pumping"
+path = "/CALSIM/GP_WBATOTAL_10/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_10"
+
+[[paths]]
+name = "WBA 11 Pumping"
+path = "/CALSIM/GP_WBATOTAL_11/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_11"
+
+[[paths]]
+name = "WBA 12 Pumping"
+path = "/CALSIM/GP_WBATOTAL_12/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_12"
+
+[[paths]]
+name = "WBA 13 Pumping"
+path = "/CALSIM/GP_WBATOTAL_13/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_13"
+
+[[paths]]
+name = "WBA 14 Pumping"
+path = "/CALSIM/GP_WBATOTAL_14/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_14"
+
+[[paths]]
+name = "WBA 15N Pumping"
+path = "/CALSIM/GP_WBATOTAL_15N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_15N"
+
+[[paths]]
+name = "WBA 15S Pumping"
+path = "/CALSIM/GP_WBATOTAL_15S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_15S"
+
+[[paths]]
+name = "WBA 16 Pumping"
+path = "/CALSIM/GP_WBATOTAL_16/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_16"
+
+[[paths]]
+name = "WBA 17N Pumping"
+path = "/CALSIM/GP_WBATOTAL_17N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_17N"
+
+[[paths]]
+name = "WBA 17S Pumping"
+path = "/CALSIM/GP_WBATOTAL_17S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_17S"
+
+[[paths]]
+name = "WBA 18 Pumping"
+path = "/CALSIM/GP_WBATOTAL_18/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_18"
+
+[[paths]]
+name = "WBA 19 Pumping"
+path = "/CALSIM/GP_WBATOTAL_19/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_19"
+
+[[paths]]
+name = "WBA 2 Pumping"
+path = "/CALSIM/GP_WBATOTAL_2/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_2"
+
+[[paths]]
+name = "WBA 20 Pumping"
+path = "/CALSIM/GP_WBATOTAL_20/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_20"
+
+[[paths]]
+name = "WBA 21 Pumping"
+path = "/CALSIM/GP_WBATOTAL_21/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_21"
+
+[[paths]]
+name = "WBA 22 Pumping"
+path = "/CALSIM/GP_WBATOTAL_22/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_22"
+
+[[paths]]
+name = "WBA 23 Pumping"
+path = "/CALSIM/GP_WBATOTAL_23/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_23"
+
+[[paths]]
+name = "WBA 24 Pumping"
+path = "/CALSIM/GP_WBATOTAL_24/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_24"
+
+[[paths]]
+name = "WBA 25 Pumping"
+path = "/CALSIM/GP_WBATOTAL_25/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_25"
+
+[[paths]]
+name = "WBA 26N Pumping"
+path = "/CALSIM/GP_WBATOTAL_26N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_26N"
+
+[[paths]]
+name = "WBA 26S Pumping"
+path = "/CALSIM/GP_WBATOTAL_26S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_26S"
+
+[[paths]]
+name = "WBA 3 Pumping"
+path = "/CALSIM/GP_WBATOTAL_3/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_3"
+
+[[paths]]
+name = "WBA 4 Pumping"
+path = "/CALSIM/GP_WBATOTAL_4/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_4"
+
+[[paths]]
+name = "WBA 5 Pumping"
+path = "/CALSIM/GP_WBATOTAL_5/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_5"
+
+[[paths]]
+name = "WBA 50 Pumping"
+path = "/CALSIM/GP_WBATOTAL_50/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_50"
+
+[[paths]]
+name = "WBA 6 Pumping"
+path = "/CALSIM/GP_WBATOTAL_6/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_6"
+
+[[paths]]
+name = "WBA 60N Pumping"
+path = "/CALSIM/GP_WBATOTAL_60N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_60N"
+
+[[paths]]
+name = "WBA 60S Pumping"
+path = "/CALSIM/GP_WBATOTAL_60S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_60S"
+
+[[paths]]
+name = "WBA 61 Pumping"
+path = "/CALSIM/GP_WBATOTAL_61/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_61"
+
+[[paths]]
+name = "WBA 62 Pumping"
+path = "/CALSIM/GP_WBATOTAL_62/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_62"
+
+[[paths]]
+name = "WBA 63 Pumping"
+path = "/CALSIM/GP_WBATOTAL_63/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_63"
+
+[[paths]]
+name = "WBA 64 Pumping"
+path = "/CALSIM/GP_WBATOTAL_64/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_64"
+
+[[paths]]
+name = "WBA 71 Pumping"
+path = "/CALSIM/GP_WBATOTAL_71/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_71"
+
+[[paths]]
+name = "WBA 72 Pumping"
+path = "/CALSIM/GP_WBATOTAL_72/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_72"
+
+[[paths]]
+name = "WBA 73 Pumping"
+path = "/CALSIM/GP_WBATOTAL_73/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_73"
+
+[[paths]]
+name = "WBA 7N Pumping"
+path = "/CALSIM/GP_WBATOTAL_7N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_7N"
+
+[[paths]]
+name = "WBA 7S Pumping"
+path = "/CALSIM/GP_WBATOTAL_7S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_7S"
+
+[[paths]]
+name = "WBA 8N Pumping"
+path = "/CALSIM/GP_WBATOTAL_8N/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_8N"
+
+[[paths]]
+name = "WBA 8S Pumping"
+path = "/CALSIM/GP_WBATOTAL_8S/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_8S"
+
+[[paths]]
+name = "WBA 9 Pumping"
+path = "/CALSIM/GP_WBATOTAL_9/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_9"
+
+[[paths]]
+name = "WBA 90 Pumping"
+path = "/CALSIM/GP_WBATOTAL_90/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_90"
+
+[[paths]]
+name = "WBA 91 Pumping"
+path = "/CALSIM/GP_WBATOTAL_91/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - WBATOTAL_91"
+
+[[paths]]
+name = "Total Sacramento Basin Pumping"
+path = "/CALSIM/GP_SACWBA/GW-PUMPING/.*/1MON/L2020A/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - Sacramento Basin"
+
+[[paths]]
+name = "Total San Joaquin Basin Pumping"
+path = "/.*/GP_SJRWBA/GW-PUMPING/.*/.*/.*/"
+category = "gw pumping"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "GW Pumping - San Joaquin Basin"
+
+[[paths]]
+name = "Delta Cross Channel Days Open"
+path = "/CALSIM/DXC/GATE-DAYS-OPEN/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Other - DCC gate days open"
+
+[[paths]]
+name = "E.I. Ratio"
+path = "/CALSIM/EXPRATIO_/EI-RATIO-STD/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "Other - EI RATIO"
+
+[[paths]]
+name = "Diversion to Hamilton City"
+path = "/CALSIM/D_SAC207_GCC007/DIVERSION/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Hamilton City (diversion)"
+
+[[paths]]
+name = "Diversion to Red Bluff Diversion Dam"
+path = "/CALSIM/D_SAC240_TCC001/DIVERSION/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Red Bluff Diversion Dam (diversion)"
+
+[[paths]]
+name = "RPA Constraint (Banks)"
+path = "/CALSIM/MAXEXP_RPA_SWPDV/EXPORT-LIMIT/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - RPA Constraint Banks"
+
+[[paths]]
+name = "RPA Constraint (Jones)"
+path = "/CALSIM/MAXEXP_RPA_CVPDV/EXPORT-LIMIT/.*/1MON/L2020A/"
+category = "operations"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - RPA Constraint Jones"
+
+[[paths]]
+name = "Brandt Bridge Electrical Conductivity"
+path = "/CALSIM/BD_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - BD EC"
+
+[[paths]]
+name = "Electrical Conductivity at CI"
+path = "/CALSIM/CI_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - CI EC"
+
+[[paths]]
+name = "Electrical Conductivity at CO"
+path = "/CALSIM/CO_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - CO EC"
+
+[[paths]]
+name = "Electrical Conductivity at Emmaton"
+path = "/CALSIM/EM_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - EM EC"
+
+[[paths]]
+name = "Electrical Conductivity at Jersey Point"
+path = "/CALSIM/JP_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - JP EC"
+
+[[paths]]
+name = "Electrical Conductivity at LV"
+path = "/CALSIM/LV_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - LV EC"
+
+[[paths]]
+name = "Electrical Conductivity at Middle River"
+path = "/CALSIM/MR_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - MR EC"
+
+[[paths]]
+name = "Electrical Conductivity at Rock Slough"
+path = "/CALSIM/RS_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - RS EC"
+
+[[paths]]
+name = "Electrical Conductivity at VI"
+path = "/CALSIM/VI_EC_MONTH/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - VI EC"
+
+[[paths]]
+name = "Previous X2 Position"
+path = "/CALSIM/X2_PRV/X2-POSITION-PREV/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "KM"
+detail = "Salinity - X2 Position prev"
+
+[[paths]]
+name = "Electrical Conductivity Standard at CO"
+path = "/CALSIM/CO_EC_STD/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - CO EC standard"
+
+[[paths]]
+name = "Electrical Conductivity Standard at Emmaton"
+path = "/CALSIM/EM_EC_STD/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - EM EC standard"
+
+[[paths]]
+name = "Electrical Conductivity Standard at Jersey Point"
+path = "/CALSIM/JP_EC_STD/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - JP EC standard"
+
+[[paths]]
+name = "Electrical Conductivity Standard at Rock Slough"
+path = "/CALSIM/RS_EC_STD/SALINITY/.*/1MON/L2020A/"
+category = "salinity"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "UMHOS/CM"
+detail = "Salinity - RS EC standard"
+
+[[paths]]
+name = "Seepage from the Feather River Basin"
+path = "/CALSIM/SG_FTRALL/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Feather River Basin"
+
+[[paths]]
+name = "Seepage from the Sacramento River above Bend Bridge"
+path = "/CALSIM/SG_SACAB/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Sacramento River above Bend Bridge"
+
+[[paths]]
+name = "Seepage from the Sacramento River from Bend Bridge to Butte City"
+path = "/CALSIM/SG_SACBB/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Sacramento River from Bend Bridge to Butte City"
+
+[[paths]]
+name = "Seepage from the Sacramento River from Butte City to Fremont Weir"
+path = "/CALSIM/SG_SACFB/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Sacramento River from Butte City to Fremont Weir"
+
+[[paths]]
+name = "Seepage from the Sacramento River from Fremont Weir to Freeport, including the American River"
+path = "/CALSIM/SG_SACAMR/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Sacramento River from Fremont Weir to Freeport (includes American)"
+
+[[paths]]
+name = "Seepage from the Yolo Bypass, Putah Creek, and Cache Creek"
+path = "/CALSIM/SG_YBPALL/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Yolo Bypass, Putah Creek, Cache Creek"
+
+[[paths]]
+name = "Sacramento Valley Total Seepage"
+path = "/CALSIM/SG_SACBASIN/STREAM-GAIN/.*/1MON/L2020A/"
+category = "seepage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Seepage - Sacramento Valley Total"
+
+[[paths]]
+name = "Additional South of Delta Storage"
+path = "/.*/S_SODSE/STORAGE/.*/.*/.*/"
+category = "sodse"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "SODSE - Storage"
+
+[[paths]]
+name = "Allocation Increase due to South of Delta Storage"
+path = "/.*/SODSE_ALLOC_AUGMENT_/VOLUME-AUGMENTATION/.*/.*/.*/"
+category = "sodse"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "SODSE - Allocation increase"
+
+[[paths]]
+name = "Storage in Folsom Reservoir"
+path = "/CALSIM/S_FOLSM/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Folsom Storage"
+
+[[paths]]
+name = "Storage in Millerton Lake"
+path = "/CALSIM/S_MLRTN/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Friant Storage"
+
+[[paths]]
+name = "Storage in Lake McClure"
+path = "/CALSIM/S_MCLRE/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - McClure Storage"
+
+[[paths]]
+name = "Storage in New Don Pedro Reservoir"
+path = "/CALSIM/S_PEDRO/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - New Don Pedro Storage"
+
+[[paths]]
+name = "Storage in New Melones Lake"
+path = "/CALSIM/S_MELON/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - New Melones Storage"
+
+[[paths]]
+name = "Storage in Oroville Lake"
+path = "/CALSIM/S_OROVL/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Oroville Storage"
+
+[[paths]]
+name = "Storage in San Luis Reservoir (CVP)"
+path = "/CALSIM/S_SLUIS_CVP/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - San Luis Storage - CVP"
+
+[[paths]]
+name = "Storage in San Luis Reservoir (SWP)"
+path = "/CALSIM/S_SLUIS_SWP/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - San Luis Storage - SWP"
+
+[[paths]]
+name = "Storage in Shasta Reservoir"
+path = "/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Shasta Storage"
+
+[[paths]]
+name = "San Luis Rule Curve (CVP)"
+path = "/CALSIM/CVPRULECV/RULECURVE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - SL CVP Rule curve"
+
+[[paths]]
+name = "San Luis Rule Curve (SWP)"
+path = "/CALSIM/SWPRULECV/RULECURVE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - SL SWP Rule curve"
+
+[[paths]]
+name = "Storage in Trinity Lake"
+path = "/CALSIM/S_TRNTY/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Trinity Storage"
+
+[[paths]]
+name = "Storage in Whiskeytown Lake"
+path = "/CALSIM/S_WKYTN/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - Whiskeytown"
+
+[[paths]]
+name = "Storage in San Luis Reservoir"
+path = "/CALSIM/S_SLUIS/STORAGE/.*/1MON/L2020A/"
+category = "storage"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "TAF"
+detail = "Storage - San Luis - total"
+
+[[paths]]
+name = "Feather River Flow below Thermolito"
+path = "/CALSIM/C_FTR059/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Feather below Thermolito"
+
+[[paths]]
+name = "Feather River Flow above Fremont Weir"
+path = "/CALSIM/C_FTR003/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - FeatherFlowAbvFremontWeir"
+
+[[paths]]
+name = "Feather River Low Flow"
+path = "/CALSIM/C_FTR068/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - FeatherLowFlow"
+
+[[paths]]
+name = "Feather River Flow at Yuba Confluence"
+path = "/CALSIM/C_FTR031/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - FeatherYubaConfluence"
+
+[[paths]]
+name = "Fremont Weir Spills"
+path = "/CALSIM/SP_SAC083_YBP037/RIVER-SPILLS/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Fremont Weir spills"
+
+[[paths]]
+name = "American River Flow at H-Street"
+path = "/CALSIM/C_AMR004/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - H-Street"
+
+[[paths]]
+name = "Merced River Flow (Mouth)"
+path = "/CALSIM/C_MCD021/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - MercedMouth"
+
+[[paths]]
+name = "Mokelumne River Flow"
+path = "/CALSIM/C_MOK022/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Mokelumne Flow"
+
+[[paths]]
+name = "Lake Natoma Release"
+path = "/CALSIM/C_NTOMA/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-American Nimbus"
+
+[[paths]]
+name = "Clear Creek Release"
+path = "/CALSIM/C_CLR011/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-ClearCreek"
+
+[[paths]]
+name = "Millerton Lake Release"
+path = "/CALSIM/C_MLRTN/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-Friant"
+
+[[paths]]
+name = "New Don Pedro Release"
+path = "/CALSIM/C_PEDRO/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-NewDonPedro"
+
+[[paths]]
+name = "Mendtoa Pool Release"
+path = "/CALSIM/C_MDOTA/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-MendotaPool"
+
+[[paths]]
+name = "Lake McClure Release"
+path = "/CALSIM/C_MCLRE/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-McClure"
+
+[[paths]]
+name = "New Melones Lake Release"
+path = "/CALSIM/C_MELON/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-NewMelones"
+
+[[paths]]
+name = "Oroville Lake Release"
+path = "/CALSIM/C_OROVL/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-Oroville"
+
+[[paths]]
+name = "Keswick Reservoir Release"
+path = "/CALSIM/C_KSWCK/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-Sacramento Keswick"
+
+[[paths]]
+name = "Stanislaus River Flow at Goodwin Dam"
+path = "/CALSIM/C_STS059/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-Stanislaus (Goodwin)"
+
+[[paths]]
+name = "Trinity Lake Release"
+path = "/CALSIM/C_LWSTN/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Release-Trinity"
+
+[[paths]]
+name = "Sacramento River Flow above Fremont Weir"
+path = "/CALSIM/C_SAC085/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SacFlowAbvFremontWeir"
+
+[[paths]]
+name = "Sacramento River Flow at Hood"
+path = "/CALSIM/C_SAC041/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SacFlowHood"
+
+[[paths]]
+name = "Sacramento River Flow at Red Bluff"
+path = "/CALSIM/C_SAC240/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SacFlowRedBluff"
+
+[[paths]]
+name = "Sacramento River Flow at Verona"
+path = "/CALSIM/C_SAC083/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SacFlowVerona"
+
+[[paths]]
+name = "Sacramento River Flow at Wilkins Slough"
+path = "/CALSIM/C_SAC097/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SacFlowWilkinsSlough"
+
+[[paths]]
+name = "Sacramento Weir Spills"
+path = "/CALSIM/SP_SAC066_YBP020/RIVER-SPILLS/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Sacramento Weir spills"
+
+[[paths]]
+name = "San Joaquin River QWEST Flows"
+path = "/CALSIM/C_SJR013/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SJR QWEST flows"
+
+[[paths]]
+name = "San Joaquin River Flow at Merced River"
+path = "/CALSIM/C_SJR119/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SJRUpstreamMerc"
+
+[[paths]]
+name = "San Joaquin River Flow at Stanislaus River"
+path = "/CALSIM/C_SJR075/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - SJRUpstreamStan"
+
+[[paths]]
+name = "Flow in Spring Creek Tunnel"
+path = "/CALSIM/D_WKYTN_SPT003/DIVERSION/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Spring Creek Tunnel"
+
+[[paths]]
+name = "Stanislaus River Flow at Mouth"
+path = "/CALSIM/C_STS030/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - StanislausMouth"
+
+[[paths]]
+name = "Tuolumne River Flow at Mouth"
+path = "/CALSIM/C_TUO003/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - TuolumneMouth"
+
+[[paths]]
+name = "San Joaquin River Flow at Vernalis"
+path = "/CALSIM/C_SJR070/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Vernalis Flow"
+
+[[paths]]
+name = "Verona Closure Term"
+path = "/CALSIM/CT_VERONA/CLOSURE-TERM/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Verona Closure Term"
+
+[[paths]]
+name = "Yolo Bypass Flow"
+path = "/CALSIM/C_YBP020/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - Yolo Bypass"
+
+[[paths]]
+name = "Yuba River at Feather Confluence"
+path = "/CALSIM/C_YUB002/CHANNEL/.*/1MON/L2020A/"
+category = "upstream flows"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Upstream Flows - YubaFeatherConfluence"
+
+[[paths]]
+name = "American River VA flow"
+path = "/.*/NDOI_ADD_AMERVA/VA-VOLUME/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - American VA flow"
+
+[[paths]]
+name = "Delta VA flow"
+path = "/.*/NDOI_ADD_DELTAVA/VA-VOLUME/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Delta VA flow"
+
+[[paths]]
+name = "Feather River VA flow"
+path = "/.*/NDOI_ADD_FEATHERVA/FLOW-VA/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Feather VA flow"
+
+[[paths]]
+name = "Friant VA flow"
+path = "/CALSIM/FRIANTVA_FLOW/VA-FLOW/.*/1MON/L2020A/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Friant VA flow"
+
+[[paths]]
+name = "Mokelumne River VA flow"
+path = "/.*/MOKELUMNEVA_FLOW/FLOW/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Mokelumne VA flow"
+
+[[paths]]
+name = "Putah Creek VA flow"
+path = "/.*/VAFLOW_PUTAHDV/VA-FLOW/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Putah VA flow"
+
+[[paths]]
+name = "Sacramento River VA flow"
+path = "/.*/NDOI_ADD_SACVA/FLOW-VA/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Sacramento VA flow"
+
+[[paths]]
+name = "Total VA Delta outflow"
+path = "/.*/NDOI_ADD_VA/FLOW/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Total VA Delta outflow"
+
+[[paths]]
+name = "Yuba River VA flow"
+path = "/.*/YUBA_VA_ADDDV/VA-VOLUME/.*/.*/.*/"
+category = "va"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "VA - Yuba VA flow"
+
+[[paths]]
+name = "Water Year Type (Sacramento River)"
+path = "/CALSIM/WYT_SAC_/WATERYEARTYPE/.*/1MON/L2020A/"
+category = "wyt"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "WYT_SAC_"
+
+[[paths]]
+name = "Water Year Type (San Joaquin River)"
+path = "/CALSIM/WYT_SJR_/WATERYEARTYPE/.*/1MON/L2020A/"
+category = "wyt"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "WYT_SJR_"
+
+[[paths]]
+name = "Water Year Type (Feather River)"
+path = "/CALSIM/WYT_FEATHER_/WATERYEARTYPE/.*/1MON/L2020A/"
+category = "wyt"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "WYT_FEATHER_"
+
+[[paths]]
+name = "Water Year Type (Shasta CVP)"
+path = "/CALSIM/WYT_SHASTA_CVP_/WATERYEARTYPE/.*/1MON/L2020A/"
+category = "wyt"
+interval = "1MON"
+period_type = "PER-AVER"
+units = "NONE"
+detail = "WYT_SHASTA_CVP_"
+
+[[paths]]
+name = "DMC Inflow to Mendota Pool"
+path = "/CALSIM/C_DMC116/CHANNEL/.*/1MON/L2020A/"
+category = ""
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - DMC inflow to MendotaPool"
+
+[[paths]]
+name = "Net DICU"
+path = "/CALSIM/NET_DICU/DICU_FLOW/.*/1MON/L2020A/"
+category = ""
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - net DICU"
+
+[[paths]]
+name = "Trinity Export"
+path = "/CALSIM/D_LWSTN_CCT011/DIVERSION/.*/1MON/L2020A/"
+category = ""
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Trinity Export"
+
+[[paths]]
+name = "Trinity Export Excess"
+path = "/CALSIM/D_LWSTN_ADD/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = ""
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Trinity Export Excess"
+
+[[paths]]
+name = "Trinity Export Operations"
+path = "/CALSIM/D_LWSTN_IMPORT/FLOW-DELIVERY/.*/1MON/L2020A/"
+category = ""
+interval = "1MON"
+period_type = "PER-AVER"
+units = "CFS"
+detail = "Other - Trinity Export Ops x"
+

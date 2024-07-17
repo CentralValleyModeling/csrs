@@ -1,10 +1,8 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..enums import PathCategoryEnum
-from ..errors import PathCategoryError
 from ..logger import logger
-from .decorators import rollback_on_exception
+from ._common import common_update, rollback_on_exception
 
 
 @rollback_on_exception
@@ -21,10 +19,6 @@ def create(
 ) -> schemas.NamedPath:
     logger.info(f"creating new named path {name=}, {path=}")
     # Check if category is valid
-    try:
-        category = PathCategoryEnum(category)
-    except ValueError:
-        raise PathCategoryError(category)
     path = models.NamedPath(
         name=name,
         path=str(path),
@@ -63,9 +57,26 @@ def read(
     return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 
 
-def update():
-    raise NotImplementedError()
+def update(
+    db: Session,
+    id: int,
+    **kwargs,
+) -> schemas.NamedPath:
+    obj = db.query(models.NamedPath).filter(models.NamedPath.id == id).first()
+    if obj:
+        updated = common_update(db, obj, **kwargs)
+    else:
+        raise ValueError(f"Cannot find Assumption with {id=}")
+    return updated
 
 
-def delete():
-    raise NotImplementedError()
+def delete(
+    db: Session,
+    id: int,
+) -> None:
+    logger.info(f"deleteing path where {id=}")
+    obj = db.query(models.NamedPath).filter(models.NamedPath.id == id).first()
+    if not obj:
+        raise ValueError(f"Cannot find NamedPath with {id=}")
+    db.query(models.NamedPath).filter(models.NamedPath.id == id).delete()
+    db.commit()

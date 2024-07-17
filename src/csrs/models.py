@@ -6,7 +6,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy.schema import UniqueConstraint
 
-from .enums import AssumptionEnum, IntervalEnum, PathCategoryEnum, PeriodTypeEnum
+from .enums import IntervalEnum, PeriodTypeEnum
 
 
 # Create a base class for our ORM models
@@ -21,7 +21,7 @@ class Assumption(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
-    kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
+    kind: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column()
     # ORM relationships
     scenario_map: Mapped[list["ScenarioAssumptions"]] = relationship(
@@ -49,7 +49,7 @@ class ScenarioAssumptions(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     scenario_id: Mapped[int] = mapped_column(ForeignKey("scenarios.id"), nullable=False)
-    assumption_kind: Mapped[AssumptionEnum] = mapped_column(nullable=False)
+    assumption_kind: Mapped[str] = mapped_column(nullable=False)
     assumption_id: Mapped[int] = mapped_column(
         ForeignKey("assumptions.id"), nullable=False
     )
@@ -174,7 +174,12 @@ class RunHistory(Base):
         UniqueConstraint(
             "scenario_id",
             "run_id",
-            name="unique_edition",
+            name="unique_run",
+        ),
+        UniqueConstraint(
+            "scenario_id",
+            "version",
+            name="unique_version",
         ),
     )
 
@@ -200,7 +205,7 @@ class NamedPath(Base):
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column()
     path: Mapped[str] = mapped_column()
-    category: Mapped[PathCategoryEnum] = mapped_column(nullable=False)
+    category: Mapped[str] = mapped_column(nullable=False)
     period_type: Mapped[PeriodTypeEnum] = mapped_column(nullable=False)
     interval: Mapped[IntervalEnum] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)

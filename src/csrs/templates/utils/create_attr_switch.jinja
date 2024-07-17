@@ -1,0 +1,16 @@
+{% extends "utils/_editable_attr.jinja" %}
+{% block editable %}
+<div class="form-check form-switch m-0 mt-1">
+    <input 
+        type="checkbox" 
+        class="form-check-input {{toggle_tag}}" 
+        id="new" 
+        name="{{name}}" 
+        role="switch"
+        required
+        {% if default%}
+        checked
+        {%- endif %}
+    >
+</div>
+{% endblock %}

@@ -42,24 +42,15 @@ class Scenario(CSRS_Model):
 
     id: int | None = Field(default=None, repr=False)
     name: str
-    version: str | None = None
-    # The attributes below should match the enum AssumptionEnumeration
-    land_use: str = Field(repr=False)
-    sea_level_rise: str = Field(repr=False)
-    hydrology: str = Field(repr=False)
-    tucp: str = Field(repr=False)
-    dcp: str = Field(repr=False)
-    va: str = Field(repr=False)
-    south_of_delta: str = Field(repr=False)
+    assumptions: dict[str, str] = Field(repr=False)
+    preferred_run: str | None = Field(None, repr=False)
 
     @classmethod
     def get_non_assumption_attrs(cls) -> tuple[str]:
-        return ("id", "name", "version")
+        return ("id", "name", "preferred_run")
 
-    @classmethod
-    def get_assumption_attrs(cls) -> tuple[str]:
-        excluded = cls.get_non_assumption_attrs()
-        return tuple(a for a in cls.model_fields if a not in excluded)
+    def get_assumption_attrs(self) -> tuple[str]:
+        return tuple(self.assumptions.keys())
 
 
 class Run(CSRS_Model):

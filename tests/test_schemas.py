@@ -13,14 +13,8 @@ EXPECTED_ASSUMPTION = {
 EXPECTED_SCENARIO = {
     "id": int | None,
     "name": str,
-    "version": str | None,
-    "land_use": str,
-    "sea_level_rise": str,
-    "hydrology": str,
-    "tucp": str,
-    "dcp": str,
-    "va": str,
-    "south_of_delta": str,
+    "assumptions": dict[str, str],
+    "preferred_run": str | None,
 }
 
 EXPECTED_RUN = {
@@ -86,7 +80,7 @@ def check_schema_columns(schema: schemas.BaseModel, expectations: dict[str, type
     for name in schema.model_fields:
         if name not in expectations:
             extra.append(name)
-    assert len(extra) == 0, f"model has unexpected columns: {extra}"
+    assert len(extra) == 0, f"schema has unexpected columns: {extra}"
 
 
 def check_schema_column_types(schema: schemas.BaseModel, expectations: dict[str, type]):
