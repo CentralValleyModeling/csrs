@@ -8,4 +8,10 @@ router = APIRouter(prefix="/home", include_in_schema=False)
 
 @router.get("", response_class=HTMLResponse)
 async def get_home(request: Request):
-    return templates.TemplateResponse("pages/home.jinja", {"request": request})
+    return templates.TemplateResponse(
+        "pages/home.jinja",
+        {
+            "request": request,
+            "page_title": "CalSim Scenario Results Server",
+        },
+    )

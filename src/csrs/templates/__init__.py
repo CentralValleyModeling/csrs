@@ -8,4 +8,4 @@ from .objects import (
     NewRuns,
     NewScenario,
 )
-from .templates import templates
+from .templates import env, templates

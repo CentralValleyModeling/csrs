@@ -1,0 +1,60 @@
+<p>
+    Named Paths are the HEC-DSS-style A-F paths that are used to 
+    address data inside a DSS file. 
+</p>
+<p>
+    Each <code>NamedPath</code> in the database has the following attributes:
+</p>
+<!-- attrs -->
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">name <code>str</code></div>
+            The common name of the path.
+        </div>
+    </li>
+
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">path <code>str</code></div>
+            The <code>DSS</code> style A-F path of the Timeseries.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">category <code>str</code></div>
+            The type of path, something like <code>storage</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">detail <code>str</code></div>
+            The metadata describing the path, usually a paragraph of text.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">period_type <code>str</code></div>
+            Shadows the HEC-DSS period_type specification for the NamedPath, usually something like <code>PER-CUM</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">units <code>str</code></div>
+            The units for the values of this NamedPath.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">interval <code>str</code></div>
+            Shadows the HEC-DSS interval specification for the NamedPath, usually something like <code>1MON</code>.
+        </div>
+    </li>
+
+</ul>

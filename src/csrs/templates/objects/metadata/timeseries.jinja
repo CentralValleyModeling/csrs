@@ -1,0 +1,65 @@
+<p>
+    Timeseries are the actual data produced by a model run. 
+</p>
+<p>
+    Each Timeseries in the database has the following attributes:
+</p>
+<!-- attrs -->
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">scenario <code>str</code></div>
+            The common name of the scenario the run belongs to.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">version <code>str</code></div>
+            The version of the run, usually something like <code>1.0.5</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">path <code>str</code></div>
+            The <code>DSS</code> style A-F path of the Timeseries.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">values <code>list</code></div>
+            The values of the Timeseries, the same length as <code>dates</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">dates <code>list</code></div>
+            The dates of the Timeseries, the same length as <code>values</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">period_type <code>str</code></div>
+            Shadows the HEC-DSS period_type specification for the Timeseries, usually something like <code>PER-CUM</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">units <code>str</code></div>
+            The units for the values of this Timeseries.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">interval <code>str</code></div>
+            Shadows the HEC-DSS interval specification for the Timeseries, usually something like <code>1MON</code>.
+        </div>
+    </li>
+
+</ul>

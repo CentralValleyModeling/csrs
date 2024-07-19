@@ -12,31 +12,33 @@
 {{super()}}
 <style>
 .accordion-button:focus {
-    outline: none;
-    box-shadow: none;
-    background-color: var(--bs-accordion-btn-bg);;
+  outline: none;
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);;
 }
 .accordion-button:not(:focus) {
-    outline: none;
-    box-shadow: none;
-    background-color: var(--bs-accordion-btn-bg);;
+  outline: none;
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);;
 }
 </style>
 {%-endblock%}
 
+{%block metadata%}
+<div class="mb-3">
+{{metadata|safe}}
+</div>
+{%if edit_on %}
+<!-- New Object -->
+<div class="accordion" id="accordion-new">
+{{new_object.render(request)|safe}}
+</div>
+{%-endif%}
+{%-endblock%}
+
 {% block content %}
-<!-- {{page_title}} -->
-<h1>{{page_title}}</h1>
-<p>{{page_description}}</p>
 <!-- Existing Objects -->
 <div id="existing-objects">
-  {%if edit_on %}
-  <!-- New Object -->
-  <div class="accordion" id="accordion-new">
-  {{new_object.render(request)|safe}}
-  </div>
-  <br>
-  {%-endif%}
   <div class="accordion" id="accordion-edit">
     {% for obj in objects %}
     <!-- Card for {{obj.title}} -->

@@ -8,7 +8,7 @@
             {% block title %}{%endblock%}
         </button>
     </div>
-    <div id="collapse-{{id}}" class="accordion-collapse collapse" aria-labelledby="accordion-header-{{id}}" data-bs-parent="#accordion-edit">
+    <div id="collapse-{{id}}" class="accordion-collapse collapse" aria-labelledby="accordion-header-{{id}}">
         {%if edit_on %}
         <form class="b-0" id="form-{{id}}" action="{{request.path}}/update" method="POST">
         {%-endif%}
