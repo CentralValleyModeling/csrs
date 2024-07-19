@@ -15,15 +15,17 @@
 <!-- Existing Objects -->
 <div id="existing-objects">
   {%if edit_on %}
+  <!-- New Object -->
   {{new_object.render(request)|safe}}
   <br>
   {%-endif%}
-  {% for obj in objects %}
-  <!-- Card for {{obj.title}} -->
-  {{obj.render(request, edit_on)|safe}}
-  {% endfor %}
+  <div class="accordion">
+    {% for obj in objects %}
+    <!-- Card for {{obj.title}} -->
+    {{obj.render(request, edit_on)|safe}}
+    {% endfor %}
+  </div>
 </div>
-<!-- New Object -->
 {% endblock %}
 
 {% block scripts %}
