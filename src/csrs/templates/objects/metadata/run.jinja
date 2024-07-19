@@ -1,0 +1,74 @@
+<p>
+    Scenarios are made up of multiple model Runs that all share the 
+    same assumptions. One scenario might have multiple runs because 
+    bug-fixes or other improvements might be made to the model that 
+    do not change the underlying assumptions of the Scenario. 
+</p>
+<p>
+    Each Scenario in the database has the following attributes:
+</p>
+<!-- attrs -->
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">scenario <code>str</code></div>
+            The common name of the scenario the run belongs to.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">version <code>str</code></div>
+            The version of the run, usually something like <code>1.0.5</code>.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">contact <code>str</code></div>
+            The name/organization/email of the "owner" of this run.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">confidential <code>bool</code></div>
+            A flag indicating if this run if confidential or not.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">published <code>bool</code></div>
+            A flag indicating if this run has been published or not.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">code_version <code>str</code></div>
+            The version of the model code used to make this run.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">detail <code>str</code></div>
+            The metadata for this run, usually a paragraph describing the run.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">parent <code>str</code></div>
+            The version of the run (from this scenario) that this run is based on. This helps to track the gradual improvement of runs.
+        </div>
+    </li>
+
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">children <code>list</code></div>
+            The versions of the runs (from this scenario) that are based on this run. This helps to track the gradual improvement of runs.
+        </div>
+    </li>
+</ul>

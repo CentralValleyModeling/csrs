@@ -57,10 +57,20 @@
                 </div>
             </div>
         </nav>
-        <!-- Content -->
-        <div class="container m-3" id="content">
-            {% block content %}{% endblock %}
-        </div>
+        <main class="container-flex m-3" id="content">
+            <!-- {{page_title}} -->
+            <h1>{{page_title}}</h1>
+            <p>{{page_description}}</p>
+            <div class="row">
+                <div class="col-md-6">
+                {%block metadata%}{%-endblock%}
+                <!-- Content -->
+                </div>
+                <div class="col-md-6">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
         <!-- Footer -->
         <div class="container-fluid m-0" id="footer">
             {%block footer %}

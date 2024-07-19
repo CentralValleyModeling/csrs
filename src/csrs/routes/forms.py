@@ -19,10 +19,13 @@ def render_assumptions(request: Request, db: Session):
     all_objs = crud.assumptions.read(db=db)
     all_kinds = crud.assumptions.read_kinds(db=db)
     objects = [templates.EditableAssumption(obj, all_kinds) for obj in all_objs]
+    metadata = templates.env.get_template("objects/metadata/assumption.jinja").render()
     return templates.templates.TemplateResponse(
         "pages/edit.jinja",
         {
             "request": request,
+            "page_title": "Assumptions",
+            "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewAssumption(all_kinds),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
@@ -38,10 +41,13 @@ def render_scenarios(request: Request, db: Session):
         versions = [r.version for r in crud.runs.read(db=db, scenario=obj.name)]
         t = templates.EditableScenario(obj, versions, all_assumptions)
         objects.append(t)
+    metadata = templates.env.get_template("objects/metadata/scenario.jinja").render()
     return templates.templates.TemplateResponse(
         "pages/edit.jinja",
         {
             "request": request,
+            "page_title": "Scenarios",
+            "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewScenario(all_assumptions),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
@@ -56,10 +62,13 @@ def render_runs(request: Request, db: Session):
     for obj in all_objs:
         t = templates.EditableRuns(obj)
         objects.append(t)
+    metadata = templates.env.get_template("objects/metadata/run.jinja").render()
     return templates.templates.TemplateResponse(
         "pages/edit.jinja",
         {
             "request": request,
+            "page_title": "Runs",
+            "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewRuns(all_scenarios),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
@@ -73,10 +82,13 @@ def render_paths(request: Request, db: Session):
     for obj in all_objs:
         t = templates.EditablePaths(obj)
         objects.append(t)
+    metadata = templates.env.get_template("objects/metadata/path.jinja").render()
     return templates.templates.TemplateResponse(
         "pages/edit.jinja",
         {
             "request": request,
+            "page_title": "Named Paths",
+            "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewPath(),
             "edit_on": ALLOW_EDITING_VIA_FORMS,
