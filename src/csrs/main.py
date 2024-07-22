@@ -68,7 +68,12 @@ async def redirect_home():
 
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, __):
-    if request.url.path.startswith("forms"):
-        return templates.TemplateResponse("errors/404.jinja", {"request": request})
+    if request.url.path.startswith("/forms"):
+        logger.error("rendering HTML 404 page")
+        return templates.TemplateResponse(
+            "errors/404.jinja",
+            {"request": request},
+            status_code=404,
+        )
     else:
         return HTTPException(status_code=404)
