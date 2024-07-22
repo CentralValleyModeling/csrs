@@ -62,13 +62,7 @@
             <h1>{{page_title}}</h1>
             <p>{{page_description}}</p>
             <div class="row">
-                <div class="col-md-6">
-                {%block metadata%}{%-endblock%}
-                <!-- Content -->
-                </div>
-                <div class="col-md-6">
-                    {% block content %}{% endblock %}
-                </div>
+                {% block content %}{% endblock %}
             </div>
         </main>
         <!-- Footer -->
