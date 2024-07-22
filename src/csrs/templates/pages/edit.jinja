@@ -24,26 +24,27 @@
 </style>
 {%-endblock%}
 
-{%block metadata%}
-<div class="mb-3">
-{{metadata|safe}}
-</div>
-{%if edit_on %}
-<!-- New Object -->
-<div class="accordion" id="accordion-new">
-{{new_object.render(request)|safe}}
-</div>
-{%-endif%}
-{%-endblock%}
-
-{% block content %}
-<!-- Existing Objects -->
-<div id="existing-objects">
-  <div class="accordion" id="accordion-edit">
-    {% for obj in objects %}
-    <!-- Card for {{obj.title}} -->
-    {{obj.render(request, edit_on)|safe}}
-    {% endfor %}
+{%block content%}
+<div class="col-md-6">
+  <div class="mb-3">
+  {{metadata|safe}}
+  </div>
+  {%if edit_on %}
+  <!-- New Object -->
+  <div class="accordion" id="accordion-new">
+  {{new_object.render(request)|safe}}
+  </div>
+  {%-endif%}
+  </div>
+<div class="col-md-6">
+  <!-- Existing Objects -->
+  <div id="existing-objects">
+    <div class="accordion" id="accordion-edit">
+      {% for obj in objects %}
+      <!-- Card for {{obj.title}} -->
+      {{obj.render(request, edit_on)|safe}}
+      {% endfor %}
+    </div>
   </div>
 </div>
 {% endblock %}

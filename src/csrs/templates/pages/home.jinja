@@ -24,109 +24,110 @@
     CSRS Home 
 {% endblock %}
 
-{%block metadata%}
-<div class="row">
-    <h3>CalSim3 Docs</h3>
-    <p>
-        This server contains model results for multiple runs of CalSim3. Before 
-        using these results, learn more about the assumptions, methods, and 
-        limitations of  the CalSim3 model by reading the latest 
-        <a href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3">documentation</a>.
-    </p>
-</div>
-<div class="row">
-    <h3>Developer Docs</h3>
-    <p>
-        You can use this site to interact with the database, but the server is 
-        designed to be used by programs. Check out how to do that on the 
-        <a href="https://centralvalleymodeling.github.io/csrs/">GitHub Docs</a>.
-    </p>
-</div>
-<!-- Database Interactions -->
-<div class="mb-3">
-    <h3>Quick Links</h3>
-    <div class="p-3 b-1 border rounded">
-        <p>These pages allow you to view and interact with the data in the database.</p>
-        <hr class="text-secondary">
-        <div class="hstack gap-3 ">
-            {{page_link("Assumptions", "assumptions")}}
-            {{page_link("Scenarios",   "scenarios"  )}}
-            {{page_link("Runs",        "runs"       )}}
-            {{page_link("Paths",       "paths"      )}}
-            
+{%block content%}
+<div class="col-md-6">
+    <div class="row">
+        <h3>CalSim3 Docs</h3>
+        <p>
+            This server contains model results for multiple runs of CalSim3. Before 
+            using these results, learn more about the assumptions, methods, and 
+            limitations of  the CalSim3 model by reading the latest 
+            <a href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3">documentation</a>.
+        </p>
+    </div>
+    <div class="row">
+        <h3>Developer Docs</h3>
+        <p>
+            You can use this site to interact with the database, but the server is 
+            designed to be used by programs. Check out how to do that on the 
+            <a href="https://centralvalleymodeling.github.io/csrs/">GitHub Docs</a>.
+        </p>
+    </div>
+    <!-- Database Interactions -->
+    <div class="mb-3">
+        <h3>Quick Links</h3>
+        <div class="p-3 b-1 border rounded">
+            <p>These pages allow you to view and interact with the data in the database.</p>
+            <hr class="text-secondary">
+            <div class="hstack gap-3 ">
+                {{page_link("Assumptions", "assumptions")}}
+                {{page_link("Scenarios",   "scenarios"  )}}
+                {{page_link("Runs",        "runs"       )}}
+                {{page_link("Paths",       "paths"      )}}
+                
+            </div>
         </div>
     </div>
 </div>
-{%endblock%}
-
-{% block content %}
-<!-- Objects Descriptions -->
-<div class="mb-3">
-    <h3>What can we get out of the database?</h3>
-    <p>The following objects can all be retrieved from the database.</p>
-    <div class="accordion">
-        <!-- Assumptions accordion -->
-        <div class="accordion-item" id="accordion-assumption">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-1" aria-controls="panelsStayOpen-collapseOne">
-                    Assumptions
-                </button>
-            </h2>
-            <div id="panel-1" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% include 'objects/metadata/assumption.jinja'%}
+<div class="col-md-6">
+    <!-- Objects Descriptions -->
+    <div class="mb-3">
+        <h3>What can we get out of the database?</h3>
+        <p>The following objects can all be retrieved from the database.</p>
+        <div class="accordion">
+            <!-- Assumptions accordion -->
+            <div class="accordion-item" id="accordion-assumption">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-1" aria-controls="panelsStayOpen-collapseOne">
+                        Assumptions
+                    </button>
+                </h2>
+                <div id="panel-1" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        {% include 'objects/metadata/assumption.jinja'%}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Scenario accordion -->
-        <div class="accordion-item" id="accordion-scenario">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-2" aria-controls="panelsStayOpen-collapseOne">
-                    Scenarios
-                </button>
-            </h2>
-            <div id="panel-2" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% include 'objects/metadata/scenario.jinja'%}
+            <!-- Scenario accordion -->
+            <div class="accordion-item" id="accordion-scenario">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-2" aria-controls="panelsStayOpen-collapseOne">
+                        Scenarios
+                    </button>
+                </h2>
+                <div id="panel-2" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        {% include 'objects/metadata/scenario.jinja'%}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Run accordion -->
-        <div class="accordion-item" id="accordion-run">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-3" aria-controls="panelsStayOpen-collapseOne">
-                    Runs
-                </button>
-            </h2>
-            <div id="panel-3" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% include 'objects/metadata/run.jinja'%}
+            <!-- Run accordion -->
+            <div class="accordion-item" id="accordion-run">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-3" aria-controls="panelsStayOpen-collapseOne">
+                        Runs
+                    </button>
+                </h2>
+                <div id="panel-3" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        {% include 'objects/metadata/run.jinja'%}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- NamedPath accordion -->
-        <div class="accordion-item" id="accordion-timeseries">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-5" aria-controls="panelsStayOpen-collapseOne">
-                    Named Path
-                </button>
-            </h2>
-            <div id="panel-5" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% include 'objects/metadata/path.jinja'%}
+            <!-- NamedPath accordion -->
+            <div class="accordion-item" id="accordion-timeseries">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-5" aria-controls="panelsStayOpen-collapseOne">
+                        Named Path
+                    </button>
+                </h2>
+                <div id="panel-5" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        {% include 'objects/metadata/path.jinja'%}
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Timeseries accordion -->
-        <div class="accordion-item" id="accordion-timeseries">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-4" aria-controls="panelsStayOpen-collapseOne">
-                    Timeseries
-                </button>
-            </h2>
-            <div id="panel-4" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                    {% include 'objects/metadata/timeseries.jinja'%}
+            <!-- Timeseries accordion -->
+            <div class="accordion-item" id="accordion-timeseries">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panel-4" aria-controls="panelsStayOpen-collapseOne">
+                        Timeseries
+                    </button>
+                </h2>
+                <div id="panel-4" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        {% include 'objects/metadata/timeseries.jinja'%}
+                    </div>
                 </div>
             </div>
         </div>
