@@ -40,9 +40,6 @@ async def form_paths(request: Request, db: Session = Depends(get_db)):
 
 
 ###############################################################################
-# BELOW HERE, THE ROUTES ARE NOT ALWAYS AVAILABLE
-
-###############################################################################
 # CREATE
 # Below are the create for read actions via forms
 
