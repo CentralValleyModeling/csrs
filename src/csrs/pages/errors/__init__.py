@@ -1,1 +1,1 @@
-from .error_404 import E404
+from .error_404 import Error404

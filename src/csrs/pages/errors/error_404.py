@@ -7,7 +7,7 @@ from ..loader import ENV
 
 
 @dataclass
-class E404:
+class Error404:
     request: Request
     env: Environment = ENV
     template: str = "errors/error_404.jinja"

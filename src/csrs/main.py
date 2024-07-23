@@ -6,7 +6,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from . import __version__, routes
 from .database import get_database_url
 from .logger import logger
-from .pages import E404
+from .pages import Error404
 
 TITLE = "CSRS"
 DATABASE = get_database_url()
@@ -69,6 +69,6 @@ async def redirect_home():
 async def custom_404_handler(request: Request, __):
     if request.url.path.startswith("/forms"):
         logger.error("rendering HTML 404 page")
-        return HTMLResponse(E404(request=request))
+        return HTMLResponse(Error404(request=request))
     else:
         return HTTPException(status_code=404)
