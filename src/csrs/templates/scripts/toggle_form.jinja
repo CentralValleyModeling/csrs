@@ -3,6 +3,7 @@
         console.log("Changing editable state for " + baseId)
         // Enable the form entries
         const form = document.getElementById("form-" + baseId);
+        console.log("Found form: id=" + form.id)
         if (form) {
             const elements = form.elements;
             for (element of elements){
