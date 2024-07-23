@@ -1,8 +1,8 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ..loader import ENV
-from .form_parts import CreateStr, CreateStrLong
+from ...loader import ENV
+from ..form_parts import CreateStr, CreateStrLong
 
 
 class NewPath:
@@ -48,7 +48,7 @@ class NewPath:
         ).render(request)
 
         # render the whole card
-        return self.env.get_template("templates/new_path.jinja").render(
+        return self.env.get_template("templates/new/new_path.jinja").render(
             id=0,
             title="Create a New Path",
             name=name,

@@ -1,9 +1,9 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ... import schemas
-from ..loader import ENV
-from .form_parts import EditableStr, EditableStrLong, EditableSwitch
+from .... import schemas
+from ...loader import ENV
+from ..form_parts import EditableStr, EditableStrLong, EditableSwitch
 
 
 class EditableRuns:
@@ -57,7 +57,7 @@ class EditableRuns:
             name="detail",
             default=self.obj.detail,
         ).render(request)
-        return self.env.get_template("templates/edit_run.jinja").render(
+        return self.env.get_template("templates/editable/edit_run.jinja").render(
             edit_on=edit_on,
             request=request,
             title=f"{self.obj.scenario} <code>(v{self.obj.version})</code>",

@@ -1,9 +1,9 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ... import schemas
-from ..loader import ENV
-from .form_parts import EditableSelection, EditableSelectionGroup, EditableStr
+from .... import schemas
+from ...loader import ENV
+from ..form_parts import EditableSelection, EditableSelectionGroup, EditableStr
 
 
 class EditableScenario:
@@ -61,7 +61,7 @@ class EditableScenario:
         ).render(request)
 
         # render the whole card
-        return self.env.get_template("templates/edit_scenario.jinja").render(
+        return self.env.get_template("templates/editable/edit_scenario.jinja").render(
             edit_on=edit_on,
             request=request,
             id=self.obj.id,

@@ -1,8 +1,8 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ..loader import ENV
-from .form_parts import CreateSelection, CreateStr
+from ...loader import ENV
+from ..form_parts import CreateSelection, CreateStr
 
 
 class NewAssumption:
@@ -33,7 +33,7 @@ class NewAssumption:
             # rows=1,
         ).render(request)
         # render the whole card
-        return self.env.get_template("templates/new_assumption.jinja").render(
+        return self.env.get_template("templates/new/new_assumption.jinja").render(
             id=0,
             title="Create a New Assumption",
             name=name,

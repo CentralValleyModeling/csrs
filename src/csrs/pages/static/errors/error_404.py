@@ -10,7 +10,7 @@ from ...loader import ENV
 class Error404:
     request: Request
     env: Environment = ENV
-    template: str = "errors/error_404.jinja"
+    template: str = "static/errors/error_404.jinja"
 
     def __str__(self) -> str:
         return self.env.get_template(self.template).render(request=self.request)

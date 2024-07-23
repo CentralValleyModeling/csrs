@@ -1,9 +1,9 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ... import schemas
-from ..loader import ENV
-from .form_parts import EditableSelection, EditableStr, EditableStrLong
+from .... import schemas
+from ...loader import ENV
+from ..form_parts import EditableSelection, EditableStr, EditableStrLong
 
 
 class EditableAssumption:
@@ -36,7 +36,7 @@ class EditableAssumption:
             rows=max(1, self.obj.detail.count("\n")),
         ).render(request)
         # render the whole card
-        return self.env.get_template("templates/edit_assumption.jinja").render(
+        return self.env.get_template("templates/editable/edit_assumption.jinja").render(
             edit_on=edit_on,
             id=self.obj.id,
             title=self.obj.name,

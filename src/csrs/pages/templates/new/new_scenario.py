@@ -1,9 +1,9 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ... import schemas
-from ..loader import ENV
-from .form_parts import CreateSelection, CreateSelectionGroup, CreateStr
+from .... import schemas
+from ...loader import ENV
+from ..form_parts import CreateSelection, CreateSelectionGroup, CreateStr
 
 
 class NewScenario:
@@ -44,7 +44,7 @@ class NewScenario:
         ).render(request)
 
         # render the whole card
-        return self.env.get_template("templates/new_scenario.jinja").render(
+        return self.env.get_template("templates/new/new_scenario.jinja").render(
             id=0,
             title="Create a New Scenario",
             name=name,

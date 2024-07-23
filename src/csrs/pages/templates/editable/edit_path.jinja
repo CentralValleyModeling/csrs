@@ -1,25 +1,25 @@
-{% extends 'templates/_editable.jinja' %}
+{% extends 'templates/editable/_editable.jinja' %}
 
 {% block title %}{{title|safe}}{% endblock %}
 {% block card %}
     <!-- Attributes  -->
     <div class="input-group input-group-sm m-0 p-0">
-        {{scenario|safe}}
+        {{name|safe}}
     </div>
     <div class="input-group input-group-sm my-1 p-0">
-        {{version|safe}}
+        {{path|safe}}
     </div>
     <div class="input-group input-group-sm my-1 pb-1">
-        {{contact|safe}}
+        {{category|safe}}
     </div>
     <div class="input-group input-group-sm my-1 pb-1">
-        {{confidential|safe}}
+        {{period_type|safe}}
     </div>
     <div class="input-group input-group-sm my-1 pb-1">
-        {{published|safe}}
+        {{interval|safe}}
     </div>
     <div class="input-group input-group-sm my-1 pb-1">
-        {{code_version|safe}}
+        {{units|safe}}
     </div>
     <div class="input-group input-group-sm my-1 pb-1">
         {{detail|safe}}

@@ -1,4 +1,4 @@
-{% extends 'templates/_new.jinja' %}
+{% extends 'templates/editable/_editable.jinja' %}
 
 {% block title %}{{title}}{% endblock %}
 {% block card %}
@@ -12,4 +12,13 @@
     <div class="input-group input-group-sm my-1 pb-1">
         {{detail|safe}}
     </div>
+    <input type="hidden"
+        form="form-{{id}}"
+        id="{{id}}"
+        name="id"
+        class="form-control form-control-sm"
+        value="{{id}}"
+        placeholder="{{id}}"
+        required
+    >
 {% endblock %}

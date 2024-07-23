@@ -1,9 +1,9 @@
 from fastapi import Request
 from jinja2 import Environment
 
-from ... import schemas
-from ..loader import ENV
-from .form_parts import EditableStr, EditableStrLong
+from .... import schemas
+from ...loader import ENV
+from ..form_parts import EditableStr, EditableStrLong
 
 
 class EditablePaths:
@@ -51,7 +51,7 @@ class EditablePaths:
             name="units",
             default=self.obj.units,
         ).render(request)
-        return self.env.get_template("templates/edit_path.jinja").render(
+        return self.env.get_template("templates/editable/edit_path.jinja").render(
             edit_on=edit_on,
             request=request,
             title=self.obj.name,
