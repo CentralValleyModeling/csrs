@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from fastapi import Request
 from jinja2 import Environment
 
-from ..loader import ENV
+from ...loader import ENV
 
 
 @dataclass
