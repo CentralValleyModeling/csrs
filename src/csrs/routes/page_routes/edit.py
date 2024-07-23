@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from ... import crud, errors
 from ...database import get_db
 from ...logger import logger
-from ...pages.edit import render
+from ...pages import edit
 
 router = APIRouter(prefix="/edit", include_in_schema=False)
 
@@ -16,27 +16,27 @@ router = APIRouter(prefix="/edit", include_in_schema=False)
 
 
 @router.get("/assumptions", response_class=HTMLResponse)
-async def form_assumptions(request: Request, db: Session = Depends(get_db)):
+async def page_assumptions(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
-    return render.render_assumptions(request, db)
+    return edit.render_assumptions(request, db)
 
 
 @router.get("/scenarios", response_class=HTMLResponse)
-async def form_scenarios(request: Request, db: Session = Depends(get_db)):
+async def page_scenarios(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
-    return render.render_scenarios(request, db)
+    return edit.render_scenarios(request, db)
 
 
 @router.get("/runs", response_class=HTMLResponse)
-async def form_runs(request: Request, db: Session = Depends(get_db)):
+async def page_runs(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
-    return render.render_runs(request, db)
+    return edit.render_runs(request, db)
 
 
 @router.get("/paths", response_class=HTMLResponse)
-async def form_paths(request: Request, db: Session = Depends(get_db)):
+async def page_paths(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
-    return render.render_paths(request, db)
+    return edit.render_paths(request, db)
 
 
 ###############################################################################
@@ -44,7 +44,7 @@ async def form_paths(request: Request, db: Session = Depends(get_db)):
 # Below are the create for read actions via forms
 
 
-async def form_assumptions_create(
+async def page_assumptions_create(
     request: Request,
     name: str = Form(...),
     kind: str = Form(...),
@@ -56,16 +56,16 @@ async def form_assumptions_create(
     existing = crud.assumptions.read(db=db, kind=kind, name=name)
     if existing:
         logger.info("assumption already exists")
-        return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+        return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
     else:
         try:
             crud.assumptions.create(name=name, kind=kind, detail=detail, db=db)
         except errors.DuplicateAssumptionError:
             logger.error("duplicate assumption given, no new object made")
-        return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+        return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
 
 
-async def form_scearios_create(
+async def page_scearios_create(
     request: Request,
     db: Session = Depends(get_db),
 ):
@@ -85,16 +85,16 @@ async def form_scearios_create(
     existing = crud.scenarios.read(db=db, name=kwargs["name"])
     if existing:
         logger.info("scenario already exists")
-        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+        return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
     else:
         try:
             crud.scenarios.create(db=db, **kwargs)
         except errors.DuplicateAssumptionError:
             logger.error("duplicate scenario given, no new object made")
-        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+        return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
 
 
-async def form_runs_create(
+async def page_runs_create(
     request: Request,
     scenario: str = Form(...),
     version: str = Form(...),
@@ -112,7 +112,7 @@ async def form_runs_create(
     existing = crud.runs.read(db=db, scenario=scenario, version=version)
     if existing:
         logger.info("run already exists")
-        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+        return RedirectResponse(request.url_for("page_runs"), status_code=302)
     else:
         try:
             crud.runs.create(
@@ -130,10 +130,10 @@ async def form_runs_create(
             logger.error("duplicate run given, no new object made")
         except AttributeError as e:
             logger.error(f"{e}")
-        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+        return RedirectResponse(request.url_for("page_runs"), status_code=302)
 
 
-async def form_paths_create(
+async def page_paths_create(
     request: Request,
     name: str = Form(...),
     path: str = Form(...),
@@ -149,7 +149,7 @@ async def form_paths_create(
     existing = crud.paths.read(db=db, name=name, path=path)
     if existing:
         logger.info("path already exists")
-        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+        return RedirectResponse(request.url_for("page_paths"), status_code=302)
     else:
         try:
             crud.paths.create(
@@ -166,7 +166,7 @@ async def form_paths_create(
             logger.error("duplicate path given, no new object made")
         except AttributeError as e:
             logger.error(f"{e}")
-        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+        return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
 ###############################################################################
@@ -174,7 +174,7 @@ async def form_paths_create(
 # Below are the create for read actions via forms
 
 
-async def form_assumptions_update(
+async def page_assumptions_update(
     request: Request,
     id: int = Form(...),
     name: str = Form(...),
@@ -188,13 +188,13 @@ async def form_assumptions_update(
     if existing and (len(existing) == 1):
         logger.info(f"updating assumption {id=}, new data: {name=}, {kind=}, {detail=}")
         crud.assumptions.update(db, id=id, name=name, kind=kind, detail=detail)
-        return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+        return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
     else:
         logger.error("couldn't find assumption, no update made")
-        return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+        return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
 
 
-async def form_scenarios_update(
+async def page_scenarios_update(
     request: Request,
     db: Session = Depends(get_db),
 ):
@@ -214,13 +214,13 @@ async def form_scenarios_update(
     if existing and (len(existing) == 1):
         logger.info(f"updating scenario {kwargs['id']=}, new data: {kwargs}")
         crud.scenarios.update(db, **kwargs)
-        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+        return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
     else:
         logger.error("couldn't find scenario, no update made")
-        return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+        return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
 
 
-async def form_runs_update(
+async def page_runs_update(
     request: Request,
     scenario: str = Form(...),
     version: str = Form(...),
@@ -247,13 +247,13 @@ async def form_runs_update(
             code_version=code_version,
             detail=detail,
         )
-        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+        return RedirectResponse(request.url_for("page_runs"), status_code=302)
     else:
         logger.error("couldn't find run, no update made")
-        return RedirectResponse(request.url_for("form_runs"), status_code=302)
+        return RedirectResponse(request.url_for("page_runs"), status_code=302)
 
 
-async def form_paths_update(
+async def page_paths_update(
     request: Request,
     name: str = Form(...),
     path: str = Form(...),
@@ -281,10 +281,10 @@ async def form_paths_update(
             units=units,
             detail=detail,
         )
-        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+        return RedirectResponse(request.url_for("page_paths"), status_code=302)
     else:
         logger.error("couldn't find path, no update made")
-        return RedirectResponse(request.url_for("form_paths"), status_code=302)
+        return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
 ###############################################################################
@@ -292,7 +292,7 @@ async def form_paths_update(
 # Below are the create for read actions via forms
 
 
-async def form_assumptions_delete(
+async def page_assumptions_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -303,10 +303,10 @@ async def form_assumptions_delete(
         crud.assumptions.delete(db=db, id=existing[0].id)
     else:
         logger.error("couldn't find assumption to delete.")
-    return RedirectResponse(request.url_for("form_assumptions"), status_code=302)
+    return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
 
 
-async def form_scenarios_delete(
+async def page_scenarios_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -317,10 +317,10 @@ async def form_scenarios_delete(
         crud.scenarios.delete(db=db, id=existing[0].id)
     else:
         logger.error("couldn't find scenario to delete.")
-    return RedirectResponse(request.url_for("form_scenarios"), status_code=302)
+    return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
 
 
-async def form_runs_delete(
+async def page_runs_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -331,10 +331,10 @@ async def form_runs_delete(
         crud.runs.delete(db=db, id=existing[0].id)
     else:
         logger.error("couldn't find run to delete.")
-    return RedirectResponse(request.url_for("form_runs"), status_code=302)
+    return RedirectResponse(request.url_for("page_runs"), status_code=302)
 
 
-async def form_paths_delete(
+async def page_paths_delete(
     request: Request,
     id: int = Form(...),
     db: Session = Depends(get_db),
@@ -345,62 +345,62 @@ async def form_paths_delete(
         crud.paths.delete(db=db, id=existing[0].id)
     else:
         logger.error("couldn't find path to delete.")
-    return RedirectResponse(request.url_for("form_paths"), status_code=302)
+    return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
-if render.ALLOW_EDITING_VIA_FORMS:
+if edit.ALLOW_EDITING_VIA_FORMS:
     # Assumptions
     router.post(
         "/assumptions/create",
         response_class=RedirectResponse,
-    )(form_assumptions_create)
+    )(page_assumptions_create)
     router.post(
         "/assumptions/update",
         response_class=RedirectResponse,
-    )(form_assumptions_update)
+    )(page_assumptions_update)
     router.post(
         "/assumptions/delete",
         response_class=RedirectResponse,
-    )(form_assumptions_delete)
+    )(page_assumptions_delete)
 
     # Scenarios
     router.post(
         "/scenarios/create",
         response_class=RedirectResponse,
-    )(form_scearios_create)
+    )(page_scearios_create)
     router.post(
         "/scenarios/update",
         response_class=RedirectResponse,
-    )(form_scenarios_update)
+    )(page_scenarios_update)
     router.post(
         "/scenarios/delete",
         response_class=RedirectResponse,
-    )(form_scenarios_delete)
+    )(page_scenarios_delete)
 
     # Runs
     router.post(
         "/runs/create",
         response_class=RedirectResponse,
-    )(form_runs_create)
+    )(page_runs_create)
     router.post(
         "/runs/update",
         response_class=RedirectResponse,
-    )(form_runs_update)
+    )(page_runs_update)
     router.post(
         "/runs/delete",
         response_class=RedirectResponse,
-    )(form_runs_delete)
+    )(page_runs_delete)
 
     # Paths
     router.post(
         "/paths/create",
         response_class=RedirectResponse,
-    )(form_paths_create)
+    )(page_paths_create)
     router.post(
         "/paths/update",
         response_class=RedirectResponse,
-    )(form_paths_update)
+    )(page_paths_update)
     router.post(
         "/paths/delete",
         response_class=RedirectResponse,
-    )(form_paths_delete)
+    )(page_paths_delete)

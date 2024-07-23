@@ -6,7 +6,7 @@ from fastapi.responses import RedirectResponse
 from . import __version__, routes
 from .database import get_database_url
 from .logger import logger
-from .pages import jinja_loader
+from .pages import errors
 
 TITLE = "CSRS"
 DATABASE = get_database_url()
@@ -49,14 +49,14 @@ app = FastAPI(
     license_info=LISCENSE,
 )
 
-app.include_router(routes.pages.home.router)
+app.include_router(routes.page_routes.home.router)
 app.include_router(routes.timeseries.router)
 app.include_router(routes.runs.router)
 app.include_router(routes.scenarios.router)
 app.include_router(routes.assumptions.router)
 app.include_router(routes.paths.router)
-app.include_router(routes.pages.edit.router)
-app.include_router(routes.pages.download.router)
+app.include_router(routes.page_routes.edit.router)
+app.include_router(routes.page_routes.download.router)
 
 
 log_global_args()
@@ -72,11 +72,7 @@ async def custom_404_handler(request: Request, __):
     # TODO: 2024-07-23 Make this detection of API/Page interaction better
     if request.url.path.startswith(("/edit", "/download")):
         logger.error("rendering HTML 404 page")
-        return jinja_loader.TemplateResponse(
-            "/static/errors/404.jinja",
-            dict(request=request),
-            status_code=404,
-        )
+        return errors.error_404(request=request)
 
     else:
         return HTTPException(status_code=404)
