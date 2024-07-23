@@ -1,0 +1,36 @@
+{% extends 'templates/_editable.jinja' %}
+
+{% block title %}{{title|safe}}{% endblock %}
+{% block card %}
+    <!-- Attributes  -->
+    <div class="input-group input-group-sm m-0 p-0">
+        {{name|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 p-0">
+        {{path|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{category|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{period_type|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{interval|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{units|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{detail|safe}}
+    </div>
+    <input type="hidden"
+        form="form-{{id}}"
+        id="{{id}}"
+        name="id"
+        class="form-control form-control-sm"
+        value="{{id}}"
+        placeholder="{{id}}"
+        required
+    >
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "templates/form_parts/_editable_attr.jinja" %}
+{% block editable %}
+<input 
+    type="text" 
+    class="form-control form-control-sm {{toggle_tag}}" 
+    id="{{id}}" 
+    name="{{name}}" 
+    placeholder="{{default}}"
+    value="{{default}}"
+    required
+    disabled
+>
+{% endblock %}

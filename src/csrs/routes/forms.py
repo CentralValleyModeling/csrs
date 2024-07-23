@@ -2,9 +2,10 @@ from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
-from .. import crud, errors, templates
+from .. import crud, errors
 from ..database import get_db
 from ..logger import logger
+from ..pages import loader, templates
 
 ALLOW_EDITING_VIA_FORMS = True
 router = APIRouter(prefix="/forms", include_in_schema=False)
@@ -19,9 +20,9 @@ def render_assumptions(request: Request, db: Session):
     all_objs = crud.assumptions.read(db=db)
     all_kinds = crud.assumptions.read_kinds(db=db)
     objects = [templates.EditableAssumption(obj, all_kinds) for obj in all_objs]
-    metadata = templates.env.get_template("objects/metadata/assumption.jinja").render()
-    return templates.templates.TemplateResponse(
-        "pages/edit.jinja",
+    metadata = loader.ENV.get_template("static/metadata/assumption.jinja").render()
+    return loader.jinja_loader.TemplateResponse(
+        "templates/edit.jinja",
         {
             "request": request,
             "page_title": "Assumptions",
@@ -41,9 +42,9 @@ def render_scenarios(request: Request, db: Session):
         versions = [r.version for r in crud.runs.read(db=db, scenario=obj.name)]
         t = templates.EditableScenario(obj, versions, all_assumptions)
         objects.append(t)
-    metadata = templates.env.get_template("objects/metadata/scenario.jinja").render()
-    return templates.templates.TemplateResponse(
-        "pages/edit.jinja",
+    metadata = loader.ENV.get_template("static/metadata/scenario.jinja").render()
+    return loader.jinja_loader.TemplateResponse(
+        "templates/edit.jinja",
         {
             "request": request,
             "page_title": "Scenarios",
@@ -62,9 +63,9 @@ def render_runs(request: Request, db: Session):
     for obj in all_objs:
         t = templates.EditableRuns(obj)
         objects.append(t)
-    metadata = templates.env.get_template("objects/metadata/run.jinja").render()
-    return templates.templates.TemplateResponse(
-        "pages/edit.jinja",
+    metadata = loader.ENV.get_template("static/metadata/run.jinja").render()
+    return loader.jinja_loader.TemplateResponse(
+        "templates/edit.jinja",
         {
             "request": request,
             "page_title": "Runs",
@@ -82,9 +83,9 @@ def render_paths(request: Request, db: Session):
     for obj in all_objs:
         t = templates.EditablePaths(obj)
         objects.append(t)
-    metadata = templates.env.get_template("objects/metadata/path.jinja").render()
-    return templates.templates.TemplateResponse(
-        "pages/edit.jinja",
+    metadata = loader.ENV.get_template("static/metadata/path.jinja").render()
+    return loader.jinja_loader.TemplateResponse(
+        "templates/edit.jinja",
         {
             "request": request,
             "page_title": "Named Paths",

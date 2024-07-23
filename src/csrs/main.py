@@ -1,12 +1,12 @@
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 
 from . import __version__, routes
 from .database import get_database_url
 from .logger import logger
-from .templates import templates
+from .pages import E404
 
 TITLE = "CSRS"
 DATABASE = get_database_url()
@@ -56,7 +56,6 @@ app.include_router(routes.scenarios.router)
 app.include_router(routes.assumptions.router)
 app.include_router(routes.paths.router)
 app.include_router(routes.forms.router)
-app.include_router(routes.error_pages.router)
 
 log_global_args()
 
@@ -70,10 +69,6 @@ async def redirect_home():
 async def custom_404_handler(request: Request, __):
     if request.url.path.startswith("/forms"):
         logger.error("rendering HTML 404 page")
-        return templates.TemplateResponse(
-            "errors/404.jinja",
-            {"request": request},
-            status_code=404,
-        )
+        return HTMLResponse(E404(request=request))
     else:
         return HTTPException(status_code=404)

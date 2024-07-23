@@ -1,17 +1,11 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
-from ..templates import templates
+from ..pages import Home
 
 router = APIRouter(prefix="/home", include_in_schema=False)
 
 
 @router.get("", response_class=HTMLResponse)
 async def get_home(request: Request):
-    return templates.TemplateResponse(
-        "pages/home.jinja",
-        {
-            "request": request,
-            "page_title": "CalSim Scenario Results Server",
-        },
-    )
+    return HTMLResponse(Home(request=request))

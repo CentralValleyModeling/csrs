@@ -1,0 +1,28 @@
+{# defined: id, request #}
+{% import 'templates/form_parts/buttons.jinja' as buttons %}
+
+<div class="accordion-item border-success">
+    <!-- Header  -->
+    <div class="accordion-header" id="accordion-header-{{id}}">
+        <button class="accordion-button p-2 text-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{id}}" aria-expanded="true" aria-controls="collapse-{{id}}">
+            {% block title %}{%endblock%}
+        </button>
+    </div>
+    <div id="collapse-{{id}}" class="accordion-collapse" aria-labelledby="accordion-header-{{id}}">
+        <form class="b-0" id="form-{{id}}" action="{{request.path}}/update" method="POST">
+            <div class="accordion-body p-1">
+                <div class="row p-0 m-0">
+                    <!-- Edit Area -->
+                    <div class="col my-2">
+                        {% block card %}
+                        {% endblock %}
+                    </div>
+                    <!-- Buttons -->
+                    <div class="col-1 m-1 p-0">
+                        {{ buttons.create_button(id, request.path + "/create") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>  
+</div>
