@@ -1,3 +1,2 @@
-from .loader import ENV
-from .static import errors
+from .loader import ENV, jinja_loader
 from .templates.home import Home

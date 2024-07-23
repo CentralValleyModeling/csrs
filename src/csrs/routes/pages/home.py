@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 
-from ..pages import Home
+from ...pages import Home
 
 router = APIRouter(prefix="/home", include_in_schema=False)
 

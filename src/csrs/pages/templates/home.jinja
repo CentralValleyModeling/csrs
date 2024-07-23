@@ -51,14 +51,24 @@
             <p>These pages allow you to view and interact with the data currently in the database. Interactions with <code>Timeseries</code> are not possible using these forms, and must be done using the standard API. You can see how to use this API using the <a href="/docs">OpenAI Docs</a>.</p>
             <hr class="text-secondary">
             <div class="hstack gap-3 ">
-                {{page_link("Assumptions", "/forms/assumptions")}}
-                {{page_link("Scenarios",   "/forms/scenarios"  )}}
-                {{page_link("Runs",        "/forms/runs"       )}}
-                {{page_link("Paths",       "/forms/paths"      )}}
+                {{page_link("Assumptions", "/edit/assumptions")}}
+                {{page_link("Scenarios",   "/edit/scenarios"  )}}
+                {{page_link("Runs",        "/edit/runs"       )}}
+                {{page_link("Paths",       "/edit/paths"      )}}
             </div>
         </div>
     </div>
     {%-endif%}
+    <div class="mb-3">
+        <div class="p-3 b-1 border rounded">
+            <h3>Download</h3>
+            <p>This page allows you to download the data currently on the server. You can currently download the data in <code>JSON</code>, <code>TOML</code>, and <code>CSV</code> formats.</p>
+            <hr class="text-secondary">
+            <div class="hstack gap-3 ">
+                {{page_link("Download", "/download")}}
+            </div>
+        </div>
+    </div>
 </div>
 <div class="col-md-6">
     <!-- Objects Descriptions -->

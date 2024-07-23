@@ -2,12 +2,12 @@ from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
-from .. import crud, errors
-from ..database import get_db
-from ..logger import logger
-from ..pages.edit import render
+from ... import crud, errors
+from ...database import get_db
+from ...logger import logger
+from ...pages.edit import render
 
-router = APIRouter(prefix="/forms", include_in_schema=False)
+router = APIRouter(prefix="/edit", include_in_schema=False)
 
 
 ###############################################################################

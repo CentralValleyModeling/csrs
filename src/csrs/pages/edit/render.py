@@ -4,7 +4,7 @@ from fastapi import Request
 from sqlalchemy.orm import Session
 
 from ... import crud
-from ...pages import loader, templates
+from .. import loader, templates
 
 ALLOW_EDITING_VIA_FORMS = bool(os.getenv("ALLOW_EDITING_VIA_FORMS", True))
 
