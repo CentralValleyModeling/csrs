@@ -6,6 +6,7 @@ from jinja2 import Environment
 from ...loader import ENV
 
 
+# TODO: 2024-07-23 Move these declarations out of __init__ and into sub-modules
 @dataclass
 class EditableStr:
     id: int | str
