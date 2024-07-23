@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 
 from . import __version__, routes
 from .database import get_database_url
@@ -76,3 +76,9 @@ async def custom_404_handler(request: Request, __):
 
     else:
         return HTTPException(status_code=404)
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    here = Path().parent
+    return FileResponse(here / "pages/static/img/calsim3_icon.svg")
