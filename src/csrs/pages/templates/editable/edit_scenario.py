@@ -3,7 +3,7 @@ from jinja2 import Environment
 
 from .... import schemas
 from ...loader import ENV
-from ..form_parts import EditableSelection, EditableSelectionGroup, EditableStr
+from ..forms import EditableSelection, EditableSelectionGroup, EditableStr
 
 
 class EditableScenario:

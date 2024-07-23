@@ -1,11 +1,10 @@
-{% extends "templates/form_parts/_editable_attr.jinja" %}
+{% extends "templates/forms/_editable_attr.jinja" %}
 {% block editable %}
 <select 
     name="{{name}}" 
-    class="form-select form-select-sm {{toggle_tag}}" 
-    id="{{id}}"
+    class="form-select form-select-sm" 
+    id="new"
     required
-    disabled
 >
     {% for opt in options %}
     {% if opt == default %}<option value="{{opt}}" selected>{{opt}}</option>

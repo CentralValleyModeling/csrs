@@ -2,7 +2,7 @@ from fastapi import Request
 from jinja2 import Environment
 
 from ...loader import ENV
-from ..form_parts import CreateSelection, CreateStr
+from ..forms import CreateSelection, CreateStr
 
 
 class NewAssumption:

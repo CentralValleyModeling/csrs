@@ -2,7 +2,7 @@ from fastapi import Request
 from jinja2 import Environment
 
 from ...loader import ENV
-from ..form_parts import CreateStr, CreateStrLong
+from ..forms import CreateStr, CreateStrLong
 
 
 class NewPath:

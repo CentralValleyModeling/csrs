@@ -7,7 +7,7 @@ from jinja2 import Environment, Template
 from ... import schemas
 from ..loader import ENV
 from .editable import EditableAssumption, EditablePaths, EditableRuns, EditableScenario
-from .form_parts import (
+from .forms import (
     CreateSelection,
     CreateSelectionGroup,
     CreateStr,

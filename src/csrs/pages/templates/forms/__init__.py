@@ -14,9 +14,7 @@ class EditableStr:
     env: Environment = field(default=ENV)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template(
-            "templates/form_parts/editable_attr_str.jinja"
-        ).render(
+        return self.env.get_template("templates/forms/editable_attr_str.jinja").render(
             request=request,
             id=self.id,
             name=self.name,
@@ -35,7 +33,7 @@ class EditableStrLong:
 
     def render(self, request: Request, **kwargs) -> str:
         return self.env.get_template(
-            "templates/form_parts/editable_attr_str_long.jinja"
+            "templates/forms/editable_attr_str_long.jinja"
         ).render(
             request=request,
             id=self.id,
@@ -56,7 +54,7 @@ class EditableSelection:
 
     def render(self, request: Request, **kwargs) -> str:
         return self.env.get_template(
-            "templates/form_parts/editable_attr_selection.jinja"
+            "templates/forms/editable_attr_selection.jinja"
         ).render(
             request=request,
             id=self.id,
@@ -83,7 +81,7 @@ class EditableSelectionGroup:
                 )
             )
         return self.env.get_template(
-            "templates/form_parts/editable_attr_selection_group.jinja"
+            "templates/forms/editable_attr_selection_group.jinja"
         ).render(
             request=request,
             name=self.name,
@@ -103,7 +101,7 @@ class EditableSwitch:
         if self.default:
             status = "checked"
         return self.env.get_template(
-            "templates/form_parts/editable_attr_switch.jinja"
+            "templates/forms/editable_attr_switch.jinja"
         ).render(
             id=self.id,
             request=request,
@@ -120,9 +118,7 @@ class CreateStr:
     env: Environment = field(default=ENV)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template(
-            "templates/form_parts/create_attr_str.jinja"
-        ).render(
+        return self.env.get_template("templates/forms/create_attr_str.jinja").render(
             request=request,
             id=self.id,
             name=self.name,
@@ -140,7 +136,7 @@ class CreateStrLong:
 
     def render(self, request: Request, **kwargs) -> str:
         return self.env.get_template(
-            "templates/form_parts/create_attr_str_long.jinja"
+            "templates/forms/create_attr_str_long.jinja"
         ).render(
             request=request,
             id=self.id,
@@ -160,7 +156,7 @@ class CreateSelection:
 
     def render(self, request: Request, **kwargs) -> str:
         return self.env.get_template(
-            "templates/form_parts/create_attr_selection.jinja"
+            "templates/forms/create_attr_selection.jinja"
         ).render(
             request=request,
             id=self.id,
@@ -187,7 +183,7 @@ class CreateSelectionGroup:
                 )
             )
         return self.env.get_template(
-            "templates/form_parts/create_attr_selection_group.jinja"
+            "templates/forms/create_attr_selection_group.jinja"
         ).render(
             request=request,
             name=self.name,
@@ -203,9 +199,7 @@ class CreateSwitch:
     env: Environment = field(default=ENV)
 
     def render(self, request: Request, **kwargs) -> str:
-        return self.env.get_template(
-            "templates/form_parts/create_attr_switch.jinja"
-        ).render(
+        return self.env.get_template("templates/forms/create_attr_switch.jinja").render(
             request=request,
             id=self.id,
             name=self.name,

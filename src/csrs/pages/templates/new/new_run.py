@@ -3,7 +3,7 @@ from jinja2 import Environment
 
 from .... import schemas
 from ...loader import ENV
-from ..form_parts import CreateSelection, CreateStr, CreateStrLong, CreateSwitch
+from ..forms import CreateSelection, CreateStr, CreateStrLong, CreateSwitch
 
 
 class NewRuns:
