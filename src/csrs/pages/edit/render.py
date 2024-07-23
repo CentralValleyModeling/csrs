@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from ... import crud
 from ...pages import loader, templates
 
-ALLOW_EDITING_VIA_FORMS = bool(os.getenv("ALLOW_EDITING_VIA_FORMS", False))
+ALLOW_EDITING_VIA_FORMS = bool(os.getenv("ALLOW_EDITING_VIA_FORMS", True))
 
 
 def render_assumptions(request: Request, db: Session):

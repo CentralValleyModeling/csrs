@@ -41,18 +41,27 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/home">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/forms/assumptions">Assumptions</a>
+                        {%if edit_on%}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Edit
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="/forms/assumptions">Assumptions</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="/forms/scenarios">Scenarios</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="/forms/runs">Runs</a>
+                                </li>
+                                <li class="dropdown-item">
+                                    <a class="nav-link" href="/forms/paths">Paths</a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/forms/scenarios">Scenarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/forms/runs">Runs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/forms/paths">Paths</a>
-                        </li>
+                        {%-endif%}
                     </ul>
                 </div>
             </div>

@@ -46,16 +46,15 @@
     <!-- Database Interactions -->
     {%if edit_on%}
     <div class="mb-3">
-        <h3>Quick Links</h3>
         <div class="p-3 b-1 border rounded">
-            <p>These pages allow you to view and interact with the data in the database.</p>
+            <h3>Edit</h3>
+            <p>These pages allow you to view and interact with the data currently in the database. Interactions with <code>Timeseries</code> are not possible using these forms, and must be done using the standard API. You can see how to use this API using the <a href="/docs">OpenAI Docs</a>.</p>
             <hr class="text-secondary">
             <div class="hstack gap-3 ">
                 {{page_link("Assumptions", "/forms/assumptions")}}
                 {{page_link("Scenarios",   "/forms/scenarios"  )}}
                 {{page_link("Runs",        "/forms/runs"       )}}
                 {{page_link("Paths",       "/forms/paths"      )}}
-                
             </div>
         </div>
     </div>
