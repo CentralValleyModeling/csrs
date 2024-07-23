@@ -16,7 +16,7 @@
     {%endif%}
     
     <div class="vstack gap-1">
-        <a href="/forms/{{end_point}}" class="btn btn-secondary btn-sm {{e_edit}}">{{title}}</a>
+        <a href="{{end_point}}" class="btn btn-secondary btn-sm {{e_edit}}">{{title}}</a>
     </div>     
 {%- endmacro %}
 
@@ -44,20 +44,22 @@
         </p>
     </div>
     <!-- Database Interactions -->
+    {%if edit_on%}
     <div class="mb-3">
         <h3>Quick Links</h3>
         <div class="p-3 b-1 border rounded">
             <p>These pages allow you to view and interact with the data in the database.</p>
             <hr class="text-secondary">
             <div class="hstack gap-3 ">
-                {{page_link("Assumptions", "assumptions")}}
-                {{page_link("Scenarios",   "scenarios"  )}}
-                {{page_link("Runs",        "runs"       )}}
-                {{page_link("Paths",       "paths"      )}}
+                {{page_link("Assumptions", "/forms/assumptions")}}
+                {{page_link("Scenarios",   "/forms/scenarios"  )}}
+                {{page_link("Runs",        "/forms/runs"       )}}
+                {{page_link("Paths",       "/forms/paths"      )}}
                 
             </div>
         </div>
     </div>
+    {%-endif%}
 </div>
 <div class="col-md-6">
     <!-- Objects Descriptions -->
