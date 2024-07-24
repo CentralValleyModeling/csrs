@@ -4,6 +4,32 @@
 {% set edit_on = false%}
 {%-endif%}
 
+{%macro run_csv_download_button(scenario, version)%}
+{%set file_name = "{{scenario}}-{{version}}.csv"%}
+<button id="download-csv-{{scenario}}-{{version}}" class="btn btn-outline-primary btn-sm">
+  Download Timeseries Data
+</button>
+<script>
+  setupDownloadResponse(
+    "download-csv-{{scenario}}-{{version}}", 
+    "/download/run?scenario={{scenario}}&version={{version}}&file_type=csv"
+  )
+</script>
+{%-endmacro%}
+
+{%macro run_json_download_button(scenario, version)%}
+{%set file_name = "{{scenario}}-{{version}}.jsin"%}
+<button id="download-json-{{scenario}}-{{version}}" class="btn btn-outline-secondary btn-sm">
+  Download Metadata
+</button>
+<script>
+  setupDownloadResponse(
+    "download-json-{{scenario}}-{{version}}", 
+    "/download/run?scenario={{scenario}}&version={{version}}&file_type=json"
+  )
+</script>
+{%-endmacro%}
+
 {% block title %}
 {{page_title}}
 {% endblock %}
@@ -25,6 +51,50 @@
 {%-endblock%}
 
 {%block content%}
-<h1>Download</h1>
+<div class="col" id="download-sections">
+  <div class="row">
+    <div class="col">
+    {%include "static/metadata/download_content.jinja"%}
+    </div>
+    <div class="col">
+      <ul class="list-group">
+      {%for run in runs%}
+        <div class="list-group-item">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{run.scenario}}</h5>
+            <small>version {{run.version}}</small>
+          </div>
+          <div class="row mb-2">
+            <div id="run-labels" class="col">
+              {%for attr in ['contact', 'confidential', 'published', 'code_version', 'detail']%}
+              <div id="label-contact" class="row">
+                <div class="col-3">
+                  <code>{{attr}}</code>
+                </div>
+                <div class="col">
+                  {{run[attr]}}
+                </div>
+              </div>
+              {%-endfor%}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              {{run_csv_download_button(run.scenario, run.version)}}
+              {{run_json_download_button(run.scenario, run.version)}}
+            </div>
+          </div>
+        </div>
+      {%-endfor%}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+{% include 'static/scripts/download_file.jinja' %}
 
 {% endblock %}

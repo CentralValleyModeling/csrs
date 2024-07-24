@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
+from .runs import read as read_runs
 
 
 @rollback_on_exception
@@ -43,7 +44,7 @@ def read(
     category: str = None,
     id: int = None,
 ) -> list[schemas.NamedPath]:
-    logger.info(f"reading named path where {name=}, {category=}, {path=}")
+    logger.info(f"reading named path where {name=}, {category=}, {path=}, {id=}")
     filters = list()
     if name:
         filters.append(models.NamedPath.name == name)
@@ -57,6 +58,38 @@ def read(
     return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 
 
+@rollback_on_exception
+def read_paths_in_run(
+    db: Session,
+    *,
+    scenario: str = None,
+    version: str = None,
+    run_id: int = None,
+) -> list[schemas.NamedPath]:
+    if not run_id:
+        # Determine run id from other specifications
+        logger.info(f"reading all named paths for {scenario=} {version=}")
+        runs = read_runs(db, scenario=scenario, version=version)
+        if len(runs) != 1:
+            raise ValueError(
+                f"{scenario=} {version=} found {len(runs)} runs, expected exactly 1"
+            )
+        (run,) = runs
+        run_id = run.id
+    else:
+        logger.info(f"reading all named paths for {run_id=}")
+    catalog = (
+        db.query(models.CommonCatalog)
+        .filter(models.CommonCatalog.run_id == run_id)
+        .all()
+    )
+    path_ids = [c.id for c in catalog]
+    paths = db.query(models.NamedPath).filter(models.NamedPath.id.in_(path_ids)).all()
+    logger.info(f"{len(paths)} paths found")
+    return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
+
+
+@rollback_on_exception
 def update(
     db: Session,
     id: int,
@@ -70,6 +103,7 @@ def update(
     return updated
 
 
+@rollback_on_exception
 def delete(
     db: Session,
     id: int,
