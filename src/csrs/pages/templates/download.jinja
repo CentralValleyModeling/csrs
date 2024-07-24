@@ -1,0 +1,30 @@
+{% extends "templates/base.jinja" %}
+
+{%if edit_on is not defined%}
+{% set edit_on = false%}
+{%-endif%}
+
+{% block title %}
+{{page_title}}
+{% endblock %}
+
+{%block css%}
+{{super()}}
+<style>
+.accordion-button:focus {
+  outline: none;
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);;
+}
+.accordion-button:not(:focus) {
+  outline: none;
+  box-shadow: none;
+  background-color: var(--bs-accordion-btn-bg);;
+}
+</style>
+{%-endblock%}
+
+{%block content%}
+<h1>Download</h1>
+
+{% endblock %}

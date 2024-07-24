@@ -13,3 +13,14 @@ router = APIRouter(prefix="/download", include_in_schema=False)
 async def page_download(request: Request, db: Session = Depends(get_db)):
     logger.info(f"{request.method} {request.url}")
     return download.render(request, db)
+
+
+@router.get("/run", response_class=HTMLResponse)
+async def page_download_run(
+    scenario: str,
+    version: str,
+    request: Request,
+    db: Session = Depends(get_db),
+):
+    logger.info(f"{request.method} {request.url}")
+    return download.render(request, db)
