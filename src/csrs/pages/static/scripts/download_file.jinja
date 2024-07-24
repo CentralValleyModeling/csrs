@@ -1,0 +1,32 @@
+<script>
+function setupDownloadResponse(buttonId, fileDownloadEndpoint){
+    document.getElementById(buttonId).addEventListener('click', function() {
+        fetch(fileDownloadEndpoint)
+            .then(response => {
+                if (response.ok) {
+                    const contentDisposition = response.headers.get('Content-Disposition');
+                    let fileName = 'csrs-download';
+                    if (contentDisposition && contentDisposition.includes('filename=')) {
+                        fileName = contentDisposition
+                            .split('filename=')[1]
+                            .split(';')[0]
+                            .replace(/"/g, '');
+                    }
+                    return response.blob().then(blob => ({ blob, fileName }));
+                }
+                throw new Error('Response did not return OKAY: ' + response);
+            })
+            .then(({ blob, fileName }) => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('There was a problem with the fetch operation:', error));
+    });
+}
+</script>

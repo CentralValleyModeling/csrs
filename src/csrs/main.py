@@ -1,12 +1,12 @@
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 
 from . import __version__, routes
 from .database import get_database_url
 from .logger import logger
-from .templates import templates
+from .pages import errors
 
 TITLE = "CSRS"
 DATABASE = get_database_url()
@@ -49,14 +49,15 @@ app = FastAPI(
     license_info=LISCENSE,
 )
 
-app.include_router(routes.home.router)
+app.include_router(routes.page_routes.home.router)
 app.include_router(routes.timeseries.router)
 app.include_router(routes.runs.router)
 app.include_router(routes.scenarios.router)
 app.include_router(routes.assumptions.router)
 app.include_router(routes.paths.router)
-app.include_router(routes.forms.router)
-app.include_router(routes.error_pages.router)
+app.include_router(routes.page_routes.edit.router)
+app.include_router(routes.page_routes.download.router)
+
 
 log_global_args()
 
@@ -68,12 +69,20 @@ async def redirect_home():
 
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, __):
-    if request.url.path.startswith("/forms"):
+    # TODO: 2024-07-23 Make this detection of API/Page interaction better
+    if request.url.path.startswith(("/edit", "/download")):
         logger.error("rendering HTML 404 page")
-        return templates.TemplateResponse(
-            "errors/404.jinja",
-            {"request": request},
-            status_code=404,
-        )
+        return errors.error_404(request=request)
+
     else:
         return HTTPException(status_code=404)
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    here = Path().parent
+    f = here / "pages/static/img/calsim3_icon.svg"
+    if f.exists():
+        return FileResponse(str(f))
+    else:
+        return "https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg"
