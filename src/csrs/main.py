@@ -81,4 +81,8 @@ async def custom_404_handler(request: Request, __):
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():
     here = Path().parent
-    return FileResponse(here / "pages/static/img/calsim3_icon.svg")
+    f = here / "pages/static/img/calsim3_icon.svg"
+    if f.exists():
+        return FileResponse(str(f))
+    else:
+        return "https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg"

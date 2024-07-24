@@ -9,11 +9,14 @@ def render(
     request: Request,
     runs: list[schemas.Run],
 ):
+    desc = loader.ENV.get_template("static/descriptions/download.jinja").render(
+        request=request
+    )
     return loader.jinja_loader.TemplateResponse(
         "templates/download.jinja",
         context=dict(
             page_title="Download",
-            page_description="Download the <code>Timeseries</code> data as a <code>CSV</code>, or the <code>Run</code> and it's metadata.",
+            page_description=desc,
             request=request,
             runs=runs,
             edit_on=ALLOW_EDITING_VIA_FORMS,
