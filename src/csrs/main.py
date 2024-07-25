@@ -57,6 +57,7 @@ app.include_router(routes.assumptions.router)
 app.include_router(routes.paths.router)
 app.include_router(routes.page_routes.edit.router)
 app.include_router(routes.page_routes.download.router)
+app.include_router(routes.page_routes.database.router)
 
 
 log_global_args()
@@ -68,14 +69,13 @@ async def redirect_home():
 
 
 @app.exception_handler(404)
-async def custom_404_handler(request: Request, __):
-    # TODO: 2024-07-23 Make this detection of API/Page interaction better
-    if request.url.path.startswith(("/edit", "/download")):
+async def custom_404_handler(request: Request, _):
+    user_agent = request.headers.get("User-Agent", "")
+    if "bot" in user_agent.lower():
+        return HTTPException(status_code=404)
+    else:
         logger.error("rendering HTML 404 page")
         return errors.error_404(request=request)
-
-    else:
-        return HTTPException(status_code=404)
 
 
 @app.get("/favicon.ico", include_in_schema=False)
@@ -85,4 +85,7 @@ async def favicon():
     if f.exists():
         return FileResponse(str(f))
     else:
-        return "https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg"
+        return (
+            "https://raw.githubusercontent.com/CentralValleyModeling/"
+            + "static-assets/main/images/calsim3_icon.svg"
+        )

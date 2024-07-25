@@ -3,11 +3,11 @@ import json
 
 import pandas as pd
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from ... import crud
-from ...database import get_db
+from ...database import DATABASE, get_db
 from ...logger import logger
 from ...pages import download
 
@@ -21,7 +21,7 @@ async def page_download(request: Request, db: Session = Depends(get_db)):
     return download.render(request, runs=runs)
 
 
-@router.get("/run", response_class=HTMLResponse)
+@router.get("/run", response_class=StreamingResponse)
 async def download_run(
     scenario: str,
     version: str,

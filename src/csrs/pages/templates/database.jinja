@@ -1,0 +1,29 @@
+{% extends "templates/base.jinja" %}
+
+{% block title %}
+{{page_title}}
+{% endblock %}
+
+{%block css%}
+{{super()}}
+{%-endblock%}
+
+{%block content%}
+<div class="col">
+    <button id="download-database" class="btn btn-primary btn-sm">
+        Download
+    </button>
+    <script>
+        setupDownloadResponse(
+            "download-database", 
+            "/database/download"
+        )
+    </script>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+{% include 'static/scripts/download_file.jinja' %}
+{% endblock %}
