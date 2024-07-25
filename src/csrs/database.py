@@ -8,8 +8,10 @@ from sqlalchemy.orm import Session, sessionmaker
 from .logger import logger
 from .models import Base
 
-DATABASE = Path(os.environ.get("DATABASE_CSRS", "./database/csrs.db")).resolve()
+ENVIRONMENT_KEY = "DATABASE_CSRS"
+DATABASE = Path(os.environ.get(ENVIRONMENT_KEY, "./database/csrs.db")).resolve()
 EPOCH = datetime(1900, 1, 1)
+ALLOW_DOWNLOAD = True
 
 
 def get_database_url(db: str = DATABASE, db_type="sqlite") -> str:
@@ -28,9 +30,11 @@ def make_engine(db) -> Engine:
     return create_engine(url)
 
 
-def get_session(db) -> Session:
+ENGINE = make_engine(DATABASE)
+
+
+def make_session(engine) -> Session:
     logger.debug("creating database session")
-    engine = make_engine(db)
     maker = sessionmaker(
         autocommit=False,
         autoflush=False,
@@ -43,12 +47,14 @@ def get_session(db) -> Session:
     return maker()
 
 
+SESSION = make_session(ENGINE)
+
+
 # Dependency to get a database session
 def get_db():
     logger.debug("getting database connection")
     try:
-        db = get_session(DATABASE)
-        yield db
+        yield SESSION
     finally:
-        db.close()
+        SESSION.close()
         logger.debug("closed database")
