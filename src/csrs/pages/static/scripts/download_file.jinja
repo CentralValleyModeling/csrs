@@ -1,32 +1,49 @@
 <script>
+function handleBlobDownload(blob, fileName) {
+    console.log("handling blob download")
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    console.log("blob download finished")
+};
+
+function handleFetchResponse(response) {
+    if (response.ok) {
+        console.log("fetch to '"+response.URL+"' OKAY")
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let fileName = 'csrs-download';
+        if (contentDisposition && contentDisposition.includes('filename=')) {
+            fileName = contentDisposition
+                .split('filename=')[1]
+                .split(';')[0]
+                .replace(/"/g, '');
+        }
+        console.log("filename determined to be "+ fileName)
+        return response.blob().then(blob => ({ blob, fileName }));
+    }
+    throw new Error('Response did not return OKAY: ' + response);
+
+};
+
 function setupDownloadResponse(buttonId, fileDownloadEndpoint){
-    document.getElementById(buttonId).addEventListener('click', function() {
+    const button = document.getElementById(buttonId);
+    button.addEventListener('click', function() {
+        button.disabled = true;
+        const originalContent = button.innerHTML;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Downloading...';
         fetch(fileDownloadEndpoint)
-            .then(response => {
-                if (response.ok) {
-                    const contentDisposition = response.headers.get('Content-Disposition');
-                    let fileName = 'csrs-download';
-                    if (contentDisposition && contentDisposition.includes('filename=')) {
-                        fileName = contentDisposition
-                            .split('filename=')[1]
-                            .split(';')[0]
-                            .replace(/"/g, '');
-                    }
-                    return response.blob().then(blob => ({ blob, fileName }));
-                }
-                throw new Error('Response did not return OKAY: ' + response);
-            })
-            .then(({ blob, fileName }) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => console.error('There was a problem with the fetch operation:', error));
+            .then(response => handleFetchResponse(response))
+            .then(({ blob, fileName }) => handleBlobDownload(blob, fileName))
+            .catch(error => console.error('There was a problem with the fetch operation:', error))
+            .finally(() => {
+                button.innerHTML = originalContent;
+                button.disabled = false;
+            });
     });
-}
+};
 </script>

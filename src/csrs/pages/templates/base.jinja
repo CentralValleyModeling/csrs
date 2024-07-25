@@ -75,7 +75,11 @@
         <main class="container-flex m-3" id="content">
             <!-- {{page_title}} -->
             <h1>{{page_title}}</h1>
-            <p>{{page_description|safe}}</p>
+            {% if page_description is defined%}
+            <!-- Page Description -->
+            {{page_description|safe}}
+            {%-endif%}
+            <!-- Content -->
             <div class="row">
                 {% block content %}{% endblock %}
             </div>
