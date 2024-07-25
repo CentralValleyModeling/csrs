@@ -1,0 +1,12 @@
+{% extends 'templates/new/_new.jinja' %}
+
+{% block title %}{{title}}{% endblock %}
+{% block card %}
+    <!-- Attributes  -->
+    <div class="input-group input-group-sm m-0 p-0">
+        {{name|safe}}
+    </div>
+    <div class="input-group input-group-sm my-1 pb-1">
+        {{assumptions|safe}}
+    </div>
+{% endblock %}

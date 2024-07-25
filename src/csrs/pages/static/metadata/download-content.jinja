@@ -1,0 +1,12 @@
+<h3><code>Timeseries</code></h3>
+<p> 
+The <abbr title="Comma Separated Values"><code>CSV</code></abbr> will contain all <code>Timeseries</code> that the server stores for that run. Note that this isn't everything that the model produces, but a selected set of <code>Timeseries</code>. Below is an example of what that data will look like:
+</p>
+{%include "static/metadata/download-csv-example.jinja"%}
+
+<h3><code>Metadata</code></h3>
+<p> 
+The metadata is given as a <abbr title="JavaScript Object Notation"><code>JSON</code></abbr> file. That file contains the information for the <code>Scenario</code>, <code>Run</code>, <code>Assumption</code>, and <code>NamedPath</code> objects that are relevant to the <code>Run</code>. That file will look something like:
+</p>
+{%include "static/metadata/download-json-example.jinja"%}
+

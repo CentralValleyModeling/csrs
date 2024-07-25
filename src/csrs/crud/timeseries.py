@@ -201,37 +201,31 @@ def read_all_for_run(
         .all()
     )
     logger.info(f"{len(rows):,} rows found matching criteria")
-
     # Construct the schemas from the returned data
-    timeseries = list()  # we will build up the kwargs for the different
-    current_path_id = object()
-    path_schema: schemas.NamedPath = object()
-    dates = object()
-    values = object()
+    paths = crud_paths.read_paths_in_run(db, run_id=run.id)
+    paths_by_id = {p.id: p for p in paths}
+    grouped_rows: dict[int, list[models.TimeseriesLedger]] = {
+        row.path_id: list() for row in rows
+    }
     for row in rows:
-        # Since the result is ordered by the path_id, when it changes in the rows
-        # we can pack the existing data into a schema, and then start collecting again
-        if row.path_id != current_path_id:
-            # pack the exising data
-            if isinstance(path_schema, schemas.NamedPath):  # guard for iteration 0
-                timeseries.append(
-                    schemas.Timeseries(
-                        scenario=scenario,  # always the same
-                        version=version,  # always the same
-                        path=path_schema.path,
-                        units=path_schema.units,
-                        period_type=path_schema.period_type,
-                        interval=path_schema.interval,
-                        dates=tuple(float_to_date(d) for d in dates),
-                        values=tuple(values),
-                    )
-                )
-            # start collecting new data
-            path_schema = crud_paths.read(db, id=row.path_id)
-            dates = list()
-            values = list()
-        dates.append(row.datetime)
-        values.append(row.value)
+        grouped_rows[row.path_id].append(row)
+    timeseries = list()
+    for path_id, rows in grouped_rows.items():
+        path_schema = paths_by_id[path_id]
+        values = tuple(r.value for r in rows)
+        dates = tuple(float_to_date(r.datetime) for r in rows)
+        timeseries.append(
+            schemas.Timeseries(
+                scenario=scenario,  # always the same
+                version=version,  # always the same
+                path=path_schema.path,
+                units=path_schema.units,
+                period_type=path_schema.period_type,
+                interval=path_schema.interval,
+                dates=dates,
+                values=values,
+            )
+        )
 
     return timeseries
 

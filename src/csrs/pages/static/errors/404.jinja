@@ -1,0 +1,17 @@
+{% extends "templates/base.jinja" %}
+
+{% block title %}
+Page Not Found
+{% endblock %}
+
+{% block content %}
+{% set ref = request.headers.get('referer', '') %}
+{% set root = request.headers.get('host') %}
+{% set last_page = ref.split(root)[-1] %}
+<div class="my-6">
+    <h1 class="display-6">The page you are looking for doesn't exist!</h1>
+    <p>The page you are looking for might have moved.</p>
+    <a class="btn btn-secondary" href="/home">Home</a>
+    <a class="btn btn-primary" href="{{last_page}}">Go Back</a>
+</div>
+{% endblock %}

@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from csrs import crud, enums, errors, models, schemas
+from csrs import crud, errors, models, schemas
 
 TEST_ASSETS_DIR = Path(__file__).parent / "assets"
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"

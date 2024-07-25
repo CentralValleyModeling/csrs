@@ -63,6 +63,20 @@ def read_kinds(db: Session) -> tuple[str, ...]:
     )
 
 
+@rollback_on_exception
+def read_for_scenario(db: Session, *, scenario: str) -> list[schemas.Assumption]:
+    logger.info("reading assumption kinds present in the database")
+    scenario_obj = (
+        db.query(models.Scenario).where(models.Scenario.name == scenario).first()
+    )
+    assumptions = [
+        schemas.Assumption.model_validate(m.assumption, from_attributes=True)
+        for m in scenario_obj.assumption_maps
+    ]
+    return assumptions
+
+
+@rollback_on_exception
 def update(
     db: Session,
     id: int,
@@ -75,6 +89,7 @@ def update(
     return updated
 
 
+@rollback_on_exception
 def delete(
     db: Session,
     id: int,

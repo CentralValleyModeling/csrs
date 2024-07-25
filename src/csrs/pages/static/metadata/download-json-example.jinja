@@ -1,0 +1,78 @@
+<pre class="prettyprint lang-json">
+<code>{
+    "run": {
+        "id": 1,
+        "scenario": "Historical",
+        "version": "1.1",
+        "parent": null,
+        "children": [],
+        "contact": "raymond.hoang@water.ca.gov",
+        "confidential": false,
+        "published": false,
+        "code_version": "9.0.0",
+        "detail": "Run used for DCR draft."
+    },
+    "scenario": {
+        "id": 1,
+        "name": "Historical",
+        "assumptions": {
+            "land_use": "2020 (2020 UWMP)",
+            "sea_level_rise": "No SLR",
+            "hydrology": "Historical Hydrology",
+        },
+        "preferred_run": "1.1"
+    },
+    "assumptions": [
+        {
+            "id": 5,
+            "name": "2020 (2020 UWMP)",
+            "kind": "land_use",
+            "detail": "2020 Land Use, and Urban Demands from the 2020 Urban Water Management Plans."
+        },
+        {
+            "id": 7,
+            "name": "No SLR",
+            "kind": "sea_level_rise",
+            "detail": "Model does not attempt to simulate Sea Level Rise."
+        },
+        {
+            "id": 10,
+            "name": "Historical Hydrology",
+            "kind": "hydrology",
+            "detail": "The historical hydrologic conditions input data represents a period of record of water years 1922 through 2021 (October 1, 1921, through September 30, 2021). The historical hydrologic conditions data set was developed using historical data (streamflow, land use, and meteorological data) when available, and extrapolation from historical data when the full period of historical data was not available"
+        },
+    ],
+    "paths": [
+        {
+            "id": 1,
+            "name": "cvp_allocation_nod_ag",
+            "path": "/CALSIM/PERDV_CVPAG_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/",
+            "category": "delivery",
+            "detail": "cvp_allocation_nod_ag",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "id": 2,
+            "name": "CVP Allocation North of Delta Ag.",
+            "path": "/CALSIM/PERDV_CVPMI_SYS/PERCENT-DELIVERY/.*/1MON/L2020A/",
+            "category": "delivery",
+            "detail": "cvp_allocation_nod_mi",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "id": 145,
+            "name": "yubafeatherconfluence",
+            "path": "/CALSIM/C_YUB002/CHANNEL/.*/1MON/L2020A/",
+            "category": "upstream_flows",
+            "detail": "yubafeatherconfluence",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        }
+    ]
+}</code>
+</pre>

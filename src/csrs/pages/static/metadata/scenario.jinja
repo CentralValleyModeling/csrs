@@ -1,0 +1,30 @@
+<p>
+    Scenarios are made up of multiple model Runs that all share the 
+    same assumptions. One scenario might have multiple runs because 
+    bug-fixes or other improvements might be made to the model that 
+    do not change the underlying assumptions of the Scenario. 
+</p>
+<p>
+    Each Scenario in the database has the following attributes:
+</p>
+<!-- attrs -->
+<ul class="list-group">
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">name <code>str</code></div>
+            The common name of the scenario.
+        </div>
+    </li>
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">assumptions <code>dict</code></div>
+            The assumptions the scenario uses. The keys of the <code>dict</code> correspond to the <code>kind</code> of the assumption, and the values are the <code>name</code>.
+        </div>
+    </li>
+    <li class="list-group-item">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">preferred_run <code>str</code></div>
+            The version number of the run that the scenario preferrs to use. This might be the "newest" run, or the one that has been published, etc.
+        </div>
+    </li>
+</ul> 
