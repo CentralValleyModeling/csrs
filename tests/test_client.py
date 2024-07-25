@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from csrs import clients, enums, errors, schemas
+from csrs import clients, enums, schemas
 from csrs.logger import logger
 
 logger.setLevel("DEBUG")
