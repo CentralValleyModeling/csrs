@@ -21,6 +21,17 @@ async def page_download(request: Request, db: Session = Depends(get_db)):
     return download.render(request, runs=runs)
 
 
+def slow_lossy_concat(frames: list[pd.DataFrame]) -> pd.DataFrame:
+    df = frames.pop()
+    for _df in frames:
+        try:
+            df = pd.concat([df, _df], axis=1)
+        except Exception:
+            info = "\t\n".join(df.columns[0])
+            logger.info(f"error when concatenaing dataframe:\n{info}")
+    return df
+
+
 @router.get("/run", response_class=StreamingResponse)
 async def download_run(
     scenario: str,
@@ -39,7 +50,15 @@ async def download_run(
             version=version,
         )
         frames = [ts.to_frame() for ts in timeseries]
-        df = pd.concat(frames, axis=1)
+        try:
+            df = pd.concat(frames, axis=1)
+        except Exception:
+            logger.info(
+                "an error occurred when concatenating all the data,"
+                + " trying again with a slower method"
+            )
+            df = slow_lossy_concat(frames)
+
         df.to_csv(file_content)
         media_type = "text/csv"
     elif file_type.lower() == "json":
