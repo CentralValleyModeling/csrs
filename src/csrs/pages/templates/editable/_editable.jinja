@@ -13,18 +13,20 @@
         <form class="b-0" id="form-{{id}}" action="{{request.path}}/update" method="POST">
         {%-endif%}
         <div class="accordion-body p-1">
-            <div class="row p-0 m-0">
+            <div class="row px-2 m-0">
                 <!-- Edit Area -->
-                <div class="col my-2">
+                <div class="col my-2 mx-0 px-0">
                     {% block card %}
                     {% endblock %}
                 </div>
                 {% if edit_on %}
                 <!-- Buttons -->
-                <div class="col-1 m-1 p-0">
-                    <div class="mx-1 p-0">{{ buttons.edit_button(id) }}</div>
-                    <div class="mx-1 p-0">{{ buttons.submit_button(id, request.path + "/update") }}</div>
-                    <div class="mx-1 p-0">{{ buttons.delete_button(id, request.path + "/delete") }}</div>
+                <div class="col-1 my-2 me-0 ms-1 px-0 justify-content-center d-flex">
+                    <div class="vstack gap-1">
+                    {{ buttons.edit_button(id) }}
+                    {{ buttons.submit_button(id, request.path + "/update") }}
+                    {{ buttons.delete_button(id, request.path + "/delete") }}
+                    </div>
                 </div>
                 {%-endif%}
             </div>

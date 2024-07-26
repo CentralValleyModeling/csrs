@@ -2,7 +2,7 @@
     <button 
         id="edit-{{id}}" 
         type="button" 
-        class="btn btn-warning btn-sm py-0"  
+        class="btn btn-warning btn-sm py-0 d-flex justify-content-center"  
         onclick="toggleForm('{{id}}')"
     ><i class="bi bi-pencil-square"></i></button>
 {%- endmacro %}
@@ -11,7 +11,7 @@
     <button 
         id="submit-{{id}}" 
         type="button" 
-        class="btn btn-success btn-sm py-0 d-none" 
+        class="btn btn-success btn-sm py-0 d-none d-flex justify-content-center" 
         onclick="submitForm('{{id}}', '{{action}}')" 
         disabled
     ><i class="bi bi-send-arrow-up-fill"></i></button>
@@ -21,7 +21,7 @@
     <button 
         id="delete-{{id}}" 
         type="button" 
-        class="btn btn-danger btn-sm py-0 d-none" 
+        class="btn btn-danger btn-sm py-0 d-none d-flex justify-content-center" 
         onclick="submitForm('{{id}}', '{{action}}')" 
         disabled
     ><i class="bi bi-trash-fill"></i></button>
@@ -31,7 +31,7 @@
     <button 
         id="submit-{{id}}" 
         type="button" 
-        class="btn btn-success btn-sm py-0" 
+        class="btn btn-success btn-sm py-0 d-flex justify-content-center" 
         onclick="submitForm('{{id}}', '{{action}}')" 
     ><i class="bi bi-cloud-upload-fill"></i></button>
 {%- endmacro %}
@@ -41,7 +41,7 @@
 <button 
     id="delete-{{id}}" 
     type="button" 
-    class="btn btn-danger btn-sm py-0 d-none" 
+    class="btn btn-danger btn-sm py-0 d-none d-flex justify-content-center" 
     data-bs-toggle="modal" 
     data-bs-target="#popup"
     disabled

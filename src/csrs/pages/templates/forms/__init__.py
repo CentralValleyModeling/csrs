@@ -78,7 +78,7 @@ class EditableSelectionGroup:
             sections.append(
                 edit_sel.render(
                     request,
-                    name_col_width=2,
+                    name_col_width=4,
                 )
             )
         return self.env.get_template(
@@ -180,7 +180,7 @@ class CreateSelectionGroup:
             sections.append(
                 new_sel.render(
                     request,
-                    name_col_width=2,
+                    name_col_width=4,
                 )
             )
         return self.env.get_template(
