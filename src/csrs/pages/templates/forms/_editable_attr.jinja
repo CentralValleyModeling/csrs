@@ -4,8 +4,8 @@
 {%if not toggle_tag is defined %}
 {%set toggle_tag = "toggled-by-button"%}
 {%-endif%}
-<div class="col-{{name_col_width}} mx-2"><code>{{name}}</code></div>
-<div class="col">
+<div class="col-lg-{{name_col_width}} px-0"><code>{{name}}</code></div>
+<div class="col-lg">
     {% block editable %}
     {% endblock %}
 </div>

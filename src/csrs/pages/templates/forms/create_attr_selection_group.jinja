@@ -1,9 +1,9 @@
-<div class="col">
+<div class="col-md ps-0">
     <ul class="list-group">
-        <li class="list-group-item p-2"><code class="m-0 p-0">{{name}}</code></li>
+        <li class="list-group-item p-1"><code class="m-0 p-0">{{name}}</code></li>
         {%for section in sections%}
-        <li class="list-group-item py-0">
-            <div class="input-group input-group-sm m-0 my-1 p-0">
+        <li class="list-group-item py-0 px-1">
+            <div class="row input-group input-group-sm m-0 my-1 p-0">
                 {{section|safe}}
             </div>
         </li>

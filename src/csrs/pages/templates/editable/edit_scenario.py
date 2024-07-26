@@ -30,7 +30,7 @@ class EditableScenario:
             default=self.obj.name,
         ).render(
             request,
-            name_col_width=2,
+            name_col_width=3,
         )
         preferred_run = EditableSelection(
             id=self.obj.id,
@@ -39,7 +39,7 @@ class EditableScenario:
             options=self.versions,
         ).render(
             request,
-            name_col_width=2,
+            name_col_width=3,
         )
         assumptions_dropdowns = list()
         for kind, assumption_name in self.obj.assumptions.items():
