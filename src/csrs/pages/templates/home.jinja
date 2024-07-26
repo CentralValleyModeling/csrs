@@ -9,15 +9,7 @@
 {% endmacro %}
 
 {% macro page_link(title, end_point)%}
-    {%if e_edit %}
-    {% set e_edit = ""%}
-    {%else%}
-    {% set e_edit = "diabled"%}
-    {%endif%}
-    
-    <div class="vstack gap-1">
-        <a href="{{end_point}}" class="btn btn-secondary btn-sm {{e_edit}}">{{title}}</a>
-    </div>     
+    <a href="{{end_point}}" class="btn btn-secondary btn-sm w-100">{{title}}</a>
 {%- endmacro %}
 
 {% block title%} 
@@ -26,23 +18,6 @@
 
 {%block content%}
 <div class="col-md-6">
-    <div class="row">
-        <h3>CalSim3 Docs</h3>
-        <p>
-            This server contains model results for multiple runs of CalSim3. Before 
-            using these results, learn more about the assumptions, methods, and 
-            limitations of  the CalSim3 model by reading the latest 
-            <a href="https://water.ca.gov/Library/Modeling-and-Analysis/Central-Valley-models-and-tools/CalSim-3">documentation</a>.
-        </p>
-    </div>
-    <div class="row">
-        <h3>Developer Docs</h3>
-        <p>
-            You can use this site to interact with the database, but the server is 
-            designed to be used by programs. Check out how to do that on the 
-            <a href="https://centralvalleymodeling.github.io/csrs/">GitHub Docs</a>.
-        </p>
-    </div>
     <!-- Database Interactions -->
     {%if edit_on%}
     <div class="mb-3">
@@ -50,11 +25,11 @@
             <h3>Edit</h3>
             <p>These pages allow you to view and interact with the data currently in the database. Interactions with <code>Timeseries</code> are not possible using these forms, and must be done using the standard API. You can see how to use this API using the <a href="/docs">OpenAI Docs</a>.</p>
             <hr class="text-secondary">
-            <div class="hstack gap-3 ">
-                {{page_link("Assumptions", "/edit/assumptions")}}
-                {{page_link("Scenarios",   "/edit/scenarios"  )}}
-                {{page_link("Runs",        "/edit/runs"       )}}
-                {{page_link("Paths",       "/edit/paths"      )}}
+            <div class="row gap-1">
+                <div class="col-sm px-1">{{page_link("Assumptions", "/edit/assumptions")}}</div>
+                <div class="col-sm px-1">{{page_link("Scenarios",   "/edit/scenarios"  )}}</div>
+                <div class="col-sm px-1">{{page_link("Runs",        "/edit/runs"       )}}</div>
+                <div class="col-sm px-1">{{page_link("Paths",       "/edit/paths"      )}}</div>
             </div>
         </div>
     </div>
@@ -73,7 +48,7 @@
 <div class="col-md-6">
     <!-- Objects Descriptions -->
     <div class="mb-3">
-        <h3>What can we get out of the database?</h3>
+        <h3>What is in the Database?</h3>
         <p>The following objects can all be retrieved from the database.</p>
         <div class="accordion">
             <!-- Assumptions accordion -->

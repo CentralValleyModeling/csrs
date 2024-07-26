@@ -6,7 +6,7 @@
 
 {%macro run_csv_download_button(scenario, version)%}
 {%set file_name = "{{scenario}}-{{version}}.csv"%}
-<button id="download-csv-{{scenario}}-{{version}}" class="btn btn-outline-primary btn-sm">
+<button id="download-csv-{{scenario}}-{{version}}" class="btn btn-outline-primary btn-sm w-100">
   Download Timeseries Data
 </button>
 <script>
@@ -19,7 +19,7 @@
 
 {%macro run_json_download_button(scenario, version)%}
 {%set file_name = "{{scenario}}-{{version}}.jsin"%}
-<button id="download-json-{{scenario}}-{{version}}" class="btn btn-outline-secondary btn-sm">
+<button id="download-json-{{scenario}}-{{version}}" class="btn btn-outline-secondary btn-sm w-100">
   Download Metadata
 </button>
 <script>
@@ -34,29 +34,13 @@
 {{page_title}}
 {% endblock %}
 
-{%block css%}
-{{super()}}
-<style>
-.accordion-button:focus {
-  outline: none;
-  box-shadow: none;
-  background-color: var(--bs-accordion-btn-bg);;
-}
-.accordion-button:not(:focus) {
-  outline: none;
-  box-shadow: none;
-  background-color: var(--bs-accordion-btn-bg);;
-}
-</style>
-{%-endblock%}
-
 {%block content%}
 <div class="col" id="download-sections">
   <div class="row">
-    <div class="col-6">
+    <div class="col-md-6">
     {%include "static/metadata/download-content.jinja"%}
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
       <ul class="list-group">
       {%for run in runs%}
         <div class="list-group-item">
@@ -68,7 +52,7 @@
             <div id="run-labels" class="col">
               {%for attr in ['contact', 'confidential', 'published', 'code_version', 'detail']%}
               <div id="label-contact" class="row">
-                <div class="col-3">
+                <div class="col-sm-3">
                   <code>{{attr}}</code>
                 </div>
                 <div class="col">
@@ -78,9 +62,11 @@
               {%-endfor%}
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              {{run_csv_download_button(run.scenario, run.version)}}
+          <div class="row my-1">
+            <div class="col py-1">
+              {{run_csv_download_button(run.scenario, run.version)}}  
+            </div>
+            <div class="col py-1">
               {{run_json_download_button(run.scenario, run.version)}}
             </div>
           </div>

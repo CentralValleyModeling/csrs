@@ -25,7 +25,7 @@
 {%-endblock%}
 
 {%block content%}
-<div class="col-md-6">
+<div class="col-md-6 pb-3">
   <div class="mb-3">
   {{metadata|safe}}
   </div>
@@ -35,7 +35,7 @@
   {{new_object.render(request)|safe}}
   </div>
   {%-endif%}
-  </div>
+</div>
 <div class="col-md-6">
   <!-- Existing Objects -->
   <div id="existing-objects">
