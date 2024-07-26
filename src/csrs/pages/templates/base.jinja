@@ -2,13 +2,14 @@
 <html lang="en">
     <!-- Header -->
     <head>
+        <meta name="robots" content="noindex, nofollow" />
         <title>{%block title %}CSRS{% endblock %}</title>
         {% block scripts %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         {% endblock %}
         {% block css %}
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/cerulean/bootstrap.min.css">
         <!-- Bootstrap Font Icon CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
         <!-- Custom CSS -->
@@ -23,6 +24,16 @@
             background-color: transparent; /* Transparent background */
             background-image: none;
         }
+        .btn:focus {
+        outline: none;
+        box-shadow: none;
+        background-image: none;
+        }
+        .btn:not(:focus) {
+        outline: none;
+        box-shadow: none;
+        background-image: none;
+        }
         </style>
         {% endblock %}
         <!-- CalSim3 Icon -->
@@ -30,7 +41,7 @@
     </head>
     <body>
         <!-- Navigation -->
-        <nav id="navigation" class="navbar navbar-expand-md bg-body-secondary border-bottom">
+        <nav id="navigation" class="navbar navbar-expand-md border-bottom bg-body-tertiary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/home">
                     <img src="https://raw.githubusercontent.com/CentralValleyModeling/static-assets/main/images/calsim3_icon.svg" alt="CalSim3 Icon" width="30" height="24" class="d-inline-block align-text-top">
@@ -87,7 +98,7 @@
         <!-- Footer -->
         <div class="container-fluid m-0" id="footer">
             {%block footer %}
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-1 px-4 border-top fixed-bottom bg-body-secondary">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-1 px-4 border-top">
                 <div class="col-md-4 d-flex align-items-center">
                     <span class="mb-3 mb-md-0 text-body-secondary">CA Department of Water Resources</span>
                 </div>

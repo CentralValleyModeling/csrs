@@ -9,14 +9,8 @@
 {% endmacro %}
 
 {% macro page_link(title, end_point)%}
-    {%if e_edit %}
-    {% set e_edit = ""%}
-    {%else%}
-    {% set e_edit = "diabled"%}
-    {%endif%}
-    
-    <div class="vstack gap-1">
-        <a href="{{end_point}}" class="btn btn-secondary btn-sm {{e_edit}}">{{title}}</a>
+    <div class="col d-flex flex-column">
+        <button href="{{end_point}}" class="btn btn-secondary btn-sm" type="button">{{title}}</button>
     </div>     
 {%- endmacro %}
 
@@ -50,7 +44,7 @@
             <h3>Edit</h3>
             <p>These pages allow you to view and interact with the data currently in the database. Interactions with <code>Timeseries</code> are not possible using these forms, and must be done using the standard API. You can see how to use this API using the <a href="/docs">OpenAI Docs</a>.</p>
             <hr class="text-secondary">
-            <div class="hstack gap-3 ">
+            <div class="row">
                 {{page_link("Assumptions", "/edit/assumptions")}}
                 {{page_link("Scenarios",   "/edit/scenarios"  )}}
                 {{page_link("Runs",        "/edit/runs"       )}}

@@ -34,22 +34,6 @@
 {{page_title}}
 {% endblock %}
 
-{%block css%}
-{{super()}}
-<style>
-.accordion-button:focus {
-  outline: none;
-  box-shadow: none;
-  background-color: var(--bs-accordion-btn-bg);;
-}
-.accordion-button:not(:focus) {
-  outline: none;
-  box-shadow: none;
-  background-color: var(--bs-accordion-btn-bg);;
-}
-</style>
-{%-endblock%}
-
 {%block content%}
 <div class="col" id="download-sections">
   <div class="row">
