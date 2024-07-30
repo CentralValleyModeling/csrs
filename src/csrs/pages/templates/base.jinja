@@ -113,10 +113,26 @@
                 <div class="col-md-4 d-flex align-items-center">
                     <span class="mb-3 mb-md-0 text-body-secondary">CA Department of Water Resources</span>
                 </div>
-                <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="/home"><i class="bi bi-house-fill"></i></a></li>
-                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="/docs"><i class="bi bi-file-earmark-text-fill"></i></a></li>
-                    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://github.com/CentralValleyModeling/csrs"><i class="bi bi-github"></i></a></li>
+                <ul class="nav col-md-4 justify-content-end align-items-center list-unstyled d-flex">
+                    <li class="nav-item" id="footer-link-home">
+                        <a class="nav-link px-2 text-body-secondary" href="/home">
+                            <i class="bi bi-house-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="footer-link-api-docs">
+                        <a class="nav-link px-2 text-body-secondary" href="/docs">
+                            <i class="bi bi-file-earmark-text-fill"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="footer-link-github">
+                        <a class="nav-link px-2 text-body-secondary" href="https://github.com/CentralValleyModeling/csrs">
+                            <i class="bi bi-github"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="footer-note-library-version">
+                        <span class="mb-3 mb-md-0 text-body-secondary">
+                        <small>csrs-{{library_version}}</small></span>
+                    </li>
                 </ul>
             </footer>
             {% endblock %}
