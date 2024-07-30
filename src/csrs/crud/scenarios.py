@@ -192,6 +192,7 @@ def update(
     return model_to_schema(obj)
 
 
+@rollback_on_exception
 def delete(
     db: Session,
     id: int,

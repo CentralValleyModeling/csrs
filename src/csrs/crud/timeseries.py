@@ -234,6 +234,7 @@ def update():
     raise NotImplementedError()
 
 
+@rollback_on_exception
 def delete(db: Session, scenario: str, version: str, path: str) -> int:
     statement = (
         db.query(models.TimeseriesLedger)
