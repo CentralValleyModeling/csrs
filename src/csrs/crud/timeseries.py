@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..database import EPOCH
-from ..errors import LookupUniqueError
+from ..errors import EmptyLookupError, UniqueLookupError
 from ..logger import logger
 from . import paths as crud_paths
 from ._common import rollback_on_exception
@@ -38,6 +38,7 @@ def get_dss_root(db: Session) -> Path:
 
 
 def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
+    # TODO: 2024-07-30 See if we can remove this function in favor of crud.runs.read
     if not isinstance(scenario, str):
         raise ValueError(f"{scenario=}, expected str")
     scenario_model = (
@@ -47,8 +48,8 @@ def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
         db.query(models.Run).filter(models.Run.scenario_id == scenario_model.id).all()
     )
     runs = [r for r in runs if r.version == version]
-    if len(runs) != 1:  # Couldn't find version
-        raise LookupUniqueError(models.Run, runs, version=version, scenario=scenario)
+    if len(runs) == 0:  # Couldn't find version
+        raise EmptyLookupError(models.Run, version=version, scenario=scenario)
     return runs[0]
 
 
@@ -90,8 +91,8 @@ def create(
     path_schemas = crud_paths.read(db=db, path=path)
     if not path_schemas:
         path_schemas = crud_paths.read(db=db, name=path)
-    if len(path_schemas) != 1:
-        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+    if len(path_schemas) > 1:
+        raise UniqueLookupError(models.NamedPath, path_schemas, path=repr(path))
     dss_path = path_schemas[0].path
     path_model = (
         db.query(models.NamedPath).filter(models.NamedPath.path == dss_path).first()
@@ -147,8 +148,8 @@ def read(
     path_schemas = crud_paths.read(db=db, path=path)
     if not path_schemas:
         path_schemas = crud_paths.read(db=db, name=path)
-    if len(path_schemas) != 1:
-        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+    if len(path_schemas) == 0:
+        raise EmptyLookupError(models.NamedPath, path=repr(path))
     path_schema = path_schemas[0]
     # Get data from database
     rows = (
@@ -234,6 +235,7 @@ def update():
     raise NotImplementedError()
 
 
+@rollback_on_exception
 def delete(db: Session, scenario: str, version: str, path: str) -> int:
     statement = (
         db.query(models.TimeseriesLedger)
@@ -245,10 +247,9 @@ def delete(db: Session, scenario: str, version: str, path: str) -> int:
         .where(models.NamedPath.path == path)
     )
     objs = statement.all()
-    if not objs:
-        raise LookupUniqueError(
+    if len(objs) == 0:
+        raise EmptyLookupError(
             models.TimeseriesLedger,
-            objs,
             sceanrio=scenario,
             version=version,
             path=path,

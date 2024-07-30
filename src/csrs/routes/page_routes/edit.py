@@ -60,7 +60,7 @@ async def page_assumptions_create(
     else:
         try:
             crud.assumptions.create(name=name, kind=kind, detail=detail, db=db)
-        except errors.DuplicateAssumptionError:
+        except errors.DuplicateModelError:
             logger.error("duplicate assumption given, no new object made")
         return RedirectResponse(request.url_for("page_assumptions"), status_code=302)
 
@@ -89,7 +89,7 @@ async def page_scearios_create(
     else:
         try:
             crud.scenarios.create(db=db, **kwargs)
-        except errors.DuplicateAssumptionError:
+        except errors.DuplicateModelError:
             logger.error("duplicate scenario given, no new object made")
         return RedirectResponse(request.url_for("page_scenarios"), status_code=302)
 
@@ -126,7 +126,7 @@ async def page_runs_create(
                 code_version=code_version,
                 detail=detail,
             )
-        except errors.DuplicateAssumptionError:
+        except errors.DuplicateModelError:
             logger.error("duplicate run given, no new object made")
         except AttributeError as e:
             logger.error(f"{e}")
@@ -162,7 +162,7 @@ async def page_paths_create(
                 units=units,
                 detail=detail,
             )
-        except errors.DuplicateAssumptionError:
+        except errors.DuplicateModelError:
             logger.error("duplicate path given, no new object made")
         except AttributeError as e:
             logger.error(f"{e}")

@@ -56,7 +56,7 @@ def test_create_assumption_duplicate():
         db=session,
     )
     crud.assumptions.create(**kwargs)
-    with pytest.raises(errors.DuplicateAssumptionError):
+    with pytest.raises(errors.DuplicateModelError):
         crud.assumptions.create(**kwargs)
 
 
