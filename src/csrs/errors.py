@@ -22,3 +22,14 @@ class UniqueLookupError(Exception):
             error_message = error_message + "\nthe objects were:" + "\n\t".join(objects)
 
         super().__init__(error_message)
+
+
+class EmptyLookupError(Exception):
+    def __init__(self, model: Base, **filters):
+        error_message = (
+            f"0 {model.__name__} were found when at least 1 was expected,\n"
+            + " filters were:\n\t"
+            + "\n\t".join(f"{k}: {v}" for k, v in filters.items())
+        )
+
+        super().__init__(error_message)

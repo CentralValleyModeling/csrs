@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateModelError, UniqueLookupError
+from ..errors import DuplicateModelError, EmptyLookupError, UniqueLookupError
 from ..logger import logger
 from . import assumptions as crud_assumptions
 from . import runs as crud_runs
@@ -41,12 +41,13 @@ def create(
     scenario_assumptions = dict()
     for a_kind, a_name in assumptions.items():
         assumption_model = crud_assumptions.read(db, kind=a_kind, name=a_name)
-        if len(assumption_model) != 1:
-            logger.error("more than one assumption corresponds")
+        if len(assumption_model) > 1:
+            logger.error("more than one assumption corresponds to filters given")
             raise UniqueLookupError(
                 models.Assumption,
                 assumption_model,
-                table_name=a_kind,
+                kind=a_kind,
+                name=a_name,
             )
         scenario_assumptions[a_kind] = assumption_model[0].id
     scenario_model = models.Scenario(name=name)
@@ -82,6 +83,8 @@ def read(
     if id:
         filters.append(models.Scenario.id == id)
     result = db.query(models.Scenario).filter(*filters).all()
+    if len(result) == 0:
+        raise EmptyLookupError(models.Scenario, name=name, id=id)
     return [model_to_schema(mod) for mod in result]
 
 

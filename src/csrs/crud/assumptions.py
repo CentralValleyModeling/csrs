@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateModelError
+from ..errors import DuplicateModelError, EmptyLookupError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
 
@@ -52,6 +52,8 @@ def read(
     if kind:
         filters.append(models.Assumption.kind == kind)
     results = db.query(models.Assumption).filter(*filters).all()
+    if len(results) == 0:
+        raise EmptyLookupError(models.Assumption, name=name, kind=kind, id=id)
     return [schemas.Assumption.model_validate(m, from_attributes=True) for m in results]
 
 
