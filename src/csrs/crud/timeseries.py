@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..database import EPOCH
-from ..errors import LookupUniqueError
+from ..errors import UniqueLookupError
 from ..logger import logger
 from . import paths as crud_paths
 from ._common import rollback_on_exception
@@ -48,7 +48,7 @@ def get_run_model(db: Session, scenario: str, version: str) -> models.Run:
     )
     runs = [r for r in runs if r.version == version]
     if len(runs) != 1:  # Couldn't find version
-        raise LookupUniqueError(models.Run, runs, version=version, scenario=scenario)
+        raise UniqueLookupError(models.Run, runs, version=version, scenario=scenario)
     return runs[0]
 
 
@@ -91,7 +91,7 @@ def create(
     if not path_schemas:
         path_schemas = crud_paths.read(db=db, name=path)
     if len(path_schemas) != 1:
-        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+        raise UniqueLookupError(models.NamedPath, path_schemas, path=repr(path))
     dss_path = path_schemas[0].path
     path_model = (
         db.query(models.NamedPath).filter(models.NamedPath.path == dss_path).first()
@@ -148,7 +148,7 @@ def read(
     if not path_schemas:
         path_schemas = crud_paths.read(db=db, name=path)
     if len(path_schemas) != 1:
-        raise LookupUniqueError(models.NamedPath, path_schemas, path=repr(path))
+        raise UniqueLookupError(models.NamedPath, path_schemas, path=repr(path))
     path_schema = path_schemas[0]
     # Get data from database
     rows = (
@@ -246,7 +246,7 @@ def delete(db: Session, scenario: str, version: str, path: str) -> int:
     )
     objs = statement.all()
     if not objs:
-        raise LookupUniqueError(
+        raise UniqueLookupError(
             models.TimeseriesLedger,
             objs,
             sceanrio=scenario,

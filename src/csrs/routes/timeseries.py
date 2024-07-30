@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
-from ..errors import LookupUniqueError
+from ..errors import UniqueLookupError
 from ..logger import logger
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
@@ -24,7 +24,7 @@ async def get_timeseries(
             version=version,
             path=path,
         )
-    except LookupUniqueError:
+    except UniqueLookupError:
         raise HTTPException(
             status_code=404,
             detail=f"couldn't find unique {path=} in database",

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateAssumptionError
+from ..errors import DuplicateModelError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
 
@@ -28,7 +28,7 @@ def create(
         if dup_detail:
             dup_detail = detail
         logger.error(f"error adding assumption, {dup_name=}, {dup_detail=}")
-        raise DuplicateAssumptionError(dup_name, dup_detail)
+        raise DuplicateModelError(models.Assumption, name=dup_name, detail=dup_detail)
     model = models.Assumption(name=name, kind=kind, detail=detail)
     db.add(model)
     db.commit()

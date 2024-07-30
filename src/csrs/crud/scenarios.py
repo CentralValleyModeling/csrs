@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import DuplicateScenarioError, LookupUniqueError
+from ..errors import DuplicateModelError, UniqueLookupError
 from ..logger import logger
 from . import assumptions as crud_assumptions
 from . import runs as crud_runs
@@ -37,13 +37,13 @@ def create(
     dup_name = db.query(models.Scenario).filter_by(name=name).first() is not None
     if dup_name:
         logger.error(f"{dup_name=}")
-        raise DuplicateScenarioError(name)
+        raise DuplicateModelError(models.Scenario, name=dup_name)
     scenario_assumptions = dict()
     for a_kind, a_name in assumptions.items():
         assumption_model = crud_assumptions.read(db, kind=a_kind, name=a_name)
         if len(assumption_model) != 1:
             logger.error("more than one assumption corresponds")
-            raise LookupUniqueError(
+            raise UniqueLookupError(
                 models.Assumption,
                 assumption_model,
                 table_name=a_kind,
@@ -107,7 +107,7 @@ def _update_preferred_run(db: Session, id: int, preferred_run: str) -> models.Sc
         .first()
     )
     if not run:  # Specied Run not found
-        raise LookupUniqueError(
+        raise UniqueLookupError(
             models.Run,
             run,
             version=preferred_run,
@@ -141,7 +141,7 @@ def _update_assumptions(
         logger.debug(f"setting {kind} to {name}")
         assumption_obj = crud_assumptions.read(db, kind=kind, name=name)
         if len(assumption_obj) != 1:
-            raise LookupUniqueError(
+            raise UniqueLookupError(
                 models.Assumption,
                 assumption_obj,
                 kind=kind,
@@ -179,7 +179,7 @@ def update(
 ) -> schemas.Scenario:
     obj = db.query(models.Scenario).filter(models.Scenario.id == id).first()
     if not obj:
-        raise LookupUniqueError(models.Scenario, obj, id=id)
+        raise UniqueLookupError(models.Scenario, obj, id=id)
     if name:
         _update_name(db, id, name)
     if preferred_run:

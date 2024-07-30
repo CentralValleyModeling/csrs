@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import LookupUniqueError
+from ..errors import UniqueLookupError
 from ..logger import logger
 from . import timeseries as crud_timeseries
 from ._common import common_update, rollback_on_exception
@@ -143,7 +143,7 @@ def update(
     logger.info(f"updating run where {id=}")
     obj = db.query(models.Run).where(models.Run.id == id).first()
     if not obj:
-        raise LookupUniqueError(models.Run, obj, id=id)
+        raise UniqueLookupError(models.Run, obj, id=id)
     # All supported updates on Run are simple setattr actions,
     # so we will just use the common_update func using args that were not None
     updates = dict(  # make sure this dict uses all the args above
@@ -184,7 +184,7 @@ def delete(
                 version=ts.version,
                 path=ts.path,
             )
-        except LookupUniqueError:
+        except UniqueLookupError:
             logger.warning(
                 "when deleting a Timeseries while  deleting a Run, "
                 + "the following Timeseries wasn't found, but the delete action "
