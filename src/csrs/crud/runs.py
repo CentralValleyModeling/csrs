@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..errors import LookupUniqueError
+from ..errors import EmptyLookupError
 from ..logger import logger
 from . import timeseries as crud_timeseries
 from ._common import common_update, rollback_on_exception
@@ -102,6 +102,7 @@ def create_run_history(
     return hist
 
 
+@rollback_on_exception
 def read(
     db: Session,
     scenario: str = None,
@@ -126,6 +127,15 @@ def read(
     runs = db.query(models.Run).filter(*filters).all()
     if version:
         runs = [r for r in runs if r.version == version]
+    if len(runs) == 0:
+        raise EmptyLookupError(
+            models.Run,
+            scenario=scenario,
+            version=version,
+            code_version=code_version,
+            contact=contact,
+            id=id,
+        )
     return [model_to_schema(r) for r in runs]
 
 
@@ -143,7 +153,7 @@ def update(
     logger.info(f"updating run where {id=}")
     obj = db.query(models.Run).where(models.Run.id == id).first()
     if not obj:
-        raise LookupUniqueError(models.Run, obj, id=id)
+        raise EmptyLookupError(models.Run, id=id)
     # All supported updates on Run are simple setattr actions,
     # so we will just use the common_update func using args that were not None
     updates = dict(  # make sure this dict uses all the args above
@@ -162,6 +172,7 @@ def update(
     return model_to_schema(obj)
 
 
+@rollback_on_exception
 def delete(
     db: Session,
     id: int,
@@ -184,10 +195,10 @@ def delete(
                 version=ts.version,
                 path=ts.path,
             )
-        except LookupUniqueError:
+        except EmptyLookupError:
             logger.warning(
-                "when deleting a Timeseries while  deleting a Run, "
-                + "the following Timeseries wasn't found, but the delete action "
+                "when deleting a Timeseries (as a result of deleting it's Run), "
+                + "the following Timeseries wasn't found, but the delete Run action "
                 + f"continued: {ts.path}"
             )
             pass

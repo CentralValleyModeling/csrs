@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
+from ..errors import EmptyLookupError
 from ..logger import logger
 from ._common import common_update, rollback_on_exception
 from .runs import read as read_runs
@@ -55,6 +56,14 @@ def read(
     if id:
         filters.append(models.NamedPath.id == id)
     paths = db.query(models.NamedPath).filter(*filters).all()
+    if len(paths) == 0:
+        raise EmptyLookupError(
+            models.NamedPath,
+            name=name,
+            path=str(path),
+            category=category,
+            id=id,
+        )
     return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 
 
