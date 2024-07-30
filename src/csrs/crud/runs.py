@@ -177,11 +177,19 @@ def delete(
         version=obj.version,
     )
     for ts in tss:
-        crud_timeseries.delete(
-            db,
-            scenario=ts.scenario,
-            version=ts.version,
-            path=ts.path,
-        )
+        try:
+            crud_timeseries.delete(
+                db,
+                scenario=ts.scenario,
+                version=ts.version,
+                path=ts.path,
+            )
+        except LookupUniqueError:
+            logger.warning(
+                "when deleting a Timeseries while  deleting a Run, "
+                + "the following Timeseries wasn't found, but the delete action "
+                + f"continued: {ts.path}"
+            )
+            pass
     db.query(models.Run).filter(models.Run.id == id).delete()
     db.commit()
