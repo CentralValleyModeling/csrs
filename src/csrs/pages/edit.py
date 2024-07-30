@@ -3,7 +3,7 @@ import os
 from fastapi import Request
 from sqlalchemy.orm import Session
 
-from .. import crud
+from .. import crud, errors
 from . import loader, templates
 
 ALLOW_EDITING_VIA_FORMS = bool(os.getenv("ALLOW_EDITING_VIA_FORMS", True))
@@ -32,7 +32,10 @@ def render_scenarios(request: Request, db: Session):
     all_assumptions = crud.assumptions.read(db=db)
     objects = list()
     for obj in all_objs:
-        versions = [r.version for r in crud.runs.read(db=db, scenario=obj.name)]
+        try:
+            versions = [r.version for r in crud.runs.read(db=db, scenario=obj.name)]
+        except errors.EmptyLookupError:
+            versions = ["No Runs for Scenario"]
         t = templates.EditableScenario(obj, versions, all_assumptions)
         objects.append(t)
     metadata = loader.ENV.get_template("static/metadata/scenario.jinja").render()
