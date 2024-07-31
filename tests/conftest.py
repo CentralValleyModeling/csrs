@@ -1,5 +1,6 @@
 from os import remove
 from pathlib import Path
+from shutil import copy2
 from time import sleep
 
 import pytest
@@ -60,10 +61,15 @@ def client_remote():
 
 
 @pytest.fixture(scope="session")
-def database():
-    SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+def database(assets_dir: Path):
+    starting_db = assets_dir / "_testing.db"
+    active_db = starting_db.with_name("testing_dirty.db")
+    if active_db.exists():
+        remove(active_db)
+    copy2(starting_db, active_db)
+    database_url = "sqlite:///" + str(active_db)
     engine = create_engine(
-        SQLALCHEMY_DATABASE_URL,
+        database_url,
         connect_args={"check_same_thread": False},
         poolclass=StaticPool,
         echo=False,
