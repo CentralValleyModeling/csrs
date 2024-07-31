@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from csrs import clients
+from csrs import clients, models
 from csrs.database import get_db
 from csrs.main import app
 from csrs.models import Base
@@ -57,3 +57,23 @@ def client_remote():
     client.actor = TestClient(app)  # TODO: move this to a method
 
     yield client
+
+
+@pytest.fixture(scope="session")
+def database():
+    SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
+    engine = create_engine(
+        SQLALCHEMY_DATABASE_URL,
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+        echo=False,
+    )
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    models.Base.metadata.create_all(bind=engine)
+    session = TestingSessionLocal()
+    yield session
+
+
+@pytest.fixture(scope="session")
+def assets_dir():
+    yield Path(__file__).parent / "assets"

@@ -1,45 +1,27 @@
-from pathlib import Path
-
 import pandss as pdss
 import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
 
-from csrs import crud, errors, models, schemas
-
-TEST_ASSETS_DIR = Path(__file__).parent / "assets"
-SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-    echo=False,
-)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-models.Base.metadata.create_all(bind=engine)
-session = TestingSessionLocal()
+from csrs import crud, errors, schemas
 
 
-def test_create_assumpitons():
+def test_create_assumpitons(database):
     kwargs = dict(
         name="testing-create-assumption",
         kind="tucp",
         detail="testing assumption, tucp as placeholder",
-        db=session,
+        db=database,
     )
     assumption = crud.assumptions.create(**kwargs)
     assert isinstance(assumption, schemas.Assumption)
     assert assumption.name == kwargs["name"]
 
 
-def test_read_assumpitons():
+def test_read_assumpitons(database):
     kwargs = dict(
         name="testing-read-assumption",
         kind="tucp",
         detail="testing read assumption, tucp as placeholder",
-        db=session,
+        db=database,
     )
     crud.assumptions.create(**kwargs)
     assumptions = crud.assumptions.read(name=kwargs["name"], db=kwargs["db"])
@@ -48,23 +30,23 @@ def test_read_assumpitons():
         assert assumption.name == kwargs["name"]
 
 
-def test_create_assumption_duplicate():
+def test_create_assumption_duplicate(database):
     kwargs = dict(
         name="testing-create-assumption-failure-duplicate",
         kind="hydrology",
         detail="testing duplicate assumption",
-        db=session,
+        db=database,
     )
     crud.assumptions.create(**kwargs)
     with pytest.raises(errors.DuplicateModelError):
         crud.assumptions.create(**kwargs)
 
 
-def test_create_scenario():
+def test_create_scenario(database):
     default_assumption_kwargs = dict(
         name="testing-create-scenario",
         detail="testing create scenario",
-        db=session,
+        db=database,
     )
     test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
     for kind in test_kinds:
@@ -73,7 +55,7 @@ def test_create_scenario():
     kwargs = dict(
         name="testing-create-scenario",
         assumptions=dict(),
-        db=session,
+        db=database,
     )
     for kind in test_kinds:
         kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
@@ -82,11 +64,11 @@ def test_create_scenario():
     assert scenario.assumptions[test_kinds[0]] == default_assumption_kwargs["name"]
 
 
-def test_create_run():
+def test_create_run(database):
     default_assumption_kwargs = dict(
         name="testing-create-run-assumption",
         detail="testing create run",
-        db=session,
+        db=database,
     )
     test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
     for kind in test_kinds:
@@ -95,7 +77,7 @@ def test_create_run():
     kwargs = dict(
         name="testing-create-run-scenario",
         assumptions=dict(),
-        db=session,
+        db=database,
     )
     for kind in test_kinds:
         kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
@@ -107,17 +89,17 @@ def test_create_run():
         contact="user@email.com",
         code_version="0.1",
         detail="testing-create-run",
-        db=session,
+        db=database,
     )
     run = crud.runs.create(**kwargs)
     assert isinstance(run, schemas.Run)
 
 
-def test_read_run():
+def test_read_run(database):
     default_assumption_kwargs = dict(
         name="testing-read-run-assumption",
         detail="testing read run",
-        db=session,
+        db=database,
     )
     test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
     for kind in test_kinds:
@@ -126,7 +108,7 @@ def test_read_run():
     kwargs = dict(
         name="testing-read-run-scenario",
         assumptions=dict(),
-        db=session,
+        db=database,
     )
     for kind in test_kinds:
         kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
@@ -139,10 +121,10 @@ def test_read_run():
         version="0.2",
         parent=None,
         detail="testing read run",
-        db=session,
+        db=database,
     )
     crud.runs.create(**kwargs)
-    runs = crud.runs.read(db=session, scenario="testing-read-run-scenario")
+    runs = crud.runs.read(db=database, scenario="testing-read-run-scenario")
     assert len(runs) == 1
     run = runs[0]
     assert run.scenario == "testing-read-run-scenario"
@@ -150,7 +132,7 @@ def test_read_run():
     assert run.parent is None
 
 
-def test_create_path():
+def test_create_path(database):
     kwargs = dict(
         name="shasta-storage-test-create-path",
         path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
@@ -159,13 +141,13 @@ def test_create_path():
         interval="1MON",
         units="TAF",
         detail="The storage in Shasta Reservoir, in TAF.",
-        db=session,
+        db=database,
     )
     path = crud.paths.create(**kwargs)
     assert path.name == kwargs["name"]
 
 
-def test_read_path():
+def test_read_path(database):
     kwargs = dict(
         name="Oroville Storage",
         path="/.*/S_OROVL/STORAGE/.*/.*/.*/",
@@ -174,21 +156,21 @@ def test_read_path():
         interval="1MON",
         units="TAF",
         detail="The storage in Oroville Reservoir, in TAF.",
-        db=session,
+        db=database,
     )
     crud.paths.create(**kwargs)
-    paths = crud.paths.read(db=session, path=kwargs["path"])
+    paths = crud.paths.read(db=database, path=kwargs["path"])
     assert len(paths) == 1
     path = paths[0]
     assert path.name == kwargs["name"]
 
 
-def test_create_read_timeseries():
+def test_create_read_timeseries(database, assets_dir):
     # assumptions
     default_assumption_kwargs = dict(
         name="testing-create-timeseries-assumption",
         detail="testing create timeseries",
-        db=session,
+        db=database,
     )
     test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
     for kind in test_kinds:
@@ -197,7 +179,7 @@ def test_create_read_timeseries():
     kwargs = dict(
         name="testing-create-timeseries-scenario",
         assumptions=dict(),
-        db=session,
+        db=database,
     )
     for kind in test_kinds:
         kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
@@ -210,7 +192,7 @@ def test_create_read_timeseries():
         version="0.2",
         parent=None,
         detail="testing-create-timeseries",
-        db=session,
+        db=database,
     )
     crud.runs.create(**kwargs)
     # path
@@ -222,11 +204,11 @@ def test_create_read_timeseries():
         interval="1MON",
         units="TAF",
         detail="Storage in Shasta Reservoir in TAF.",
-        db=session,
+        db=database,
     )
     crud.paths.create(**kwargs)
     # timeseries
-    dss = TEST_ASSETS_DIR / "DV.dss"
+    dss = assets_dir / "DV.dss"
     path = pdss.DatasetPath.from_str(kwargs["path"])
     rts = pdss.read_rts(dss, path)
     assert isinstance(rts, pdss.RegularTimeseries)
@@ -235,7 +217,7 @@ def test_create_read_timeseries():
         scenario="testing-create-timeseries-scenario",
         version="0.2",
         **rts.to_json(),
-        db=session,
+        db=database,
     )
     timeseries = crud.timeseries.create(**kwargs)
     assert isinstance(timeseries, schemas.Timeseries)
@@ -248,7 +230,7 @@ def test_create_read_timeseries():
         assert L == R
 
     timeseries_read = crud.timeseries.read(
-        db=session,
+        db=database,
         scenario=kwargs["scenario"],
         version=kwargs["version"],
         path=kwargs["path"],
