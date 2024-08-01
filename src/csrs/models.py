@@ -242,7 +242,7 @@ class Metric(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True, autoincrement=True)
     name: Mapped[str] = mapped_column(unique=True)
-    index_detail: Mapped[str] = mapped_column(nullable=False)
+    x_detail: Mapped[str] = mapped_column(nullable=False)
     detail: Mapped[str] = mapped_column(nullable=False)
 
 
@@ -254,6 +254,6 @@ class MetricValue(Base):
     path_id: Mapped[int] = mapped_column(ForeignKey("named_paths.id"), primary_key=True)
     run_id: Mapped[int] = mapped_column(ForeignKey("runs.id"), primary_key=True)
     metric_id: Mapped[int] = mapped_column(ForeignKey("metrics.id"), primary_key=True)
-    index: Mapped[int] = mapped_column(nullable=False)
+    x: Mapped[int] = mapped_column(nullable=False)
     units: Mapped[str] = mapped_column(nullable=False)
     value: Mapped[float] = mapped_column(nullable=False)
