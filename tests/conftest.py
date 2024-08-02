@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 from pathlib import Path
 from shutil import copy2
 from typing import Generator
@@ -24,19 +23,34 @@ def assets_dir() -> Path:
 @pytest.fixture(scope="session")
 def dss(assets_dir: Path) -> Generator[Path, None, None]:
     starting = assets_dir / "_testing.dss"
-    active = assets_dir / "testing_dirty.dss"
+    active = assets_dir / "testing_used.dss"
+    if active.exists():
+        active.unlink()
     if starting.exists():
         copy2(starting, active)
     yield active
+    active.unlink()
+    for f in active.parent.iterdir():
+        if (f.stem == active.stem) and (f.suffix.startswith(".ds")):
+            try:
+                f.unlink()
+            except PermissionError:
+                print(f"couldn't remove testing asset {f}")
 
 
 @pytest.fixture(scope="session")
-def database_file(assets_dir: Path) -> Path:
-    starting_db = assets_dir / "_testing.db"
-    active_db = starting_db.with_name("testing_dirty.db")
-    if starting_db.exists():  # active will be made automatically if not there
-        copy2(starting_db, active_db)
-    return active_db
+def database_file(assets_dir: Path) -> Generator[Path, None, None]:
+    starting = assets_dir / "_testing.db"
+    active = starting.with_name("testing_used.db")
+    if active.exists():
+        active.unlink()
+    if starting.exists():  # active will be made automatically if not there
+        copy2(starting, active)
+    yield active
+    try:
+        active.unlink()
+    except PermissionError:
+        print(f"couldn't remove testing asset {active}")
 
 
 @pytest.fixture(scope="session")
@@ -53,18 +67,20 @@ def database(database_url: Path) -> Generator[Session, None, None]:
         poolclass=StaticPool,
         echo=False,
     )
-    session = make_session(engine)
-    yield session
+    with make_session(engine) as session:
+        yield session
     session.close()
+    engine.dispose()
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def client_local(database_file: Path):
     client = clients.LocalClient(db_path=database_file)
-    return client
+    yield client
+    client.close()
 
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="session", autouse=True)
 def client_remote(database_url: str):
     engine = create_engine(
         database_url,
@@ -90,7 +106,8 @@ def client_remote(database_url: str):
     client = clients.RemoteClient(base_url="http://localhost")
     client.actor = TestClient(app)  # TODO: move this to a method
 
-    return client
+    yield client
+    client.actor.close()
 
 
 @pytest.fixture(scope="module")
@@ -179,7 +196,7 @@ def kwargs_all_unique():
         ),
         timeseries=dict(
             scenario="testing-scenario-existing",
-            version="0.0",
+            version=f"0.0.{uuid}",
             path="/CSRS/TESTING_EXISTING_CLIENT/TESTING/.*/1MON/2024/",
             values=(1.0, 2.0, 3.0),
             dates=("1921-10-30", "1921-11-30", "1921-12-31"),

@@ -70,7 +70,7 @@ def test_read_path(database):
 
 def test_read_timeseries(database):
     obj = crud.timeseries.read(
-        path="/CSRS/TESTING_EXISTING_DB/TESTING//1MON/2024/",
+        path="/CSRS/TESTING_EXISTING_DB/TESTING/.*/1MON/2024/",
         scenario="testing-scenario-existing",
         version="0.0",
         db=database,

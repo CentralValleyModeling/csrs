@@ -124,9 +124,13 @@ def test_remote_paths(
     do_paths(client_remote, kwargs_all_unique["path"])
 
 
-def do_timeseries(client: Client, kwargs_timeseries: dict[str, str]):
+def do_timeseries(
+    client: Client,
+    kwargs_timeseries: dict[str, str],
+    kwargs_run: dict[str, str],
+):
+    client.put_run(**kwargs_run)  # must add a new run to make sure the ts is unique
     client.put_timeseries(**kwargs_timeseries)
-
     ts = client.get_timeseries(
         scenario=kwargs_timeseries["scenario"],
         version=kwargs_timeseries["version"],
@@ -141,7 +145,11 @@ def test_local_timeseries(
     kwargs_all_unique: dict[str, dict[str, str]],
 ):
     logger.debug("starting test")
-    do_timeseries(client_local, kwargs_all_unique["timeseries"])
+    do_timeseries(
+        client_local,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["run"],
+    )
 
 
 def test_remote_timeseries(
@@ -149,26 +157,55 @@ def test_remote_timeseries(
     kwargs_all_unique: dict[str, dict[str, str]],
 ):
     logger.debug("starting test")
-    do_timeseries(client_remote, kwargs_all_unique["timeseries"])
+    do_timeseries(
+        client_remote,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["run"],
+    )
 
 
 def do_many_timeseries(
     client: Client,
     dss: Path,
+    kwargs_timeseries: dict[str, str],
+    kwargs_run: dict[str, str],
+):
+    client.put_run(**kwargs_run)  # must add a new run to make sure the ts is unique
+    all_ts = client.put_many_timeseries(
+        scenario=kwargs_timeseries["scenario"],
+        version=kwargs_timeseries["version"],
+        dss=dss,
+    )
+    for ts in all_ts:
+        assert isinstance(ts, schemas.Timeseries)
+        assert len(ts.dates) == len(ts.values)
+        assert len(ts.values) > 0
+        assert isinstance(ts.values[0], float)
+
+
+def test_local_many_timeseries(
+    client_local: clients.RemoteClient,
+    dss: Path,
     kwargs_all_unique: dict[str, dict[str, str]],
 ):
-    client.put_many_timeseries(
-        scenario=kwargs_all_unique["run"]["scenario"],
-        version=kwargs_all_unique["run"]["version"],
-        dss=dss,
+    logger.debug("starting test")
+    do_many_timeseries(
+        client_local,
+        dss,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["run"],
     )
 
 
-def test_local_many_timeseries(client_local: clients.LocalClient):
+def test_remote_many_timeseries(
+    client_remote: clients.RemoteClient,
+    dss: Path,
+    kwargs_all_unique: dict[str, dict[str, str]],
+):
     logger.debug("starting test")
-    do_many_timeseries(client_local)
-
-
-def test_remote_many_timeseries(client_remote: clients.RemoteClient):
-    logger.debug("starting test")
-    do_many_timeseries(client_remote)
+    do_many_timeseries(
+        client_remote,
+        dss,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["run"],
+    )
