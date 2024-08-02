@@ -109,6 +109,79 @@ def test_create_timeseries_from_dss(database, dss):
             assert L == R
 
 
-# TODO: add tests for hard to convert scenario names (for dss file name)
+def test_error_on_bad_read_assumption(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.assumptions.read(db=database, name="invalid-lookup")
+
+
+def test_error_on_bad_read_scenario(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.scenarios.read(db=database, name="invalid-lookup")
+
+
+def test_error_on_bad_read_run(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.runs.read(
+            db=database,
+            scenario="testing-scenario-existing",
+            version="invalid-lookup",
+        )
+
+
+def test_error_on_bad_read_path(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.paths.read(
+            db=database,
+            name="invalid-lookup",
+        )
+
+
+def test_error_on_bad_read_timeseries(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.timeseries.read(
+            db=database,
+            scenario="testing-scenario-existing",
+            version="0.0",
+            path="invalid-lookup",
+        )
+
+
+def test_delete_assumpitons(database, kwargs_assumption):
+    kwargs_assumption["db"] = database
+    kwargs_assumption["name"] = "to-be-deleted"
+    kwargs_assumption["detail"] = "to-be-deleted"
+    assumption = crud.assumptions.create(**kwargs_assumption)
+    crud.assumptions.delete(database, assumption.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.assumptions.read(database, name="to-be-deleted")
+
+
+def test_delete_scenario(database, kwargs_scenario):
+    kwargs_scenario["db"] = database
+    kwargs_scenario["name"] = "to-be-deleted"
+    scenario = crud.scenarios.create(**kwargs_scenario)
+    crud.scenarios.delete(database, scenario.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.scenarios.read(database, name="to-be-deleted")
+
+
+def test_delete_run(database, kwargs_run):
+    kwargs_run["db"] = database
+    kwargs_run["version"] = "to-be-deleted"
+    run = crud.runs.create(**kwargs_run)
+    crud.runs.delete(database, run.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.runs.read(database, version="to-be-deleted")
+
+
+def test_delete_path(database, kwargs_path):
+    kwargs_path["db"] = database
+    kwargs_path["name"] = "to-be-deleted"
+    path = crud.paths.create(**kwargs_path)
+    crud.paths.delete(database, path.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.paths.read(database, name="to-be-deleted")
+
+
 # TODO: add tests for different length timeseries
 # TODO: add tests for adding two runs in a scenario, updating the preferred run
