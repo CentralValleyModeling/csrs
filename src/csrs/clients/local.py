@@ -1,13 +1,11 @@
 from pathlib import Path
-from typing import Iterable
-from warnings import warn
 
 import pandss as pdss
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from .. import crud, enums, models, schemas
+from .. import crud, models, schemas
 
 
 class LocalClient:
@@ -218,37 +216,23 @@ class LocalClient:
         scenario: str,
         version: str,
         dss: Path,
-        paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
-        if paths is None:
-            paths = [p.value for p in enums.StandardPathsEnum]
-        elif not isinstance(paths[0], schemas.NamedPath):
-            raise ValueError(f"paths not given as {schemas.NamedPath}")
+        paths_in_db = crud.paths.read(self.session)
+        paths_in_dss = pdss.read_catalog(dss)
+        common_paths = list()
+        for p in paths_in_db:
+            if pdss.DatasetPath.from_str(p.path) in paths_in_dss:
+                common_paths.append(p)
+        common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
         added = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rts = dss_obj.read_rts(p.path)
-                except pdss.errors.UnexpectedDSSReturn:
-                    warn(f"couldn't read {p} from {dss}, (UnexpectedDSSReturn)")
-                    continue
-                except ValueError:
-                    warn(f"couldn't read {p} from {dss}, (ValueError)")
-                    continue
-                # Add path
-                p.path = str(rts.path)
-                found_paths = crud.paths.read(
-                    db=self.session,
-                    name=p.name,
-                    path=p.path,
-                    category=p.category,
-                )
-                if not found_paths:
-                    crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
-                # Add timeseries
-                ts = schemas.Timeseries.from_pandss(scenario, version, rts)
-                kwargs = ts.model_dump()
-                kwargs["path"] = str(rts.path)
-                ts = crud.timeseries.create(db=self.session, **kwargs)
-                added.append(ts)
+        for rts in pdss.read_multiple_rts(dss, common_paths):
+            ts = schemas.Timeseries.from_pandss(
+                scenario=scenario,
+                version=version,
+                rts=rts,
+            )
+            kwargs = ts.model_dump()
+            kwargs["path"] = str(rts.path)
+            ts = crud.timeseries.create(db=self.session, **kwargs)
+            added.append(ts)
         return added

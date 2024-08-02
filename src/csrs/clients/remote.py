@@ -1,11 +1,9 @@
 from pathlib import Path
-from typing import Iterable
-from warnings import warn
 
 import pandss as pdss
 from httpx import Client
 
-from .. import enums, schemas
+from .. import schemas
 
 
 class RemoteClient:
@@ -487,13 +485,8 @@ class RemoteClient:
         scenario: str,
         version: str,
         dss: Path,
-        paths: Iterable[schemas.NamedPath] = None,
     ) -> list[schemas.Timeseries]:
         """Create multiple `Timeseries` objects from a DSS file.
-
-        The datasets to be extracted are specified as an iterable of `NamedPath`
-        objects, but it will default to uploading the data for all the paths in
-        `csrs.enums.StandardPathsEnum`.
 
         Parameters
         ----------
@@ -503,9 +496,6 @@ class RemoteClient:
             The verson of the `Run` that this data should be assigned to
         dss : Path
             The DSS file to extract data from
-        paths : Iterable[schemas.NamedPath], optional
-            The collection of Paths to extract from the DSS file, by default
-            `csrs.enums.StandardPathsEnum`
 
         Returns
         -------
@@ -518,30 +508,24 @@ class RemoteClient:
             Raised of the collection of paths is incorrectly given
         """
         url = "/timeseries"
-        if paths is None:
-            paths = [p.value for p in enums.StandardPathsEnum]
-        elif not isinstance(paths[0], schemas.NamedPath):
-            raise ValueError(f"paths not given as {schemas.NamedPath}")
+        response = self.actor.get("/paths")
+        response.raise_for_status()
+        paths_in_db = [schemas.NamedPath(**p) for p in response.json()]
+        paths_in_dss = pdss.read_catalog(dss)
+        common_paths = list()
+        for p in paths_in_db:
+            if pdss.DatasetPath.from_str(p.path) in paths_in_dss:
+                common_paths.append(p)
+        common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
         added = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rts = dss_obj.read_rts(p.path)
-                except pdss.errors.UnexpectedDSSReturn:
-                    warn(f"couldn't read {p} from {dss}")
-                    continue
-                # Add path
-                p.path = str(rts.path)
-                found_paths = self.get_path(
-                    name=p.name,
-                    path=p.path,
-                    category=p.category,
-                )
-                if not found_paths:
-                    self.actor.put("/paths", json=p.model_dump(exclude=("id")))
-                # Add timeseries
-                ts = schemas.Timeseries.from_pandss(scenario, version, rts)
-                response = self.actor.put(url, json=ts.model_dump(mode="json"))
-                response.raise_for_status()
-                added.append(schemas.Timeseries.model_validate(response.json()))
+        for rts in pdss.read_multiple_rts(dss, common_paths):
+            ts = schemas.Timeseries.from_pandss(
+                scenario=scenario,
+                version=version,
+                rts=rts,
+            )
+            kwargs = ts.model_dump()
+            kwargs["path"] = str(rts.path)
+            ts = self.actor.put(url, params=kwargs)
+            added.append(ts)
         return added

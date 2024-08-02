@@ -94,6 +94,8 @@ def read_paths_in_run(
     )
     path_ids = [c.id for c in catalog]
     paths = db.query(models.NamedPath).filter(models.NamedPath.id.in_(path_ids)).all()
+    if len(paths) == 0:
+        raise EmptyLookupError(models.NamedPath, id_in=path_ids)
     logger.info(f"{len(paths)} paths found")
     return [schemas.NamedPath.model_validate(p, from_attributes=True) for p in paths]
 

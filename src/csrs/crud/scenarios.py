@@ -205,8 +205,11 @@ def delete(
     if not me:
         raise ValueError(f"Scenario with {id=} was not found")
     me = me[0]
-    runs = crud_runs.read(db, scenario=me.name)
-    for run in runs:
-        crud_runs.delete(db, id=run.id)
+    try:
+        runs = crud_runs.read(db, scenario=me.name)
+        for run in runs:
+            crud_runs.delete(db, id=run.id)
+    except EmptyLookupError:  # No runs associated with this scenario
+        pass
     db.query(models.Scenario).filter(models.Scenario.id == id).delete()
     db.commit()

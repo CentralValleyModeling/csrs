@@ -1,263 +1,187 @@
-from pathlib import Path
-
 import pandss as pdss
 import pytest
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.pool import StaticPool
 
-from csrs import crud, errors, models, schemas
-
-TEST_ASSETS_DIR = Path(__file__).parent / "assets"
-SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-    echo=False,
-)
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-models.Base.metadata.create_all(bind=engine)
-session = TestingSessionLocal()
+from csrs import crud, errors, schemas
 
 
-def test_create_assumpitons():
-    kwargs = dict(
-        name="testing-create-assumption",
-        kind="tucp",
-        detail="testing assumption, tucp as placeholder",
-        db=session,
-    )
-    assumption = crud.assumptions.create(**kwargs)
+def test_create_assumpitons(database, kwargs_assumption):
+    kwargs_assumption["db"] = database
+    assumption = crud.assumptions.create(**kwargs_assumption)
     assert isinstance(assumption, schemas.Assumption)
-    assert assumption.name == kwargs["name"]
+    assert assumption.name == kwargs_assumption["name"]
 
 
-def test_read_assumpitons():
-    kwargs = dict(
-        name="testing-read-assumption",
-        kind="tucp",
-        detail="testing read assumption, tucp as placeholder",
-        db=session,
-    )
-    crud.assumptions.create(**kwargs)
-    assumptions = crud.assumptions.read(name=kwargs["name"], db=kwargs["db"])
-    for assumption in assumptions:
-        assert isinstance(assumption, schemas.Assumption)
-        assert assumption.name == kwargs["name"]
-
-
-def test_create_assumption_duplicate():
-    kwargs = dict(
-        name="testing-create-assumption-failure-duplicate",
-        kind="hydrology",
-        detail="testing duplicate assumption",
-        db=session,
-    )
-    crud.assumptions.create(**kwargs)
+def test_create_assumption_duplicate(database, kwargs_assumption_duplicate):
+    kwargs_assumption_duplicate["db"] = database
+    crud.assumptions.create(**kwargs_assumption_duplicate)
     with pytest.raises(errors.DuplicateModelError):
-        crud.assumptions.create(**kwargs)
+        crud.assumptions.create(**kwargs_assumption_duplicate)
 
 
-def test_create_scenario():
-    default_assumption_kwargs = dict(
-        name="testing-create-scenario",
-        detail="testing create scenario",
-        db=session,
-    )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-create-scenario",
-        assumptions=dict(),
-        db=session,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    scenario = crud.scenarios.create(**kwargs)
-    assert scenario.name == kwargs["name"]
-    assert scenario.assumptions[test_kinds[0]] == default_assumption_kwargs["name"]
+def test_create_scenario(database, kwargs_scenario):
+    kwargs_scenario["db"] = database
+    scenario = crud.scenarios.create(**kwargs_scenario)
+    assert scenario.name == kwargs_scenario["name"]
 
 
-def test_create_run():
-    default_assumption_kwargs = dict(
-        name="testing-create-run-assumption",
-        detail="testing create run",
-        db=session,
-    )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-    # Create scenario
-    kwargs = dict(
-        name="testing-create-run-scenario",
-        assumptions=dict(),
-        db=session,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-    # Create run
-    kwargs = dict(
-        scenario="testing-create-run-scenario",
-        version="0.2",
-        contact="user@email.com",
-        code_version="0.1",
-        detail="testing-create-run",
-        db=session,
-    )
-    run = crud.runs.create(**kwargs)
+def test_create_run(database, kwargs_run):
+    kwargs_run["db"] = database
+    run = crud.runs.create(**kwargs_run)
     assert isinstance(run, schemas.Run)
 
 
-def test_read_run():
-    default_assumption_kwargs = dict(
-        name="testing-read-run-assumption",
-        detail="testing read run",
-        db=session,
-    )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-read-run-scenario",
-        assumptions=dict(),
-        db=session,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-
-    kwargs = dict(
-        scenario="testing-read-run-scenario",
-        code_version="0.1",
-        contact="user@email.com",
-        version="0.2",
-        parent=None,
-        detail="testing read run",
-        db=session,
-    )
-    crud.runs.create(**kwargs)
-    runs = crud.runs.read(db=session, scenario="testing-read-run-scenario")
-    assert len(runs) == 1
-    run = runs[0]
-    assert run.scenario == "testing-read-run-scenario"
-    assert len(run.children) == 0
-    assert run.parent is None
+def test_create_path(database, kwargs_path):
+    kwargs_path["db"] = database
+    path = crud.paths.create(**kwargs_path)
+    assert path.name == kwargs_path["name"]
 
 
-def test_create_path():
-    kwargs = dict(
-        name="shasta-storage-test-create-path",
-        path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="The storage in Shasta Reservoir, in TAF.",
-        db=session,
-    )
-    path = crud.paths.create(**kwargs)
-    assert path.name == kwargs["name"]
+def test_read_assumpitons(database):
+    objects = crud.assumptions.read(name="testing-assumption-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.Assumption)
+    assert len(objects) == 1
 
 
-def test_read_path():
-    kwargs = dict(
-        name="Oroville Storage",
-        path="/.*/S_OROVL/STORAGE/.*/.*/.*/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="The storage in Oroville Reservoir, in TAF.",
-        db=session,
-    )
-    crud.paths.create(**kwargs)
-    paths = crud.paths.read(db=session, path=kwargs["path"])
-    assert len(paths) == 1
-    path = paths[0]
-    assert path.name == kwargs["name"]
+def test_read_scenario(database):
+    objects = crud.scenarios.read(name="testing-scenario-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.Scenario)
+    assert len(objects) == 1
 
 
-def test_create_read_timeseries():
-    # assumptions
-    default_assumption_kwargs = dict(
-        name="testing-create-timeseries-assumption",
-        detail="testing create timeseries",
-        db=session,
+def test_read_run(database):
+    objects = crud.runs.read(
+        scenario="testing-scenario-existing",
+        version="0.0",
+        db=database,
     )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-    # scenario
-    kwargs = dict(
-        name="testing-create-timeseries-scenario",
-        assumptions=dict(),
-        db=session,
+    for obj in objects:
+        assert isinstance(obj, schemas.Run)
+    assert len(objects) == 1
+
+
+def test_read_path(database):
+    objects = crud.paths.read(name="testing-path-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.NamedPath)
+    assert len(objects) == 1
+
+
+def test_read_timeseries(database):
+    obj = crud.timeseries.read(
+        path="/CSRS/TESTING_EXISTING_DB/TESTING/.*/1MON/2024/",
+        scenario="testing-scenario-existing",
+        version="0.0",
+        db=database,
     )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-    # run
-    kwargs = dict(
-        scenario="testing-create-timeseries-scenario",
-        code_version="0.1",
-        contact="user@email.com",
-        version="0.2",
-        parent=None,
-        detail="testing-create-timeseries",
-        db=session,
-    )
-    crud.runs.create(**kwargs)
-    # path
-    kwargs = dict(
-        name="shasta-sotrage-test-read-timeseries",
-        path="/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="Storage in Shasta Reservoir in TAF.",
-        db=session,
-    )
-    crud.paths.create(**kwargs)
+    assert isinstance(obj, schemas.Timeseries)
+    assert len(obj.values) == 1_200
+
+
+def test_create_timeseries_from_dss(database, dss):
     # timeseries
-    dss = TEST_ASSETS_DIR / "DV.dss"
-    path = pdss.DatasetPath.from_str(kwargs["path"])
-    rts = pdss.read_rts(dss, path)
-    assert isinstance(rts, pdss.RegularTimeseries)
-
-    kwargs = dict(
-        scenario="testing-create-timeseries-scenario",
-        version="0.2",
-        **rts.to_json(),
-        db=session,
-    )
-    timeseries = crud.timeseries.create(**kwargs)
-    assert isinstance(timeseries, schemas.Timeseries)
-    assert timeseries.values[0] == float(rts.values[0])
-    assert len(timeseries.values) == len(rts.values)
-    rts_2 = pdss.RegularTimeseries.from_json(
-        timeseries.model_dump(exclude=("id", "scenario", "version"))
-    )
-    for L, R in zip(rts.dates, rts_2.dates):
-        assert L == R
-
-    timeseries_read = crud.timeseries.read(
-        db=session,
-        scenario=kwargs["scenario"],
-        version=kwargs["version"],
-        path=kwargs["path"],
-    )
-    assert timeseries.path == timeseries_read.path
-    for L, R in zip(timeseries.dates, timeseries_read.dates):
-        assert L == R
+    catalog = pdss.read_catalog(dss)
+    for rts in pdss.read_multiple_rts(dss, catalog):
+        kwargs = dict(
+            scenario="testing-scenario-existing",
+            version="0.0",
+            **rts.to_json(),
+            db=database,
+        )
+        timeseries = crud.timeseries.create(**kwargs)
+        assert isinstance(timeseries, schemas.Timeseries)
+        assert timeseries.values[0] == float(rts.values[0])
+        assert len(timeseries.values) == len(rts.values)
+        rts_2 = pdss.RegularTimeseries.from_json(
+            timeseries.model_dump(exclude=("id", "scenario", "version"))
+        )
+        for L, R in zip(rts.dates, rts_2.dates):
+            assert L == R
+        timeseries_read = crud.timeseries.read(
+            db=database,
+            scenario=kwargs["scenario"],
+            version=kwargs["version"],
+            path=kwargs["path"],
+        )
+        assert timeseries.path == timeseries_read.path
+        for L, R in zip(timeseries.dates, timeseries_read.dates):
+            assert L == R
 
 
-# TODO: add tests for hard to convert scenario names (for dss file name)
+def test_error_on_bad_read_assumption(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.assumptions.read(db=database, name="invalid-lookup")
+
+
+def test_error_on_bad_read_scenario(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.scenarios.read(db=database, name="invalid-lookup")
+
+
+def test_error_on_bad_read_run(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.runs.read(
+            db=database,
+            scenario="testing-scenario-existing",
+            version="invalid-lookup",
+        )
+
+
+def test_error_on_bad_read_path(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.paths.read(
+            db=database,
+            name="invalid-lookup",
+        )
+
+
+def test_error_on_bad_read_timeseries(database):
+    with pytest.raises(errors.EmptyLookupError):
+        crud.timeseries.read(
+            db=database,
+            scenario="testing-scenario-existing",
+            version="0.0",
+            path="invalid-lookup",
+        )
+
+
+def test_delete_assumpitons(database, kwargs_assumption):
+    kwargs_assumption["db"] = database
+    kwargs_assumption["name"] = "to-be-deleted"
+    kwargs_assumption["detail"] = "to-be-deleted"
+    assumption = crud.assumptions.create(**kwargs_assumption)
+    crud.assumptions.delete(database, assumption.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.assumptions.read(database, name="to-be-deleted")
+
+
+def test_delete_scenario(database, kwargs_scenario):
+    kwargs_scenario["db"] = database
+    kwargs_scenario["name"] = "to-be-deleted"
+    scenario = crud.scenarios.create(**kwargs_scenario)
+    crud.scenarios.delete(database, scenario.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.scenarios.read(database, name="to-be-deleted")
+
+
+def test_delete_run(database, kwargs_run):
+    kwargs_run["db"] = database
+    kwargs_run["version"] = "to-be-deleted"
+    run = crud.runs.create(**kwargs_run)
+    crud.runs.delete(database, run.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.runs.read(database, version="to-be-deleted")
+
+
+def test_delete_path(database, kwargs_path):
+    kwargs_path["db"] = database
+    kwargs_path["name"] = "to-be-deleted"
+    path = crud.paths.create(**kwargs_path)
+    crud.paths.delete(database, path.id)
+    with pytest.raises(errors.EmptyLookupError):
+        crud.paths.read(database, name="to-be-deleted")
+
+
 # TODO: add tests for different length timeseries
 # TODO: add tests for adding two runs in a scenario, updating the preferred run
