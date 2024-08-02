@@ -14,7 +14,7 @@ EXPECTED_METRIC_VALUES = {
     "path_id": int,
     "run_id": int,
     "metric_id": int,
-    "index": int,
+    "x": int,
     "units": str,
     "value": float,
 }
@@ -22,7 +22,7 @@ EXPECTED_METRIC_VALUES = {
 EXPECTED_METRIC = {
     "id": int,
     "name": str,
-    "index_detail": str,
+    "x_detail": str,
     "detail": str,
 }
 

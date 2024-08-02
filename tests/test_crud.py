@@ -4,240 +4,112 @@ import pytest
 from csrs import crud, errors, schemas
 
 
-def test_create_assumpitons(database):
-    kwargs = dict(
-        name="testing-create-assumption",
-        kind="tucp",
-        detail="testing assumption, tucp as placeholder",
-        db=database,
-    )
-    assumption = crud.assumptions.create(**kwargs)
+def test_create_assumpitons(database, kwargs_assumption):
+    kwargs_assumption["db"] = database
+    assumption = crud.assumptions.create(**kwargs_assumption)
     assert isinstance(assumption, schemas.Assumption)
-    assert assumption.name == kwargs["name"]
+    assert assumption.name == kwargs_assumption["name"]
 
 
-def test_read_assumpitons(database):
-    kwargs = dict(
-        name="testing-read-assumption",
-        kind="tucp",
-        detail="testing read assumption, tucp as placeholder",
-        db=database,
-    )
-    crud.assumptions.create(**kwargs)
-    assumptions = crud.assumptions.read(name=kwargs["name"], db=kwargs["db"])
-    for assumption in assumptions:
-        assert isinstance(assumption, schemas.Assumption)
-        assert assumption.name == kwargs["name"]
-
-
-def test_create_assumption_duplicate(database):
-    kwargs = dict(
-        name="testing-create-assumption-failure-duplicate",
-        kind="hydrology",
-        detail="testing duplicate assumption",
-        db=database,
-    )
-    crud.assumptions.create(**kwargs)
+def test_create_assumption_duplicate(database, kwargs_assumption_duplicate):
+    kwargs_assumption_duplicate["db"] = database
+    crud.assumptions.create(**kwargs_assumption_duplicate)
     with pytest.raises(errors.DuplicateModelError):
-        crud.assumptions.create(**kwargs)
+        crud.assumptions.create(**kwargs_assumption_duplicate)
 
 
-def test_create_scenario(database):
-    default_assumption_kwargs = dict(
-        name="testing-create-scenario",
-        detail="testing create scenario",
-        db=database,
-    )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-create-scenario",
-        assumptions=dict(),
-        db=database,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    scenario = crud.scenarios.create(**kwargs)
-    assert scenario.name == kwargs["name"]
-    assert scenario.assumptions[test_kinds[0]] == default_assumption_kwargs["name"]
+def test_create_scenario(database, kwargs_scenario):
+    kwargs_scenario["db"] = database
+    scenario = crud.scenarios.create(**kwargs_scenario)
+    assert scenario.name == kwargs_scenario["name"]
 
 
-def test_create_run(database):
-    default_assumption_kwargs = dict(
-        name="testing-create-run-assumption",
-        detail="testing create run",
-        db=database,
-    )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-    # Create scenario
-    kwargs = dict(
-        name="testing-create-run-scenario",
-        assumptions=dict(),
-        db=database,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-    # Create run
-    kwargs = dict(
-        scenario="testing-create-run-scenario",
-        version="0.2",
-        contact="user@email.com",
-        code_version="0.1",
-        detail="testing-create-run",
-        db=database,
-    )
-    run = crud.runs.create(**kwargs)
+def test_create_run(database, kwargs_run):
+    kwargs_run["db"] = database
+    run = crud.runs.create(**kwargs_run)
     assert isinstance(run, schemas.Run)
 
 
+def test_create_path(database, kwargs_path):
+    kwargs_path["db"] = database
+    path = crud.paths.create(**kwargs_path)
+    assert path.name == kwargs_path["name"]
+
+
+def test_read_assumpitons(database):
+    objects = crud.assumptions.read(name="testing-assumption-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.Assumption)
+    assert len(objects) == 1
+
+
+def test_read_scenario(database):
+    objects = crud.scenarios.read(name="testing-scenario-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.Scenario)
+    assert len(objects) == 1
+
+
 def test_read_run(database):
-    default_assumption_kwargs = dict(
-        name="testing-read-run-assumption",
-        detail="testing read run",
+    objects = crud.runs.read(
+        scenario="testing-scenario-existing",
+        version="0.0",
         db=database,
     )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-
-    kwargs = dict(
-        name="testing-read-run-scenario",
-        assumptions=dict(),
-        db=database,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-
-    kwargs = dict(
-        scenario="testing-read-run-scenario",
-        code_version="0.1",
-        contact="user@email.com",
-        version="0.2",
-        parent=None,
-        detail="testing read run",
-        db=database,
-    )
-    crud.runs.create(**kwargs)
-    runs = crud.runs.read(db=database, scenario="testing-read-run-scenario")
-    assert len(runs) == 1
-    run = runs[0]
-    assert run.scenario == "testing-read-run-scenario"
-    assert len(run.children) == 0
-    assert run.parent is None
-
-
-def test_create_path(database):
-    kwargs = dict(
-        name="shasta-storage-test-create-path",
-        path="/.*/S_SHSTA/STORAGE/.*/.*/.*/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="The storage in Shasta Reservoir, in TAF.",
-        db=database,
-    )
-    path = crud.paths.create(**kwargs)
-    assert path.name == kwargs["name"]
+    for obj in objects:
+        assert isinstance(obj, schemas.Run)
+    assert len(objects) == 1
 
 
 def test_read_path(database):
-    kwargs = dict(
-        name="Oroville Storage",
-        path="/.*/S_OROVL/STORAGE/.*/.*/.*/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="The storage in Oroville Reservoir, in TAF.",
-        db=database,
-    )
-    crud.paths.create(**kwargs)
-    paths = crud.paths.read(db=database, path=kwargs["path"])
-    assert len(paths) == 1
-    path = paths[0]
-    assert path.name == kwargs["name"]
+    objects = crud.paths.read(name="testing-path-existing", db=database)
+    for obj in objects:
+        assert isinstance(obj, schemas.NamedPath)
+    assert len(objects) == 1
 
 
-def test_create_read_timeseries(database, assets_dir):
-    # assumptions
-    default_assumption_kwargs = dict(
-        name="testing-create-timeseries-assumption",
-        detail="testing create timeseries",
+def test_read_timeseries(database):
+    obj = crud.timeseries.read(
+        path="/CSRS/TESTING_EXISTING_DB/TESTING//1MON/2024/",
+        scenario="testing-scenario-existing",
+        version="0.0",
         db=database,
     )
-    test_kinds = ("assumption-kind-1", "assumption-kind-2", "assumption-kind-3")
-    for kind in test_kinds:
-        crud.assumptions.create(kind=kind, **default_assumption_kwargs)
-    # scenario
-    kwargs = dict(
-        name="testing-create-timeseries-scenario",
-        assumptions=dict(),
-        db=database,
-    )
-    for kind in test_kinds:
-        kwargs["assumptions"][kind] = default_assumption_kwargs["name"]
-    crud.scenarios.create(**kwargs)
-    # run
-    kwargs = dict(
-        scenario="testing-create-timeseries-scenario",
-        code_version="0.1",
-        contact="user@email.com",
-        version="0.2",
-        parent=None,
-        detail="testing-create-timeseries",
-        db=database,
-    )
-    crud.runs.create(**kwargs)
-    # path
-    kwargs = dict(
-        name="shasta-sotrage-test-read-timeseries",
-        path="/CALSIM/S_SHSTA/STORAGE/.*/1MON/L2020A/",
-        category="storage",
-        period_type="PER-AVER",
-        interval="1MON",
-        units="TAF",
-        detail="Storage in Shasta Reservoir in TAF.",
-        db=database,
-    )
-    crud.paths.create(**kwargs)
+    assert isinstance(obj, schemas.Timeseries)
+    assert len(obj.values) == 1_200
+
+
+def test_create_timeseries_from_dss(database, dss):
     # timeseries
-    dss = assets_dir / "DV.dss"
-    path = pdss.DatasetPath.from_str(kwargs["path"])
-    rts = pdss.read_rts(dss, path)
-    assert isinstance(rts, pdss.RegularTimeseries)
-
-    kwargs = dict(
-        scenario="testing-create-timeseries-scenario",
-        version="0.2",
-        **rts.to_json(),
-        db=database,
-    )
-    timeseries = crud.timeseries.create(**kwargs)
-    assert isinstance(timeseries, schemas.Timeseries)
-    assert timeseries.values[0] == float(rts.values[0])
-    assert len(timeseries.values) == len(rts.values)
-    rts_2 = pdss.RegularTimeseries.from_json(
-        timeseries.model_dump(exclude=("id", "scenario", "version"))
-    )
-    for L, R in zip(rts.dates, rts_2.dates):
-        assert L == R
-
-    timeseries_read = crud.timeseries.read(
-        db=database,
-        scenario=kwargs["scenario"],
-        version=kwargs["version"],
-        path=kwargs["path"],
-    )
-    assert timeseries.path == timeseries_read.path
-    for L, R in zip(timeseries.dates, timeseries_read.dates):
-        assert L == R
+    catalog = pdss.read_catalog(dss)
+    for rts in pdss.read_multiple_rts(dss, catalog):
+        print(rts.to_json())
+        kwargs = dict(
+            scenario="testing-scenario-existing",
+            version="0.0",
+            **rts.to_json(),
+            db=database,
+        )
+        path = crud.paths.read(path=rts.path, db=database)
+        print(path)
+        timeseries = crud.timeseries.create(**kwargs)
+        assert isinstance(timeseries, schemas.Timeseries)
+        assert timeseries.values[0] == float(rts.values[0])
+        assert len(timeseries.values) == len(rts.values)
+        rts_2 = pdss.RegularTimeseries.from_json(
+            timeseries.model_dump(exclude=("id", "scenario", "version"))
+        )
+        for L, R in zip(rts.dates, rts_2.dates):
+            assert L == R
+        timeseries_read = crud.timeseries.read(
+            db=database,
+            scenario=kwargs["scenario"],
+            version=kwargs["version"],
+            path=kwargs["path"],
+        )
+        assert timeseries.path == timeseries_read.path
+        for L, R in zip(timeseries.dates, timeseries_read.dates):
+            assert L == R
 
 
 # TODO: add tests for hard to convert scenario names (for dss file name)
