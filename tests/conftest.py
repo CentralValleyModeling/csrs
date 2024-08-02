@@ -35,7 +35,7 @@ def dss(assets_dir: Path) -> Generator[Path, None, None]:
             try:
                 f.unlink()
             except PermissionError:
-                print(f"couldn't remove testing asset {f}")
+                logging.warning(f"couldn't remove testing asset {f}")
 
 
 @pytest.fixture(scope="session")
@@ -50,7 +50,7 @@ def database_file(assets_dir: Path) -> Generator[Path, None, None]:
     try:
         active.unlink()
     except PermissionError:
-        print(f"couldn't remove testing asset {active}")
+        logging.warning(f"couldn't remove testing asset {active}")
 
 
 @pytest.fixture(scope="session")

@@ -83,15 +83,12 @@ def test_create_timeseries_from_dss(database, dss):
     # timeseries
     catalog = pdss.read_catalog(dss)
     for rts in pdss.read_multiple_rts(dss, catalog):
-        print(rts.to_json())
         kwargs = dict(
             scenario="testing-scenario-existing",
             version="0.0",
             **rts.to_json(),
             db=database,
         )
-        path = crud.paths.read(path=rts.path, db=database)
-        print(path)
         timeseries = crud.timeseries.create(**kwargs)
         assert isinstance(timeseries, schemas.Timeseries)
         assert timeseries.values[0] == float(rts.values[0])
