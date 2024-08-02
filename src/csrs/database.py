@@ -4,6 +4,7 @@ from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.schema import CreateTable
 
 from .logger import logger
 from .models import Base
@@ -23,14 +24,13 @@ def get_database_url(db: str = DATABASE, db_type="sqlite") -> str:
     return url
 
 
-def make_engine(db) -> Engine:
+def make_engine(db, echo: bool = False) -> Engine:
     logger.debug(f"{db=}")
     logger.debug("creating database engine")
     url = get_database_url(db)
-    return create_engine(url)
-
-
-ENGINE = make_engine(DATABASE)
+    engine = create_engine(url, echo=echo)
+    create_recipe_file(engine=engine)
+    return engine
 
 
 def make_session(engine) -> Session:
@@ -47,9 +47,6 @@ def make_session(engine) -> Session:
     return maker()
 
 
-SESSION = make_session(ENGINE)
-
-
 # Dependency to get a database session
 def get_db():
     logger.debug("getting database connection")
@@ -58,3 +55,18 @@ def get_db():
     finally:
         SESSION.close()
         logger.debug("closed database")
+
+
+def create_recipe_file(engine: Engine, dst: Path | str | None = None):
+    if dst is None:
+        dst = Path(__file__).parent / "database_recipe.sql"
+    dst = Path(dst).resolve()
+    logger.info(f"creating database recipe file: {dst}")
+    with open(dst, "w") as DST:
+        for table in Base.metadata.tables.values():
+            sql = str(CreateTable(table).compile(engine))
+            DST.write(sql.strip() + ";\n\n")
+
+
+ENGINE = make_engine(DATABASE)
+SESSION = make_session(ENGINE)

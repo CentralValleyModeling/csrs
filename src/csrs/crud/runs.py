@@ -182,25 +182,21 @@ def delete(
     obj = db.query(models.Run).filter(models.Run.id == id).first()
     if not obj:
         raise ValueError(f"Cannot find Run with {id=}")
-    tss = crud_timeseries.read_all_for_run(
-        db,
-        scenario=obj.scenario.name,
-        version=obj.version,
-    )
+    try:
+        tss = crud_timeseries.read_all_for_run(
+            db,
+            scenario=obj.scenario.name,
+            version=obj.version,
+        )
+    except EmptyLookupError:
+        tss = []
     for ts in tss:
-        try:
-            crud_timeseries.delete(
-                db,
-                scenario=ts.scenario,
-                version=ts.version,
-                path=ts.path,
-            )
-        except EmptyLookupError:
-            logger.warning(
-                "when deleting a Timeseries (as a result of deleting it's Run), "
-                + "the following Timeseries wasn't found, but the delete Run action "
-                + f"continued: {ts.path}"
-            )
-            pass
+        crud_timeseries.delete(
+            db,
+            scenario=ts.scenario,
+            version=ts.version,
+            path=ts.path,
+        )
+
     db.query(models.Run).filter(models.Run.id == id).delete()
     db.commit()
