@@ -1,21 +1,15 @@
-import os
-from datetime import datetime
 from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.schema import CreateTable
 
+from .config import DatabaseConfig
 from .logger import logger
 from .models import Base
 
-ENVIRONMENT_KEY = "DATABASE_CSRS"
-DATABASE = Path(os.environ.get(ENVIRONMENT_KEY, "./database/csrs.db")).resolve()
-EPOCH = datetime(1900, 1, 1)
-ALLOW_DOWNLOAD = True
 
-
-def get_database_url(db: str = DATABASE, db_type="sqlite") -> str:
+def get_database_url(db: Path, db_type="sqlite") -> str:
     if db_type == "sqlite":
         url = f"sqlite:///{db}"
     else:
@@ -24,7 +18,7 @@ def get_database_url(db: str = DATABASE, db_type="sqlite") -> str:
     return url
 
 
-def make_engine(db, echo: bool = False) -> Engine:
+def make_engine(db: Path, echo: bool = False) -> Engine:
     logger.debug(f"{db=}")
     logger.debug("creating database engine")
     url = get_database_url(db)
@@ -68,5 +62,6 @@ def create_recipe_file(engine: Engine, dst: Path | str | None = None):
             DST.write(sql.strip() + ";\n\n")
 
 
-ENGINE = make_engine(DATABASE)
+db_cfg = DatabaseConfig()
+ENGINE = make_engine(db_cfg.db)
 SESSION = make_session(ENGINE)

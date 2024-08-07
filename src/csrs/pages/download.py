@@ -2,7 +2,7 @@ from fastapi import Request
 
 from .. import schemas
 from . import loader
-from .edit import ALLOW_EDITING_VIA_FORMS
+from .edit import editing_cfg
 
 
 def render(
@@ -19,6 +19,6 @@ def render(
             page_description=desc,
             request=request,
             runs=runs,
-            edit_on=ALLOW_EDITING_VIA_FORMS,
+            edit_on=editing_cfg.allow_editing_via_forms,
         ),
     )

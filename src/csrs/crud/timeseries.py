@@ -4,7 +4,7 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..database import EPOCH
+from ..database import db_cfg
 from ..errors import EmptyLookupError, UniqueLookupError
 from ..logger import logger
 from . import paths as crud_paths
@@ -12,12 +12,12 @@ from ._common import rollback_on_exception
 
 
 def date_to_float(date: str) -> float:
-    dt: timedelta = datetime.fromisoformat(date) - EPOCH
+    dt: timedelta = datetime.fromisoformat(date) - db_cfg.epoch
     return dt.total_seconds()
 
 
 def float_to_date(date: float) -> str:
-    dt: datetime = EPOCH + timedelta(seconds=date)
+    dt: datetime = db_cfg.epoch + timedelta(seconds=date)
     return dt.isoformat()
 
 

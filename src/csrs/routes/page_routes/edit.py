@@ -348,7 +348,7 @@ async def page_paths_delete(
     return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
-if edit.ALLOW_EDITING_VIA_FORMS:
+if edit.editing_cfg.allow_editing_via_forms:
     # Assumptions
     router.post(
         "/assumptions/create",
