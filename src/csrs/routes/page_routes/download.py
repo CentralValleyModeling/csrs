@@ -3,11 +3,11 @@ import json
 
 import pandas as pd
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from ... import crud
-from ...database import DATABASE, get_db
+from ...database import get_db
 from ...logger import logger
 from ...pages import download
 

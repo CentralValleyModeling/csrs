@@ -1,6 +1,6 @@
 from fastapi import Request
 
-from .edit import ALLOW_EDITING_VIA_FORMS
+from ..database import db_cfg
 from .loader import ENV, jinja_loader
 
 
@@ -14,6 +14,6 @@ def render(request: Request):
             page_title="CalSim Scenario Results Server",
             page_description=description,
             request=request,
-            edit_on=ALLOW_EDITING_VIA_FORMS,
+            edit_on=db_cfg.allow_editing_via_forms,
         ),
     )
