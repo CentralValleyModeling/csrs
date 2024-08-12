@@ -1,8 +1,8 @@
 from fastapi import Request
 
 from .. import schemas
+from ..database import db_cfg
 from . import loader
-from .edit import editing_cfg
 
 
 def render(
@@ -19,6 +19,6 @@ def render(
             page_description=desc,
             request=request,
             runs=runs,
-            edit_on=editing_cfg.allow_editing_via_forms,
+            edit_on=db_cfg.allow_editing_via_forms,
         ),
     )

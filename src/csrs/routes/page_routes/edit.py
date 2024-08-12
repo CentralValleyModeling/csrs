@@ -3,7 +3,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
 from ... import crud, errors
-from ...database import get_db
+from ...database import db_cfg, get_db
 from ...logger import logger
 from ...pages import edit
 
@@ -348,7 +348,7 @@ async def page_paths_delete(
     return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
-if edit.editing_cfg.allow_editing_via_forms:
+if db_cfg.allow_editing_via_forms:
     # Assumptions
     router.post(
         "/assumptions/create",

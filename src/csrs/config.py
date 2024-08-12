@@ -43,6 +43,7 @@ class DatabaseConfig(LoggedSettings):
     db: Path
     epoch: datetime = datetime(1900, 1, 1)
     allow_download: bool = True
+    allow_editing_via_forms: bool = False
 
     model_config = SettingsConfigDict(env_file=".database")
 
@@ -51,9 +52,4 @@ class LogConfig(LoggedSettings):
     level: int | str = "INFO"
     fmt: str = "%(levelprefix)s %(asctime)s [%(funcName)s] %(message)s "
     datefmt: str = "%Y-%m-%d %H:%M:%S"
-    model_config = SettingsConfigDict(env_file=".logging")
-
-
-class EditingConfig(LoggedSettings):
-    allow_editing_via_forms: bool = True
     model_config = SettingsConfigDict(env_file=".logging")

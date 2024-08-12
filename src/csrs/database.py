@@ -8,6 +8,8 @@ from .config import DatabaseConfig
 from .logger import logger
 from .models import Base
 
+db_cfg = DatabaseConfig()
+
 
 def get_database_url(db: Path, db_type="sqlite") -> str:
     if db_type == "sqlite":
@@ -62,6 +64,5 @@ def create_recipe_file(engine: Engine, dst: Path | str | None = None):
             DST.write(sql.strip() + ";\n\n")
 
 
-db_cfg = DatabaseConfig()
 ENGINE = make_engine(db_cfg.db)
 SESSION = make_session(ENGINE)
