@@ -209,3 +209,11 @@ def test_remote_many_timeseries(
         kwargs_all_unique["timeseries"],
         kwargs_all_unique["run"],
     )
+
+
+def test_local_create_new_file(assets_dir: Path):
+    f = assets_dir / "test_local_create_new_file.db"
+    client = clients.LocalClient(f)
+    assert f.exists()
+    client.close()
+    f.unlink()
