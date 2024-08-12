@@ -22,7 +22,8 @@ dependencies = [
     "jinja2",
     "python-multipart",
     "pandss>=0.7.4",
-    "httpx"
+    "httpx",
+    "pydantic-settings"
 ]
 
 [tool.setuptools]
