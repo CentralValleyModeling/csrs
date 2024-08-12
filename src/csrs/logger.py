@@ -10,8 +10,6 @@ from .config import LogConfig
 
 def get_dir() -> Path:
     here = Path(".").resolve()
-    if here.name == "src":
-        here = here.parent
 
     return here
 
