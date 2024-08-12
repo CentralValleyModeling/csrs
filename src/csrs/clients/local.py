@@ -221,7 +221,7 @@ class LocalClient:
         paths_in_dss = pdss.read_catalog(dss)
         common_paths = list()
         for p in paths_in_db:
-            if pdss.DatasetPath.from_str(p.path) in paths_in_dss:
+            if pdss.DatasetPath.from_str(p.path) in paths_in_dss.paths:
                 common_paths.append(p)
         common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
         added = list()
