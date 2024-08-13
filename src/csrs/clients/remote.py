@@ -464,7 +464,6 @@ class RemoteClient:
         schemas.Timeseries
             The `Timeseries` object that was created
         """
-
         obj = schemas.Timeseries(
             scenario=scenario,
             version=version,
@@ -507,25 +506,25 @@ class RemoteClient:
         ValueError
             Raised of the collection of paths is incorrectly given
         """
-        url = "/timeseries"
         response = self.actor.get("/paths")
         response.raise_for_status()
         paths_in_db = [schemas.NamedPath(**p) for p in response.json()]
         paths_in_dss = pdss.read_catalog(dss)
-        common_paths = list()
+        common_dsp = list()
+        common_path_object = dict()
         for p in paths_in_db:
-            if pdss.DatasetPath.from_str(p.path) in paths_in_dss:
-                common_paths.append(p)
-        common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
+            dsp = pdss.DatasetPath.from_str(p.path)
+            if paths_in_dss.has_match(dsp):
+                common_dsp.append(dsp)
+                common_path_object[str(dsp)] = p.path
+        common_dsp = pdss.DatasetPathCollection(paths=set(common_dsp))
         added = list()
-        for rts in pdss.read_multiple_rts(dss, common_paths):
+        for rts in pdss.read_multiple_rts(dss, common_dsp):
             ts = schemas.Timeseries.from_pandss(
                 scenario=scenario,
                 version=version,
                 rts=rts,
             )
-            kwargs = ts.model_dump()
-            kwargs["path"] = str(rts.path)
-            ts = self.actor.put(url, params=kwargs)
-            added.append(ts)
+            ts_added = self.put_timeseries(**ts.model_dump())
+            added.append(ts_added)
         return added

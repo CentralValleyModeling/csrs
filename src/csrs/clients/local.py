@@ -219,20 +219,23 @@ class LocalClient:
     ) -> list[schemas.Timeseries]:
         paths_in_db = crud.paths.read(self.session)
         paths_in_dss = pdss.read_catalog(dss)
-        common_paths = list()
+        common_dsp = list()
+        common_path_object = dict()
         for p in paths_in_db:
-            if pdss.DatasetPath.from_str(p.path) in paths_in_dss.paths:
-                common_paths.append(p)
-        common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
+            dsp = pdss.DatasetPath.from_str(p.path)
+            if dsp in paths_in_dss:
+                common_dsp.append(dsp)
+                common_path_object[str(dsp)] = p.path
+        common_dsp = pdss.DatasetPathCollection(paths=set(common_dsp))
         added = list()
-        for rts in pdss.read_multiple_rts(dss, common_paths):
+        for rts in pdss.read_multiple_rts(dss, common_dsp):
             ts = schemas.Timeseries.from_pandss(
                 scenario=scenario,
                 version=version,
                 rts=rts,
             )
             kwargs = ts.model_dump()
-            kwargs["path"] = str(rts.path)
+            kwargs["path"] = common_path_object[str(rts.path)]
             ts = crud.timeseries.create(db=self.session, **kwargs)
             added.append(ts)
         return added
