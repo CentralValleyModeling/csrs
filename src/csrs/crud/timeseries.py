@@ -101,7 +101,7 @@ def create(
     catalog_row = models.CommonCatalog(run_id=run_model.id, path_id=path_model.id)
     db.add(catalog_row)
     # Put the data into the database
-    dates = (date_to_float(d) for d in dates)
+    dates_float = (date_to_float(d) for d in dates)
     objects = (
         models.TimeseriesLedger(
             run_id=run_model.id,
@@ -109,7 +109,7 @@ def create(
             datetime=d,
             value=values[i],
         )
-        for i, d in enumerate(dates)
+        for i, d in enumerate(dates_float)
     )
     db.add_all(objects)
     db.commit()
@@ -119,7 +119,7 @@ def create(
         version=run_model.version,
         path=path_model.path,
         values=list(values),
-        dates=list(float_to_date(d) for d in dates),
+        dates=list(dates),
         period_type=path_model.period_type,
         units=path_model.units,
         interval=path_model.interval,

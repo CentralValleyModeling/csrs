@@ -10,24 +10,26 @@ from .config import LogConfig
 
 def get_dir() -> Path:
     here = Path(".").resolve()
-
     return here
 
 
-def config_uvicorn_logging(config: LogConfig):
+def config_uvicorn_logging(cfg: LogConfig | None):
+    if cfg is None:
+        cfg = LogConfig()
     for logger_name in ("uvicorn", "uvicorn.access", "uvicorn.error", "uvicorn.asgi"):
         logger = logging.getLogger(logger_name)
-        console_formatter = ColourizedFormatter(config.fmt, datefmt=config.datefmt)
+        console_formatter = ColourizedFormatter(cfg.fmt, datefmt=cfg.datefmt)
         for h in logger.handlers:
             h.setFormatter(console_formatter)
 
 
-def get_logger() -> logging.Logger:
-    log_cfg = LogConfig()
+def config_logger(cfg: LogConfig | None):
+    if cfg is None:
+        cfg = LogConfig()
     logger = logging.getLogger("csrs")
-    logger.setLevel(log_cfg.level)
+    logger.setLevel(cfg.level)
     # make formatter for these logging handlers
-    formatter = ColourizedFormatter(fmt=log_cfg.fmt, datefmt=log_cfg.datefmt)
+    formatter = ColourizedFormatter(fmt=cfg.fmt, datefmt=cfg.datefmt)
     # Set up handler for sending logs to file
     file_handler_kwargs = dict(
         filename=get_dir() / "debug.log",
@@ -41,7 +43,13 @@ def get_logger() -> logging.Logger:
     stream_handler = logging.StreamHandler(stream=sys.stdout)
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)
-    config_uvicorn_logging(log_cfg)
+
+
+def get_logger() -> logging.Logger:
+    cfg = LogConfig()
+    config_uvicorn_logging(cfg)
+    config_logger(cfg)
+    logger = logging.getLogger("csrs")
     return logger
 
 

@@ -10,7 +10,7 @@ authors = [
 description = "A FastAPI server for CalSim model results and metadata"
 readme = "README.md"
 license = {text = "MIT"}
-version = "0.6.5"
+version = "0.6.6"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
@@ -21,8 +21,9 @@ dependencies = [
     "sqlalchemy",
     "jinja2",
     "python-multipart",
-    "pandss>=0.7.4",
-    "httpx"
+    "pandss>=0.7.10",
+    "httpx",
+    "pydantic-settings"
 ]
 
 [tool.setuptools]

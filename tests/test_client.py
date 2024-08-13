@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pandss as pdss
+
 from csrs import clients, schemas
 from csrs.logger import logger
 
@@ -176,11 +178,13 @@ def do_many_timeseries(
         version=kwargs_timeseries["version"],
         dss=dss,
     )
+    catalog = pdss.read_catalog(dss)
     for ts in all_ts:
         assert isinstance(ts, schemas.Timeseries)
         assert len(ts.dates) == len(ts.values)
         assert len(ts.values) > 0
         assert isinstance(ts.values[0], float)
+        assert catalog.has_match(ts.path)
 
 
 def test_local_many_timeseries(

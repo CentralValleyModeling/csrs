@@ -8,12 +8,13 @@ from . import __version__
 
 
 def log_config_values(config: BaseSettings):
-    logger = logging.getLogger("csrs")
+    logger = logging.getLogger("csrs.init")
+    logger.setLevel(logging.DEBUG)
     for name in config.model_fields:
         if name.startswith("_"):
             pass
         v = getattr(config, name)
-        logger.info(f"{config.__class__.__name__}.{name} = {repr(v)}")
+        logger.debug(f"{config.__class__.__name__}.{name} = {repr(v)}")
 
 
 class LoggedSettings(BaseSettings):
@@ -40,7 +41,7 @@ class AppConfig(LoggedSettings):
 
 
 class DatabaseConfig(LoggedSettings):
-    db: Path
+    db: Path = Path("csrs.db").resolve()
     epoch: datetime = datetime(1900, 1, 1)
     allow_download: bool = True
     allow_editing_via_forms: bool = False
