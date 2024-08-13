@@ -1,13 +1,15 @@
+import logging
 from datetime import datetime
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from . import __version__
-from .logger import logger
 
 
 def log_config_values(config: BaseSettings):
+    logger = logging.getLogger("csrs.init")
+    logger.setLevel(logging.DEBUG)
     for name in config.model_fields:
         if name.startswith("_"):
             pass
