@@ -53,3 +53,6 @@ def get_logger() -> logging.Logger:
     config_logger(cfg)
     logger = logging.getLogger("csrs")
     return logger
+
+
+logger = get_logger()
