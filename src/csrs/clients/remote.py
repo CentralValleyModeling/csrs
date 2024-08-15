@@ -3,7 +3,7 @@ from pathlib import Path
 import pandss as pdss
 from httpx import Client
 
-from .. import schemas
+from .. import enums, schemas
 from ..logger import logger
 
 
@@ -422,9 +422,22 @@ class RemoteClient:
             detail=detail,
         )
         url = "/paths"
-        response = self.actor.put(url, json=obj.model_dump(mode="json"))
+        response = self.actor.put(url, json=obj.model_dump(mode="json", exclude=("id")))
         response.raise_for_status()
         return schemas.NamedPath.model_validate(response.json())
+
+    def put_standard_paths(self):
+        p: schemas.NamedPath
+        url = "/paths"
+        for p in enums.StandardPathsEnum:
+            response = self.actor.put(
+                url,
+                json=p.model_dump(
+                    mode="json",
+                    exclude=("id"),
+                ),
+            )
+            response.raise_for_status()
 
     def put_timeseries(
         self,

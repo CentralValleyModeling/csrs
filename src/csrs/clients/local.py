@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from .. import crud, models, schemas
+from .. import crud, enums, models, schemas
 from ..logger import logger
 
 
@@ -186,6 +186,11 @@ class LocalClient:
             detail=detail,
         )
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
+
+    def put_standard_paths(self):
+        p: schemas.NamedPath
+        for p in enums.StandardPathsEnum:
+            crud.paths.create(db=self.session, **p.model_dump(exclude=("id")))
 
     def put_timeseries(
         self,
