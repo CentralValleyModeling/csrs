@@ -285,7 +285,8 @@ class LocalClient:
                     db=self.session,
                     **ts.model_dump(exclude="id"),
                 )
+                added.append(ts_db)
             except Exception as e:
                 self.logger.error(f"{type(e)} when adding {ts}, continuing")
-            added.append(ts_db)
+
         return added
