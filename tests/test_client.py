@@ -173,18 +173,25 @@ def do_many_timeseries(
     kwargs_run: dict[str, str],
 ):
     client.put_run(**kwargs_run)  # must add a new run to make sure the ts is unique
-    all_ts = client.put_many_timeseries(
+    ts = client.get_timeseries_from_dss(
         scenario=kwargs_timeseries["scenario"],
         version=kwargs_timeseries["version"],
         dss=dss,
     )
+    all_ts = client.put_many_timeseries(ts)
+    assert len(ts) == len(all_ts)
     catalog = pdss.read_catalog(dss)
     for ts in all_ts:
+        dsp_ts = pdss.DatasetPath.from_str(ts.path)
+        dsc = catalog.resolve_wildcard(dsp_ts)
         assert isinstance(ts, schemas.Timeseries)
         assert len(ts.dates) == len(ts.values)
         assert len(ts.values) > 0
         assert isinstance(ts.values[0], float)
         assert catalog.has_match(ts.path)
+        assert len(dsc) == 1
+        dsp_cat = list(dsc.paths)[0]
+        assert dsp_ts.matches(dsp_cat)
 
 
 def test_local_many_timeseries(
