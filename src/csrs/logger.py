@@ -1,5 +1,6 @@
 import logging
 import sys
+from functools import cache
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
@@ -45,6 +46,7 @@ def config_logger(cfg: LogConfig | None):
     logger.addHandler(stream_handler)
 
 
+@cache
 def get_logger() -> logging.Logger:
     cfg = LogConfig()
     config_uvicorn_logging(cfg)

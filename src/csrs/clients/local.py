@@ -2,11 +2,12 @@ from pathlib import Path
 
 import pandss as pdss
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from .. import crud, models, schemas
-from ..logger import logger
+from .. import crud, enums, models, schemas
+from ..logger import get_logger
 
 
 class LocalClient:
@@ -32,6 +33,7 @@ class LocalClient:
             autoflush=autoflush,
             bind=self.engine,
         )()
+        self.logger = get_logger()
         models.Base.metadata.create_all(bind=self.engine)
 
     def close(self):
@@ -187,6 +189,26 @@ class LocalClient:
         )
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
+    def put_standard_paths(self) -> list[schemas.NamedPath]:
+        added = list()
+        for p in enums.StandardPathsEnum:
+            try:
+                named = crud.paths.create(
+                    db=self.session, **p.value.model_dump(exclude=("id"))
+                )
+                added.append(named)
+            except IntegrityError as e:
+                self.logger.warning(
+                    f"{type(e).__name__} occurred, likely due to one of the standard "
+                    + "paths already exisitng on the database"
+                )
+            except Exception as e:
+                path = p.value
+                self.logger.error(
+                    f"{type(e).__name__} occurred during path creation, skipping {path}"
+                )
+        return added
+
     def put_timeseries(
         self,
         *,
@@ -227,13 +249,15 @@ class LocalClient:
                 try:
                     rtss = list(dss_obj.read_multiple_rts(p.path))
                 except Exception as e:
-                    logger.error(f"{type(e)} when reading {p.path} in {dss}, skipping")
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
                     continue
                 if len(rtss) == 0:
-                    logger.warning(f"no datasets match {p.path} in {dss}")
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
                     continue
                 elif len(rtss) > 1:
-                    logger.warning(
+                    self.logger.warning(
                         f"multiple datasets match {p.path} in {dss}, "
                         + "skipping both to avoid conflicts"
                     )
@@ -245,7 +269,9 @@ class LocalClient:
                     rts=rts,
                 )
                 tss.append(ts)
-        logger.info(f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}")
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
         return tss
 
     def put_many_timeseries(
@@ -260,6 +286,6 @@ class LocalClient:
                     **ts.model_dump(exclude="id"),
                 )
             except Exception as e:
-                logger.error(f"{type(e)} when adding {ts}, continuing")
+                self.logger.error(f"{type(e)} when adding {ts}, continuing")
             added.append(ts_db)
         return added
