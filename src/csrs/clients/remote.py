@@ -560,7 +560,7 @@ class RemoteClient:
                 response = self.actor.put(url, json=ts.model_dump(mode="json"))
                 response.raise_for_status()
                 ts_db = schemas.Timeseries.model_validate(response.json())
+                added.append(ts_db)
             except Exception as e:
                 self.logger.error(f"{type(e)} when adding {ts}, continuing")
-            added.append(ts_db)
         return added
