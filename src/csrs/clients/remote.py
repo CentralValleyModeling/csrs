@@ -4,6 +4,7 @@ import pandss as pdss
 from httpx import Client
 
 from .. import schemas
+from ..logger import logger
 
 
 class RemoteClient:
@@ -479,52 +480,54 @@ class RemoteClient:
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
-    def put_many_timeseries(
+    def get_timeseries_from_dss(
         self,
+        dss: Path,
         scenario: str,
         version: str,
-        dss: Path,
+        paths: list[schemas.NamedPath] | None = None,
     ) -> list[schemas.Timeseries]:
-        """Create multiple `Timeseries` objects from a DSS file.
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    logger.error(f"{type(e)} when reading {p.path} in {dss}, skipping")
+                    continue
+                if len(rtss) == 0:
+                    logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                tss.append(ts)
+        logger.info(f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}")
+        return tss
 
-        Parameters
-        ----------
-        scenario : str
-            The name of the `Scenario` that this data should be assigned to
-        version : str
-            The verson of the `Run` that this data should be assigned to
-        dss : Path
-            The DSS file to extract data from
-
-        Returns
-        -------
-        list[schemas.Timeseries]
-            The `Timeseries` object created
-
-        Raises
-        ------
-        ValueError
-            Raised of the collection of paths is incorrectly given
-        """
-        response = self.actor.get("/paths")
-        response.raise_for_status()
-        paths_in_db = [schemas.NamedPath(**p) for p in response.json()]
-        paths_in_dss = pdss.read_catalog(dss)
-        common_dsp = list()
-        common_path_object = dict()
-        for p in paths_in_db:
-            dsp = pdss.DatasetPath.from_str(p.path)
-            if paths_in_dss.has_match(dsp):
-                common_dsp.append(dsp)
-                common_path_object[str(dsp)] = p.path
-        common_dsp = pdss.DatasetPathCollection(paths=set(common_dsp))
+    def put_many_timeseries(
+        self,
+        timeseries: list[schemas.Timeseries],
+    ) -> list[schemas.Timeseries]:
+        url = "/timeseries"
         added = list()
-        for rts in pdss.read_multiple_rts(dss, common_dsp):
-            ts = schemas.Timeseries.from_pandss(
-                scenario=scenario,
-                version=version,
-                rts=rts,
-            )
-            ts_added = self.put_timeseries(**ts.model_dump())
-            added.append(ts_added)
+        for ts in timeseries:
+            try:
+                response = self.actor.put(url, json=ts.model_dump(mode="json"))
+                response.raise_for_status()
+                ts_db = schemas.Timeseries.model_validate(response.json())
+            except Exception as e:
+                logger.error(f"{type(e)} when adding {ts}, continuing")
+            added.append(ts_db)
         return added

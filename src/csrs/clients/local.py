@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
 from .. import crud, models, schemas
+from ..logger import logger
 
 
 class LocalClient:
@@ -211,31 +212,54 @@ class LocalClient:
         )
         return crud.timeseries.create(db=self.session, **obj.model_dump())
 
-    def put_many_timeseries(
+    def get_timeseries_from_dss(
         self,
+        dss: Path,
         scenario: str,
         version: str,
-        dss: Path,
+        paths: list[schemas.NamedPath] | None = None,
     ) -> list[schemas.Timeseries]:
-        paths_in_db = crud.paths.read(self.session)
-        paths_in_dss = pdss.read_catalog(dss)
-        common_dsp = list()
-        common_path_object = dict()
-        for p in paths_in_db:
-            dsp = pdss.DatasetPath.from_str(p.path)
-            if dsp in paths_in_dss:
-                common_dsp.append(dsp)
-                common_path_object[str(dsp)] = p.path
-        common_dsp = pdss.DatasetPathCollection(paths=set(common_dsp))
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    logger.error(f"{type(e)} when reading {p.path} in {dss}, skipping")
+                    continue
+                if len(rtss) == 0:
+                    logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                tss.append(ts)
+        logger.info(f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}")
+        return tss
+
+    def put_many_timeseries(
+        self,
+        timeseries: list[schemas.Timeseries],
+    ) -> list[schemas.Timeseries]:
         added = list()
-        for rts in pdss.read_multiple_rts(dss, common_dsp):
-            ts = schemas.Timeseries.from_pandss(
-                scenario=scenario,
-                version=version,
-                rts=rts,
-            )
-            kwargs = ts.model_dump()
-            kwargs["path"] = common_path_object[str(rts.path)]
-            ts = crud.timeseries.create(db=self.session, **kwargs)
-            added.append(ts)
+        for ts in timeseries:
+            try:
+                ts_db = crud.timeseries.create(
+                    db=self.session,
+                    **ts.model_dump(exclude="id"),
+                )
+            except Exception as e:
+                logger.error(f"{type(e)} when adding {ts}, continuing")
+            added.append(ts_db)
         return added
