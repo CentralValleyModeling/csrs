@@ -2,9 +2,10 @@ from pathlib import Path
 
 import pandss as pdss
 from httpx import Client
+from sqlalchemy.exc import IntegrityError
 
 from .. import enums, schemas
-from ..logger import logger
+from ..logger import get_logger
 
 
 class RemoteClient:
@@ -29,6 +30,7 @@ class RemoteClient:
         ```
         """
         self.actor = Client(base_url=base_url, **kwargs)
+        self.logger = get_logger()
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(url={self.actor.base_url})"
@@ -426,18 +428,32 @@ class RemoteClient:
         response.raise_for_status()
         return schemas.NamedPath.model_validate(response.json())
 
-    def put_standard_paths(self):
-        p: schemas.NamedPath
+    def put_standard_paths(self) -> list[schemas.NamedPath]:
         url = "/paths"
+        added = list()
         for p in enums.StandardPathsEnum:
-            response = self.actor.put(
-                url,
-                json=p.model_dump(
-                    mode="json",
-                    exclude=("id"),
-                ),
-            )
-            response.raise_for_status()
+            try:
+                response = self.actor.put(
+                    url,
+                    json=p.value.model_dump(
+                        mode="json",
+                        exclude=("id"),
+                    ),
+                )
+                response.raise_for_status()
+                named = schemas.NamedPath.model_validate(response.json())
+                added.append(named)
+            except IntegrityError as e:
+                self.logger.warning(
+                    f"{type(e).__name__} occurred, likely due to one of the standard "
+                    + "paths already exisitng on the database"
+                )
+            except Exception as e:
+                path = p.value
+                self.logger.error(
+                    f"{type(e).__name__} occurred during path creation, skipping {path}"
+                )
+        return added
 
     def put_timeseries(
         self,
@@ -508,13 +524,15 @@ class RemoteClient:
                 try:
                     rtss = list(dss_obj.read_multiple_rts(p.path))
                 except Exception as e:
-                    logger.error(f"{type(e)} when reading {p.path} in {dss}, skipping")
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
                     continue
                 if len(rtss) == 0:
-                    logger.warning(f"no datasets match {p.path} in {dss}")
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
                     continue
                 elif len(rtss) > 1:
-                    logger.warning(
+                    self.logger.warning(
                         f"multiple datasets match {p.path} in {dss}, "
                         + "skipping both to avoid conflicts"
                     )
@@ -526,7 +544,9 @@ class RemoteClient:
                     rts=rts,
                 )
                 tss.append(ts)
-        logger.info(f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}")
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
         return tss
 
     def put_many_timeseries(
@@ -541,6 +561,6 @@ class RemoteClient:
                 response.raise_for_status()
                 ts_db = schemas.Timeseries.model_validate(response.json())
             except Exception as e:
-                logger.error(f"{type(e)} when adding {ts}, continuing")
+                self.logger.error(f"{type(e)} when adding {ts}, continuing")
             added.append(ts_db)
         return added
