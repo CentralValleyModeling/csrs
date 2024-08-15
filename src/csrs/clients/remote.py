@@ -543,6 +543,7 @@ class RemoteClient:
                     version=version,
                     rts=rts,
                 )
+                ts.path = p.path  # Use the path from the database, not in the dss
                 tss.append(ts)
         self.logger.info(
             f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
