@@ -10,7 +10,7 @@ authors = [
 description = "A FastAPI server for CalSim model results and metadata"
 readme = "README.md"
 license = {text = "MIT"}
-version = "0.6.6"
+version = "0.7.0"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
@@ -43,4 +43,4 @@ filterwarnings = [
     "error"
 ]
 log_file="tests.log"
-log_format = "%(asctime)s %(levelname)7s %(name)15s %(funcName)s\n%(message)s"
+log_format = "%(levelname)7s %(asctime)s %(funcName)s %(message)s"
