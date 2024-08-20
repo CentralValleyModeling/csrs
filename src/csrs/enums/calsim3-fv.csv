@@ -235,105 +235,106 @@ Net DICU,/CALSIM/NET_DICU/DICU_FLOW/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - n
 Trinity Export,/CALSIM/D_LWSTN_CCT011/DIVERSION/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export
 Trinity Export Excess,/CALSIM/D_LWSTN_ADD/FLOW-DELIVERY/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export Excess
 Trinity Export Operations,/CALSIM/D_LWSTN_IMPORT/FLOW-DELIVERY/.*/1MON/L2020A/,,1MON,PER-AVER,CFS,Other - Trinity Export Ops x
-SWP Delivery Article 21,/CALSIM/D_WTPCYC_16_PU_SWP_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,City of Yuba City
-SWP Delivery Article 21,/CALSIM/D_PRRIS_MWDSC_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD - Lake Perris
-SWP Delivery Article 21,/CALSIM/D_CSTIC_VNTRA_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Ventura County WPD
-SWP Delivery Article 21,/CALSIM/D_BKR004_NBA009_NAPA_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Napa County FC&WCD
-SWP Delivery Article 21,/CALSIM/D_BKR004_NBA009_SCWA_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Solano County WA
-SWP Delivery Article 21,/CALSIM/D_CAA046_71_PA7_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Oak Flat WD
-SWP Delivery Article 21,/CALSIM/D_SBA009_ACFC_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda FC&WCD
-SWP Delivery Article 21,/CALSIM/D_SBA029_ACWD_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda WD
-SWP Delivery Article 21,/CALSIM/D_SBA036_SCVWD_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clara Valley WD
-SWP Delivery Article 21,/CALSIM/D_CAA173_EMPIRE_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Empire ID
-SWP Delivery Article 21,/CALSIM/D_CAA181_KINGS_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,County of Kings
-SWP Delivery Article 21,/CALSIM/D_CAA183_TULARE_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Tulare Lake WSD
-SWP Delivery Article 21,/CALSIM/D_CAA184_DUDLEY_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Dudley WD
-SWP Delivery Article 21,/CALSIM/D_CAA242_KERN_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Article 21,/CALSIM/D_CSB009_CLRTA1_DDWD_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clarita Valley WA
-SWP Delivery Article 21,/CALSIM/D_CSB038_OBISPO_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Luis Obispo FC&WCD
-SWP Delivery Article 21,/CALSIM/D_CSB103_BRBRA_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Barbara County FC&WCD
-SWP Delivery Article 21,/CALSIM/D_ESB324_AVEK_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Antelope Valley-East Kern WA
-SWP Delivery Article 21,/CALSIM/D_ESB347_PLMDL_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Palmdale WD
-SWP Delivery Article 21,/CALSIM/D_ESB407_CCHLA_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Coachella Valley WD
-SWP Delivery Article 21,/CALSIM/D_ESB408_DESRT_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Desert WA
-SWP Delivery Article 21,/CALSIM/D_ESB413_MWDSC_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD
-SWP Delivery Article 21,/CALSIM/D_ESB414_BRDNO_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Bernadino Valley WD
-SWP Delivery Article 21,/CALSIM/D_ESB415_GABRL_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gabriel Valley WD
-SWP Delivery Article 21,/CALSIM/D_ESB420_GRGNO_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gorgonio Pass WA
-SWP Delivery Article 21,/CALSIM/D_WSB031_MWDSC_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD West Branch
-SWP Delivery Article 21,/CALSIM/D_ESB433_MWDSC_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD East Branch
-SWP Delivery Article 21,/CALSIM/D_ESB355_LROCK_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Little Rock ID
-SWP Delivery Article 21,/CALSIM/D_ESB403_MOJVE_PIN/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Mohave WA
-SWP Delivery Table A,/CALSIM/D_WTPCYC_16_PU_SWP_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,City of Yuba City
-SWP Delivery Table A,/CALSIM/D_PRRIS_MWDSC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD - Lake Perris
-SWP Delivery Table A,/CALSIM/D_CSTIC_VNTRA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Ventura County WPD
-SWP Delivery Table A,/CALSIM/D_BKR004_NBA009_NAPA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Napa County FC&WCD
-SWP Delivery Table A,/CALSIM/D_BKR004_NBA009_SCWA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Solano County WA
-SWP Delivery Table A,/CALSIM/D_CAA046_71_PA7_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Oak Flat WD
-SWP Delivery Table A,/CALSIM/D_SBA009_ACFC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda FC&WCD
-SWP Delivery Table A,/CALSIM/D_SBA020_ACFC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda FC&WCD
-SWP Delivery Table A,/CALSIM/D_SBA029_ACWD_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda WD
-SWP Delivery Table A,/CALSIM/D_SBA036_SCVWD_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clara Valley WD
-SWP Delivery Table A,/CALSIM/D_SVRWD_CSTLN_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Crestline-Lake Arrowhead WA
-SWP Delivery Table A,/CALSIM/D_PYRMD_VNTRA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Ventura County WPD
-SWP Delivery Table A,/CALSIM/D_CAA173_EMPIRE_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Empire ID
-SWP Delivery Table A,/CALSIM/D_CAA181_KINGS_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,County of Kings
-SWP Delivery Table A,/CALSIM/D_CAA183_TULARE_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Tulare Lake WSD
-SWP Delivery Table A,/CALSIM/D_CAA184_DUDLEY_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Dudley WD
-SWP Delivery Table A,/CALSIM/D_CAA194_KERNA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Table A,/CALSIM/D_CAA194_KERNB_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD
-SWP Delivery Table A,/CALSIM/D_CAA194_KERN_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Table A,/CALSIM/D_CAA242_KERN_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Table A,/CALSIM/D_CAA279_KERN_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Table A,/CALSIM/D_CSB009_CLRTA1_DDWD_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clarita Valley WA
-SWP Delivery Table A,/CALSIM/D_CSB015_KERN_BMWD_PAG/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Table A,/CALSIM/D_CSB038_OBISPO_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Luis Obispo FC&WCD
-SWP Delivery Table A,/CALSIM/D_CSB103_BRBRA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Barbara County FC&WCD
-SWP Delivery Table A,/CALSIM/D_ESB324_AVEK_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Antelope Valley-East Kern WA
-SWP Delivery Table A,/CALSIM/D_ESB347_PLMDL_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Palmdale WD
-SWP Delivery Table A,/CALSIM/D_ESB403_MOJVE_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Mohave WA
-SWP Delivery Table A,/CALSIM/D_ESB355_LROCK_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Little Rock ID
-SWP Delivery Table A,/CALSIM/D_ESB407_CCHLA_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Coachella Valley WD
-SWP Delivery Table A,/CALSIM/D_ESB408_DESRT_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Desert WA
-SWP Delivery Table A,/CALSIM/D_ESB413_MWDSC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD
-SWP Delivery Table A,/CALSIM/D_ESB414_BRDNO_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Bernadino Valley WD
-SWP Delivery Table A,/CALSIM/D_ESB415_GABRL_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gabriel Valley WD
-SWP Delivery Table A,/CALSIM/D_ESB420_GRGNO_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gorgonio Pass WA
-SWP Delivery Table A,/CALSIM/D_WSB031_MWDSC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD West Branch
-SWP Delivery Table A,/CALSIM/D_WSB032_CLRTA2_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clarita Valley WA
-SWP Delivery Table A,/CALSIM/D_ESB433_MWDSC_PMI/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD East Branch
-SWP Delivery Carryover,/CALSIM/D_WTPCYC_16_PU_SWP_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,City of Yuba City
-SWP Delivery Carryover,/CALSIM/D_PRRIS_MWDSC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD - Lake Perris
-SWP Delivery Carryover,/CALSIM/D_CSTIC_VNTRA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Ventura County WPD
-SWP Delivery Carryover,/CALSIM/D_BKR004_NBA009_NAPA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Napa County FC&WCD
-SWP Delivery Carryover,/CALSIM/D_BKR004_NBA009_SCWA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Solano County WA
-SWP Delivery Carryover,/CALSIM/D_CAA046_71_PA7_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Oak Flat WD
-SWP Delivery Carryover,/CALSIM/D_SBA009_ACFC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda FC&WCD
-SWP Delivery Carryover,/CALSIM/D_SBA020_ACFC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda FC&WCD
-SWP Delivery Carryover,/CALSIM/D_SBA029_ACWD_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Alameda WD
-SWP Delivery Carryover,/CALSIM/D_SBA036_SCVWD_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clara Valley WD
-SWP Delivery Carryover,/CALSIM/D_SVRWD_CSTLN_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Crestline-Lake Arrowhead WA
-SWP Delivery Carryover,/CALSIM/D_PYRMD_VNTRA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Ventura County WPD
-SWP Delivery Carryover,/CALSIM/D_CAA173_EMPIRE_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Empire ID
-SWP Delivery Carryover,/CALSIM/D_CAA181_KINGS_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,County of Kings
-SWP Delivery Carryover,/CALSIM/D_CAA183_TULARE_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Tulare Lake WSD
-SWP Delivery Carryover,/CALSIM/D_CAA184_DUDLEY_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Dudley WD
-SWP Delivery Carryover,/CALSIM/D_CAA194_KERN_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Carryover,/CALSIM/D_CAA242_KERN_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Carryover,/CALSIM/D_CAA279_KERN_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Carryover,/CALSIM/D_CSB009_CLRTA1_DDWD_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Clarita Valley WA
-SWP Delivery Carryover,/CALSIM/D_CSB015_KERN_BMWD_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Kern County WA
-SWP Delivery Carryover,/CALSIM/D_CSB038_OBISPO_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Luis Obispo FC&WCD
-SWP Delivery Carryover,/CALSIM/D_CSB103_BRBRA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Santa Barbara County FC&WCD
-SWP Delivery Carryover,/CALSIM/D_ESB324_AVEK_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Antelope Valley-East Kern WA
-SWP Delivery Carryover,/CALSIM/D_ESB347_PLMDL_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Palmdale WD
-SWP Delivery Carryover,/CALSIM/D_ESB403_MOJVE_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Mohave WA
-SWP Delivery Carryover,/CALSIM/D_ESB355_LROCK_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Little Rock ID
-SWP Delivery Carryover,/CALSIM/D_ESB407_CCHLA_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Coachella Valley WD
-SWP Delivery Carryover,/CALSIM/D_ESB408_DESRT_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Desert WA
-SWP Delivery Carryover,/CALSIM/D_ESB413_MWDSC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD
-SWP Delivery Carryover,/CALSIM/D_ESB414_BRDNO_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Bernadino Valley WD
-SWP Delivery Carryover,/CALSIM/D_ESB415_GABRL_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gabriel Valley WD
-SWP Delivery Carryover,/CALSIM/D_ESB420_GRGNO_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,San Gorgonio Pass WA
-SWP Delivery Carryover,/CALSIM/D_WSB031_MWDSC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD West Branch
-SWP Delivery Carryover,/CALSIM/D_ESB433_MWDSC_PCO/FLOW-DELIVERY//1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Metropolitan WD East Branch
+SWP Delivery Article 21 (City of Yuba City),/CALSIM/D_WTPCYC_16_PU_SWP_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - City of Yuba City
+SWP Delivery Article 21 (Lake Perris),/CALSIM/D_PRRIS_MWDSC_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - Lake Perris
+SWP Delivery Article 21 (Ventura County WPD),/CALSIM/D_CSTIC_VNTRA_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Ventura County WPD
+SWP Delivery Article 21 (Napa County FC&WCD),/CALSIM/D_BKR004_NBA009_NAPA_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Napa County FC&WCD
+SWP Delivery Article 21 (Solano County WA),/CALSIM/D_BKR004_NBA009_SCWA_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Solano County WA
+SWP Delivery Article 21 (Oak Flat WD),/CALSIM/D_CAA046_71_PA7_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Oak Flat WD
+SWP Delivery Article 21 (Alameda FC&WCD),/CALSIM/D_SBA009_ACFC_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda FC&WCD
+SWP Delivery Article 21 (Alameda WD),/CALSIM/D_SBA029_ACWD_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda WD
+SWP Delivery Article 21 (Santa Clara Valley WD),/CALSIM/D_SBA036_SCVWD_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clara Valley WD
+SWP Delivery Article 21 (Empire ID),/CALSIM/D_CAA173_EMPIRE_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Empire ID
+SWP Delivery Article 21 (County of Kings),/CALSIM/D_CAA181_KINGS_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - County of Kings
+SWP Delivery Article 21 (Tulare Lake WSD),/CALSIM/D_CAA183_TULARE_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Tulare Lake WSD
+SWP Delivery Article 21 (Dudley WD),/CALSIM/D_CAA184_DUDLEY_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Dudley WD
+SWP Delivery Article 21 (Kern County WA),/CALSIM/D_CAA242_KERN_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Article 21 (Santa Clarita Valley WA),/CALSIM/D_CSB009_CLRTA1_DDWD_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clarita Valley WA
+SWP Delivery Article 21 (San Luis Obispo FC&WCD),/CALSIM/D_CSB038_OBISPO_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Luis Obispo FC&WCD
+SWP Delivery Article 21 (Santa Barbara County FC&WCD),/CALSIM/D_CSB103_BRBRA_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Barbara County FC&WCD
+SWP Delivery Article 21 (Antelope Valley-East Kern WA),/CALSIM/D_ESB324_AVEK_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Antelope Valley-East Kern WA
+SWP Delivery Article 21 (Palmdale WD),/CALSIM/D_ESB347_PLMDL_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Palmdale WD
+SWP Delivery Article 21 (Coachella Valley WD),/CALSIM/D_ESB407_CCHLA_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Coachella Valley WD
+SWP Delivery Article 21 (Desert WA),/CALSIM/D_ESB408_DESRT_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Desert WA
+SWP Delivery Article 21 (Metropolitan WD),/CALSIM/D_ESB413_MWDSC_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD
+SWP Delivery Article 21 (San Bernadino Valley WD),/CALSIM/D_ESB414_BRDNO_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Bernadino Valley WD
+SWP Delivery Article 21 (San Gabriel Valley WD),/CALSIM/D_ESB415_GABRL_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gabriel Valley WD
+SWP Delivery Article 21 (San Gorgonio Pass WA),/CALSIM/D_ESB420_GRGNO_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gorgonio Pass WA
+SWP Delivery Article 21 (Metropolitan WD - West Branch),/CALSIM/D_WSB031_MWDSC_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - West Branch
+SWP Delivery Article 21 (Metropolitan WD - East Branch),/CALSIM/D_ESB433_MWDSC_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - East Branch
+SWP Delivery Article 21 (Little Rock ID),/CALSIM/D_ESB355_LROCK_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Little Rock ID
+SWP Delivery Article 21 (Mohave WA),/CALSIM/D_ESB403_MOJVE_PIN/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Mohave WA
+SWP Delivery Table A (City of Yuba City),/CALSIM/D_WTPCYC_16_PU_SWP_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - City of Yuba City
+SWP Delivery Table A (Metropolitan WD - Lake Perris),/CALSIM/D_PRRIS_MWDSC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - Lake Perris
+SWP Delivery Table A (Ventura County WPD),/CALSIM/D_CSTIC_VNTRA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Ventura County WPD
+SWP Delivery Table A (Napa County FC&WCD),/CALSIM/D_BKR004_NBA009_NAPA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Napa County FC&WCD
+SWP Delivery Table A (Solano County WA),/CALSIM/D_BKR004_NBA009_SCWA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Solano County WA
+SWP Delivery Table A (Oak Flat WD),/CALSIM/D_CAA046_71_PA7_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Oak Flat WD
+SWP Delivery Table A (Alameda FC&WCD),/CALSIM/D_SBA009_ACFC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda FC&WCD
+SWP Delivery Table A (Alameda FC&WCD),/CALSIM/D_SBA020_ACFC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda FC&WCD
+SWP Delivery Table A (Alameda WD),/CALSIM/D_SBA029_ACWD_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda WD
+SWP Delivery Table A (Santa Clara Valley WD),/CALSIM/D_SBA036_SCVWD_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clara Valley WD
+SWP Delivery Table A (Crestline-Lake Arrowhead WA),/CALSIM/D_SVRWD_CSTLN_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Crestline-Lake Arrowhead WA
+SWP Delivery Table A (Ventura County WPD),/CALSIM/D_PYRMD_VNTRA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Ventura County WPD
+SWP Delivery Table A (Empire ID),/CALSIM/D_CAA173_EMPIRE_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Empire ID
+SWP Delivery Table A (County of Kings),/CALSIM/D_CAA181_KINGS_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - County of Kings
+SWP Delivery Table A (Tulare Lake WSD),/CALSIM/D_CAA183_TULARE_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Tulare Lake WSD
+SWP Delivery Table A (Dudley WD),/CALSIM/D_CAA184_DUDLEY_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Dudley WD
+SWP Delivery Table A (Kern County WA),/CALSIM/D_CAA194_KERNA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Table A (Metropolitan WD),/CALSIM/D_CAA194_KERNB_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD
+SWP Delivery Table A (Kern County WA),/CALSIM/D_CAA194_KERN_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Table A (Kern County WA),/CALSIM/D_CAA242_KERN_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Table A (Kern County WA),/CALSIM/D_CAA279_KERN_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Table A (Santa Clarita Valley WA),/CALSIM/D_CSB009_CLRTA1_DDWD_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clarita Valley WA
+SWP Delivery Table A (Kern County WA),/CALSIM/D_CSB015_KERN_BMWD_PAG/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Table A (San Luis Obispo FC&WCD),/CALSIM/D_CSB038_OBISPO_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Luis Obispo FC&WCD
+SWP Delivery Table A (Santa Barbara County FC&WCD),/CALSIM/D_CSB103_BRBRA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Barbara County FC&WCD
+SWP Delivery Table A (Antelope Valley-East Kern WA),/CALSIM/D_ESB324_AVEK_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Antelope Valley-East Kern WA
+SWP Delivery Table A (Palmdale WD),/CALSIM/D_ESB347_PLMDL_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Palmdale WD
+SWP Delivery Table A (Mohave WA),/CALSIM/D_ESB403_MOJVE_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Mohave WA
+SWP Delivery Table A (Little Rock ID),/CALSIM/D_ESB355_LROCK_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Little Rock ID
+SWP Delivery Table A (Coachella Valley WD),/CALSIM/D_ESB407_CCHLA_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Coachella Valley WD
+SWP Delivery Table A (Desert WA),/CALSIM/D_ESB408_DESRT_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Desert WA
+SWP Delivery Table A (Metropolitan WD),/CALSIM/D_ESB413_MWDSC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD
+SWP Delivery Table A (San Bernadino Valley WD),/CALSIM/D_ESB414_BRDNO_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Bernadino Valley WD
+SWP Delivery Table A (San Gabriel Valley WD),/CALSIM/D_ESB415_GABRL_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gabriel Valley WD
+SWP Delivery Table A (San Gorgonio Pass WA),/CALSIM/D_ESB420_GRGNO_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gorgonio Pass WA
+SWP Delivery Table A (Metropolitan WD - West Branch),/CALSIM/D_WSB031_MWDSC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD West Branch
+SWP Delivery Table A (Santa Clarita Valley WA),/CALSIM/D_WSB032_CLRTA2_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clarita Valley WA
+SWP Delivery Table A (Metropolitan WD - East Branch),/CALSIM/D_ESB433_MWDSC_PMI/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD East Branch
+SWP Delivery Carryover (City of Yuba City),/CALSIM/D_WTPCYC_16_PU_SWP_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - City of Yuba City
+SWP Delivery Carryover (Metropolitan WD - Lake Perris),/CALSIM/D_PRRIS_MWDSC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - Lake Perris
+SWP Delivery Carryover (Ventura County WPD),/CALSIM/D_CSTIC_VNTRA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Ventura County WPD
+SWP Delivery Carryover (Napa County FC&WCD),/CALSIM/D_BKR004_NBA009_NAPA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Napa County FC&WCD
+SWP Delivery Carryover (Solano County WA),/CALSIM/D_BKR004_NBA009_SCWA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Solano County WA
+SWP Delivery Carryover (Oak Flat WD),/CALSIM/D_CAA046_71_PA7_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Oak Flat WD
+SWP Delivery Carryover (Alameda FC&WCD),/CALSIM/D_SBA009_ACFC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda FC&WCD
+SWP Delivery Carryover (Alameda FC&WCD),/CALSIM/D_SBA020_ACFC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda FC&WCD
+SWP Delivery Carryover (Alameda WD),/CALSIM/D_SBA029_ACWD_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Alameda WD
+SWP Delivery Carryover (Santa Clara Valley WD),/CALSIM/D_SBA036_SCVWD_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clara Valley WD
+SWP Delivery Carryover (Crestline-Lake Arrowhead WA),/CALSIM/D_SVRWD_CSTLN_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Crestline-Lake Arrowhead WA
+SWP Delivery Carryover (Ventura County WPD),/CALSIM/D_PYRMD_VNTRA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Ventura County WPD
+SWP Delivery Carryover (Empire ID),/CALSIM/D_CAA173_EMPIRE_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Empire ID
+SWP Delivery Carryover (County of Kings),/CALSIM/D_CAA181_KINGS_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - County of Kings
+SWP Delivery Carryover (Tulare Lake WSD),/CALSIM/D_CAA183_TULARE_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Tulare Lake WSD
+SWP Delivery Carryover (Dudley WD),/CALSIM/D_CAA184_DUDLEY_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Dudley WD
+SWP Delivery Carryover (Kern County WA),/CALSIM/D_CAA194_KERN_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Carryover (Kern County WA),/CALSIM/D_CAA242_KERN_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Carryover (Kern County WA),/CALSIM/D_CAA279_KERN_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Carryover (Santa Clarita Valley WA),/CALSIM/D_CSB009_CLRTA1_DDWD_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Clarita Valley WA
+SWP Delivery Carryover (Kern County WA),/CALSIM/D_CSB015_KERN_BMWD_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Kern County WA
+SWP Delivery Carryover (San Luis Obispo FC&WCD),/CALSIM/D_CSB038_OBISPO_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Luis Obispo FC&WCD
+SWP Delivery Carryover (Santa Barbara County FC&WCD),/CALSIM/D_CSB103_BRBRA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Santa Barbara County FC&WCD
+SWP Delivery Carryover (Antelope Valley-East Kern WA),/CALSIM/D_ESB324_AVEK_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Antelope Valley-East Kern WA
+SWP Delivery Carryover (Palmdale WD),/CALSIM/D_ESB347_PLMDL_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Palmdale WD
+SWP Delivery Carryover (Mohave WA),/CALSIM/D_ESB403_MOJVE_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Mohave WA
+SWP Delivery Carryover (Little Rock ID),/CALSIM/D_ESB355_LROCK_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Little Rock ID
+SWP Delivery Carryover (Coachella Valley WD),/CALSIM/D_ESB407_CCHLA_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Coachella Valley WD
+SWP Delivery Carryover (Desert WA),/CALSIM/D_ESB408_DESRT_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Desert WA
+SWP Delivery Carryover (Metropolitan WD),/CALSIM/D_ESB413_MWDSC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD
+SWP Delivery Carryover (San Bernadino Valley WD),/CALSIM/D_ESB414_BRDNO_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Bernadino Valley WD
+SWP Delivery Carryover (San Gabriel Valley WD),/CALSIM/D_ESB415_GABRL_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gabriel Valley WD
+SWP Delivery Carryover (San Gorgonio Pass WA),/CALSIM/D_ESB420_GRGNO_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - San Gorgonio Pass WA
+SWP Delivery Carryover (Metropolitan WD - West Branch),/CALSIM/D_WSB031_MWDSC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - West Branch
+SWP Delivery Carryover (Metropolitan WD - East Branch),/CALSIM/D_ESB433_MWDSC_PCO/FLOW-DELIVERY/.*/1MON/L2020A/,delivery,1MON,PER-AVER,CFS,Delivery - Metropolitan WD - East Branch
+
