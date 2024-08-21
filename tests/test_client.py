@@ -1,10 +1,11 @@
+import logging
 from pathlib import Path
 
 import pandss as pdss
 
 from csrs import clients, schemas
-from csrs.logger import logger
 
+logger = logging.getLogger(__name__)
 Client = clients.RemoteClient | clients.LocalClient
 
 
