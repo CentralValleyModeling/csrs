@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -6,9 +7,10 @@ from sqlalchemy.orm import Session
 from .. import models, schemas
 from ..database import db_cfg
 from ..errors import EmptyLookupError, UniqueLookupError
-from ..logger import logger
 from . import paths as crud_paths
 from ._common import rollback_on_exception
+
+logger = logging.getLogger(__name__)
 
 
 def date_to_float(date: str) -> float:

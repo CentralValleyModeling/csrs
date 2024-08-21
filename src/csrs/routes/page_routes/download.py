@@ -1,5 +1,6 @@
 import io
 import json
+import logging
 
 import pandas as pd
 from fastapi import APIRouter, Depends, Request
@@ -8,10 +9,10 @@ from sqlalchemy.orm import Session
 
 from ... import crud
 from ...database import get_db
-from ...logger import logger
 from ...pages import download
 
 router = APIRouter(prefix="/download", include_in_schema=False)
+logger = logging.getLogger(__name__)
 
 
 @router.get("/", response_class=HTMLResponse)

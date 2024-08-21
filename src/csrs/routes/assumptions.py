@@ -1,11 +1,13 @@
+import logging
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
-from ..logger import logger
 
 router = APIRouter(prefix="/assumptions", tags=["Assumptions"])
+logger = logging.getLogger(__name__)
 
 
 @router.get("/names", response_model=tuple[str, ...])
