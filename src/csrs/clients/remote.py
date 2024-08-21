@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import pandss as pdss
@@ -5,7 +6,6 @@ from httpx import Client
 from sqlalchemy.exc import IntegrityError
 
 from .. import enums, schemas
-from ..logger import get_logger
 
 
 class RemoteClient:
@@ -30,7 +30,7 @@ class RemoteClient:
         ```
         """
         self.actor = Client(base_url=base_url, **kwargs)
-        self.logger = get_logger()
+        self.logger = logging.getLogger(__name__)
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(url={self.actor.base_url})"

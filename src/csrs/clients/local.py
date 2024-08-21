@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import pandss as pdss
@@ -7,7 +8,6 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
 from .. import crud, enums, models, schemas
-from ..logger import get_logger
 
 
 class LocalClient:
@@ -33,7 +33,7 @@ class LocalClient:
             autoflush=autoflush,
             bind=self.engine,
         )()
-        self.logger = get_logger()
+        self.logger = logging.getLogger(__name__)
         models.Base.metadata.create_all(bind=self.engine)
 
     def close(self):

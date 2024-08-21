@@ -4,11 +4,15 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
 
 from . import config, routes
-from .logger import logger
 from .pages import errors
+
+logger = config.get_csrs_logger()
+config.configure_logging(logger)
 
 
 def create_app() -> FastAPI:
+    logger.info("creating csrs fastapi app")
+    logger.debug(f"in csrs.main module, {__name__=}")
     app_cfg = config.AppConfig()
     app = FastAPI(**app_cfg.model_dump())
     app.include_router(routes.page_routes.home.router)
@@ -35,6 +39,7 @@ async def redirect_home():
 async def custom_404_handler(request: Request, _):
     user_agent = request.headers.get("User-Agent", "")
     if "bot" in user_agent.lower():
+        logger.error("responding with JSON exception")
         return HTTPException(status_code=404)
     else:
         logger.error("rendering HTML 404 page")

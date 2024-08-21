@@ -1,11 +1,14 @@
+import logging
+
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..errors import DuplicateModelError, EmptyLookupError, UniqueLookupError
-from ..logger import logger
 from . import assumptions as crud_assumptions
 from . import runs as crud_runs
 from ._common import rollback_on_exception
+
+logger = logging.getLogger(__name__)
 
 
 def model_to_schema(scenario: models.Scenario):

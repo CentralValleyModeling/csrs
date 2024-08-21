@@ -1,1 +1,1 @@
-db = "database\csrs.db"
+source = "database/csrs.db"

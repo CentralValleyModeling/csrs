@@ -1,10 +1,13 @@
+import logging
+
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..errors import EmptyLookupError
-from ..logger import logger
 from ._common import common_update, rollback_on_exception
 from .runs import read as read_runs
+
+logger = logging.getLogger(__name__)
 
 
 @rollback_on_exception

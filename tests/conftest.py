@@ -11,7 +11,6 @@ from sqlalchemy.pool import StaticPool
 
 from csrs import clients
 from csrs.database import get_db, make_session
-from csrs.main import app
 from csrs.models import Base
 
 
@@ -80,8 +79,11 @@ def client_local(database_file: Path):
     client.close()
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session", autouse=False)
 def client_remote(database_url: str):
+    # Keep the import here so the app isn't initialized unless this test runs
+    from csrs.main import app
+
     engine = create_engine(
         database_url,
         connect_args={"check_same_thread": False},

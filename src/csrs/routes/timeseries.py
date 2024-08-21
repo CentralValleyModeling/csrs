@@ -1,12 +1,14 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
 from ..errors import UniqueLookupError
-from ..logger import logger
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
+logger = logging.getLogger(__name__)
 
 
 @router.get("", response_model=schemas.Timeseries)
