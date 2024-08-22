@@ -27,9 +27,16 @@ def slow_lossy_concat(frames: list[pd.DataFrame]) -> pd.DataFrame:
     for _df in frames:
         try:
             df = pd.concat([df, _df], axis=1)
-        except Exception:
-            info = "\t\n".join(df.columns[0])
-            logger.info(f"error when concatenaing dataframe:\n{info}")
+        except pd.errors.InvalidIndexError as e:
+            logger.error(
+                f"{type(e).__name__} when concatenating dataframes, "
+                + f"L columns len: {len(df.columns)}, "
+                + f"R columns len: {len(_df.columns)}, "
+                + f"L index len: {len(df)} ({len(df.index.unique(0))} unique idx), "
+                + f"R index len: {len(_df)} ({len(_df.index.unique(0))} unique idx)"
+            )
+        except Exception as e:
+            logger.error(f"{type(e).__name__} when concatenating dataframes.")
     return df
 
 
