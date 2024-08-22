@@ -1,7 +1,6 @@
 import logging
 import logging.handlers
 import sys
-from datetime import datetime
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -40,7 +39,6 @@ class AppConfig(LoggedSettings):
 class DatabaseConfig(LoggedSettings):
     source: Path = Path("csrs.db").resolve()
     echo: bool = False
-    epoch: datetime = datetime(1900, 1, 1)
     allow_download: bool = True
     allow_editing_via_forms: bool = False
     model_config = SettingsConfigDict(env_file=".database")
