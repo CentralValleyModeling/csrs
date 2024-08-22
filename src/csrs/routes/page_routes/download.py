@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import HTMLResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
-from ... import crud
+from ... import crud, errors, models, schemas
 from ...database import get_db
 from ...pages import download
 
@@ -27,9 +27,16 @@ def slow_lossy_concat(frames: list[pd.DataFrame]) -> pd.DataFrame:
     for _df in frames:
         try:
             df = pd.concat([df, _df], axis=1)
-        except Exception:
-            info = "\t\n".join(df.columns[0])
-            logger.info(f"error when concatenaing dataframe:\n{info}")
+        except pd.errors.InvalidIndexError as e:
+            logger.error(
+                f"{type(e).__name__} when concatenating dataframes, "
+                + f"L columns len: {len(df.columns)}, "
+                + f"R columns len: {len(_df.columns)}, "
+                + f"L index len: {len(df)} ({len(df.index.unique(0))} unique idx), "
+                + f"R index len: {len(_df)} ({len(_df.index.unique(0))} unique idx)"
+            )
+        except Exception as e:
+            logger.error(f"{type(e).__name__} when concatenating dataframes.")
     return df
 
 
@@ -45,20 +52,41 @@ async def download_run(
 
     file_content = io.StringIO()
     if file_type.lower() == "csv":
-        timeseries = crud.timeseries.read_all_for_run(
-            db,
-            scenario=scenario,
-            version=version,
-        )
-        frames = [ts.to_frame() for ts in timeseries]
         try:
-            df = pd.concat(frames, axis=1)
-        except Exception:
-            logger.info(
-                "an error occurred when concatenating all the data,"
-                + " trying again with a slower method"
+            timeseries = crud.timeseries.read_all_for_run(
+                db,
+                scenario=scenario,
+                version=version,
             )
-            df = slow_lossy_concat(frames)
+            frames = [ts.to_frame() for ts in timeseries]
+            if len(frames) == 0:
+                raise errors.EmptyLookupError(models.TimeseriesLedger)
+            try:
+                df = pd.concat(frames, axis=1)
+            except Exception as e:
+                logger.error(
+                    f"{type(e).__name__} occurred when concatenating all the data,"
+                    + " trying again with a slower method"
+                )
+                df = slow_lossy_concat(frames)
+        except errors.EmptyLookupError as e:
+            # return an empty dataset
+            logger.error(
+                f"{type(e).__name__} occurred when reading timeseries data for:"
+                + f"{scenario=}, {version=}, returning empty csv"
+            )
+            ts = schemas.Timeseries(
+                scenario=scenario,
+                version=version,
+                path="/.*/.*/.*/.*/.*/.*/",
+                values=(0.0,),
+                dates=("1921-10-31",),
+                period_type="PER-AVER",
+                units="NONE",
+                interval="1MON",
+            )
+            df = ts.to_frame()
+            df = df.drop(df.index[0])
 
         df.to_csv(file_content)
         media_type = "text/csv"
