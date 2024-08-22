@@ -67,4 +67,5 @@ def get_db():
 ENGINE = make_engine()
 create_recipe_file(engine=ENGINE)
 if not db_cfg.source.exists():
-    init_db()
+    logger.warning("creating empty database because it wasn't found")
+    init_db(ENGINE)
