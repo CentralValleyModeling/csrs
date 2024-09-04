@@ -190,7 +190,7 @@ def read_all_for_run(
         db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
     run = sceanrio_model.run
-    if run.version != version:
+    if (run is None) or (run.version != version):
         # Adding data to an older version
         run = get_run_model(db, scenario=scenario, version=version)
 
