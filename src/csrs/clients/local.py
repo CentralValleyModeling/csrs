@@ -8,9 +8,10 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
 from .. import crud, enums, models, schemas
+from .base import Client
 
 
-class LocalClient:
+class LocalClient(Client):
     def __init__(
         self,
         db_path: Path,
@@ -35,6 +36,9 @@ class LocalClient:
         )()
         self.logger = logging.getLogger(__name__)
         models.Base.metadata.create_all(bind=self.engine)
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(db_path={self.db_path})"
 
     def close(self):
         self.session.close()
@@ -162,7 +166,6 @@ class LocalClient:
         )
 
     # PUT
-
     def put_assumption(
         self,
         *,
