@@ -251,6 +251,79 @@ class RemoteClient:
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
+    def get_timeseries_from_dss(
+        self,
+        dss: Path,
+        scenario: str,
+        version: str,
+        paths: list[schemas.NamedPath] | None = None,
+    ) -> list[schemas.Timeseries]:
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
+                    continue
+                if len(rtss) == 0:
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    self.logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                ts.path = p.path  # Use the path from the database, not in the dss
+                tss.append(ts)
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
+        return tss
+
+    def get_all_timeseries_for_run(
+        self,
+        *,
+        scenario: str,
+        version: str,
+    ) -> list[schemas.Timeseries]:
+        """Get all of the `Timeseries` objects for th run provided.
+
+        Parameters
+        ----------
+        scenario : str
+            Matches against `Run.scenario`. If provided this method will return at most
+            one `Timeseries` object
+        version : str
+            Matches against `Run.version`. If provided this method will return at most
+            one `Timeseries` object
+
+        Returns
+        -------
+        list[schemas.Timeseries]
+            The `Timeseries` object matched
+        """
+        url = "/timeseries/all"
+        params = dict(
+            scenario=scenario,
+            version=version,
+        )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
+        response.raise_for_status()
+        return [schemas.Timeseries.model_validate(ts) for ts in response.json()]
+
     # PUT
 
     def put_assumption(
@@ -508,47 +581,6 @@ class RemoteClient:
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
-
-    def get_timeseries_from_dss(
-        self,
-        dss: Path,
-        scenario: str,
-        version: str,
-        paths: list[schemas.NamedPath] | None = None,
-    ) -> list[schemas.Timeseries]:
-        if paths is None:
-            paths = self.get_path()
-        tss = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rtss = list(dss_obj.read_multiple_rts(p.path))
-                except Exception as e:
-                    self.logger.error(
-                        f"{type(e)} when reading {p.path} in {dss}, skipping"
-                    )
-                    continue
-                if len(rtss) == 0:
-                    self.logger.warning(f"no datasets match {p.path} in {dss}")
-                    continue
-                elif len(rtss) > 1:
-                    self.logger.warning(
-                        f"multiple datasets match {p.path} in {dss}, "
-                        + "skipping both to avoid conflicts"
-                    )
-                    continue
-                rts = rtss[0]
-                ts = schemas.Timeseries.from_pandss(
-                    scenario=scenario,
-                    version=version,
-                    rts=rts,
-                )
-                ts.path = p.path  # Use the path from the database, not in the dss
-                tss.append(ts)
-        self.logger.info(
-            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
-        )
-        return tss
 
     def put_many_timeseries(
         self,

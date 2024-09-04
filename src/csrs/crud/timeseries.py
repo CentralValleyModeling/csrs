@@ -214,7 +214,14 @@ def read_all_for_run(
         grouped_rows[row.path_id].append(row)
     timeseries = list()
     for path_id, rows in grouped_rows.items():
-        path_schema = paths_by_id[path_id]
+        if path_id not in paths_by_id:
+            logger.warning(f"{path_id=} not found for run")
+            path_schemas = crud_paths.read(db, id=path_id)
+            if len(path_schemas) != 1:
+                raise UniqueLookupError(models.NamedPath, path_schemas, id=path_id)
+            path_schema = path_schemas[0]
+        else:
+            path_schema = paths_by_id[path_id]
         values = tuple(r.value for r in rows)
         dates = tuple(float_to_date(r.datetime) for r in rows)
         timeseries.append(

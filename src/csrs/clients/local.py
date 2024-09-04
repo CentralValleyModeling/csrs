@@ -108,6 +108,59 @@ class LocalClient:
             path=path,
         )
 
+    def get_timeseries_from_dss(
+        self,
+        dss: Path,
+        scenario: str,
+        version: str,
+        paths: list[schemas.NamedPath] | None = None,
+    ) -> list[schemas.Timeseries]:
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
+                    continue
+                if len(rtss) == 0:
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    self.logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                ts.path = p.path  # Use the path from the database, not in the dss
+                tss.append(ts)
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
+        return tss
+
+    def get_all_timeseries_for_run(
+        self,
+        *,
+        scenario: str,
+        version: str,
+    ) -> list[schemas.Timeseries]:
+        return crud.timeseries.read_all_for_run(
+            self.session,
+            scenario=scenario,
+            version=version,
+        )
+
     # PUT
 
     def put_assumption(
@@ -233,47 +286,6 @@ class LocalClient:
             interval=interval,
         )
         return crud.timeseries.create(db=self.session, **obj.model_dump())
-
-    def get_timeseries_from_dss(
-        self,
-        dss: Path,
-        scenario: str,
-        version: str,
-        paths: list[schemas.NamedPath] | None = None,
-    ) -> list[schemas.Timeseries]:
-        if paths is None:
-            paths = self.get_path()
-        tss = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rtss = list(dss_obj.read_multiple_rts(p.path))
-                except Exception as e:
-                    self.logger.error(
-                        f"{type(e)} when reading {p.path} in {dss}, skipping"
-                    )
-                    continue
-                if len(rtss) == 0:
-                    self.logger.warning(f"no datasets match {p.path} in {dss}")
-                    continue
-                elif len(rtss) > 1:
-                    self.logger.warning(
-                        f"multiple datasets match {p.path} in {dss}, "
-                        + "skipping both to avoid conflicts"
-                    )
-                    continue
-                rts = rtss[0]
-                ts = schemas.Timeseries.from_pandss(
-                    scenario=scenario,
-                    version=version,
-                    rts=rts,
-                )
-                ts.path = p.path  # Use the path from the database, not in the dss
-                tss.append(ts)
-        self.logger.info(
-            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
-        )
-        return tss
 
     def put_many_timeseries(
         self,
