@@ -287,6 +287,7 @@ def test_to_and_from_json(client_local: clients.LocalClient, assets_dir: Path):
         new_local = clients.LocalClient(db_path=tmpdir / "from.db")
         with open(json_file, "r") as SRC:
             new_local.load(SRC)
+        # Test that the results are the same on both sides
         assert len(new_local.get_scenario()) == len(client_local.get_scenario())
         assert len(new_local.get_run()) == len(client_local.get_run())
         assert len(new_local.get_path()) == len(client_local.get_path())
@@ -297,7 +298,8 @@ def test_to_and_from_json(client_local: clients.LocalClient, assets_dir: Path):
                 )
             ) == len(
                 client_local.get_all_timeseries_for_run(
-                    scenario=r.scenario, version=r.version
+                    scenario=r.scenario,
+                    version=r.version,
                 )
             )
         new_local.close()

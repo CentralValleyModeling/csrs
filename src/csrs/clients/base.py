@@ -32,9 +32,11 @@ class Client:
         for r in self.get_run():
             database["runs"].append(r.model_dump(exclude="id"))
             for ts in self.get_all_timeseries_for_run(
-                scenario=r.scenario, version=r.version
+                scenario=r.scenario,
+                version=r.version,
             ):
                 database["timeseries"].append(ts.model_dump(exclude="id"))
+
         # TODO: 2024-09-04 Add packing of metrics once those are implemented
         json.dump(database, dst, **kwargs)
 
