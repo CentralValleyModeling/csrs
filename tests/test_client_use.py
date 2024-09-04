@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pandss as pdss
 
@@ -275,3 +276,28 @@ def test_remote_read_all_timeseries(
         kwargs_all_unique["path"],
         kwargs_all_unique["run"],
     )
+
+
+def test_to_and_from_json(client_local: clients.LocalClient, assets_dir: Path):
+    with TemporaryDirectory(dir=assets_dir) as tmpdir:
+        tmpdir = Path(tmpdir)
+        json_file = tmpdir / "to.json"
+        with open(json_file, "w") as DST:
+            client_local.dump(DST)
+        new_local = clients.LocalClient(db_path=tmpdir / "from.db")
+        with open(json_file, "r") as SRC:
+            new_local.load(SRC)
+        assert len(new_local.get_scenario()) == len(client_local.get_scenario())
+        assert len(new_local.get_run()) == len(client_local.get_run())
+        assert len(new_local.get_path()) == len(client_local.get_path())
+        for r in client_local.get_run():
+            assert len(
+                new_local.get_all_timeseries_for_run(
+                    scenario=r.scenario, version=r.version
+                )
+            ) == len(
+                client_local.get_all_timeseries_for_run(
+                    scenario=r.scenario, version=r.version
+                )
+            )
+        new_local.close()

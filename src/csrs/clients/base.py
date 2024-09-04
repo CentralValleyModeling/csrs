@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import NoReturn
+from typing import IO
 
 import pandss as pdss
 
@@ -10,6 +10,47 @@ from .. import schemas
 class Client:
     def __init__(self, *args, **kwargs):
         pass
+
+    # UTILITES
+    def dump(self, dst: IO, **kwargs) -> None:
+        database = {
+            "assumptions": list(),
+            "scenarios": list(),
+            "paths": list(),
+            "runs": list(),
+            "timeseries": list(),
+            "metrics": list(),
+            "metric_values": list(),
+        }
+
+        for a in self.get_assumption():
+            database["assumptions"].append(a.model_dump(exclude="id"))
+        for s in self.get_scenario():
+            database["scenarios"].append(s.model_dump(exclude=("id", "preferred_run")))
+        for p in self.get_path():
+            database["paths"].append(p.model_dump(exclude="id"))
+        for r in self.get_run():
+            database["runs"].append(r.model_dump(exclude="id"))
+            for ts in self.get_all_timeseries_for_run(
+                scenario=r.scenario, version=r.version
+            ):
+                database["timeseries"].append(ts.model_dump(exclude="id"))
+        # TODO: 2024-09-04 Add packing of metrics once those are implemented
+        json.dump(database, dst, **kwargs)
+
+    def load(self, src: IO) -> None:
+        database: dict[str, list[dict]] = json.load(src)
+        for a in database.get("assumptions", ()):
+            self.put_assumption(**a)
+        for s in database.get("scenarios", ()):
+            self.put_scenario(**s)
+        for p in database.get("paths", ()):
+            self.put_path(**p)
+        for r in database.get("runs", ()):
+            self.put_run(**r)
+        for ts in database.get("timeseries", ()):
+            self.put_timeseries(**ts)
+        # TODO: 2024-09-04 Add loading of metrics once those are implemented
 
     # GET
     def get_assumption_names(self) -> tuple[str]:
@@ -402,31 +443,3 @@ class Client:
         timeseries: list[schemas.Timeseries],
     ) -> list[schemas.Timeseries]:
         raise NotImplementedError()
-
-    # UTILITES
-    def dump(self, dst: Path, **kwargs) -> NoReturn:
-        database = {
-            "assumptions": list(),
-            "scenarios": list(),
-            "paths": list(),
-            "runs": list(),
-            "timeseries": list(),
-            "metrics": list(),
-            "metric_values": list(),
-        }
-
-        for a in self.get_assumption():
-            database["assumptions"].append(a.model_dump())
-        for s in self.get_scenario():
-            database["scenarios"].append(s.model_dump())
-        for p in self.get_path():
-            database["paths"].append(p.model_dump())
-        for r in self.get_run():
-            database["runs"].append(r.model_dump())
-            for ts in self.get_all_timeseries_for_run(
-                scenario=r.scenario, version=r.version
-            ):
-                database["timeseries"].append(ts.model_dump())
-        # TODO: 2024-09-04 Add packing of metrics once those are implemented
-        with open(dst, "w") as DST:
-            json.dump(database, DST, **kwargs)
