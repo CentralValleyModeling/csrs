@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 
+import httpx
 import pandss as pdss
 from sqlalchemy.exc import IntegrityError
 
@@ -29,7 +30,7 @@ class RemoteClient(Client):
         >>> client = csrs.RemoteClient(url)
         ```
         """
-        self.actor = Client(base_url=base_url, **kwargs)
+        self.actor = httpx.Client(base_url=base_url, **kwargs)
         self.logger = logging.getLogger(__name__)
 
     def __str__(self) -> str:
