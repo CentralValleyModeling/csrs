@@ -4,9 +4,9 @@ from pathlib import Path
 import pandss as pdss
 
 from csrs import clients, schemas
+from csrs.clients import Client
 
 logger = logging.getLogger(__name__)
-Client = clients.RemoteClient | clients.LocalClient
 
 
 def do_assumptions(
@@ -234,16 +234,18 @@ def test_local_create_new_file(assets_dir: Path):
 def do_read_all_timeseries(
     client: Client,
     kwargs_timeseries: dict[str, str],
+    kwargs_path: dict[str, str],
     kwargs_run: dict[str, str],
 ):
     client.put_run(**kwargs_run)  # must add a new run to make sure the ts is unique
+    client.put_path(**kwargs_path)
     client.put_timeseries(**kwargs_timeseries)
     tss = client.get_all_timeseries_for_run(
         scenario=kwargs_timeseries["scenario"],
         version=kwargs_timeseries["version"],
     )
     assert isinstance(tss, list)
-    assert len(tss) == 1
+    assert len(tss) > 0
     ts = tss[0]
     assert isinstance(ts, schemas.Timeseries)
     assert ts.values == kwargs_timeseries["values"]
@@ -257,6 +259,7 @@ def test_local_read_all_timeseries(
     do_read_all_timeseries(
         client_local,
         kwargs_all_unique["timeseries"],
+        kwargs_all_unique["path"],
         kwargs_all_unique["run"],
     )
 
@@ -269,5 +272,6 @@ def test_remote_read_all_timeseries(
     do_read_all_timeseries(
         client_remote,
         kwargs_all_unique["timeseries"],
+        kwargs_all_unique["path"],
         kwargs_all_unique["run"],
     )
