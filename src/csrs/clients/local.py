@@ -56,7 +56,10 @@ class LocalClient(Client):
         name: str = None,
         id: int = None,
     ) -> list[schemas.Assumption]:
-        return crud.assumptions.read(db=self.session, kind=kind, name=name, id=id)
+        try:
+            return crud.assumptions.read(db=self.session, kind=kind, name=name, id=id)
+        except errors.EmptyLookupError:
+            return []
 
     def get_scenario(
         self,
@@ -64,7 +67,10 @@ class LocalClient(Client):
         name: str = None,
         id: int = None,
     ) -> list[schemas.Scenario]:
-        return crud.scenarios.read(db=self.session, name=name, id=id)
+        try:
+            return crud.scenarios.read(db=self.session, name=name, id=id)
+        except errors.EmptyLookupError:
+            return []
 
     def get_run(
         self,
@@ -74,13 +80,16 @@ class LocalClient(Client):
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Run]:
-        return crud.runs.read(
-            db=self.session,
-            scenario=scenario,
-            version=version,
-            code_version=code_version,
-            id=id,
-        )
+        try:
+            return crud.runs.read(
+                db=self.session,
+                scenario=scenario,
+                version=version,
+                code_version=code_version,
+                id=id,
+            )
+        except errors.EmptyLookupError:
+            return []
 
     def get_path(
         self,
@@ -90,13 +99,16 @@ class LocalClient(Client):
         category: str = None,
         id: str = None,
     ) -> list[schemas.NamedPath]:
-        return crud.paths.read(
-            db=self.session,
-            name=name,
-            path=path,
-            category=category,
-            id=id,
-        )
+        try:
+            return crud.paths.read(
+                db=self.session,
+                name=name,
+                path=path,
+                category=category,
+                id=id,
+            )
+        except errors.EmptyLookupError:
+            return []
 
     def get_timeseries(
         self,
