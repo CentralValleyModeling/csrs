@@ -1,14 +1,15 @@
 import logging
 from pathlib import Path
 
+import httpx
 import pandss as pdss
-from httpx import Client
 from sqlalchemy.exc import IntegrityError
 
 from .. import enums, schemas
+from .base import Client
 
 
-class RemoteClient:
+class RemoteClient(Client):
     """Client used to interact with a remote Results Server."""
 
     def __init__(self, base_url: str, **kwargs):
@@ -29,7 +30,7 @@ class RemoteClient:
         >>> client = csrs.RemoteClient(url)
         ```
         """
-        self.actor = Client(base_url=base_url, **kwargs)
+        self.actor = httpx.Client(base_url=base_url, **kwargs)
         self.logger = logging.getLogger(__name__)
 
     def __str__(self) -> str:
@@ -37,21 +38,6 @@ class RemoteClient:
 
     # GET
     def get_assumption_names(self) -> tuple[str]:
-        """Get the list of assumption categories that each scenario requires.
-
-        Returns
-        -------
-        list[str]
-            A list of names of assumption categories
-
-        Example
-        -------
-        ```python-repl
-        >>> client.get_assumption_names()
-        ["land_use", "hydrology", "sea_level_rise"]
-        ```
-
-        """
         url = "/assumptions/names"
         response = self.actor.get(url)
         response.raise_for_status()
@@ -64,35 +50,6 @@ class RemoteClient:
         name: str = None,
         id: int = None,
     ) -> list[schemas.Assumption]:
-        """Get the `Assumption` objects that match the information provided.
-
-        If no arguments are given, all Assumption objects in the database will be
-        returned.
-
-        Parameters
-        ----------
-        kind : str, optional
-            Matches against `Assumption.kind`, use `get_assumption_names` to get the
-            full list of assumption types, by default None
-        name : str, optional
-            Matches against `Assumption.name`. If provided, this method will return at
-            most one `Assumption` object, by default None
-        id : int, optional
-            Matches against `Assumption.id`. If provided, this method will return at
-            most one `Assumption` object, by default None
-
-        Returns
-        -------
-        list[schemas.Assumption]
-            All of the `Assumption` objects that were matched.
-
-        Example
-        -------
-        ```python-repl
-        >>> client.get_assumption(kind="hydrolgy")
-        [Assumption(name=hist, kind=hydrology), Assumption(name=future, kind=hydrology)]
-        ```
-        """
         url = "/assumptions"
         params = dict(kind=kind, name=name, id=id)
         params = {k: v for k, v in params.items() if v}
@@ -106,23 +63,6 @@ class RemoteClient:
         name: str = None,
         id: int = None,
     ) -> list[schemas.Scenario]:
-        """Get the `Scenario` objects that match the information provided.
-
-        Parameters
-        ----------
-        name : str, optional
-            Matches against `Scenario.name`. If provided, this method will return at
-            most one `Scenario` object, by default None
-        id : int, optional
-            Matches against `Scenario.id`. If provided, this method will return at most
-            one `Scenario` object, by default None
-
-        Returns
-        -------
-        list[schemas.Scenario]
-            All of the `Scenario` objects that were matched.
-        """
-
         url = "/scenarios"
         params = dict(name=name, id=id)
         params = {k: v for k, v in params.items() if v}
@@ -138,27 +78,6 @@ class RemoteClient:
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Run]:
-        """Get the `Run` objects that match the information provided.
-
-        Parameters
-        ----------
-        scenario : str, optional
-            Matches against `Run.scenario`, by default None
-        version : str, optional
-            Matches against `Run.version`. If provided, this method will return at most
-            one `Run` object, by default None
-        code_version : str, optional
-            Matches against `Run.code_version`, by default None
-        id : int, optional
-            Matches against `Run.id`. If provided, this method will return at most one
-            `Run` object, by default None
-
-        Returns
-        -------
-        list[schemas.Run]
-            All of the `Run` objects that were matched.
-        """
-
         url = "/runs"
         params = dict(
             scenario=scenario,
@@ -179,28 +98,6 @@ class RemoteClient:
         category: str = None,
         id: str = None,
     ) -> list[schemas.NamedPath]:
-        """Get the `NamedPath` objects that match the information provided.
-
-        Parameters
-        ----------
-        name : str, optional
-            Matches against `NamedPath.name`. If provided, this method will return at
-            most one `NamedPath` object, by default None
-        path : str, optional
-            Matches against `NamedPath.path`. If provided, this method will return at
-            most one `NamedPath` object, by default None
-        category : str, optional
-            Matches against `NamedPath.category`, by default None
-        id : str, optional
-            Matches against `NamedPath.id`. If provided this method will return at most
-            one `NamedPath` object, by default None
-
-        Returns
-        -------
-        list[schemas.NamedPath]
-            All of the `NamedPath` objects that were matched.
-        """
-
         url = "/paths"
         params = dict(
             name=name,
@@ -220,26 +117,6 @@ class RemoteClient:
         version: str,
         path: str,
     ) -> schemas.Timeseries:
-        """Get the `Timeseries` object that matches the information provided.
-
-        Parameters
-        ----------
-        scenario : str
-            Matches against `Run.scenario`. If provided this method will return at most
-            one `Timeseries` object
-        version : str
-            Matches against `Run.version`. If provided this method will return at most
-            one `Timeseries` object
-        path : str
-            Matches against `Timeseries.path`. If provided this method will return at
-            most one `Timeseries` object
-
-        Returns
-        -------
-        schemas.Timeseries
-            The `Timeseries` object matched
-        """
-
         url = "/timeseries"
         params = dict(
             scenario=scenario,
@@ -251,6 +128,63 @@ class RemoteClient:
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
 
+    def get_timeseries_from_dss(
+        self,
+        dss: Path,
+        scenario: str,
+        version: str,
+        paths: list[schemas.NamedPath] | None = None,
+    ) -> list[schemas.Timeseries]:
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
+                    continue
+                if len(rtss) == 0:
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    self.logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                ts.path = p.path  # Use the path from the database, not in the dss
+                tss.append(ts)
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
+        return tss
+
+    def get_all_timeseries_for_run(
+        self,
+        *,
+        scenario: str,
+        version: str,
+    ) -> list[schemas.Timeseries]:
+        url = "/timeseries/all"
+        params = dict(
+            scenario=scenario,
+            version=version,
+        )
+        params = {k: v for k, v in params.items() if v}
+        response = self.actor.get(url, params=params)
+        response.raise_for_status()
+        return [schemas.Timeseries.model_validate(ts) for ts in response.json()]
+
     # PUT
 
     def put_assumption(
@@ -260,25 +194,8 @@ class RemoteClient:
         kind: str,
         detail: str,
     ) -> schemas.Assumption:
-        """Create a new `Assumption` on the results server.
-
-        Parameters
-        ----------
-        name : str
-            The name of the `Assumption`
-        kind : str
-            The type of `Assumption`, should be a member of `csrs.enums.AssumptionEnum`
-        detail : str
-            A description and metadata for the assumption.
-
-        Returns
-        -------
-        schemas.Assumption
-            The `Assumption` object created
-        """
-
-        obj = schemas.Assumption(name=name, kind=kind, detail=detail)
         url = "/assumptions"
+        obj = schemas.Assumption(name=name, kind=kind, detail=detail)
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Assumption.model_validate(response.json())
@@ -289,22 +206,8 @@ class RemoteClient:
         name: str,
         assumptions: dict[str, str],
     ) -> schemas.Scenario:
-        """Create a new `Scenario` on the results server.
-
-        Parameters
-        ----------
-        name : str
-            Value to assign to `Scenario.name`, should be easy to read, must be unique.
-        assumptions: dict[str, str]
-            Dictionary of assumption kinds to assumption names
-
-        Returns
-        -------
-        schemas.Scenario
-            The `Scenario` object created in the database.
-        """
-        obj = schemas.Scenario(name=name, assumptions=assumptions)
         url = "/scenarios"
+        obj = schemas.Scenario(name=name, assumptions=assumptions)
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Scenario.model_validate(response.json())
@@ -324,42 +227,6 @@ class RemoteClient:
         published: bool = False,
         prefer_this_version: bool = True,
     ) -> schemas.Run:
-        """Create a new `Run` on the results server.
-
-        Parameters
-        ----------
-        scenario : str
-            The name of the `Scenario` this `Run` should be assigned to.
-        version : str
-            The `version` of this run in the `Scenario` context, suggested to follow the
-            `major.minor` pattern.
-        contact : str
-            Contact information for the modeler knowledgable about the run results.
-        code_version : str
-            The version of the code base, will likely differ from the `Run.version`.
-        detail : str
-            A description of the run, and it's purpose. This is where metadata regarding
-            the `Run`, it's results, and it's changes compared to it's parents should be
-            written.
-        parent : str | None, optional
-            The `Run` that this version was based on, by default None
-        children : tuple[str, ...], optional
-            The `Run` objects that are immediately based on this `Run`, usually not
-            specified on __init__, by default tuple()
-        confidential : bool, optional
-            Whether or not this `Run` data is confidential, by default True
-        published : bool, optional
-            Whether or not this `Run` data has been published, by default False
-        prefer_this_version : bool, optional
-            Each `Scenario` prefers a single `Run`, if this is `True` the `Scenario` ]
-            will be updated to prefer this new `Run`, by default True
-
-        Returns
-        -------
-        schemas.Run
-            The newly created `Run` object
-        """
-
         obj = schemas.Run(
             scenario=scenario,
             version=version,
@@ -389,31 +256,6 @@ class RemoteClient:
         units: str,
         detail: str,
     ) -> schemas.NamedPath:
-        """Create a new `NamedPath` on the results server.
-
-        Parameters
-        ----------
-        name : str
-            The name of the path, should be easy to read, and unique
-        path : str
-            The A-F DSS path corresponding to the NamedPath data
-        category : str
-            A category to help organize similar paths
-        period_type : str
-            The `period_type` of the DSS timeseries
-        interval : str
-            The `interval` of the DSS timeseries
-        units : str
-            The `units` of the DSS timeseries
-        detail : str
-            A description of, and metadata for the data represented by the path
-
-        Returns
-        -------
-        schemas.NamedPath
-            The `NamedPath` object created
-        """
-
         obj = schemas.NamedPath(
             name=name,
             path=path,
@@ -468,32 +310,6 @@ class RemoteClient:
         units: str,
         interval: str,
     ) -> schemas.Timeseries:
-        """Create a new `Timeseries` on the results server
-
-        Parameters
-        ----------
-        scenario : str
-            The name of the `Scenario` that this data should be assigned to
-        version : str
-            The verson of the `Run` that this data should be assigned to
-        path : str | pdss.DatasetPath
-            The path of the `NamedPath` that this data should be assigned to
-        values : tuple[float, ...]
-            The values for the timeseries
-        dates : tuple[str, ...]
-            The ISO formatted dates for the timeseries
-        period_type : str
-            The `period_type` of the DSS data for the timeseries
-        units : str
-            The `units` of the DSS data for the timeseries
-        interval : str
-            The `interval` of the DSS data for the timeseries
-
-        Returns
-        -------
-        schemas.Timeseries
-            The `Timeseries` object that was created
-        """
         obj = schemas.Timeseries(
             scenario=scenario,
             version=version,
@@ -508,47 +324,6 @@ class RemoteClient:
         response = self.actor.put(url, json=obj.model_dump(mode="json"))
         response.raise_for_status()
         return schemas.Timeseries.model_validate(response.json())
-
-    def get_timeseries_from_dss(
-        self,
-        dss: Path,
-        scenario: str,
-        version: str,
-        paths: list[schemas.NamedPath] | None = None,
-    ) -> list[schemas.Timeseries]:
-        if paths is None:
-            paths = self.get_path()
-        tss = list()
-        with pdss.DSS(dss) as dss_obj:
-            for p in paths:
-                try:
-                    rtss = list(dss_obj.read_multiple_rts(p.path))
-                except Exception as e:
-                    self.logger.error(
-                        f"{type(e)} when reading {p.path} in {dss}, skipping"
-                    )
-                    continue
-                if len(rtss) == 0:
-                    self.logger.warning(f"no datasets match {p.path} in {dss}")
-                    continue
-                elif len(rtss) > 1:
-                    self.logger.warning(
-                        f"multiple datasets match {p.path} in {dss}, "
-                        + "skipping both to avoid conflicts"
-                    )
-                    continue
-                rts = rtss[0]
-                ts = schemas.Timeseries.from_pandss(
-                    scenario=scenario,
-                    version=version,
-                    rts=rts,
-                )
-                ts.path = p.path  # Use the path from the database, not in the dss
-                tss.append(ts)
-        self.logger.info(
-            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
-        )
-        return tss
 
     def put_many_timeseries(
         self,

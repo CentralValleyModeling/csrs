@@ -1,12 +1,13 @@
 import logging
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 import pandss as pdss
 
 from csrs import clients, schemas
+from csrs.clients import Client
 
 logger = logging.getLogger(__name__)
-Client = clients.RemoteClient | clients.LocalClient
 
 
 def do_assumptions(
@@ -229,3 +230,76 @@ def test_local_create_new_file(assets_dir: Path):
     assert f.exists()
     client.close()
     f.unlink()
+
+
+def do_read_all_timeseries(
+    client: Client,
+    kwargs_timeseries: dict[str, str],
+    kwargs_path: dict[str, str],
+    kwargs_run: dict[str, str],
+):
+    client.put_run(**kwargs_run)  # must add a new run to make sure the ts is unique
+    client.put_path(**kwargs_path)
+    client.put_timeseries(**kwargs_timeseries)
+    tss = client.get_all_timeseries_for_run(
+        scenario=kwargs_timeseries["scenario"],
+        version=kwargs_timeseries["version"],
+    )
+    assert isinstance(tss, list)
+    assert len(tss) > 0
+    ts = tss[0]
+    assert isinstance(ts, schemas.Timeseries)
+    assert ts.values == kwargs_timeseries["values"]
+
+
+def test_local_read_all_timeseries(
+    client_local: clients.LocalClient,
+    kwargs_all_unique: dict[str, dict[str, str]],
+):
+    logger.debug("starting test")
+    do_read_all_timeseries(
+        client_local,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["path"],
+        kwargs_all_unique["run"],
+    )
+
+
+def test_remote_read_all_timeseries(
+    client_remote: clients.RemoteClient,
+    kwargs_all_unique: dict[str, dict[str, str]],
+):
+    logger.debug("starting test")
+    do_read_all_timeseries(
+        client_remote,
+        kwargs_all_unique["timeseries"],
+        kwargs_all_unique["path"],
+        kwargs_all_unique["run"],
+    )
+
+
+def test_to_and_from_json(client_local: clients.LocalClient, assets_dir: Path):
+    with TemporaryDirectory(dir=assets_dir) as tmpdir:
+        tmpdir = Path(tmpdir)
+        json_file = tmpdir / "to.json"
+        with open(json_file, "w") as DST:
+            client_local.dump(DST)
+        new_local = clients.LocalClient(db_path=tmpdir / "from.db")
+        with open(json_file, "r") as SRC:
+            new_local.load(SRC)
+        # Test that the results are the same on both sides
+        assert len(new_local.get_scenario()) == len(client_local.get_scenario())
+        assert len(new_local.get_run()) == len(client_local.get_run())
+        assert len(new_local.get_path()) == len(client_local.get_path())
+        for r in client_local.get_run():
+            assert len(
+                new_local.get_all_timeseries_for_run(
+                    scenario=r.scenario, version=r.version
+                )
+            ) == len(
+                client_local.get_all_timeseries_for_run(
+                    scenario=r.scenario,
+                    version=r.version,
+                )
+            )
+        new_local.close()

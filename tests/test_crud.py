@@ -79,6 +79,18 @@ def test_read_timeseries(database):
     assert len(obj.values) == 1_200
 
 
+def test_read_all_timeseries(database):
+    obj = crud.timeseries.read_all_for_run(
+        scenario="testing-scenario-existing",
+        version="0.0",
+        db=database,
+    )
+    assert isinstance(obj, list)
+    assert len(obj) == 1
+    assert isinstance(obj[0], schemas.Timeseries)
+    assert len(obj[0].values) == 1_200
+
+
 def test_create_timeseries_from_dss(database, dss):
     # timeseries
     catalog = pdss.read_catalog(dss)
