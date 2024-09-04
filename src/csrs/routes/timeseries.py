@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
-from ..errors import UniqueLookupError
+from ..errors import EmptyLookupError, UniqueLookupError
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
 logger = logging.getLogger(__name__)
@@ -42,12 +42,14 @@ async def get_all_timeseries_for_run(
     db: Session = Depends(get_db),
 ):
     logger.info(f"getting all timeseries for run, filters {scenario=}, {version=}")
-    tss = crud.timeseries.read_all_for_run(
-        db=db,
-        scenario=scenario,
-        version=version,
-    )
-
+    try:
+        tss = crud.timeseries.read_all_for_run(
+            db=db,
+            scenario=scenario,
+            version=version,
+        )
+    except EmptyLookupError:
+        tss = []
     logger.info(f"{len(tss)} timeseries found")
     return tss
 

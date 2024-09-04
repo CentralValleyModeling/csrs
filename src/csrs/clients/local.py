@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from .. import crud, enums, models, schemas
+from .. import crud, enums, errors, models, schemas
 from .base import Client
 
 
@@ -159,11 +159,14 @@ class LocalClient(Client):
         scenario: str,
         version: str,
     ) -> list[schemas.Timeseries]:
-        return crud.timeseries.read_all_for_run(
-            self.session,
-            scenario=scenario,
-            version=version,
-        )
+        try:
+            return crud.timeseries.read_all_for_run(
+                self.session,
+                scenario=scenario,
+                version=version,
+            )
+        except errors.EmptyLookupError:
+            return []
 
     # PUT
     def put_assumption(
