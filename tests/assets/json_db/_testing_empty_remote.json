@@ -1,0 +1,2149 @@
+{
+    "assumptions": [
+        {
+            "name": "testing-assumption-new-2858416591728",
+            "kind": "testing",
+            "detail": "testing assumption, with unique id 2858416591728"
+        }
+    ],
+    "scenarios": [],
+    "paths": [
+        {
+            "name": "testing-path-new-2858416595088",
+            "path": "/CSRS/TESTING_NEW_2858416595088/TESTING/.*/1MON/2024/",
+            "category": "testing",
+            "detail": "A testing path meant to be created during a test, with a unique id: 2858416595088",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "Dos Amigos Pumping Plant",
+            "path": "/.*/C_CAA087/CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Dos Amigos",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Dos Amigos Pumping Plant (CVP)",
+            "path": "/.*/C_CAA087_CVP/CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Dos Amigos CVP",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Dos Amigos Pumping Plant (SWP)",
+            "path": "/.*/C_CAA087_SWP/CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Dos Amigos SWP",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CAA at Panoche Bowl (Pool 17)",
+            "path": "/.*/C_CAA122/CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Panoche Bowl pool 17",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CAA at Los Gatos Bowl (Pool 20)",
+            "path": "/.*/C_CAA156/CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Los Gatos Bowl, pool 20",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CAA at Kern Bowl (Pool 24)",
+            "path": "/.*/C_CAA207/FLOW-CHANNEL/.*/.*/.*/",
+            "category": "caa",
+            "detail": "CAA - Kern Bowl, pool 24",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Allocation (NOD Ag)",
+            "path": "/.*/PERDV_CVPAG_SYS/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (NOD Ag)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (NOD M&I)",
+            "path": "/.*/PERDV_CVPMI_SYS/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (NOD M&I)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (NOD RF)",
+            "path": "/.*/PERDV_CVPRF_SYS/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (NOD RF)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (NOD SC)",
+            "path": "/.*/PERDV_CVPSC_SYS/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (NOD SC)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (SOD Ag)",
+            "path": "/.*/PERDV_CVPAG_S/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (SOD Ag)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (SOD EX)",
+            "path": "/.*/PERDV_CVPEX_S/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (SOD EX)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (SOD M&I)",
+            "path": "/.*/PERDV_CVPMI_S/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (SOD M&I)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Allocation (SOD RF)",
+            "path": "/.*/PERDV_CVPRF_S/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Allocation (SOD RF)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "CVP Delivery American River",
+            "path": "/.*/DEL_CVP_P_AMER/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery American",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery NOD",
+            "path": "/.*/DEL_CVP_TOTAL_N/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery NOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PAG North",
+            "path": "/.*/DEL_CVP_PAG_N/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PAG N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PAG South",
+            "path": "/.*/DEL_CVP_PAG_S/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PAG S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PEX South",
+            "path": "/.*/DEL_CVP_PEX_S/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PEX S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PMI North",
+            "path": "/.*/DEL_CVP_PMI_N/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PMI N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PMI North with American River",
+            "path": "/.*/DEL_CVP_PMI_W_AMER/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PMI N with Amer",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PMI South",
+            "path": "/.*/DEL_CVP_PMI_S/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PMI S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PRF North",
+            "path": "/.*/DEL_CVP_PRF_N/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PRF N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PRF South",
+            "path": "/.*/DEL_CVP_PRF_S/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PRF S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery PSC North",
+            "path": "/.*/DEL_CVP_PSC_N/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery PSC N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery SOD",
+            "path": "/.*/CVPTOTALDEL/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery SOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Delivery SOD no CVC",
+            "path": "/.*/DEL_CVP_TOTAL_S/DELIVERY-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - CVP Delivery SOD no CVC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Shortage (North)",
+            "path": "/.*/SHORT_CVP_TOT_N/DELIVERY-SHORTAGE-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SHORT_CVP_TOT_N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CVP Shortage (South)",
+            "path": "/.*/SHORT_CVP_TOT_S/DELIVERY-SHORTAGE-CVP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SHORT_CVP_TOT_S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Carryover Available",
+            "path": "/.*/CO_AVAILABLE_DV/CARRYOVER/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP CO available",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Carryover Estimated",
+            "path": "/.*/CO_EST_DV/SWP-OUTPUT/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP CO est",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Carryover Final",
+            "path": "/.*/CO_FINAL_DV/CARRYOVER/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP CO final",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Delivery Target (Table A)",
+            "path": "/.*/DELTAR_A_DV/SWP-OUTPUT/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP Del Target TA",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Delivery Target (Table A + Carryover)",
+            "path": "/.*/DELTARDV_TOTAL/SWP-OUTPUT/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP Del Target TA + CO",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Delivery (%)",
+            "path": "/.*/SWP_PERDELDV/SWP-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP PERCENT DELIVERY",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "SWP Var Demand Deltar",
+            "path": "/.*/VARDELTARDV/SWP-OUTPUT/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP Var Demand Deltar",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Carryover (Feather River)",
+            "path": "/.*/SWP_CO_FEATH/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_CO_FEATH",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Carryover (North Bay)",
+            "path": "/.*/SWP_CO_NBAY/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_CO_NBAY",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Carryover Total",
+            "path": "/.*/SWP_CO_TOTAL/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_CO_TOTAL",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Article 21 (Feather)",
+            "path": "/.*/SWP_IN_FEATH/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_IN_FEATH",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Article 21 (North Bay)",
+            "path": "/.*/SWP_IN_NBAY/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_IN_NBAY",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Article 21 Total",
+            "path": "/.*/SWP_IN_TOTAL/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_IN_TOTAL",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Losses",
+            "path": "/.*/SWP_LOSS/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_LOSS",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Table A (Feather)",
+            "path": "/.*/SWP_TA_FEATH/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_TA_FEATH",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Table A (North Bay)",
+            "path": "/.*/SWP_TA_NBAY/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_TA_NBAY",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Table A Total",
+            "path": "/.*/SWP_TA_TOTAL/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_TA_TOTAL",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWPTable A (Unused)",
+            "path": "/.*/UNUSED_TOTALDV/SWP-OUTPUT/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP_UNUSED_TA_TOTAL",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "SWP Table A SOD",
+            "path": "/.*/SWP_TA_SOD/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP TA SOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Carryover SOD",
+            "path": "/.*/SWP_CO_SOD/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP CO SOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Article 21 SOD",
+            "path": "/.*/SWP_IN_SOD/SWP_DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP IN SOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Total",
+            "path": "/.*/SWPTOTALDEL/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Delivery - SWP Total",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Shortage",
+            "path": "/.*/SHORT_SWP_TOTA/DELIVERY-SHORTAGE-SWP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Other - SHORT_SWP_TOTAL",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "SWP Allocation (FRSA)",
+            "path": "/.*/PERDV_SWP_FSC/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Other - SWP Allocation (FRSA)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "SWP Allocation (M&I)",
+            "path": "/.*/PERDV_SWP_MWD1/PERCENT-DELIVERY/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Other - SWP Allocation (M&I)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "SWP Delivery Int",
+            "path": "/.*/DEL_SWP_PIN/DELIVERY-SWP/.*/.*/.*/",
+            "category": "delivery",
+            "detail": "Other - SWP Delivery Int",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Exports (CVP)",
+            "path": "/.*/C_CAA003_CVP/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Banks CVP Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export (CVC)",
+            "path": "/.*/C_CAA003_CVC/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Banks Export Cross Valley Pumping",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Exports Total",
+            "path": "/.*/D_OMR027_CAA000/DIVERSION/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Banks Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Exports (SWP)",
+            "path": "/.*/C_CAA003_SWP/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Banks SWP Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "CCWD Exports",
+            "path": "/.*/D408/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - CCWD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Delta Inflow (NDOI)",
+            "path": "/.*/DELTAINFLOWFORNDOI/FLOW/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Delta Inflow (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Delta Outflow (NDOI)",
+            "path": "/.*/NDOI/FLOW/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Delta Outflow (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Delta Cross Channel Flow",
+            "path": "/.*/D_SAC030_MOK014/DIVERSION/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - DXC Flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Excess Outflow (NDOI)",
+            "path": "/.*/NDOI_ADD/FLOW/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Excess Outflow (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Excess Outflow ANN (NDOI)",
+            "path": "/.*/NDOI_ADD_ANN/FLOW-CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Excess Outflow ANN (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Excess Outflow CVP (NDOI)",
+            "path": "/.*/NDOI_ADD_CVP/FLOW-CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Excess Outflow CVP (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Excess Outflow SWP (NDOI)",
+            "path": "/.*/NDOI_ADD_SWP/FLOW-CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Excess Outflow SWP (NDOI)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Flow at Georgiana Slough",
+            "path": "/.*/C_SAC029B/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Flow at Georgiana Slough",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Flow at Rio Vista",
+            "path": "/.*/C_SAC017/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Flow at Rio Vista",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Flow below Delta Cross Channel",
+            "path": "/.*/C_SAC030/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Flow below DXC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones Exports",
+            "path": "/.*/D_OMR028_DMC000/DIVERSION/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Jones Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Modeled Required Delta Outflow",
+            "path": "/.*/MRDO_FINALDV/FLOW-REQ-MRDO/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Modeled Required DO",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "North Bay Aqueduct Exports",
+            "path": "/.*/C_CSL004B/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - North Bay Aqueduct",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Old and Middle River flow",
+            "path": "/.*/C_OMR014/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Old and Middle River flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "QWestFlow",
+            "path": "/.*/QWESTFLOW/FLOW-CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - QWestFlow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Required Delta Outflow",
+            "path": "/.*/NDOI_MIN/FLOW/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Required Delta Outflow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow at Freeport",
+            "path": "/.*/C_SAC048/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Sac Flow at Freeport",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Total NDD Exports",
+            "path": "/.*/EXPORTACTUALIF/EXPORT-PRJ/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Total NDD Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Total TD Exports",
+            "path": "/.*/EXPORTACTUALTD/EXPORT-PRJ/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Total TD Exports",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Exports Total (CVP+SWP)",
+            "path": "/.*/TOTAL_EXP/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Exports Total (CVP+SWP)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sac Flow at Freeport (above WTP)",
+            "path": "/.*/C_SAC049/CHANNEL/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Sac Flow at Freeport (above WTP)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "True Surplus Outflow",
+            "path": "/.*/True_Surplus_DV/outflow metric/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - True Surplus Outflow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Carriage Water Outflow",
+            "path": "/.*/Salinity_CW_outflow_DV/outflow metric/.*/.*/.*/",
+            "category": "delta",
+            "detail": "Delta - Carriage Water  Outflow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export CVP Dedicated",
+            "path": "/.*/C_CAA003_CVPDED/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks Export CVP Dedicated",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export Fed Share",
+            "path": "/.*/C_CAA003_EXP2/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks Export Fed Share",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export JPOD",
+            "path": "/.*/C_CAA003_CVPWHL/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks Export JPOD",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export State Share",
+            "path": "/.*/C_CAA003_EXP1/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks Export State Share",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks Export WTS",
+            "path": "/.*/C_CAA003_WTS/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks Export WTS",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks PP North Delta",
+            "path": "/.*/C_CAA003_IF/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks PP North Delta",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks PP SWP Through Delta",
+            "path": "/.*/C_CAA003_SWP_TD/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks PP SWP Through Delta",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Banks PP Through Delta",
+            "path": "/.*/C_CAA003_TD/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Banks PP Through Delta",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones Export Fed Share",
+            "path": "/.*/C_DMC000_EXP1/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Jones Export Fed Share",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones Export State Share",
+            "path": "/.*/C_DMC000_EXP2/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Jones Export State Share",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones Export WTS",
+            "path": "/.*/C_DMC000_WTS/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Jones Export WTS",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones PP North Delta",
+            "path": "/.*/C_DMC000_IF/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Jones PP North Delta",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Jones PP Through Delta",
+            "path": "/.*/C_DMC000_TD/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "exports",
+            "detail": "Other - Jones PP Through Delta",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 10 Pumping",
+            "path": "/.*/GP_WBATOTAL_10/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_10",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 11 Pumping",
+            "path": "/.*/GP_WBATOTAL_11/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_11",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 12 Pumping",
+            "path": "/.*/GP_WBATOTAL_12/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_12",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 13 Pumping",
+            "path": "/.*/GP_WBATOTAL_13/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_13",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 14 Pumping",
+            "path": "/.*/GP_WBATOTAL_14/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_14",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 15N Pumping",
+            "path": "/.*/GP_WBATOTAL_15N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_15N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 15S Pumping",
+            "path": "/.*/GP_WBATOTAL_15S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_15S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 16 Pumping",
+            "path": "/.*/GP_WBATOTAL_16/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_16",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 17N Pumping",
+            "path": "/.*/GP_WBATOTAL_17N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_17N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 17S Pumping",
+            "path": "/.*/GP_WBATOTAL_17S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_17S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 18 Pumping",
+            "path": "/.*/GP_WBATOTAL_18/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_18",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 19 Pumping",
+            "path": "/.*/GP_WBATOTAL_19/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_19",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 2 Pumping",
+            "path": "/.*/GP_WBATOTAL_2/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_2",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 20 Pumping",
+            "path": "/.*/GP_WBATOTAL_20/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_20",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 21 Pumping",
+            "path": "/.*/GP_WBATOTAL_21/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_21",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 22 Pumping",
+            "path": "/.*/GP_WBATOTAL_22/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_22",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 23 Pumping",
+            "path": "/.*/GP_WBATOTAL_23/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_23",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 24 Pumping",
+            "path": "/.*/GP_WBATOTAL_24/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_24",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 25 Pumping",
+            "path": "/.*/GP_WBATOTAL_25/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_25",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 26N Pumping",
+            "path": "/.*/GP_WBATOTAL_26N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_26N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 26S Pumping",
+            "path": "/.*/GP_WBATOTAL_26S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_26S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 3 Pumping",
+            "path": "/.*/GP_WBATOTAL_3/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_3",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 4 Pumping",
+            "path": "/.*/GP_WBATOTAL_4/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_4",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 5 Pumping",
+            "path": "/.*/GP_WBATOTAL_5/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_5",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 50 Pumping",
+            "path": "/.*/GP_WBATOTAL_50/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_50",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 6 Pumping",
+            "path": "/.*/GP_WBATOTAL_6/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_6",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 60N Pumping",
+            "path": "/.*/GP_WBATOTAL_60N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_60N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 60S Pumping",
+            "path": "/.*/GP_WBATOTAL_60S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_60S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 61 Pumping",
+            "path": "/.*/GP_WBATOTAL_61/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_61",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 62 Pumping",
+            "path": "/.*/GP_WBATOTAL_62/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_62",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 63 Pumping",
+            "path": "/.*/GP_WBATOTAL_63/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_63",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 64 Pumping",
+            "path": "/.*/GP_WBATOTAL_64/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_64",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 71 Pumping",
+            "path": "/.*/GP_WBATOTAL_71/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_71",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 72 Pumping",
+            "path": "/.*/GP_WBATOTAL_72/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_72",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 73 Pumping",
+            "path": "/.*/GP_WBATOTAL_73/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_73",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 7N Pumping",
+            "path": "/.*/GP_WBATOTAL_7N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_7N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 7S Pumping",
+            "path": "/.*/GP_WBATOTAL_7S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_7S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 8N Pumping",
+            "path": "/.*/GP_WBATOTAL_8N/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_8N",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 8S Pumping",
+            "path": "/.*/GP_WBATOTAL_8S/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_8S",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 9 Pumping",
+            "path": "/.*/GP_WBATOTAL_9/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_9",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 90 Pumping",
+            "path": "/.*/GP_WBATOTAL_90/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_90",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "WBA 91 Pumping",
+            "path": "/.*/GP_WBATOTAL_91/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - WBATOTAL_91",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Total Sacramento Basin Pumping",
+            "path": "/.*/GP_SACWBA/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - Sacramento Basin",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Total San Joaquin Basin Pumping",
+            "path": "/.*/GP_SJRWBA/GW-PUMPING/.*/.*/.*/",
+            "category": "gw pumping",
+            "detail": "GW Pumping - San Joaquin Basin",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Delta Cross Channel Days Open",
+            "path": "/.*/DXC/GATE-DAYS-OPEN/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - DCC gate days open",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "E.I. Ratio",
+            "path": "/.*/EXPRATIO_/EI-RATIO-STD/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - EI RATIO",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "Diversion to Hamilton City",
+            "path": "/.*/D_SAC207_GCC007/DIVERSION/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - Hamilton City (diversion)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Diversion to Red Bluff Diversion Dam",
+            "path": "/.*/D_SAC240_TCC001/DIVERSION/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - Red Bluff Diversion Dam (diversion)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "RPA Constraint (Banks)",
+            "path": "/.*/MAXEXP_RPA_SWPDV/EXPORT-LIMIT/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - RPA Constraint Banks",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "RPA Constraint (Jones)",
+            "path": "/.*/MAXEXP_RPA_CVPDV/EXPORT-LIMIT/.*/.*/.*/",
+            "category": "operations",
+            "detail": "Other - RPA Constraint Jones",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Brandt Bridge Electrical Conductivity",
+            "path": "/.*/BD_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - BD EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at CI",
+            "path": "/.*/CI_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - CI EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at CO",
+            "path": "/.*/CO_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - CO EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at Emmaton",
+            "path": "/.*/EM_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - EM EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at Jersey Point",
+            "path": "/.*/JP_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - JP EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at LV",
+            "path": "/.*/LV_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - LV EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at Middle River",
+            "path": "/.*/MR_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - MR EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at Rock Slough",
+            "path": "/.*/RS_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - RS EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity at VI",
+            "path": "/.*/VI_EC_MONTH/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - VI EC",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Previous X2 Position",
+            "path": "/.*/X2_PRV/X2-POSITION-PREV/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - X2 Position prev",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "KM"
+        },
+        {
+            "name": "Electrical Conductivity Standard at CO",
+            "path": "/.*/CO_EC_STD/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - CO EC standard",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity Standard at Emmaton",
+            "path": "/.*/EM_EC_STD/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - EM EC standard",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity Standard at Jersey Point",
+            "path": "/.*/JP_EC_STD/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - JP EC standard",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Electrical Conductivity Standard at Rock Slough",
+            "path": "/.*/RS_EC_STD/SALINITY/.*/.*/.*/",
+            "category": "salinity",
+            "detail": "Salinity - RS EC standard",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "UMHOS/CM"
+        },
+        {
+            "name": "Seepage from the Feather River Basin",
+            "path": "/.*/SG_FTRALL/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Feather River Basin",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Seepage from the Sacramento River above Bend Bridge",
+            "path": "/.*/SG_SACAB/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Sacramento River above Bend Bridge",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Seepage from the Sacramento River from Bend Bridge to Butte City",
+            "path": "/.*/SG_SACBB/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Sacramento River from Bend Bridge to Butte City",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Seepage from the Sacramento River from Butte City to Fremont Weir",
+            "path": "/.*/SG_SACFB/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Sacramento River from Butte City to Fremont Weir",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Seepage from the Sacramento River from Fremont Weir to Freeport, including the American River",
+            "path": "/.*/SG_SACAMR/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Sacramento River from Fremont Weir to Freeport (includes American)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Seepage from the Yolo Bypass, Putah Creek, and Cache Creek",
+            "path": "/.*/SG_YBPALL/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Yolo Bypass, Putah Creek, Cache Creek",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento Valley Total Seepage",
+            "path": "/.*/SG_SACBASIN/STREAM-GAIN/.*/.*/.*/",
+            "category": "seepage",
+            "detail": "Seepage - Sacramento Valley Total",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Additional South of Delta Storage",
+            "path": "/.*/S_SODSE/STORAGE/.*/.*/.*/",
+            "category": "sodse",
+            "detail": "SODSE - Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Allocation Increase due to South of Delta Storage",
+            "path": "/.*/SODSE_ALLOC_AUGMENT_/VOLUME-AUGMENTATION/.*/.*/.*/",
+            "category": "sodse",
+            "detail": "SODSE - Allocation increase",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Folsom Reservoir",
+            "path": "/.*/S_FOLSM/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Folsom Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Millerton Lake",
+            "path": "/.*/S_MLRTN/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Friant Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Lake McClure",
+            "path": "/.*/S_MCLRE/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - McClure Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in New Don Pedro Reservoir",
+            "path": "/.*/S_PEDRO/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - New Don Pedro Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in New Melones Lake",
+            "path": "/.*/S_MELON/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - New Melones Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Oroville Lake",
+            "path": "/.*/S_OROVL/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Oroville Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in San Luis Reservoir (CVP)",
+            "path": "/.*/S_SLUIS_CVP/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - San Luis Storage - CVP",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in San Luis Reservoir (SWP)",
+            "path": "/.*/S_SLUIS_SWP/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - San Luis Storage - SWP",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Shasta Reservoir",
+            "path": "/.*/S_SHSTA/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Shasta Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "San Luis Rule Curve (CVP)",
+            "path": "/.*/CVPRULECV/RULECURVE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - SL CVP Rule curve",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "San Luis Rule Curve (SWP)",
+            "path": "/.*/SWPRULECV/RULECURVE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - SL SWP Rule curve",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Trinity Lake",
+            "path": "/.*/S_TRNTY/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Trinity Storage",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in Whiskeytown Lake",
+            "path": "/.*/S_WKYTN/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - Whiskeytown",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Storage in San Luis Reservoir",
+            "path": "/.*/S_SLUIS/STORAGE/.*/.*/.*/",
+            "category": "storage",
+            "detail": "Storage - San Luis - total",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "TAF"
+        },
+        {
+            "name": "Feather River Flow below Thermolito",
+            "path": "/.*/C_FTR059/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Feather below Thermolito",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Feather River Flow above Fremont Weir",
+            "path": "/.*/C_FTR003/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - FeatherFlowAbvFremontWeir",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Feather River Low Flow",
+            "path": "/.*/C_FTR068/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - FeatherLowFlow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Feather River Flow at Yuba Confluence",
+            "path": "/.*/C_FTR031/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - FeatherYubaConfluence",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Fremont Weir Spills",
+            "path": "/.*/SP_SAC083_YBP037/RIVER-SPILLS/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Fremont Weir spills",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "American River Flow at H-Street",
+            "path": "/.*/C_AMR004/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - H-Street",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Merced River Flow (Mouth)",
+            "path": "/.*/C_MCD021/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - MercedMouth",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Mokelumne River Flow",
+            "path": "/.*/C_MOK022/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Mokelumne Flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Lake Natoma Release",
+            "path": "/.*/C_NTOMA/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-American Nimbus",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Clear Creek Release",
+            "path": "/.*/C_CLR011/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-ClearCreek",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Millerton Lake Release",
+            "path": "/.*/C_MLRTN/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-Friant",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "New Don Pedro Release",
+            "path": "/.*/C_PEDRO/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-NewDonPedro",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Mendtoa Pool Release",
+            "path": "/.*/C_MDOTA/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-MendotaPool",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Lake McClure Release",
+            "path": "/.*/C_MCLRE/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-McClure",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "New Melones Lake Release",
+            "path": "/.*/C_MELON/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-NewMelones",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Oroville Lake Release",
+            "path": "/.*/C_OROVL/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-Oroville",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Keswick Reservoir Release",
+            "path": "/.*/C_KSWCK/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-Sacramento Keswick",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Stanislaus River Flow at Goodwin Dam",
+            "path": "/.*/C_STS059/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-Stanislaus (Goodwin)",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Trinity Lake Release",
+            "path": "/.*/C_LWSTN/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Release-Trinity",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow above Fremont Weir",
+            "path": "/.*/C_SAC085/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SacFlowAbvFremontWeir",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow at Hood",
+            "path": "/.*/C_SAC041/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SacFlowHood",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow at Red Bluff",
+            "path": "/.*/C_SAC240/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SacFlowRedBluff",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow at Verona",
+            "path": "/.*/C_SAC083/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SacFlowVerona",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River Flow at Wilkins Slough",
+            "path": "/.*/C_SAC097/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SacFlowWilkinsSlough",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento Weir Spills",
+            "path": "/.*/SP_SAC066_YBP020/RIVER-SPILLS/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Sacramento Weir spills",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "San Joaquin River QWEST Flows",
+            "path": "/.*/C_SJR013/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SJR QWEST flows",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "San Joaquin River Flow at Merced River",
+            "path": "/.*/C_SJR119/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SJRUpstreamMerc",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "San Joaquin River Flow at Stanislaus River",
+            "path": "/.*/C_SJR075/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - SJRUpstreamStan",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Flow in Spring Creek Tunnel",
+            "path": "/.*/D_WKYTN_SPT003/DIVERSION/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Spring Creek Tunnel",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Stanislaus River Flow at Mouth",
+            "path": "/.*/C_STS030/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - StanislausMouth",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Tuolumne River Flow at Mouth",
+            "path": "/.*/C_TUO003/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - TuolumneMouth",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "San Joaquin River Flow at Vernalis",
+            "path": "/.*/C_SJR070/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Vernalis Flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Verona Closure Term",
+            "path": "/.*/CT_VERONA/CLOSURE-TERM/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Verona Closure Term",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Yolo Bypass Flow",
+            "path": "/.*/C_YBP020/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - Yolo Bypass",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Yuba River at Feather Confluence",
+            "path": "/.*/C_YUB002/CHANNEL/.*/.*/.*/",
+            "category": "upstream flows",
+            "detail": "Upstream Flows - YubaFeatherConfluence",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "American River VA flow",
+            "path": "/.*/NDOI_ADD_AMERVA/VA-VOLUME/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - American VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Delta VA flow",
+            "path": "/.*/NDOI_ADD_DELTAVA/VA-VOLUME/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Delta VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Feather River VA flow",
+            "path": "/.*/NDOI_ADD_FEATHERVA/FLOW-VA/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Feather VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Friant VA flow",
+            "path": "/.*/FRIANTVA_FLOW/VA-FLOW/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Friant VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Mokelumne River VA flow",
+            "path": "/.*/MOKELUMNEVA_FLOW/FLOW/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Mokelumne VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Putah Creek VA flow",
+            "path": "/.*/VAFLOW_PUTAHDV/VA-FLOW/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Putah VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Sacramento River VA flow",
+            "path": "/.*/NDOI_ADD_SACVA/FLOW-VA/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Sacramento VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Total VA Delta outflow",
+            "path": "/.*/NDOI_ADD_VA/FLOW/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Total VA Delta outflow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Yuba River VA flow",
+            "path": "/.*/YUBA_VA_ADDDV/VA-VOLUME/.*/.*/.*/",
+            "category": "va",
+            "detail": "VA - Yuba VA flow",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Water Year Type (Sacramento River)",
+            "path": "/.*/WYT_SAC_/WATERYEARTYPE/.*/.*/.*/",
+            "category": "wyt",
+            "detail": "WYT_SAC_",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "Water Year Type (San Joaquin River)",
+            "path": "/.*/WYT_SJR_/WATERYEARTYPE/.*/.*/.*/",
+            "category": "wyt",
+            "detail": "WYT_SJR_",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "Water Year Type (Feather River)",
+            "path": "/.*/WYT_FEATHER_/WATERYEARTYPE/.*/.*/.*/",
+            "category": "wyt",
+            "detail": "WYT_FEATHER_",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "Water Year Type (Shasta CVP)",
+            "path": "/.*/WYT_SHASTA_CVP_/WATERYEARTYPE/.*/.*/.*/",
+            "category": "wyt",
+            "detail": "WYT_SHASTA_CVP_",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "NONE"
+        },
+        {
+            "name": "DMC Inflow to Mendota Pool",
+            "path": "/.*/C_DMC116/CHANNEL/.*/.*/.*/",
+            "category": "",
+            "detail": "Other - DMC inflow to MendotaPool",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Net DICU",
+            "path": "/.*/NET_DICU/DICU_FLOW/.*/.*/.*/",
+            "category": "",
+            "detail": "Other - net DICU",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Trinity Export",
+            "path": "/.*/D_LWSTN_CCT011/DIVERSION/.*/.*/.*/",
+            "category": "",
+            "detail": "Other - Trinity Export",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Trinity Export Excess",
+            "path": "/.*/D_LWSTN_ADD/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "",
+            "detail": "Other - Trinity Export Excess",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        },
+        {
+            "name": "Trinity Export Operations",
+            "path": "/.*/D_LWSTN_IMPORT/FLOW-DELIVERY/.*/.*/.*/",
+            "category": "",
+            "detail": "Other - Trinity Export Ops x",
+            "period_type": "PER-AVER",
+            "interval": "1MON",
+            "units": "CFS"
+        }
+    ],
+    "runs": [],
+    "timeseries": [],
+    "metrics": [],
+    "metric_values": []
+}
