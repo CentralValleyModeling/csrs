@@ -1,14 +1,17 @@
+import logging
 from pathlib import Path
 
 import pandss as pdss
 from sqlalchemy import create_engine
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import SingletonThreadPool
 
-from .. import crud, models, schemas
+from .. import crud, enums, errors, models, schemas
+from .base import Client
 
 
-class LocalClient:
+class LocalClient(Client):
     def __init__(
         self,
         db_path: Path,
@@ -31,7 +34,11 @@ class LocalClient:
             autoflush=autoflush,
             bind=self.engine,
         )()
+        self.logger = logging.getLogger(__name__)
         models.Base.metadata.create_all(bind=self.engine)
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}(db_path={self.db_path})"
 
     def close(self):
         self.session.close()
@@ -49,7 +56,10 @@ class LocalClient:
         name: str = None,
         id: int = None,
     ) -> list[schemas.Assumption]:
-        return crud.assumptions.read(db=self.session, kind=kind, name=name, id=id)
+        try:
+            return crud.assumptions.read(db=self.session, kind=kind, name=name, id=id)
+        except errors.EmptyLookupError:
+            return []
 
     def get_scenario(
         self,
@@ -57,7 +67,10 @@ class LocalClient:
         name: str = None,
         id: int = None,
     ) -> list[schemas.Scenario]:
-        return crud.scenarios.read(db=self.session, name=name, id=id)
+        try:
+            return crud.scenarios.read(db=self.session, name=name, id=id)
+        except errors.EmptyLookupError:
+            return []
 
     def get_run(
         self,
@@ -67,13 +80,16 @@ class LocalClient:
         code_version: str = None,
         id: int = None,
     ) -> list[schemas.Run]:
-        return crud.runs.read(
-            db=self.session,
-            scenario=scenario,
-            version=version,
-            code_version=code_version,
-            id=id,
-        )
+        try:
+            return crud.runs.read(
+                db=self.session,
+                scenario=scenario,
+                version=version,
+                code_version=code_version,
+                id=id,
+            )
+        except errors.EmptyLookupError:
+            return []
 
     def get_path(
         self,
@@ -83,13 +99,16 @@ class LocalClient:
         category: str = None,
         id: str = None,
     ) -> list[schemas.NamedPath]:
-        return crud.paths.read(
-            db=self.session,
-            name=name,
-            path=path,
-            category=category,
-            id=id,
-        )
+        try:
+            return crud.paths.read(
+                db=self.session,
+                name=name,
+                path=path,
+                category=category,
+                id=id,
+            )
+        except errors.EmptyLookupError:
+            return []
 
     def get_timeseries(
         self,
@@ -105,8 +124,63 @@ class LocalClient:
             path=path,
         )
 
-    # PUT
+    def get_timeseries_from_dss(
+        self,
+        dss: Path,
+        scenario: str,
+        version: str,
+        paths: list[schemas.NamedPath] | None = None,
+    ) -> list[schemas.Timeseries]:
+        if paths is None:
+            paths = self.get_path()
+        tss = list()
+        with pdss.DSS(dss) as dss_obj:
+            for p in paths:
+                try:
+                    rtss = list(dss_obj.read_multiple_rts(p.path))
+                except Exception as e:
+                    self.logger.error(
+                        f"{type(e)} when reading {p.path} in {dss}, skipping"
+                    )
+                    continue
+                if len(rtss) == 0:
+                    self.logger.warning(f"no datasets match {p.path} in {dss}")
+                    continue
+                elif len(rtss) > 1:
+                    self.logger.warning(
+                        f"multiple datasets match {p.path} in {dss}, "
+                        + "skipping both to avoid conflicts"
+                    )
+                    continue
+                rts = rtss[0]
+                ts = schemas.Timeseries.from_pandss(
+                    scenario=scenario,
+                    version=version,
+                    rts=rts,
+                )
+                ts.path = p.path  # Use the path from the database, not in the dss
+                tss.append(ts)
+        self.logger.info(
+            f"{len(tss)} Timeseries found from {len(paths)} paths in {dss}"
+        )
+        return tss
 
+    def get_all_timeseries_for_run(
+        self,
+        *,
+        scenario: str,
+        version: str,
+    ) -> list[schemas.Timeseries]:
+        try:
+            return crud.timeseries.read_all_for_run(
+                self.session,
+                scenario=scenario,
+                version=version,
+            )
+        except errors.EmptyLookupError:
+            return []
+
+    # PUT
     def put_assumption(
         self,
         *,
@@ -186,6 +260,26 @@ class LocalClient:
         )
         return crud.paths.create(db=self.session, **obj.model_dump(exclude=("id")))
 
+    def put_standard_paths(self) -> list[schemas.NamedPath]:
+        added = list()
+        for p in enums.StandardPathsEnum:
+            try:
+                named = crud.paths.create(
+                    db=self.session, **p.value.model_dump(exclude=("id"))
+                )
+                added.append(named)
+            except IntegrityError as e:
+                self.logger.warning(
+                    f"{type(e).__name__} occurred, likely due to one of the standard "
+                    + "paths already exisitng on the database"
+                )
+            except Exception as e:
+                path = p.value
+                self.logger.error(
+                    f"{type(e).__name__} occurred during path creation, skipping {path}"
+                )
+        return added
+
     def put_timeseries(
         self,
         *,
@@ -213,26 +307,17 @@ class LocalClient:
 
     def put_many_timeseries(
         self,
-        scenario: str,
-        version: str,
-        dss: Path,
+        timeseries: list[schemas.Timeseries],
     ) -> list[schemas.Timeseries]:
-        paths_in_db = crud.paths.read(self.session)
-        paths_in_dss = pdss.read_catalog(dss)
-        common_paths = list()
-        for p in paths_in_db:
-            if pdss.DatasetPath.from_str(p.path) in paths_in_dss:
-                common_paths.append(p)
-        common_paths = pdss.DatasetPathCollection(paths=set(common_paths))
         added = list()
-        for rts in pdss.read_multiple_rts(dss, common_paths):
-            ts = schemas.Timeseries.from_pandss(
-                scenario=scenario,
-                version=version,
-                rts=rts,
-            )
-            kwargs = ts.model_dump()
-            kwargs["path"] = str(rts.path)
-            ts = crud.timeseries.create(db=self.session, **kwargs)
-            added.append(ts)
+        for ts in timeseries:
+            try:
+                ts_db = crud.timeseries.create(
+                    db=self.session,
+                    **ts.model_dump(exclude="id"),
+                )
+                added.append(ts_db)
+            except Exception as e:
+                self.logger.error(f"{type(e)} when adding {ts}, continuing")
+
         return added

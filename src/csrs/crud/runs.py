@@ -1,12 +1,15 @@
+import logging
+
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
 from ..errors import EmptyLookupError
-from ..logger import logger
 from . import timeseries as crud_timeseries
 from ._common import common_update, rollback_on_exception
 from .scenarios import read as read_scenario
 from .scenarios import update as update_scenario
+
+logger = logging.getLogger(__name__)
 
 
 @rollback_on_exception

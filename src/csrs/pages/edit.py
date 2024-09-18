@@ -1,12 +1,9 @@
-import os
-
 from fastapi import Request
 from sqlalchemy.orm import Session
 
 from .. import crud, errors
+from ..database import db_cfg
 from . import loader, templates
-
-ALLOW_EDITING_VIA_FORMS = bool(os.getenv("ALLOW_EDITING_VIA_FORMS", True))
 
 
 def render_assumptions(request: Request, db: Session):
@@ -22,7 +19,7 @@ def render_assumptions(request: Request, db: Session):
             "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewAssumption(all_kinds),
-            "edit_on": ALLOW_EDITING_VIA_FORMS,
+            "edit_on": db_cfg.allow_editing_via_forms,
         },
     )
 
@@ -47,7 +44,7 @@ def render_scenarios(request: Request, db: Session):
             "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewScenario(all_assumptions),
-            "edit_on": ALLOW_EDITING_VIA_FORMS,
+            "edit_on": db_cfg.allow_editing_via_forms,
         },
     )
 
@@ -68,7 +65,7 @@ def render_runs(request: Request, db: Session):
             "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewRuns(all_scenarios),
-            "edit_on": ALLOW_EDITING_VIA_FORMS,
+            "edit_on": db_cfg.allow_editing_via_forms,
         },
     )
 
@@ -88,6 +85,6 @@ def render_paths(request: Request, db: Session):
             "metadata": metadata,
             "objects": objects,
             "new_object": templates.NewPath(),
-            "edit_on": ALLOW_EDITING_VIA_FORMS,
+            "edit_on": db_cfg.allow_editing_via_forms,
         },
     )

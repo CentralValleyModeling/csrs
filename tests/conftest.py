@@ -11,8 +11,27 @@ from sqlalchemy.pool import StaticPool
 
 from csrs import clients
 from csrs.database import get_db, make_session
-from csrs.main import app
 from csrs.models import Base
+
+logger = logging.getLogger(__name__)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def convert_db_to_json(assets_dir: Path, request: pytest.FixtureRequest):
+    def inner():
+        json_dir = assets_dir / "json_db"
+        json_dir.mkdir(exist_ok=True, parents=False)
+        for f in assets_dir.iterdir():
+            if f.suffix != ".db":
+                continue
+            logger.info(f"converting {f} to json")
+            client = clients.LocalClient(f)
+            new_f = json_dir / (f.stem + ".json")
+            with open(new_f, "w") as NEW_F:
+                client.dump(NEW_F, indent=4)
+            client.close()
+
+    request.addfinalizer(inner)
 
 
 @pytest.fixture(scope="session")
@@ -80,8 +99,11 @@ def client_local(database_file: Path):
     client.close()
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session", autouse=False)
 def client_remote(database_url: str):
+    # Keep the import here so the app isn't initialized unless this test runs
+    from csrs.main import app
+
     engine = create_engine(
         database_url,
         connect_args={"check_same_thread": False},

@@ -1,14 +1,16 @@
+import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 
 from sqlalchemy.orm import Session
 
 from .. import models, schemas
-from ..database import EPOCH
 from ..errors import EmptyLookupError, UniqueLookupError
-from ..logger import logger
 from . import paths as crud_paths
 from ._common import rollback_on_exception
+
+logger = logging.getLogger(__name__)
+EPOCH = datetime(1900, 1, 1)
 
 
 def date_to_float(date: str) -> float:
@@ -101,7 +103,7 @@ def create(
     catalog_row = models.CommonCatalog(run_id=run_model.id, path_id=path_model.id)
     db.add(catalog_row)
     # Put the data into the database
-    dates = (date_to_float(d) for d in dates)
+    dates_float = (date_to_float(d) for d in dates)
     objects = (
         models.TimeseriesLedger(
             run_id=run_model.id,
@@ -109,7 +111,7 @@ def create(
             datetime=d,
             value=values[i],
         )
-        for i, d in enumerate(dates)
+        for i, d in enumerate(dates_float)
     )
     db.add_all(objects)
     db.commit()
@@ -119,7 +121,7 @@ def create(
         version=run_model.version,
         path=path_model.path,
         values=list(values),
-        dates=list(float_to_date(d) for d in dates),
+        dates=list(dates),
         period_type=path_model.period_type,
         units=path_model.units,
         interval=path_model.interval,
@@ -188,7 +190,7 @@ def read_all_for_run(
         db.query(models.Scenario).filter(models.Scenario.name == scenario).first()
     )
     run = sceanrio_model.run
-    if run.version != version:
+    if (run is None) or (run.version != version):
         # Adding data to an older version
         run = get_run_model(db, scenario=scenario, version=version)
 
@@ -212,7 +214,14 @@ def read_all_for_run(
         grouped_rows[row.path_id].append(row)
     timeseries = list()
     for path_id, rows in grouped_rows.items():
-        path_schema = paths_by_id[path_id]
+        if path_id not in paths_by_id:
+            logger.warning(f"{path_id=} not found for run")
+            path_schemas = crud_paths.read(db, id=path_id)
+            if len(path_schemas) != 1:
+                raise UniqueLookupError(models.NamedPath, path_schemas, id=path_id)
+            path_schema = path_schemas[0]
+        else:
+            path_schema = paths_by_id[path_id]
         values = tuple(r.value for r in rows)
         dates = tuple(float_to_date(r.datetime) for r in rows)
         timeseries.append(

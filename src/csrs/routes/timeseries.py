@@ -1,12 +1,14 @@
+import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .. import crud, schemas
 from ..database import get_db
-from ..errors import UniqueLookupError
-from ..logger import logger
+from ..errors import EmptyLookupError, UniqueLookupError
 
 router = APIRouter(prefix="/timeseries", tags=["Timeseries"])
+logger = logging.getLogger(__name__)
 
 
 @router.get("", response_model=schemas.Timeseries)
@@ -16,7 +18,7 @@ async def get_timeseries(
     path: str = None,
     db: Session = Depends(get_db),
 ):
-    logger.info(f"getting all timeseries, filters, {scenario=}, {version=}, {path=}")
+    logger.info(f"getting all timeseries, filters {scenario=}, {version=}, {path=}")
     try:
         ts = crud.timeseries.read(
             db=db,
@@ -31,6 +33,25 @@ async def get_timeseries(
         )
     logger.info(f"timeseries: {ts.scenario}, {ts.version}, {ts.path}")
     return ts
+
+
+@router.get("/all", response_model=list[schemas.Timeseries])
+async def get_all_timeseries_for_run(
+    scenario: str = None,
+    version: str = None,
+    db: Session = Depends(get_db),
+):
+    logger.info(f"getting all timeseries for run, filters {scenario=}, {version=}")
+    try:
+        tss = crud.timeseries.read_all_for_run(
+            db=db,
+            scenario=scenario,
+            version=version,
+        )
+    except EmptyLookupError:
+        tss = []
+    logger.info(f"{len(tss)} timeseries found")
+    return tss
 
 
 @router.put("", response_model=schemas.Timeseries)

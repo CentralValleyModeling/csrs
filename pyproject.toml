@@ -10,7 +10,7 @@ authors = [
 description = "A FastAPI server for CalSim model results and metadata"
 readme = "README.md"
 license = {text = "MIT"}
-version = "0.6.4"
+version = "0.8.0"
 classifiers = [
     "Programming Language :: Python :: 3",
 ]
@@ -21,8 +21,9 @@ dependencies = [
     "sqlalchemy",
     "jinja2",
     "python-multipart",
-    "pandss>=0.7.4",
-    "httpx"
+    "pandss>=0.7.10",
+    "httpx",
+    "pydantic-settings"
 ]
 
 [tool.setuptools]
@@ -42,4 +43,4 @@ filterwarnings = [
     "error"
 ]
 log_file="tests.log"
-log_format = "%(asctime)s %(levelname)7s %(name)15s %(funcName)s\n%(message)s"
+log_format = "%(levelname)7s %(asctime)s %(funcName)s %(message)s"

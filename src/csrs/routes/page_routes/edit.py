@@ -1,14 +1,15 @@
+import logging
+
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
 from ... import crud, errors
-from ...database import get_db
-from ...logger import logger
+from ...database import db_cfg, get_db
 from ...pages import edit
 
 router = APIRouter(prefix="/edit", include_in_schema=False)
-
+logger = logging.getLogger(__name__)
 
 ###############################################################################
 # EDIT
@@ -348,7 +349,7 @@ async def page_paths_delete(
     return RedirectResponse(request.url_for("page_paths"), status_code=302)
 
 
-if edit.ALLOW_EDITING_VIA_FORMS:
+if db_cfg.allow_editing_via_forms:
     # Assumptions
     router.post(
         "/assumptions/create",
