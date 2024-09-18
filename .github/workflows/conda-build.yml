@@ -26,7 +26,7 @@ jobs:
           mamba-version: "*"
           channels: dwr-cvm,cadwr-dms,defaults,conda-forge
           python-version: ${{ matrix.python-version }}
-          activate-environment: build-pandss
+          activate-environment: build-csrs
           auto-activate-base: false
       
 
